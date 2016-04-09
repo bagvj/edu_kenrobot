@@ -1,0 +1,133 @@
+@mixin button($color) {
+  background-color: $color;
+  padding         : .8em 1em;
+  border-radius   : .3em;
+  min-width       : 145px;
+  min-height      : 50px;
+  line-height     : 27px;
+  transition      : background-color 250ms;
+  text-decoration : none;
+
+  &:hover {
+    transition     : background-color 250ms;
+    text-decoration: none;
+  }
+
+  &:active {
+    text-decoration: none;
+  }
+}
+
+.btn--primary {
+  @include button($font-color-heading);
+  color      : $color-white;
+  font-weight: bold;
+
+  &:hover {
+    background-color: $button-primary-hover-color;
+  }
+
+  &:active {
+    background-color: $color-black;
+  }
+}
+
+.btn--secondary {
+  @include button(#{$button-secondary-color});
+  color: $color-black;
+
+  &:hover {
+    background-color: $brand-secondary;
+  }
+
+  &:active {
+    background-color: $button-secondary-active-color;
+  }
+}
+
+.btn--disabled {
+  @include button(#{$button-disabled-color});
+  color: $font-color-disabled;
+}
+
+.btn--small {
+  max-height : 35px;
+  min-height : 35px;
+  line-height: 15px;
+}
+
+dropdown {
+  .btn--dropdown {
+    color        : $font-color-secondary;
+    flex         : 1;
+    text-align   : left;
+    height       : 34px;
+    font-style   : italic;
+    min-width    : 70px;
+    padding-right: .2em;
+    padding-left : .5em;
+    display      : flex;
+    align-items  : center;
+    white-space  : nowrap;
+    text-overflow: ellipsis;
+    overflow     : hidden;
+    position     : relative;
+
+    .dropdown__heading {
+      font-style    : normal;
+      display       : inline-block;
+      vertical-align: middle;
+      color         : $font-color-base;
+      cursor        : pointer;
+      margin-left   : .2em;
+      font-weight   : 400;
+      max-width     : 100%;
+      overflow      : hidden;
+      white-space   : nowrap;
+      text-overflow : ellipsis;
+      padding-right : 10px;
+    }
+
+    :first-child {
+      margin-left: 11px;
+      font-style : normal;
+    }
+  }
+
+  .btn--dropdown--active {
+    color: $font-color-base;
+  }
+}
+
+.btn--reset--zowi {
+  background-color: $color-white;
+  border-radius   : 4px;
+  padding         : 10px;
+  margin          : 16px 16px 0;
+  transition      : background-color $transition-duration;
+  border          : 1px solid $bitbloq-color-gray;
+
+  &:hover {
+    background-color: $button-zowi-hover;
+  }
+}
+
+.btn--dropdown {
+  color: #8c919b;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  text-align: left;
+  height: 34px;
+  font-style: italic;
+  min-width: 70px;
+  padding-right: .2em;
+  padding-left: .5em;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+}

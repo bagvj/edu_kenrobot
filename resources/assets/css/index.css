@@ -8849,6 +8849,13 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
 }
 
 /* line 1, helper/_helper.scss */
@@ -8951,9 +8958,8 @@ body {
 /* line 61, layout/_layout.scss */
 .main-header .top-menu {
   height: 40px;
-  margin-left: 48px;
 }
-/* line 66, layout/_layout.scss */
+/* line 65, layout/_layout.scss */
 .main-header .user-info {
   height: 40px;
   right: 0;
@@ -8961,84 +8967,185 @@ body {
   position: absolute;
   background-color: #1e2129;
 }
-/* line 74, layout/_layout.scss */
+/* line 73, layout/_layout.scss */
 .main-header .top-tabs {
   height: 26px;
-  border-top: 1px solid #343e4c;
-  background-color: #1e2129;
+  background-color: #1d1e20;
 }
 
-/* line 82, layout/_layout.scss */
-.main-content .sidebar {
-  height: 100%;
+/* line 80, layout/_layout.scss */
+.main-content .project-sidebar {
+  position: absolute;
+  width: 66px;
+  height: 67px;
+  border-bottom: 1px solid #797c81;
+  z-index: 5;
+}
+
+/* line 90, layout/_layout.scss */
+.project-sidebar .project-icon {
+  width: 66px;
+  height: 66px;
   float: left;
 }
-/* line 87, layout/_layout.scss */
-.main-content > .wrap {
-  top: 0;
-  bottom: 0;
-  left: 66px;
-  right: 0;
-  position: absolute;
-  background-color: #262a34;
-}
 /* line 95, layout/_layout.scss */
-.main-content > .wrap .main-tabs {
-  top: 0;
+.project-sidebar .project-icon > i {
+  font-size: 30px;
+  color: #797c81;
+}
+/* line 101, layout/_layout.scss */
+.project-sidebar .project-icon.active > i {
+  color: white;
+}
+/* line 107, layout/_layout.scss */
+.project-sidebar .project-list {
+  display: none;
+  width: 240px;
+  height: calc(100vh - 66px);
+  margin-left: 100%;
+  background-color: rgba(52, 58, 74, 0.92);
+  position: relative;
+}
+/* line 115, layout/_layout.scss */
+.project-sidebar .project-list .operation {
+  position: absolute;
   bottom: 0;
+  height: 40px;
+  background-color: #313848;
+}
+/* line 121, layout/_layout.scss */
+.project-sidebar .project-list .operation li {
+  float: left;
+  width: 79px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+  margin-left: 1px;
+  color: white;
+}
+/* line 131, layout/_layout.scss */
+.project-sidebar .project-list .operation li:hover {
+  background-color: #38A1DB;
+}
+/* line 135, layout/_layout.scss */
+.project-sidebar .project-list .operation li:first-child {
+  margin-left: 0;
+}
+/* line 139, layout/_layout.scss */
+.project-sidebar .project-list .operation li > i {
+  margin-right: 4px;
+}
+/* line 145, layout/_layout.scss */
+.project-sidebar .project-list .list {
+  overflow-y: auto;
+  top: 0;
+  bottom: 40px;
   left: 0;
   right: 0;
   position: absolute;
 }
+/* line 154, layout/_layout.scss */
+.project-sidebar .project-list .list li .title {
+  height: 36px;
+  line-height: 36px;
+  padding-left: 8px;
+  padding-right: 4px;
+  cursor: pointer;
+  margin-top: 1px;
+  position: relative;
+  color: white;
+  background-color: #4b5765;
+}
+/* line 165, layout/_layout.scss */
+.project-sidebar .project-list .list li .title .icon {
+  margin-right: 4px;
+}
+/* line 169, layout/_layout.scss */
+.project-sidebar .project-list .list li .title .arrow {
+  float: right;
+}
+/* line 173, layout/_layout.scss */
+.project-sidebar .project-list .list li .title .arrow:before {
+  content: "\e615";
+}
+/* line 178, layout/_layout.scss */
+.project-sidebar .project-list .list li .view {
+  display: none;
+  background-color: white;
+}
+/* line 182, layout/_layout.scss */
+.project-sidebar .project-list .list li .view > div {
+  font-size: 12px;
+  height: 36px;
+  padding-left: 26px;
+  line-height: 36px;
+  cursor: pointer;
+  color: #515151;
+}
+/* line 190, layout/_layout.scss */
+.project-sidebar .project-list .list li .view > div .icon {
+  margin-right: 4px;
+}
+/* line 194, layout/_layout.scss */
+.project-sidebar .project-list .list li .view > div:hover {
+  color: #24c1ff;
+}
+/* line 198, layout/_layout.scss */
+.project-sidebar .project-list .list li .view > div.active {
+  color: #24c1ff;
+}
+/* line 204, layout/_layout.scss */
+.project-sidebar .project-list .list li:first-child .title {
+  margin-top: 0;
+}
+/* line 209, layout/_layout.scss */
+.project-sidebar .project-list .list li.active .title {
+  background-color: #488ac0;
+}
+/* line 212, layout/_layout.scss */
+.project-sidebar .project-list .list li.active .title .arrow:before {
+  content: "\e614";
+}
+/* line 217, layout/_layout.scss */
+.project-sidebar .project-list .list li.active .view {
+  display: block;
+}
+/* line 224, layout/_layout.scss */
+.project-sidebar .project-list.active {
+  display: block;
+}
 
-/* line 105, layout/_layout.scss */
+/* line 230, layout/_layout.scss */
 .top-menu {
   white-space: nowrap;
 }
-/* line 108, layout/_layout.scss */
+/* line 233, layout/_layout.scss */
 .top-menu li {
   font-size: 14px;
   line-height: 40px;
   height: 40px;
-  width: 80px;
+  width: 84px;
   display: inline-block;
   text-align: center;
   cursor: pointer;
+  letter-spacing: 1px;
   color: white;
 }
-/* line 118, layout/_layout.scss */
+/* line 244, layout/_layout.scss */
 .top-menu li > i {
-  margin-right: 5px;
+  margin-right: 6px;
 }
-/* line 122, layout/_layout.scss */
+/* line 248, layout/_layout.scss */
 .top-menu li.disabled {
   color: #666;
 }
-/* line 126, layout/_layout.scss */
+/* line 252, layout/_layout.scss */
 .top-menu li:hover {
-  color: #24c1ff;
+  background-color: #3a4256;
 }
 
-/* line 133, layout/_layout.scss */
-.main-tabs .tab {
-  height: 100%;
-  position: relative;
-  display: none;
-}
-/* line 138, layout/_layout.scss */
-.main-tabs .tab.active {
-  display: block;
-}
-/* line 142, layout/_layout.scss */
-.main-tabs .tab > div {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: absolute;
-}
-
-/* line 153, layout/_layout.scss */
+/* line 259, layout/_layout.scss */
 .top-tabs li {
   font-size: 12px;
   line-height: 26px;
@@ -9049,61 +9156,74 @@ body {
   z-index: 10;
   cursor: pointer;
   margin-left: 1px;
-  color: #a8a8a8;
-  background-color: #55575e;
+  color: #6e7679;
 }
-/* line 166, layout/_layout.scss */
-.top-tabs li:first-child {
-  margin-left: 0;
-}
-/* line 170, layout/_layout.scss */
-.top-tabs li.active {
-  color: white;
-  background-color: #637c95;
-}
-/* line 175, layout/_layout.scss */
+/* line 271, layout/_layout.scss */
 .top-tabs li .name {
   margin-left: 10px;
 }
-/* line 179, layout/_layout.scss */
+/* line 275, layout/_layout.scss */
 .top-tabs li .close-btn {
+  display: none;
   font-size: 12px;
   line-height: 28px;
   margin-right: 5px;
   float: right;
 }
-/* line 185, layout/_layout.scss */
+/* line 282, layout/_layout.scss */
 .top-tabs li .close-btn:hover {
   color: #FF9696;
 }
+/* line 287, layout/_layout.scss */
+.top-tabs li:first-child {
+  margin-left: 0;
+}
+/* line 291, layout/_layout.scss */
+.top-tabs li.active {
+  color: white;
+  background-color: #262a34;
+}
+/* line 296, layout/_layout.scss */
+.top-tabs li:hover {
+  color: white;
+  background-color: #28282e;
+}
+/* line 300, layout/_layout.scss */
+.top-tabs li:hover .close-btn {
+  display: block;
+}
+/* line 304, layout/_layout.scss */
+.top-tabs li:hover.active {
+  background-color: #363c4a;
+}
 
-/* line 192, layout/_layout.scss */
+/* line 311, layout/_layout.scss */
 .user-info {
   display: none;
 }
-/* line 195, layout/_layout.scss */
+/* line 314, layout/_layout.scss */
 .user-info.active {
   display: block;
 }
-/* line 199, layout/_layout.scss */
+/* line 318, layout/_layout.scss */
 .user-info .wrap {
   position: relative;
   float: right;
 }
-/* line 203, layout/_layout.scss */
+/* line 322, layout/_layout.scss */
 .user-info .wrap .photo {
   float: left;
   line-height: 40px;
   height: 40px;
   margin-left: 8px;
 }
-/* line 209, layout/_layout.scss */
+/* line 328, layout/_layout.scss */
 .user-info .wrap .photo > img {
   width: 28px;
   height: 28px;
   border-radius: 50%;
 }
-/* line 216, layout/_layout.scss */
+/* line 335, layout/_layout.scss */
 .user-info .wrap .welcome {
   float: left;
   font-size: 12px;
@@ -9111,30 +9231,32 @@ body {
   height: 40px;
   margin-left: 8px;
   margin-right: 8px;
+  min-width: 50px;
+  text-align: right;
   color: white;
 }
-/* line 225, layout/_layout.scss */
+/* line 346, layout/_layout.scss */
 .user-info .wrap .welcome .arrow {
   margin-left: 5px;
   font-size: 10px;
 }
-/* line 232, layout/_layout.scss */
+/* line 353, layout/_layout.scss */
 .user-info .user-menu {
   display: none;
   z-index: 100;
   position: relative;
 }
-/* line 237, layout/_layout.scss */
+/* line 358, layout/_layout.scss */
 .user-info .user-menu.active {
   display: block;
 }
-/* line 241, layout/_layout.scss */
+/* line 362, layout/_layout.scss */
 .user-info .user-menu > ul {
   float: left;
   width: 160px;
   background-color: #4b5765;
 }
-/* line 246, layout/_layout.scss */
+/* line 367, layout/_layout.scss */
 .user-info .user-menu > ul > li {
   cursor: pointer;
   float: left;
@@ -9144,48 +9266,23 @@ body {
   padding-left: 36px;
   color: white;
 }
-/* line 255, layout/_layout.scss */
+/* line 376, layout/_layout.scss */
 .user-info .user-menu > ul > li > i {
   margin-right: 24px;
 }
-/* line 259, layout/_layout.scss */
+/* line 380, layout/_layout.scss */
 .user-info .user-menu > ul > li:hover {
   background-color: #488ac0;
 }
 
-/* line 268, layout/_layout.scss */
-.sidebar .bar {
-  width: 66px;
-  height: 100%;
-  float: left;
-}
-/* line 274, layout/_layout.scss */
-.sidebar .tab {
-  z-index: 10;
-  top: 0;
-  bottom: 0;
-  left: 66px;
-  position: absolute;
-  visibility: hidden;
-  background-color: rgba(52, 58, 74, 0.92);
-}
-/* line 283, layout/_layout.scss */
-.sidebar .tab.active {
-  visibility: visible;
-}
-/* line 287, layout/_layout.scss */
-.sidebar .tab > div {
-  height: 100%;
-}
-
-/* line 293, layout/_layout.scss */
+/* line 388, layout/_layout.scss */
 .copyright {
   width: 100%;
   bottom: 0;
   display: none;
   position: absolute;
 }
-/* line 299, layout/_layout.scss */
+/* line 394, layout/_layout.scss */
 .copyright .wrap {
   width: 560px;
   font-size: 12px;
@@ -9199,22 +9296,22 @@ body {
   color: #676767;
   background-color: #d8edf7;
 }
-/* line 313, layout/_layout.scss */
+/* line 408, layout/_layout.scss */
 .copyright .wrap .close-btn {
   cursor: pointer;
   position: absolute;
   right: 5px;
 }
-/* line 318, layout/_layout.scss */
+/* line 413, layout/_layout.scss */
 .copyright .wrap .close-btn:hover {
   color: #FF9696;
 }
-/* line 324, layout/_layout.scss */
+/* line 419, layout/_layout.scss */
 .copyright.active {
   display: block;
 }
 
-/* line 330, layout/_layout.scss */
+/* line 425, layout/_layout.scss */
 .bottom-container .drag-handle {
   position: absolute;
   height: 3px;
@@ -9222,12 +9319,12 @@ body {
   width: 100%;
   cursor: n-resize;
 }
-/* line 337, layout/_layout.scss */
+/* line 432, layout/_layout.scss */
 .bottom-container .drag-handle.active {
   background-color: #4CC1FC;
   opacity: 0.2;
 }
-/* line 343, layout/_layout.scss */
+/* line 438, layout/_layout.scss */
 .bottom-container .close-btn {
   position: absolute;
   right: 5px;
@@ -9236,484 +9333,38 @@ body {
   cursor: pointer;
   color: white;
 }
-/* line 351, layout/_layout.scss */
+/* line 446, layout/_layout.scss */
 .bottom-container .close-btn:hover {
   color: #FF9696;
 }
-/* line 356, layout/_layout.scss */
+/* line 451, layout/_layout.scss */
 .bottom-container .logcat {
   height: 100%;
   background-color: transparent;
 }
-/* line 360, layout/_layout.scss */
+/* line 455, layout/_layout.scss */
 .bottom-container .logcat .ace_gutter {
   background-color: transparent;
 }
 
-/* line 366, layout/_layout.scss */
+/* line 461, layout/_layout.scss */
 .dialog-layer {
   z-index: 500;
   display: none;
 }
-/* line 370, layout/_layout.scss */
+/* line 465, layout/_layout.scss */
 .dialog-layer.active {
   display: block;
 }
-/* line 374, layout/_layout.scss */
+/* line 469, layout/_layout.scss */
 .dialog-layer .dialog {
   display: none;
 }
 
-/* line 379, layout/_layout.scss */
+/* line 474, layout/_layout.scss */
 .guide-layer {
   display: none;
   z-index: 4;
-}
-
-/* line 2, layout/_sidebar.scss */
-.sidebar .bar {
-  background-color: #1d222d;
-}
-/* line 5, layout/_sidebar.scss */
-.sidebar .bar ul li {
-  height: 66px;
-  text-align: center;
-  cursor: pointer;
-  font-size: 12px;
-  padding-top: 5px;
-  color: white;
-}
-/* line 13, layout/_sidebar.scss */
-.sidebar .bar ul li.active {
-  background-color: #38A1DB;
-}
-/* line 16, layout/_sidebar.scss */
-.sidebar .bar ul li:hover {
-  background-color: #20B9EF;
-}
-/* line 20, layout/_sidebar.scss */
-.sidebar .bar ul li i {
-  font-size: 24px;
-  display: block;
-}
-/* line 27, layout/_sidebar.scss */
-.sidebar .project {
-  width: 240px;
-  position: relative;
-}
-/* line 31, layout/_sidebar.scss */
-.sidebar .project .operation {
-  position: absolute;
-  bottom: 0;
-  height: 40px;
-  background-color: #313848;
-}
-/* line 37, layout/_sidebar.scss */
-.sidebar .project .operation li {
-  float: left;
-  width: 79px;
-  height: 40px;
-  text-align: center;
-  line-height: 40px;
-  cursor: pointer;
-  margin-left: 1px;
-  color: white;
-}
-/* line 47, layout/_sidebar.scss */
-.sidebar .project .operation li:hover {
-  background-color: #38A1DB;
-}
-/* line 51, layout/_sidebar.scss */
-.sidebar .project .operation li:first-child {
-  margin-left: 0;
-}
-/* line 55, layout/_sidebar.scss */
-.sidebar .project .operation li > i {
-  margin-right: 4px;
-}
-/* line 61, layout/_sidebar.scss */
-.sidebar .project .list {
-  overflow-y: auto;
-  top: 0;
-  bottom: 40px;
-  left: 0;
-  right: 0;
-  position: absolute;
-}
-/* line 70, layout/_sidebar.scss */
-.sidebar .project .list li .title {
-  height: 36px;
-  line-height: 36px;
-  padding-left: 8px;
-  padding-right: 4px;
-  cursor: pointer;
-  margin-top: 1px;
-  position: relative;
-  color: white;
-  background-color: #4b5765;
-}
-/* line 81, layout/_sidebar.scss */
-.sidebar .project .list li .title .icon {
-  margin-right: 4px;
-}
-/* line 85, layout/_sidebar.scss */
-.sidebar .project .list li .title .arrow {
-  float: right;
-}
-/* line 89, layout/_sidebar.scss */
-.sidebar .project .list li .title .arrow:before {
-  content: "\e615";
-}
-/* line 94, layout/_sidebar.scss */
-.sidebar .project .list li .view {
-  display: none;
-  background-color: white;
-}
-/* line 98, layout/_sidebar.scss */
-.sidebar .project .list li .view > div {
-  font-size: 12px;
-  height: 36px;
-  padding-left: 26px;
-  line-height: 36px;
-  cursor: pointer;
-  color: #515151;
-}
-/* line 106, layout/_sidebar.scss */
-.sidebar .project .list li .view > div .icon {
-  margin-right: 4px;
-}
-/* line 110, layout/_sidebar.scss */
-.sidebar .project .list li .view > div:hover {
-  color: #24c1ff;
-}
-/* line 114, layout/_sidebar.scss */
-.sidebar .project .list li .view > div.active {
-  color: #24c1ff;
-}
-/* line 120, layout/_sidebar.scss */
-.sidebar .project .list li:first-child .title {
-  margin-top: 0;
-}
-/* line 125, layout/_sidebar.scss */
-.sidebar .project .list li.active .title {
-  background-color: #488ac0;
-}
-/* line 128, layout/_sidebar.scss */
-.sidebar .project .list li.active .title .arrow:before {
-  content: "\e614";
-}
-/* line 133, layout/_sidebar.scss */
-.sidebar .project .list li.active .view {
-  display: block;
-}
-/* line 141, layout/_sidebar.scss */
-.sidebar .component {
-  width: 200px;
-  position: relative;
-  float: left;
-}
-/* line 146, layout/_sidebar.scss */
-.sidebar .component .search {
-  margin-top: 12px;
-  margin-bottom: 20px;
-  margin-left: 12px;
-}
-/* line 151, layout/_sidebar.scss */
-.sidebar .component .search .key {
-  height: 24px;
-  width: 164px;
-  font-size: 12px;
-  padding-left: 10px;
-  padding-right: 20px;
-  color: #515151;
-  background-color: white;
-  border-radius: 12px;
-  border: 1px solid #bac4d0;
-}
-/* line 164, layout/_sidebar.scss */
-.sidebar .component .search > i {
-  line-height: 24px;
-  right: 30px;
-  color: #b9b9b6;
-  position: absolute;
-}
-/* line 172, layout/_sidebar.scss */
-.sidebar .component .items {
-  top: 56px;
-  left: 0;
-  bottom: 20px;
-  right: 0;
-  position: absolute;
-  float: left;
-  overflow-y: auto;
-}
-/* line 181, layout/_sidebar.scss */
-.sidebar .component .items .list {
-  margin-left: 12px;
-  float: left;
-}
-/* line 185, layout/_sidebar.scss */
-.sidebar .component .items .list li {
-  width: 72px;
-  text-align: center;
-  float: left;
-}
-/* line 190, layout/_sidebar.scss */
-.sidebar .component .items .list li:nth-child(odd) {
-  margin-right: 20px;
-}
-/* line 194, layout/_sidebar.scss */
-.sidebar .component .items .list li.active .image {
-  border: 2px solid #4cc1fc;
-}
-/* line 201, layout/_sidebar.scss */
-.sidebar .component .items .item .image {
-  width: 72px;
-  height: 72px;
-  border-radius: 6px;
-  background-color: white;
-  border: 1px solid #bac4d0;
-}
-/* line 209, layout/_sidebar.scss */
-.sidebar .component .items .item .name {
-  font-size: 12px;
-  color: white;
-  margin-top: 5px;
-  margin-bottom: 12px;
-}
-/* line 219, layout/_sidebar.scss */
-.sidebar .board {
-  width: 200px;
-  position: relative;
-  overflow-y: auto;
-}
-/* line 225, layout/_sidebar.scss */
-.sidebar .board .list li {
-  position: relative;
-}
-/* line 227, layout/_sidebar.scss */
-.sidebar .board .list li .image {
-  width: 70px;
-  height: 70px;
-  display: block;
-  margin: 0 auto;
-}
-/* line 234, layout/_sidebar.scss */
-.sidebar .board .list li .name {
-  color: white;
-  margin: 0 atuo;
-  display: block;
-  text-align: center;
-}
-/* line 241, layout/_sidebar.scss */
-.sidebar .board .list li.normal {
-  cursor: pointer;
-}
-/* line 244, layout/_sidebar.scss */
-.sidebar .board .list li.normal:hover {
-  background-color: #4B5765;
-}
-/* line 248, layout/_sidebar.scss */
-.sidebar .board .list li.normal.active {
-  background-color: #4B5765;
-}
-/* line 254, layout/_sidebar.scss */
-.sidebar .board .list li.forward .stamps {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: url(/assets/images/stamps.png) no-repeat 115px 10px;
-  background-size: 50px 50px;
-}
-/* line 268, layout/_sidebar.scss */
-.sidebar .library {
-  width: 180px;
-  position: relative;
-  overflow-y: auto;
-}
-/* line 274, layout/_sidebar.scss */
-.sidebar .library .list li {
-  cursor: pointer;
-  color: white;
-  text-align: center;
-  height: 36px;
-  line-height: 36px;
-}
-/* line 281, layout/_sidebar.scss */
-.sidebar .library .list li:hover {
-  background-color: #488ac0;
-}
-/* line 285, layout/_sidebar.scss */
-.sidebar .library .list li.active {
-  background-color: #488ac0;
-}
-
-/* line 2, layout/_hardware.scss */
-.hardware .tools {
-  z-index: 3;
-  top: 30px;
-  left: 30px;
-  position: absolute;
-}
-/* line 8, layout/_hardware.scss */
-.hardware .tools .wrap {
-  position: relative;
-}
-/* line 12, layout/_hardware.scss */
-.hardware .tools li {
-  margin-bottom: 20px;
-  text-align: center;
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  position: relative;
-  background-color: #d7d7d7;
-}
-/* line 22, layout/_hardware.scss */
-.hardware .tools li > i {
-  font-size: 20px;
-  line-height: 30px;
-  color: #515151;
-}
-/* line 28, layout/_hardware.scss */
-.hardware .tools li:last-child {
-  margin-bottom: 0;
-}
-/* line 32, layout/_hardware.scss */
-.hardware .tools li:hover {
-  background-color: #1fb6ed;
-}
-/* line 34, layout/_hardware.scss */
-.hardware .tools li:hover > i {
-  color: white;
-}
-/* line 38, layout/_hardware.scss */
-.hardware .tools li:hover .tips {
-  display: block;
-}
-/* line 43, layout/_hardware.scss */
-.hardware .tools li .tips {
-  font-size: 12px;
-  height: 30px;
-  line-height: 30px;
-  right: -80px;
-  width: 64px;
-  top: 0;
-  color: white;
-  background-color: #1fb6ed;
-  position: absolute;
-  display: none;
-}
-/* line 56, layout/_hardware.scss */
-.hardware .tools li .tips:before {
-  border: solid transparent;
-  content: ' ';
-  height: 0;
-  width: 0;
-  border-width: 6px;
-  border-right-color: #1fb6ed;
-  left: -11px;
-  top: 9px;
-  position: absolute;
-}
-/* line 70, layout/_hardware.scss */
-.hardware .tools .interactive-mode {
-  margin-bottom: 20px;
-}
-/* line 73, layout/_hardware.scss */
-.hardware .tools .interactive-mode li {
-  margin-bottom: 0;
-}
-/* line 77, layout/_hardware.scss */
-.hardware .tools .interactive-mode .tips {
-  width: 100px;
-  right: -116px;
-}
-/* line 88, layout/_hardware.scss */
-.hardware .center {
-  height: 100%;
-}
-/* line 92, layout/_hardware.scss */
-.hardware .follow {
-  top: 0;
-  left: 0;
-  position: absolute;
-}
-/* line 96, layout/_hardware.scss */
-.hardware .follow .follower {
-  opacity: 0.5;
-  position: absolute;
-}
-/* line 102, layout/_hardware.scss */
-.hardware .name-dialog {
-  z-index: 4;
-  top: 90px;
-  width: 100%;
-  position: absolute;
-  display: none;
-}
-/* line 109, layout/_hardware.scss */
-.hardware .name-dialog .wrap {
-  margin: 0 auto;
-  width: 250px;
-}
-/* line 114, layout/_hardware.scss */
-.hardware .name-dialog .name-label {
-  display: block;
-  background-color: #F1C933;
-  float: left;
-  color: black;
-  width: 50px;
-  height: 36px;
-  line-height: 36px;
-  text-align: center;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-/* line 127, layout/_hardware.scss */
-.hardware .name-dialog .name {
-  border: 2px solid #F1C933;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  float: left;
-  color: black;
-  width: 200px;
-  height: 36px;
-  padding: 10px 8px;
-}
-
-/* line 2, layout/_software.scss */
-.software .editor {
-  font-size: 14px;
-  height: 100%;
-}
-/* line 7, layout/_software.scss */
-.software .back {
-  z-index: 99;
-  right: 30px;
-  top: 30px;
-  cursor: pointer;
-  opacity: 0.8;
-  width: 96px;
-  height: 36px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  color: white;
-  background-color: #488ac0;
-}
-/* line 25, layout/_software.scss */
-.software .back > i {
-  margin-right: 4px;
-}
-/* line 29, layout/_software.scss */
-.software .back:hover {
-  opacity: 1;
 }
 
 /* line 1, component/_x-widget.scss */

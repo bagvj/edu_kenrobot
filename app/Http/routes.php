@@ -16,7 +16,7 @@ Route::get('/config', 'HomeController@config');
 Route::post('/project/build', 'ProjectController@buildProject');
 Route::post('/project/save', 'ProjectController@saveProject');
 Route::post('/project/delete', 'ProjectController@deleteProject');
-Route::get('/project/download/{id}/{ext?}', 'ProjectController@downloadProject')->where('id', '[1-9][0-9]*');
+Route::get('/project/download/{key}/{ext?}', 'ProjectController@downloadProject')->where('key', '([1-9][0-9]*)|([0-9a-zA-Z]{6,6})');
 Route::get('/project/{id}', 'ProjectController@getProject')->where('id', '[1-9][0-9]*');
 Route::get('/projects/{user_id}', 'ProjectController@getProjects')->where('user_id', '[1-9][0-9]*');
 

@@ -1,0 +1,215 @@
+.login-dialog {
+	width: 320px;
+	height: 360px;
+	padding: 10px 20px 30px 20px;
+	background-color: white;
+
+	.x-dialog-close {
+		left: 8px;
+		width: 20px;
+		color: #a8a8a8;
+	}
+
+	.switch {
+		position: absolute;
+		right: 0;
+		top: 0;
+		cursor: pointer;
+
+		li {
+			height: 64px;
+			width: 64px;
+			display: block;
+
+			&.active {
+				display: none;
+			}
+		}
+
+		.weixin {
+			background-image: url('../images/weixin-login.png');
+
+			.tips {
+				letter-spacing: 0.85px;
+				height: 36px;
+				line-height: 36px;
+				font-size: 12px;
+				padding-left: 14px;
+				padding-right: 14px;
+				position: absolute;
+				top: 10px;
+				right: -135px;
+				color: white;
+				background-color: #fb8920;
+				display: none;
+
+				&:before {
+					border: solid transparent;
+					content: ' ';
+					height: 0;
+					width: 0;
+					border-width: 6px;
+					border-right-color: #fb8920;
+					top: 9px;
+					left: -12px;
+					position: absolute;
+				}
+			}
+
+			&:hover {
+				.tips {
+					display: block;
+				}
+			}
+		}
+
+		.account {
+			background-image: url('../images/account-login.png');
+		}
+	}
+
+	.logo {
+		background: url('../images/logo2.png') no-repeat center;
+		background-size: 98px 48px;
+		height: 48px;
+		margin-bottom: 8px;
+	}
+
+	.seperator {
+		height: 1px;
+		background-color: #ccc;
+	}
+
+	.tab {
+		display: none;
+
+		&.active {
+			display: block;
+		}
+	}
+
+	.tab-account {
+		.title {
+			color: #515151;
+			height: 20px;
+			line-height: 20px;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		.field {
+			margin-top: 20px;
+
+			&:first-child {
+				margin-top: 0;
+			}
+
+			.icon {
+				float: left;
+				height: 36px;
+				width: 36px;
+				background-color: #999;
+
+				& > i {
+					font-size: 28px;
+					line-height: 36px;
+					margin-left: 4px;
+					color: white;
+				}
+			}
+
+			& > input {
+				display: block;
+				width: 244px;
+				margin-left: 36px;
+				height: 36px;
+				line-height: 36px;
+				font-size: 12px;
+				padding-left: 8px;
+				padding-right: 8px;
+				border-top: 1px solid #ccc;
+				border-right: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
+				background-color: #f8f8f8;
+				color: #515151;
+			}
+		}
+
+		.message {
+			visibility: hidden;
+			text-align: center;
+			height: 20px;
+			line-height: 20px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			color: red;
+
+			&.active {
+				visibility: visible;
+			}
+		}
+
+		.login-btn {
+			display: block;
+			width: 100%;
+			height: 36px;
+			line-height: 36px;
+			text-align: center;
+			letter-spacing: 5px;
+			background-color: #fb8920;
+			color: white;
+		}
+	}
+
+	.tab-weixin {
+		.qrcode {
+			width: 150px;
+			height: 150px;
+			display: block;
+			margin: 20px auto 10px auto;
+		}
+
+		.tips {
+			letter-spacing: 2.32px;
+			line-height: 20px;
+			text-align: center;
+			color: #515151;
+		}
+
+		.scan {
+			position: absolute;
+			left: 160px;
+			top: -80px;
+			display: none;
+
+			&.active {
+				display: block;
+			}
+		}
+	}
+
+	.footer {
+		position: absolute;
+		bottom: 30px;
+		left: 20px;
+		right: 20px;
+
+		letter-spacing: 0.85px;
+		font-size: 12px;
+
+		.forget-password {
+			color: #fb8920;
+			float: left;
+		}
+
+		.register {
+			float: right;
+			color: #fb8920;
+		}
+
+		.no-account {
+			float: right;
+			color: #999;
+		}
+	}
+}

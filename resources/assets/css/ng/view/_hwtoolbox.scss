@@ -1,0 +1,54 @@
+.toolbox-hw {
+  .toolbox {
+    width: $toolbox-hw-width;
+  }
+  .toolbox__list {
+    &:after {
+      width: $toolbox-hw-width-level-1;
+    }
+  }
+
+  svg {
+    margin-right: 10px;
+  }
+
+  .content__list__item {
+    margin-bottom: 10px;
+    text-align: left;
+    padding   : 10px;
+  }
+
+  .toolbox__content {
+    width: $toolbox-hw-width;
+  }
+
+  .toolbox__item__image {
+    max-width: 150px;
+    cursor: -webkit-grab;
+  }
+
+  .toolbox__level--1 {
+    width: $toolbox-hw-width-level-1;
+  }
+
+  .toolbox__content {
+    &.active {
+      width: $toolbox-hw-width;
+    }
+  }
+
+  .board-image {
+    width: 175px;
+    cursor: -webkit-grab;
+  }
+
+  .component-image {
+    max-width: 60%;
+    cursor: -webkit-grab;
+  }
+
+  .robot-image {
+    width: 75px;
+    cursor: -webkit-grab;
+  }
+}

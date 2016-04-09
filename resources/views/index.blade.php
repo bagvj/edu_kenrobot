@@ -11,12 +11,58 @@
 
 		<link href="/assets/images/favicon.ico" type="image/x-icon" rel="shortcut icon" />
 		<link href="/assets/css/index.css" rel="stylesheet" />
+		<link href="/assets/css/main.css" rel="stylesheet" />
 
-		<script src="/assets/js/lib/go.js"></script>
-		<script src="/assets/js/lib/astyle.js"></script>
+		<script src="/assets/js/lib/jquery.js"></script>
+		<script src="/assets/js/ng/vendor/beautify.js"></script>
+		<script src="/assets/js/ng/vendor/prism.js"></script>
+		<script src="/assets/js/ng/vendor/prism-line-numbers.js"></script>
+		<script src="/assets/js/ng/vendor/lodash.js"></script>
+		<script src="/assets/js/ng/vendor/jsPlumb.js"></script>
+		<script src="/assets/js/ng/vendor/autogrow.js"></script>
+		<script src="/assets/js/ng/vendor/bloqs.js"></script>
+
+		<script src="/assets/js/ng/vendor/angular.js"></script>
+		<script src="/assets/js/ng/vendor/angular-clipboard.js"></script>
+		<script src="/assets/js/ng/vendor/angular-route.js"></script>
+		<script src="/assets/js/ng/vendor/angular-sanitize.js"></script>
+		<script src="/assets/js/ng/vendor/angular-translate.js"></script>
+		<script src="/assets/js/ng/vendor/angular-translate-loader-static-files.js"></script>
+		<script src="/assets/js/ng/vendor/ngDialog.js"></script>
+
+		<script src="/assets/js/ng/app.js"></script>
+
+		<script src="/assets/js/ng/factory/bloqs.factory.js"></script>
+		<script src="/assets/js/ng/factory/lodash.factory.js"></script>
+
+		<script src="/assets/js/ng/service/common.js"></script>
+		<script src="/assets/js/ng/service/commonModals.js"></script>
+		<script src="/assets/js/ng/service/hw2Bloqs.js"></script>
+		<script src="/assets/js/ng/service/utils.js"></script>
+		<script src="/assets/js/ng/service/nodeUtils.js"></script>
+		<script src="/assets/js/ng/service/projectApi.js"></script>
+		<script src="/assets/js/ng/service/alerts.js"></script>
+
+		<script src="/assets/js/ng/directive/tab.js"></script>
+		<script src="/assets/js/ng/directive/tabset.js"></script>
+		<script src="/assets/js/ng/directive/dropdown.js"></script>
+		<script src="/assets/js/ng/directive/toolbox.js"></script>
+		<script src="/assets/js/ng/directive/bitbloqBloqCreator.js"></script>
+		<script src="/assets/js/ng/directive/drag-drop.js"></script>
+		<script src="/assets/js/ng/directive/scrollBar.js"></script>
+		<script src="/assets/js/ng/directive/prism.js"></script>
+		<script src="/assets/js/ng/directive/commonDropdown.js"></script>
+
+		<script src="/assets/js/ng/controller/bloqsProject.js"></script>
+		<script src="/assets/js/ng/controller/ApiController.js"></script>
+		<script src="/assets/js/ng/controller/softwareTab.js"></script>
+		<script src="/assets/js/ng/controller/toolboxSW.js"></script>
+		<script src="/assets/js/ng/controller/hardwareTab.js"></script>
+		<script src="/assets/js/ng/controller/alerts.js"></script>
+
 		<script src="/assets/js/lib/require.js" data-main="/assets/js/index"></script>
 	</head>
-	<body class="unselectable theme-default" data-theme="default">
+	<body>
 		<div class="main">
 			<div class="main-wrap">
 				<div class="main-header">
@@ -52,133 +98,35 @@
 					</div>
 				</div>
 				<div class="main-content">
-					<div class="sidebar">
-						<div class="bar">
-							<ul>
-								<li data-action="project"><i class="kenrobot ken-project"></i>项目</li>
-								<li class="hide" data-action="board"><i class="kenrobot ken-board"></i>主板</li>
-								<li class="hide" data-action="component"><i class="kenrobot ken-component"></i>元件</li>
-								<li data-action="library"><i class="kenrobot ken-library"></i>库</li>
-							</ul>
-						</div>
-						<div class="tab tab-project">
-							<div class="project">
-								<div class="operation">
-									<ul>
-										<li class="new" data-action="new" title="新建项目"><i class="kenrobot ken-add"></i><span>新建</span></li>
-										<li class="edit" data-action="edit" title="编辑项目"><i class="kenrobot ken-info-info2"></i>信息</li>
-										<li class="delete" data-action="delete" title="删除项目"><i class="kenrobot ken-delete"></i>删除</li>
-									</ul>
-								</div>
-								<div class="list x-scrollbar">
-									<ul>
-										<li data-project-id="0">
-											<div class="title">
-												<span class="name">我的项目</span><i class="kenrobot"></i>
-											</div>
-											<div class="view">
-												<div data-view="software"><span class="name">我的项目</span>.ino</div>
-											</div>
-										</li>
-									</ul>
-								</div>
-								
-							</div>
-						</div>
-						<div class="tab tab-board">
-							<div class="board x-scrollbar">
-								<ul class="list">
-								@foreach($boards as $index => $board)
-								@if($index == 0)
-									<li class="normal" data-board="{{$board->name}}"><img class="image" src="/assets/images/board/arduino-uno-r3-small.png" /><span class="name">{{$board->label}}</span></li>
-								@else
-									<li class="forward" data-board="{{$board->name}}">
-										<img class="image" src="/assets/images/board/arduino-uno-r3-small.png" />
-										<span class="name">{{$board->label}}</span>
-										<div class="stamps"></div>
+					<div class="project-sidebar">
+						<button class="project-icon"><i class="kenrobot ken-project"></i></button>
+						<div class="project-list">
+							<div class="list x-scrollbar">
+								<ul>
+									<li data-project-id="0">
+										<div class="title">
+											<span class="name">我的项目</span><i class="kenrobot"></i>
+										</div>
+										<div class="view">
+											<div data-view="software"><span class="name">我的项目</span>.ino</div>
+										</div>
 									</li>
-								@endif
-								@endforeach
 								</ul>
 							</div>
-						</div>
-						<div class="tab tab-component">
-							<div class="component">
-								<div class="search">
-									<input class="key" type="text" placeholder="搜索" spellcheck="false"/>
-									<i class="kenrobot ken-search"></i>
-								</div>
-								<div class="items x-scrollbar">
-									<ul class="list">
-									@foreach($components as $component)
-										<li class="item" data-component-name="{{$component->name}}"><img class="image" src="{{$component->source}}" /><div class="name">{{$component->label}}</div></li>
-									@endforeach
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="tab tab-library">
-							<div class="library x-scrollbar">
-								<ul class="list">
-								@foreach($libraries as $library)
-									<li data-library="{{$library->name}}">{{$library->name}}</li>
-								@endforeach
+							<div class="operation">
+								<ul>
+									<li class="new" data-action="new" title="新建项目"><i class="kenrobot ken-add"></i><span>新建</span></li>
+									<li class="edit" data-action="edit" title="编辑项目"><i class="kenrobot ken-info-info2"></i>信息</li>
+									<li class="delete" data-action="delete" title="删除项目"><i class="kenrobot ken-delete"></i>删除</li>
 								</ul>
 							</div>
 						</div>
 					</div>
-					<div class="wrap">
-						
-						<div class="main-tabs">
-							<div class="tab tab-software active">
-								<div class="software">
-									<div class="editor"></div>
-									<div class="back{{isset($user) ? ' active' : ''}}">
-										<i class="kenrobot ken-switch"></i>硬件设计
-									</div>
-								</div>
-							</div>
-							<div class="tab tab-hardware">
-								<div class="hardware">
-									<div class="center" id="hardware-container"></div>
-									<div class="follow">
-										<img class="follower" />
-									</div>
-									<div class="tools">
-										<ul class="interactive-mode">
-											<li data-action="changeInteractiveMode" data-mode="modern">
-												<i class="kenrobot ken-switch-on"></i>
-												<div class="tips">切换拖拽模式</div>
-											</li>
-											<li class="hide" data-action="changeInteractiveMode" data-mode="drag">
-												<i class="kenrobot ken-switch-off"></i>
-												<div class="tips">切换现代模式</div>
-											</li>
-										</ul>
-										<ul class="mode">
-											<li class="active" data-action="changeMode" data-mode="default">
-												<i class="kenrobot ken-move"></i>
-												<div class="tips">默认</div>
-											</li>
-											<li data-action="changeMode" data-mode="clone">
-												<i class="kenrobot ken-clone"></i>
-												<div class="tips">克隆</div>
-											</li>
-											<li data-action="changeMode" data-mode="delete">
-												<i class="kenrobot ken-delete"></i>
-												<div class="tips">删除</div>
-											</li>
-										</ul>
-									</div>
-									<div class="name-dialog">
-										<div class="wrap">
-											<span class="name-label">名字</span>
-											<input class="name" type="text" />
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class="ng-app" ng-app="kenrobot">
+						<base href="/" />
+						<div ng-include="'assets/images/sprite.svg'" ng-hide="true"></div>
+						<div data-ng-include="'assets/views/components/alerts.html'" ng-controller="AlertsCtrl" class="alerts--container"></div>
+						<div ng-view></div>
 					</div>
 				</div>
 			</div>
