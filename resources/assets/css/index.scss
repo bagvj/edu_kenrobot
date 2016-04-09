@@ -1,5 +1,35 @@
 @charset "utf-8";
 
+@import 'ng/vendor/_ngDialog.scss';
+@import 'ng/vendor/_ngDialog-theme-default.scss';
+@import 'ng/vendor/_prism.scss';
+@import 'ng/vendor/_prism-line-numbers.scss';
+@import 'ng/vendor/_bloqs.scss';
+
+@import 'ng/_reset.scss';
+@import 'ng/_variables.scss';
+@import 'ng/_global.scss';
+@import 'ng/_layout.scss';
+@import 'ng/component/_text.scss';
+@import 'ng/component/_icons.scss';
+@import 'ng/component/_actionBar.scss';
+@import 'ng/component/_dropdown.scss';
+@import 'ng/component/_bloqs-tabs.scss';
+@import 'ng/component/_toolbox.scss';
+@import 'ng/component/_modals.scss';
+@import 'ng/component/_buttons.scss';
+@import 'ng/component/_alerts.scss';
+@import 'ng/component/_scrollbar.scss';
+@import 'ng/component/_commonDropdown.scss';
+@import 'ng/component/_checkbox.scss';
+@import 'ng/custom/_prism.scss';
+@import 'ng/custom/_bloqs.scss';
+@import 'ng/view/_bloqsTab.scss';
+@import 'ng/view/_hardware-tab.scss';
+@import 'ng/view/_codeTab.scss';
+@import 'ng/view/_swtoolbox.scss';
+@import 'ng/view/_hwtoolbox.scss';
+
 @import "_bootstrap.scss";
 @import "_kenrobot.scss";
 

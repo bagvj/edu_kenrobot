@@ -11,9 +11,9 @@
 
 		<link href="/assets/images/favicon.ico" type="image/x-icon" rel="shortcut icon" />
 		<link href="/assets/css/index.css" rel="stylesheet" />
-		<link href="/assets/css/main.css" rel="stylesheet" />
 
-		<script src="/assets/js/lib/jquery.js"></script>
+		<script src="/assets/js/jquery.js"></script>
+
 		<script src="/assets/js/ng/vendor/beautify.js"></script>
 		<script src="/assets/js/ng/vendor/prism.js"></script>
 		<script src="/assets/js/ng/vendor/prism-line-numbers.js"></script>
@@ -60,7 +60,7 @@
 		<script src="/assets/js/ng/controller/hardwareTab.js"></script>
 		<script src="/assets/js/ng/controller/alerts.js"></script>
 
-		<script src="/assets/js/lib/require.js" data-main="/assets/js/index"></script>
+		<script src="/assets/js/require.js" data-main="/assets/js/index"></script>
 	</head>
 	<body>
 		<div class="main">

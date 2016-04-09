@@ -2520,7 +2520,7 @@
                 });
                 break;
             case 'multilineCodeInput':
-                $element = $('<textarea class="msd-elastic: \n;" spell-check="false" ng-model="bar" cols="40" rows="1"></textarea>').attr({
+                $element = $('<textarea class="msd-elastic: \n;" spellcheck="false" ng-model="bar" cols="40" rows="1"></textarea>').attr({
                     'data-content-id': elementSchema.id,
                     'data-content-type': elementSchema.alias,
                     'name': elementSchema.id,
@@ -2538,7 +2538,7 @@
                 });
                 break;
             case 'multilineCommentInput':
-                $element = $('<textarea class="msd-elastic: \n;" spell-check="false" ng-model="bar" cols="40" rows="1"></textarea>').attr({
+                $element = $('<textarea class="msd-elastic: \n;" spellcheck="false" ng-model="bar" cols="40" rows="1"></textarea>').attr({
                     'data-content-id': elementSchema.id,
                     'data-content-type': elementSchema.alias,
                     'name': elementSchema.id,

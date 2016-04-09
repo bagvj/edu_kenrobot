@@ -1,4 +1,4 @@
-define(['jquery.cookie', './EventManager', './util'], function(_, EventManager, util) {
+define(['vendor/jquery.cookie', './EventManager', './util'], function(_, EventManager, util) {
 	var userInfo;
 	var loginCheckTimer;
 	var loginCallback;
