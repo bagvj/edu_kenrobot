@@ -1,6 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.controller('ApiController', function($scope, projectApi){
+	.controller('ApiController', function($scope, projectApi) {
 
 		function hasChanged(callback) {
 			var project = $scope.getCurrentProject();

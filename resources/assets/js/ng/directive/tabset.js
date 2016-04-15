@@ -1,38 +1,38 @@
 'use strict';
 angular.module('kenrobot')
-  .directive('tabset', function() {
-    return {
-      restrict: 'E',
-      transclude: true,
-      scope: {},
-      templateUrl: '/assets/views/components/tabset.html',
-      bindToController: true,
-      controllerAs: 'tabset',
-      controller: function() {
+	.directive('tabset', function() {
+		return {
+			restrict: 'E',
+			transclude: true,
+			scope: {},
+			templateUrl: '/assets/views/components/tabset.html',
+			bindToController: true,
+			controllerAs: 'tabset',
+			controller: function() {
 
-        var self = this;
-        self.tabs = [];
+				var self = this;
+				self.tabs = [];
 
-        self.addTab = function addTab(tab) {
-          self.tabs.push(tab);
-          if (self.tabs.length === 1) {
-            tab.active = true;
-          }
-        };
+				self.addTab = function addTab(tab) {
+					self.tabs.push(tab);
+					if (self.tabs.length === 1) {
+						tab.active = true;
+					}
+				};
 
-        self.select = function(selectedTab) {
-          if (selectedTab.disabled) {
-            return;
-          }
+				self.select = function(selectedTab) {
+					if (selectedTab.disabled) {
+						return;
+					}
 
-          angular.forEach(self.tabs, function(tab) {
-            if (tab.active && tab !== selectedTab) {
-              tab.active = false;
-            }
-          });
-          selectedTab.active = true;
-        };
+					angular.forEach(self.tabs, function(tab) {
+						if (tab.active && tab !== selectedTab) {
+							tab.active = false;
+						}
+					});
+					selectedTab.active = true;
+				};
 
-      }
-    };
-  });
+			}
+		};
+	});

@@ -1,14 +1,6 @@
 'use strict';
-
-/**
- * @ngdoc function
- * @name kenrobot.controller:toolboxSW
- * @description
- * # toolboxSW
- * Controller of the kenrobot
- */
 angular.module('kenrobot')
-	.controller('toolboxSW', function($scope, $http, common) {
+	.controller('toolboxSW', function($scope) {
 		$scope.swToolboxMenu = {
 			"toolboxTitles": [{
 				"title": "make-swtoolbox-functions",

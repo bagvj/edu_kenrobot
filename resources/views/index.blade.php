@@ -37,7 +37,6 @@
 		<script src="/assets/js/ng/service/commonModals.js"></script>
 		<script src="/assets/js/ng/service/hw2Bloqs.js"></script>
 		<script src="/assets/js/ng/service/utils.js"></script>
-		<script src="/assets/js/ng/service/nodeUtils.js"></script>
 		<script src="/assets/js/ng/service/projectApi.js"></script>
 		<script src="/assets/js/ng/service/alerts.js"></script>
 
