@@ -13,7 +13,7 @@
 		<link href="/assets/css/index.css" rel="stylesheet" />
 
 		<script src="/assets/js/jquery.js"></script>
-
+		@if(env('APP_DEBUG'))
 		<script src="/assets/js/ng/vendor/beautify.js"></script>
 		<script src="/assets/js/ng/vendor/prism.js"></script>
 		<script src="/assets/js/ng/vendor/prism-line-numbers.js"></script>
@@ -59,6 +59,9 @@
 		<script src="/assets/js/ng/controller/toolboxSW.js"></script>
 		<script src="/assets/js/ng/controller/hardwareTab.js"></script>
 		<script src="/assets/js/ng/controller/alerts.js"></script>
+		@else
+		<script src="/assets/js/app.js"></script>
+		@endif
 
 		<script src="/assets/js/require.js" data-main="/assets/js/index"></script>
 	</head>

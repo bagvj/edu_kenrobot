@@ -1,4 +1,4 @@
-define(['vendor/jquery-ui', 'vendor/ace/ext-language_tools', './EventManager', './util'], function(_, _, EventManager, util) {
+define(['vendor/jquery-ui', 'vendor/ace/ace', 'vendor/ace/theme-default', 'vendor/ace/mode-arduino', 'vendor/ace/snippets/text', 'vendor/ace/snippets/arduino', 'vendor/ace/ext-language_tools', './EventManager', './util'], function(_, _, _, _, _, _, _, EventManager, util) {
 	var isDisplay;
 	var container;
 	var logcat;

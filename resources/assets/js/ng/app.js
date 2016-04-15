@@ -12,9 +12,7 @@ angular
     .module('kenrobot', [
         'ngRoute',
         'ngSanitize',
-        // 'ngWebSocket',
         'pascalprecht.translate',
-        'angular-clipboard',
         'ngDialog'
     ]).config(['$routeProvider', '$translateProvider', '$locationProvider',
         function($routeProvider, $translateProvider, $locationProvider) {
@@ -27,6 +25,7 @@ angular
                 .otherwise({
                     redirectTo: '/'
                 });
+            
             $translateProvider.useStaticFilesLoader({
                 prefix: '/assets/res/locales/',
                 suffix: '.json'
@@ -37,7 +36,6 @@ angular
             $translateProvider.preferredLanguage('en-GB');
             $translateProvider.fallbackLanguage('en-GB');
         }
-
     ])
     .run(function(_, bloqs) {
         // Make sure _ is invoked at runtime. This does nothing but force the "_" to

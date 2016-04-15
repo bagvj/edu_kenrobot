@@ -15,10 +15,43 @@ var gulp = require('gulp'),                   //基础库
 	concat = require('gulp-concat'),          //合并文件
 	sourcemaps = require('gulp-sourcemaps'),  //source map
 	clean = require('gulp-clean');            //清空文件夹
-	rjs = require('gulp-rjs2');
+	requirejsOptimize = require('gulp-requirejs-optimize');
 
 var SRC = './resources/assets/';
 var DIST = './public/assets/';
+
+// js处理
+gulp.task('js', function() {
+	var jsSrc = SRC + 'js/**/*.js',
+		jsDst = DIST + 'js/';
+
+	gulp.src([SRC + 'js/require.js', SRC + 'js/jquery.js'])
+		.pipe(gulp.dest(jsDst));
+
+	gulp.src(SRC + 'js/index.js')
+		.pipe(requirejsOptimize())
+		.pipe(gulp.dest(jsDst));
+
+	gulp.src([
+			SRC + "js/ng/vendor/autogrow.js",
+			SRC + "js/ng/vendor/beautify.js",
+			SRC + "js/ng/vendor/prism.js",
+			SRC + "js/ng/vendor/prism-line-numbers.js",
+			SRC + "js/ng/vendor/lodash.js",
+			SRC + "js/ng/vendor/jsPlumb.js",
+			SRC + "js/ng/vendor/bloqs.js",
+			SRC + "js/ng/vendor/angular.js",
+			SRC + "js/ng/vendor/angular-route.js",
+			SRC + "js/ng/vendor/angular-sanitize.js",
+			SRC + "js/ng/vendor/angular-translate.js",
+			SRC + "js/ng/vendor/angular-translate-loader-static-files.js",
+			SRC + "js/ng/vendor/ngDialog.js",
+			SRC + 'js/ng/**/*.js'])
+		.pipe(concat('app.js'))
+		.pipe(ngAnnotate())
+		.pipe(uglify())
+		.pipe(gulp.dest(jsDst));
+});
 
 // HTML处理
 gulp.task('html', function() {
@@ -65,59 +98,6 @@ gulp.task('res', function() {
 
 	return gulp.src(resSrc)
 		.pipe(gulp.dest(resDst));
-});
-
-// js处理
-gulp.task('js', function() {
-	var jsSrc = SRC + 'js/**/*.js',
-		jsDst = DIST + 'js/';
-
-	rjs({
-		baseUrl: 'resources/assets/js',
-		mainConfigFile: 'resources/assets/js/index.js',
-		modules: [{
-			name: 'index',
-		}],
-			// dir: jsDst,
-		// name: 'index',
-	})
-	.pipe(uglify())
-	.pipe(gulp.dest(jsDst));
-
-	// gulp.src([jsSrc, '!./src/js/vendor/*.js'])
-	// 	// .pipe(jshint('.jshintrc'))
-	// 	// .pipe(jshint.reporter('default'))
-	// 	.pipe(concat('main.js'))
-	// 	.pipe(ngAnnotate())
-	// 	.pipe(uglify())
-	// 	.pipe(gulp.dest(jsDst));
-
-	// gulp.src([
-	// 		'./src/js/vendor/angular.js',
-	// 		'./src/js/vendor/angular-clipboard.js',
-	// 		'./src/js/vendor/angular-route.js',
-	// 		'./src/js/vendor/angular-sanitize.js',
-	// 		'./src/js/vendor/angular-translate.js',
-	// 		'./src/js/vendor/angular-translate-loader-static-files.js',
-	// 		'./src/js/vendor/ngDialog.js',
-	// 	])
-	// 	.pipe(concat('angular.js'))
-	// 	.pipe(ngAnnotate())
-	// 	.pipe(gulp.dest('./dist/js/vendor'));
-
-	// gulp.src([
-	// 		'./src/js/vendor/jquery.js',
-	// 		'./src/js/vendor/autogrow.js',
-	// 		'./src/js/vendor/beautify.js',
-	// 		'./src/js/vendor/prism.js',
-	// 		'./src/js/vendor/prism-line-numbers.js',
-	// 		'./src/js/vendor/lodash.js',
-	// 		'./src/js/vendor/jsPlumb.js',
-	// 		'./src/js/vendor/bloqs.js',
-	// 	])
-	// 	.pipe(concat('vendor.js'))
-	// 	.pipe(uglify())
-	// 	.pipe(gulp.dest('./dist/js/vendor'));
 });
 
 gulp.task('switch', function() {

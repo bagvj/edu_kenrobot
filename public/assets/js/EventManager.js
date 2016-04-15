@@ -1,1 +1,0 @@
-define("EventManager.js",[],function(){function n(n,r){return n+"_"+r}function r(r,i,a){var f=n(r,i),t=e[f];t||(t=[],e[f]=t),t.push(a)}function i(r,i,a){var f=n(r,i),t=e[f];if(t)for(var u=0;u<t.length;u++){var v=t[u];if(v==a){t.splice(u,1);break}}}function a(r,i,a){var f=n(r,i),t=e[f];if(t)for(var u=0;u<t.length;u++){var v=t[u];v(a)}}var e={};return{bind:r,unbind:i,trigger:a}});
