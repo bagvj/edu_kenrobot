@@ -1,6 +1,6 @@
 /**
  * 组件安装
- * npm install gulp gulp-util gulp-requirejs-optimize gulp-minify-html gulp-imagemin gulp-ruby-sass gulp-clean-css gulp-jshint gulp-uglify gulp-rename gulp-sourcemaps gulp-ng-annotate gulp-concat gulp-clean --save-dev
+ * npm install gulp gulp-util gulp-jsonminify gulp-requirejs-optimize gulp-minify-html gulp-imagemin gulp-ruby-sass gulp-clean-css gulp-jshint gulp-uglify gulp-rename gulp-sourcemaps gulp-ng-annotate gulp-concat gulp-clean --save-dev
  */
 
 // 引入 gulp及组件
@@ -17,6 +17,7 @@ var gulp = require('gulp'),                   //基础库
 	sourcemaps = require('gulp-sourcemaps'),  //source map
 	clean = require('gulp-clean');            //清空文件夹
 	requirejsOptimize = require('gulp-requirejs-optimize');
+	jsonminify = require('gulp-jsonminify');
 
 var SRC = './resources/assets/';
 var DIST = './public/assets/';
@@ -117,10 +118,11 @@ gulp.task('fonts', function() {
 
 // res处理
 gulp.task('res', function() {
-	var resSrc = SRC + 'res/**/*',
+	var resSrc = SRC + 'res/**/*.json',
 		resDst = DIST + 'res/';
 
 	return gulp.src(resSrc)
+		.pipe(jsonminify())
 		.pipe(gulp.dest(resDst));
 });
 

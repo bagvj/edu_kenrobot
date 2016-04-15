@@ -19,7 +19,6 @@
 		<script src="/assets/js/ng/vendor/prism-line-numbers.js"></script>
 		<script src="/assets/js/ng/vendor/lodash.js"></script>
 		<script src="/assets/js/ng/vendor/jsPlumb.js"></script>
-		<script src="/assets/js/ng/vendor/autogrow.js"></script>
 		<script src="/assets/js/ng/vendor/bloqs.js"></script>
 
 		<script src="/assets/js/ng/vendor/angular.js"></script>
