@@ -24,29 +24,18 @@ angular.module('kenrobot')
 
 			$scope.arduinoMainBloqs.loopBloq.enable(true);
 			$scope.arduinoMainBloqs.loopBloq.doConnectable();
-
-			bloqs.translateBloqs($translate.use());
-
-			$rootScope.$on('$translateChangeStart', function(evt, key) {
-				bloqs.translateBloqs(key.language);
-			});
 		};
 
 		$scope.onFieldKeyUp = function(event) {
-			// $log.debug('event.keyCode', event.keyCode);
-			var bloq;
-
 			switch (event.keyCode) {
 				case 46:
 				case 8:
 					if ($document[0].activeElement.attributes['data-bloq-id']) {
 						event.preventDefault();
-						bloq = bloqs.bloqs[$document[0].activeElement.attributes['data-bloq-id'].value];
+						var bloq = bloqs.bloqs[$document[0].activeElement.attributes['data-bloq-id'].value];
 						if (bloq.bloqData.type !== 'group' && bloqs.bloqs[bloq.uuid].isConnectable()) {
 							bloqs.removeBloq($document[0].activeElement.attributes['data-bloq-id'].value, true);
 							$scope.$field.focus();
-						} else {
-							$log.debug('we cant delete group bloqs');
 						}
 					}
 					break;

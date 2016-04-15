@@ -1,9 +1,7 @@
 'use strict';
 angular.module('kenrobot')
 	.service('common', function($http, $filter, $rootScope, $translate) {
-
 		var exports = {};
-		var settings = {};
 
 		exports.bloqsSchemas = {
 			"arrayClassVariable": {
@@ -7345,17 +7343,6 @@ angular.module('kenrobot')
 		exports.version = "1.0.1";
 		exports.bloqsVersion = "0.1.4";
 		exports.translate = $filter('translate');
-
-		settings.language = "en";
-		$translate.use(settings.language);
-
-		exports.translateTo = function(lang) {
-			settings.language = lang;
-
-			//do save setting
-
-			$translate.use(lang);
-		};
 
 		return exports;
 	});

@@ -35,7 +35,7 @@
 	 * # protoBoLa
 	 * Service in the kenrobot.
 	 */
-	app.service('hw2Bloqs', function($rootScope, jsPlumb) {
+	app.service('hw2Bloqs', function($rootScope, jsPlumb, $timeout) {
 		var exports = {};
 
 		var jsPlumbInstance = null;
@@ -679,7 +679,7 @@
 		};
 
 		exports.repaint = function() {
-			setTimeout(function() {
+			$timeout(function() {
 				try {
 					jsPlumbInstance.repaintEverything();
 				} catch (e) {

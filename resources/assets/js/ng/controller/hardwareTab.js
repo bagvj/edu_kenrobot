@@ -688,22 +688,6 @@ angular.module('kenrobot')
 			}
 		};
 
-		// toolbox filter components
-		$scope.searchText = '';
-		$scope.filterSearch = function(criteria) {
-			return function(item) {
-				if (criteria === '') {
-					return false;
-				}
-				var translatedNameNormalized = utils.removeDiacritics($translate.instant(item.id), {
-					spaces: false
-				}).toLowerCase();
-				var criteriaNormalized = utils.removeDiacritics(criteria, {
-					spaces: false
-				}).toLowerCase();
-				return translatedNameNormalized.indexOf(criteriaNormalized) > -1;
-			};
-		};
 		$scope.$on('$destroy', function() {
 			container.removeEventListener('connectionEvent', connectionEventHandler);
 			container.removeEventListener('mousedown', _mouseDownHandler);

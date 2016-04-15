@@ -1,6 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.controller('BloqsProjectCtrl', function($scope, $rootScope, $timeout, hw2Bloqs, alertsService, commonModals, $window, $document, bloqsUtils, projectApi, common, _, $log, bloqs) {
+	.controller('BloqsProjectCtrl', function($scope, $rootScope, $timeout, hw2Bloqs, alertsService, $window, $document, bloqsUtils, projectApi, common, _, $log, bloqs) {
 		$scope.hw2Bloqs = hw2Bloqs;
 		this.common = common;
 
@@ -253,55 +253,10 @@ angular.module('kenrobot')
 			return project;
 		};
 
-		$scope.saveProject = function(project, callback) {
-			project = project || $scope.getCurrentProject();
-
-			if (projectApi.hasChanged(project)) {
-				return projectApi.save(project, function() {
-					alertsService.add('make-saved-project', 'project-saved', 'ok', 3000);
-					if (callback) {
-						return callback();
-					}
-				});
-			}
-		};
-
-		$scope.saveProjectAs = function(project, callback) {
-			project = project || $scope.getCurrentProject();
-			return projectApi.saveAs(project, function() {
-				alertsService.add('make-saved-project', 'project-saved', 'ok', 3000);
-				if (callback) {
-					return callback();
-				}
-			});
-		};
-
-		$scope.saveIno = function() {
-			projectApi.exportArduinoCode($scope.componentsArray, $scope.arduinoMainBloqs);
-		};
-
-		$window.onbeforeunload = function(e) {
-			// var remote = require('electron').remote;
-			// var currentWindow = remote.getCurrentWindow();
-			if (projectApi.hasChanged($scope.getCurrentProject())) {
-				e.returnValue = false;
-				commonModals.launchNotSavedModal(function(confirmed) {
-					if (confirmed === 0) {
-						projectApi.save($scope.getCurrentProject(), function() {
-							// currentWindow.destroy();
-						});
-					} else if (confirmed === -1) {
-						// currentWindow.destroy();
-					}
-				});
-			} else {
-				// currentWindow.destroy();
-			}
-		};
-
 		$document.on('keyup', function() {
 			if (event.ctrlKey && event.which === 83) {
-				$scope.saveProject();
+				//do save project
+				console.log("ctrl + s => do save");
 			}
 		});
 

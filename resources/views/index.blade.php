@@ -34,7 +34,6 @@
 		<script src="/assets/js/ng/factory/lodash.factory.js"></script>
 
 		<script src="/assets/js/ng/service/common.js"></script>
-		<script src="/assets/js/ng/service/commonModals.js"></script>
 		<script src="/assets/js/ng/service/hw2Bloqs.js"></script>
 		<script src="/assets/js/ng/service/utils.js"></script>
 		<script src="/assets/js/ng/service/projectApi.js"></script>
