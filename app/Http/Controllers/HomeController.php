@@ -31,10 +31,6 @@ class HomeController extends Controller {
 
 		$register_url = config('platform.url.register').'&redirect_uri='.urlencode($request->url());
 		$find_password_url = config('platform.url.find_password');
-		$boards = $this->getBoardConfig();
-
-		$components = $this->getComponentConfig();
-		$libraries = $this->getLibrariyConfig();
 
 		$has_visit = 1;
 		// if (empty($_COOKIE['has_visit'])) {
@@ -42,7 +38,7 @@ class HomeController extends Controller {
 		// }
 		// setcookie('has_visit', 1, time() + 86400 * 365, "", ".kenrobot.com");
 
-		return view("index", compact('user', 'mainpage', 'qrcodeurl', 'register_url', 'find_password_url', 'key', 'boards', 'components', 'libraries', 'has_visit'));
+		return view("index", compact('user', 'mainpage', 'qrcodeurl', 'register_url', 'find_password_url', 'key', 'has_visit'));
 	}
 
 	public function config() {
