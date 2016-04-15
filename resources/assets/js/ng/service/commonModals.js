@@ -73,7 +73,7 @@ angular.module('kenrobot')
             modalButtons: true,
             modalCommonDropdown: true,
             headingOptions: $translate.use(),
-            modaloptions: ['en-US','zh-CN'],
+            modaloptions: ['zh', 'en'],
             optionsClick: translateLanguage,
             dropdown: {
                 options: 'languages',

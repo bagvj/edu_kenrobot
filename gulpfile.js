@@ -70,7 +70,6 @@ gulp.task('js', ['clean-js', 'copy-env-release'], function() {
 			SRC + "js/ng/vendor/angular-route.js",
 			SRC + "js/ng/vendor/angular-sanitize.js",
 			SRC + "js/ng/vendor/angular-translate.js",
-			SRC + "js/ng/vendor/angular-translate-loader-static-files.js",
 			SRC + "js/ng/vendor/ngDialog.js",
 			SRC + 'js/ng/**/*.js'])
 		.pipe(concat('app.js'))
@@ -118,16 +117,6 @@ gulp.task('fonts', function() {
 		.pipe(gulp.dest(fontDst));
 });
 
-// res处理
-gulp.task('res', function() {
-	var resSrc = SRC + 'res/**/*.json',
-		resDst = DIST + 'res/';
-
-	return gulp.src(resSrc)
-		.pipe(jsonminify())
-		.pipe(gulp.dest(resDst));
-});
-
 gulp.task('switch', ['clean-js', 'copy-env-debug'], function() {
 	return gulp.src(SRC + "js/**/*.js")
 		.pipe(gulp.dest(DIST + "js"));
@@ -135,13 +124,13 @@ gulp.task('switch', ['clean-js', 'copy-env-debug'], function() {
 
 // 清空图片、样式、js
 gulp.task('clean', function() {
-	return gulp.src([DIST + 'css', DIST + 'js', DIST + 'images', DIST + 'fonts', DIST + 'res', DIST + 'views'], {read: false})
+	return gulp.src([DIST + 'css', DIST + 'js', DIST + 'images', DIST + 'fonts', DIST + 'views'], {read: false})
 		.pipe(clean());
 });
 
 // 默认任务 清空图片、样式、js并重建 运行语句 gulp
 gulp.task('default', ['clean'], function() {
-	gulp.run('html', 'css', 'images', 'fonts', 'res', 'js');
+	gulp.run('html', 'css', 'images', 'fonts', 'js');
 });
 
 // 监听任务 运行语句 gulp watch
@@ -154,11 +143,6 @@ gulp.task('watch', function() {
 	// 监听fonts
 	gulp.watch(SRC + 'fonts/**/*', function(event) {
 		gulp.run('fonts');
-	});
-
-	// 监听res
-	gulp.watch(SRC + 'res/**/*', function(event) {
-		gulp.run('res');
 	});
 
 	// 监听css

@@ -25,11 +25,11 @@
 		<script src="/assets/js/ng/vendor/angular-route.js"></script>
 		<script src="/assets/js/ng/vendor/angular-sanitize.js"></script>
 		<script src="/assets/js/ng/vendor/angular-translate.js"></script>
-		<script src="/assets/js/ng/vendor/angular-translate-loader-static-files.js"></script>
 		<script src="/assets/js/ng/vendor/ngDialog.js"></script>
 
 		<script src="/assets/js/ng/app.js"></script>
 
+		<script src="/assets/js/ng/provider/langProvider.js"></script>
 		<script src="/assets/js/ng/factory/bloqs.factory.js"></script>
 		<script src="/assets/js/ng/factory/lodash.factory.js"></script>
 

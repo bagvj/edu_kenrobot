@@ -14,37 +14,30 @@ angular
         'ngSanitize',
         'pascalprecht.translate',
         'ngDialog'
-    ]).config(['$routeProvider', '$translateProvider', '$locationProvider',
-        function($routeProvider, $translateProvider, $locationProvider) {
-            $locationProvider.html5Mode(true);
+    ]).config(function($routeProvider, $translateProvider, $locationProvider, langProvider) {
+        $locationProvider.html5Mode(true);
 
-            $routeProvider
-                .when('/', {
-                    templateUrl: '/assets/views/bloqs-project.html'
-                })
-                .otherwise({
-                    redirectTo: '/'
-                });
-            
-            $translateProvider.useStaticFilesLoader({
-                prefix: '/assets/res/locales/',
-                suffix: '.json'
+        $routeProvider
+            .when('/', {
+                templateUrl: '/assets/views/bloqs-project.html'
+            })
+            .otherwise({
+                redirectTo: '/'
             });
-
-            //indicamos el idioma inicial
-            $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
-            $translateProvider.preferredLanguage('en-US');
-            $translateProvider.fallbackLanguage('en-US');
-        }
-    ])
+    
+        var lang = langProvider.$get();
+        $translateProvider
+            .useSanitizeValueStrategy('sanitize')
+            .translations('en', lang.en)
+            .translations('zh', lang.zh)
+            .preferredLanguage('en')
+            .fallbackLanguage('en');
+    })
     .run(function(_, bloqs) {
-        // Make sure _ is invoked at runtime. This does nothing but force the "_" to
-        // be loaded after bootstrap. This is done so the "_" factory has a chance to
-        // "erase" the global reference to the lodash library.
         bloqs.setOptions({
-            lang: 'en-US',
-            fieldOffsetLeft: 48,
-            fieldOffsetTopForced: 41,
+            lang: 'en',
+            fieldOffsetLeft: 66,
+            fieldOffsetTopForced: 66,
             forcedScrollTop: 0
         });
     });

@@ -3,7 +3,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 'use strict';
 (function(bloqsLanguages) {
 	var texts = {
-		"en-US": {
+		"en": {
 			"bloq-zowi-mouth-tongueOut": "smile with tongue out",
 			"bloq-zowi-mouth-confused": "confused face",
 			"bloq-zowi-mouth-bigSurprise": "surprised face",
@@ -429,7 +429,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			"bloq-num-conversion-int": "integer",
 			"bloq-num-conversion-float": "decimal"
 		},
-		"zh-CN": {
+		"zh": {
 			"bloq-break-stopLoop": "中断环",
 			"bloq-code-writeYourCode": "编写自己的代码",
 			"bloq-comment-comment": "注解 //",
@@ -2192,7 +2192,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 	 */
 
 	var utils = bloqsUtils,
-		lang = 'en-US',
+		lang = 'en',
 		connectors = {},
 		IOConnectors = {},
 		bloqs = {},
@@ -2233,7 +2233,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			forcedScrollTop = options.forcedScrollTop;
 		}
 
-		lang = options.lang || 'en-US';
+		lang = options.lang || 'en';
 	};
 
 	var getFieldOffsetTop = function(source) {
@@ -3440,7 +3440,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 	};
 
 	var translateBloq = function(lang, key) {
-		return bloqsLanguages.texts[lang][key] || bloqsLanguages.texts['en-US'][key] || key;
+		return bloqsLanguages.texts[lang][key] || bloqsLanguages.texts['en'][key] || key;
 	};
 
 	// Block Constructor
