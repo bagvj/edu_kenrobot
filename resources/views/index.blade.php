@@ -14,6 +14,7 @@
 
 		<script src="/assets/js/jquery.js"></script>
 		@if(env('APP_DEBUG'))
+		<script src="/assets/js/ng/vendor/autogrow.js"></script>
 		<script src="/assets/js/ng/vendor/beautify.js"></script>
 		<script src="/assets/js/ng/vendor/prism.js"></script>
 		<script src="/assets/js/ng/vendor/prism-line-numbers.js"></script>
@@ -60,7 +61,6 @@
 		@else
 		<script src="/assets/js/app.js"></script>
 		@endif
-
 		<script src="/assets/js/require.js" data-main="/assets/js/index"></script>
 	</head>
 	<body>

@@ -57,7 +57,7 @@ gulp.task('js', ['clean-js', 'copy-env-release'], function() {
 		.pipe(gulp.dest(jsDst));
 
 	gulp.src([
-			SRC + "js/ng/vendor/autogrow.js",
+			// SRC + "js/ng/vendor/autogrow.js",
 			SRC + "js/ng/vendor/beautify.js",
 			SRC + "js/ng/vendor/prism.js",
 			SRC + "js/ng/vendor/prism-line-numbers.js",
