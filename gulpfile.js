@@ -1,11 +1,13 @@
 /**
  * 组件安装
- * npm install gulp gulp-if minimist run-sequence gulp-concat gulp-rename gulp-clean gulp-jshint gulp-uglify gulp-jsonminify gulp-ruby-sass gulp-clean-css gulp-imagemin gulp-minify-html gulp-ng-annotate gulp-sourcemaps gulp-requirejs-optimize --save-dev
+ * npm install gulp gulp-if gulp-rev gulp-rev-replace minimist run-sequence gulp-concat gulp-rename gulp-clean gulp-jshint gulp-uglify gulp-jsonminify gulp-ruby-sass gulp-clean-css gulp-imagemin gulp-minify-html gulp-ng-annotate gulp-sourcemaps gulp-requirejs-optimize --save-dev
  */
 
 // 引入 gulp及组件
 var gulp = require('gulp'),                   //基础库
 	gulpif = require('gulp-if');              //条件执行
+	rev = require('gulp-rev');                //rev
+	revReplace = require('gulp-rev-replace'); //rev替换
 	minimist = require('minimist')            //命令行参数解析
 	runSequence = require('run-sequence');    //顺序执行
 	concat = require('gulp-concat'),          //合并文件
