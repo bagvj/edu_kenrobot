@@ -23,7 +23,6 @@
 		<script src="/assets/js/ng/vendor/bloqs.js"></script>
 
 		<script src="/assets/js/ng/vendor/angular.js"></script>
-		<script src="/assets/js/ng/vendor/angular-clipboard.js"></script>
 		<script src="/assets/js/ng/vendor/angular-route.js"></script>
 		<script src="/assets/js/ng/vendor/angular-sanitize.js"></script>
 		<script src="/assets/js/ng/vendor/angular-translate.js"></script>

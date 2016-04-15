@@ -21,8 +21,30 @@ var gulp = require('gulp'),                   //基础库
 var SRC = './resources/assets/';
 var DIST = './public/assets/';
 
+gulp.task('rm-env', function() {
+	return gulp.src('./.env')
+		.pipe(clean());
+});
+
+gulp.task('copy-env-debug', ['rm-env'], function() {
+	return gulp.src('./.env-debug')
+		.pipe(rename('.env'))
+		.pipe(gulp.dest('.'));
+});
+
+gulp.task('copy-env-release', ['rm-env'], function() {
+	return gulp.src('./.env-release')
+		.pipe(rename('.env'))
+		.pipe(gulp.dest('.'));
+});
+
+gulp.task('clean-js', function() {
+	return gulp.src(DIST + 'js')
+		.pipe(clean());
+});
+
 // js处理
-gulp.task('js', function() {
+gulp.task('js', ['clean-js', 'copy-env-release'], function() {
 	var jsSrc = SRC + 'js/**/*.js',
 		jsDst = DIST + 'js/';
 
@@ -102,7 +124,7 @@ gulp.task('res', function() {
 		.pipe(gulp.dest(resDst));
 });
 
-gulp.task('switch', function() {
+gulp.task('switch', ['clean-js', 'copy-env-debug'], function() {
 	return gulp.src(SRC + "js/**/*.js")
 		.pipe(gulp.dest(DIST + "js"));
 });
