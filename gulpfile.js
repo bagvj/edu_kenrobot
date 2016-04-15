@@ -1,15 +1,16 @@
 /**
  * 组件安装
- * npm install gulp gulp-util gulp-imagemin gulp-ruby-sass gulp-clean-css gulp-jshint gulp-uglify gulp-rename gulp-sourcemaps gulp-ng-annotate gulp-concat gulp-clean --save-dev
+ * npm install gulp gulp-util gulp-requirejs-optimize gulp-minify-html gulp-imagemin gulp-ruby-sass gulp-clean-css gulp-jshint gulp-uglify gulp-rename gulp-sourcemaps gulp-ng-annotate gulp-concat gulp-clean --save-dev
  */
 
 // 引入 gulp及组件
 var gulp = require('gulp'),                   //基础库
+	jshint = require('gulp-jshint'),          //js检查
 	imagemin = require('gulp-imagemin'),      //图片压缩
 	sass = require('gulp-ruby-sass'),         //sass
 	cleanCSS = require('gulp-clean-css'),     //css压缩
-	jshint = require('gulp-jshint'),          //js检查
 	uglify = require('gulp-uglify'),          //js压缩
+	minifyHtml = require("gulp-minify-html"); //html压缩
 	rename = require('gulp-rename'),          //重命名
 	ngAnnotate = require('gulp-ng-annotate'), //ng注释
 	concat = require('gulp-concat'),          //合并文件
@@ -59,6 +60,7 @@ gulp.task('html', function() {
 		htmlDst = DIST + 'views/';
 
 	return gulp.src([htmlSrc])
+		.pipe(minifyHtml())
 		.pipe(gulp.dest(htmlDst));
 });
 
