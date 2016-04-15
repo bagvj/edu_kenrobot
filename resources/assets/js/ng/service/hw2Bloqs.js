@@ -1,7 +1,6 @@
 /* global jsPlumbUtil */
 (function() {
     'use strict';
-
     var throttle = function(type, name, obj) {
         obj = obj || window;
         var running = false;
