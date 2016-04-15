@@ -1,10 +1,11 @@
 /**
  * 组件安装
- * npm install gulp minimist run-sequence gulp-concat gulp-rename gulp-clean gulp-jshint gulp-uglify gulp-jsonminify gulp-ruby-sass gulp-clean-css gulp-imagemin gulp-minify-html gulp-ng-annotate gulp-sourcemaps gulp-requirejs-optimize --save-dev
+ * npm install gulp gulp-if minimist run-sequence gulp-concat gulp-rename gulp-clean gulp-jshint gulp-uglify gulp-jsonminify gulp-ruby-sass gulp-clean-css gulp-imagemin gulp-minify-html gulp-ng-annotate gulp-sourcemaps gulp-requirejs-optimize --save-dev
  */
 
 // 引入 gulp及组件
 var gulp = require('gulp'),                   //基础库
+	gulpif = require('gulp-if');              //条件执行
 	minimist = require('minimist')            //命令行参数解析
 	runSequence = require('run-sequence');    //顺序执行
 	concat = require('gulp-concat'),          //合并文件
@@ -81,14 +82,9 @@ gulp.task('html', function() {
 	var htmlSrc = SRC + 'views/**/*.html',
 		htmlDst = DIST + 'views/';
 
-	if(args.release) {
-		return gulp.src([htmlSrc])
-			.pipe(minifyHtml())
-			.pipe(gulp.dest(htmlDst));
-	} else {
-		return gulp.src([htmlSrc])
-			.pipe(gulp.dest(htmlDst));
-	}
+	return gulp.src([htmlSrc])
+		.pipe(gulpif(args.release, minifyHtml()))
+		.pipe(gulp.dest(htmlDst));
 });
 
 // 样式处理
@@ -96,14 +92,9 @@ gulp.task('css', function() {
 	var cssSrc = SRC + 'css/index.scss',
 		cssDst = DIST + 'css/';
 
-	if(args.release) {
-		return sass(cssSrc)
-			.pipe(cleanCSS())
-			.pipe(gulp.dest(cssDst));
-	} else {
-		return sass(cssSrc, {style: 'expanded'})
-			.pipe(gulp.dest(cssDst));
-	}
+	return sass(cssSrc)
+		.pipe(gulpif(args.release, cleanCSS()))
+		.pipe(gulp.dest(cssDst));
 });
 
 // 图片处理
