@@ -7354,7 +7354,7 @@ angular.module('kenrobot')
         exports.bloqsVersion = "0.1.4";
         exports.translate = $filter('translate');
 
-        settings.language = "en-GB";
+        settings.language = "en-US";
         $translate.use(settings.language);
 
         exports.translateTo = function(lang) {

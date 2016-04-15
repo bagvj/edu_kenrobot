@@ -33,8 +33,8 @@ angular
 
             //indicamos el idioma inicial
             $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
-            $translateProvider.preferredLanguage('en-GB');
-            $translateProvider.fallbackLanguage('en-GB');
+            $translateProvider.preferredLanguage('en-US');
+            $translateProvider.fallbackLanguage('en-US');
         }
     ])
     .run(function(_, bloqs) {
@@ -42,6 +42,7 @@ angular
         // be loaded after bootstrap. This is done so the "_" factory has a chance to
         // "erase" the global reference to the lodash library.
         bloqs.setOptions({
+            lang: 'en-US',
             fieldOffsetLeft: 48,
             fieldOffsetTopForced: 41,
             forcedScrollTop: 0

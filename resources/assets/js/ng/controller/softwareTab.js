@@ -8,7 +8,7 @@
  * Controller of the kenrobot
  */
 angular.module('kenrobot')
-    .controller('SoftwareTabCtrl', function($scope, $http, common, bloqs, $translate, $rootScope, $document, $log, $window) {
+    .controller('SoftwareTabCtrl', function($scope, $http, common, bloqs, $translate, $rootScope, $document, $log, $window, $timeout) {
         $scope.init = function() {
             if ($scope.arduinoMainBloqs.varsBloq) {
                 bloqs.removeBloq($scope.arduinoMainBloqs.varsBloq.uuid, true);
@@ -19,9 +19,9 @@ angular.module('kenrobot')
                 $scope.arduinoMainBloqs.loopBloq = null;
             }
 
-            $scope.arduinoMainBloqs.varsBloq = bloqs.buildBloqWithContent($scope.project.software.vars, $scope.componentsArray, bloqsSchemas, $scope.$field);
-            $scope.arduinoMainBloqs.setupBloq = bloqs.buildBloqWithContent($scope.project.software.setup, $scope.componentsArray, bloqsSchemas);
-            $scope.arduinoMainBloqs.loopBloq = bloqs.buildBloqWithContent($scope.project.software.loop, $scope.componentsArray, bloqsSchemas);
+            $scope.arduinoMainBloqs.varsBloq = bloqs.buildBloqWithContent($scope.project.software.vars, $scope.componentsArray, common.bloqsSchemas, $scope.$field);
+            $scope.arduinoMainBloqs.setupBloq = bloqs.buildBloqWithContent($scope.project.software.setup, $scope.componentsArray, common.bloqsSchemas);
+            $scope.arduinoMainBloqs.loopBloq = bloqs.buildBloqWithContent($scope.project.software.loop, $scope.componentsArray, common.bloqsSchemas);
 
             $scope.$field.append($scope.arduinoMainBloqs.varsBloq.$bloq, $scope.arduinoMainBloqs.setupBloq.$bloq, $scope.arduinoMainBloqs.loopBloq.$bloq);
             $scope.arduinoMainBloqs.varsBloq.enable(true);
@@ -58,44 +58,6 @@ angular.module('kenrobot')
                         }
                     }
                     break;
-                // case 67:
-                //     //$log.debug('ctrl + c');
-                //     if (event.ctrlKey && $document[0].activeElement.attributes['data-bloq-id']) {
-                //         bloq = bloqs.bloqs[$document[0].activeElement.attributes['data-bloq-id'].value];
-                //         var position = bloq.$bloq[0].getBoundingClientRect();
-                //         if (bloq.bloqData.type !== 'group') {
-                //             var bloqInClipboard = {
-                //                 structure: bloq.getBloqsStructure(),
-                //                 top: position.top,
-                //                 left: position.left
-                //             };
-                //             clipboard.writeText(JSON.stringify(bloqInClipboard), 'bloq');
-                //         }
-                //     }
-
-                //     break;
-                // case 86:
-                //     //$log.debug('ctrl + v');
-                //     bloq = clipboard.readText('bloq');
-                //     if (event.ctrlKey && bloq.indexOf('{') > -1) {
-                //         copyBloq(JSON.parse(bloq));
-                //         $scope.$field.focus();
-                //     }
-                //     break;
-                    // case 89:
-                    // $log.debug('ctrl + y');
-                    // if (event.ctrlKey) {
-                    //   $scope.redo();
-                    //   $window.document.getElementById('bloqs--field').focus();
-                    // }
-                    // break;
-                    // case 90:
-                    // $log.debug('ctrl + z');
-                    // if (event.ctrlKey) {
-                    // $scope.undo();
-                    // $window.document.getElementById('bloqs--field').focus();
-                    // }
-                    // break;
             }
         };
 
@@ -176,19 +138,13 @@ angular.module('kenrobot')
         }
         bloqs.updateDropdowns();
 
-        var bloqsSchemas = null,
-            $contextMenu = $('#bloqs-context-menu');
+        var $contextMenu = $('#bloqs-context-menu');
         $scope.$field = $('#bloqs--field').last();
-
-        $scope.resetZowi = function() {
-
-        };
-
-        $http.get('/assets/res/bloqsmap.json').success(function(res) {
-            bloqsSchemas = res;
-            $scope.init();
-        });
 
         $document.on('contextmenu', contextMenuDocumentHandler);
         $document.on('click', clickDocumentHandler);
+
+        $timeout(function() {
+            $scope.init();
+        }, 100);
     });
