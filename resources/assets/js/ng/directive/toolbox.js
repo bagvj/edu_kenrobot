@@ -46,8 +46,8 @@ angular.module('kenrobot')
           }
         });
 
-        $(document).on('click', function() {
-          if ($(event.target).closest('toolbox').length > 0) {
+        $(document).on('click', function(e) {
+          if ($(e.target).closest('toolbox').length > 0) {
             return false;
           }
           self.closeDropdown();

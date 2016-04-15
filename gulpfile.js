@@ -53,7 +53,9 @@ gulp.task('js', ['clean-js', 'copy-env-release'], function() {
 		.pipe(gulp.dest(jsDst));
 
 	gulp.src(SRC + 'js/index.js')
+		// .pipe(sourcemaps.init())
 		.pipe(requirejsOptimize())
+		// .pipe(sourcemaps.write())
 		.pipe(gulp.dest(jsDst));
 
 	gulp.src([
