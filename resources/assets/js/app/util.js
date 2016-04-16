@@ -1,7 +1,7 @@
 define(function(){
 	
 	function message(args) {
-		var duration = 400;
+		var duration = 300;
 		$("div.x-message").stop(true).fadeOut(duration / 2, function(){
 			$(this).remove();
 		});
@@ -9,15 +9,20 @@ define(function(){
 		args = typeof args == "string" ? {text: args} : args;
 		var type = args.type || "info";
 		var text = args.text;
-		var template = '<div class="x-message alert alert-' + type + ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + text + '</div>';
+		var template = '<div class="x-message x-message-' + type + '"><i class="x-message-close kenrobot ken-close"></i>' + text + '</div>';
 		var messageDiv = $(template);
+		$('.x-message-close', messageDiv).on('click', function() {
+			messageDiv.stop(true).fadeOut(duration / 2, function() {
+				messageDiv.remove();
+			});
+		});
 		messageDiv.appendTo($(".message-layer")).css({
 			left: ($(window).width() - messageDiv.width()) / 2,
 			top: -messageDiv.height(),
 		}).animate({
 			top: 150,
 		}, duration, "swing").delay(2000).fadeOut(duration, function(){
-			$(this).remove();
+			messageDiv.remove();
 		});
 	}
 

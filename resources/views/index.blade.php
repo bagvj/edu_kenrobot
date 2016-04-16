@@ -115,7 +115,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="drag-layer"></div>
 			<div class="modal dialog-layer">
 				<div class="x-dialog x-dialog-custom login-dialog">
 					<i class="kenrobot ken-close x-dialog-close"></i>

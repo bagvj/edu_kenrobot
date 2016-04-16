@@ -1,45 +1,30 @@
-.x-message {
-    z-index: 99999;
-    position: absolute;
-}
-
-.alert {
-    border-radius: 0;
-    margin-bottom: 0;
-    padding-top: 8px;
-    padding-bottom: 8px;
-
-    &.alert-info {
-        color: #316b8e;
-        background-color: #d8edf7;
-        border-color: #b9d5e2;
-    }
-
-    &.alert-success {
-        color: #477a40;
-        background-color: #def0d7;
-        border-color: #bad9ae;
-    }
-
-    &.alert-warning {
-        color: #836e3a;
-        background-color: #fdf8e2;
-        border-color: #eae3c2;
-    }
-
-    &.alert-danger {
-        color: #a74345;
-        background-color: #f2dedf;
-        border-color: #e4c1c3;
-    }
-}
-
 .x-dialog {
     color: #515151;
     width: 400px;
     margin: 0 auto;
     position: relative;
     display: none;
+
+    &.x-dialog-info {
+        .x-dialog-title {
+            background-color: #ECFBE6;
+        }
+
+        .x-dialog-btn {
+            margin: 0 auto;
+        }
+    }
+
+    &.x-dialog-confirm {
+        .x-dialog-title {
+            background-color: #fdf1d8;
+        }
+
+        .x-dialog-btn {
+            float: right;
+            margin-right: 20px;
+        }
+    }
 
     &.active {
         display: block;
@@ -89,27 +74,6 @@
                 background-color: #ea9c68;
             }
         }
-    }
-}
-
-.x-dialog-info {
-    .x-dialog-title {
-        background-color: #ECFBE6;
-    }
-
-    .x-dialog-btn {
-        margin: 0 auto;
-    }
-}
-
-.x-dialog-confirm {
-    .x-dialog-title {
-        background-color: #fdf1d8;
-    }
-
-    .x-dialog-btn {
-        float: right;
-        margin-right: 20px;
     }
 }
 
