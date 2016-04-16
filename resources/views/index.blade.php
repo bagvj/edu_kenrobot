@@ -69,7 +69,7 @@
 					<div class="wrap">
 						<div class="top-menu">
 							<ul>
-								<li data-action="build"><i class="kenrobot ken-build"></i>编译</li><li data-action="burn"><i class="kenrobot ken-upload"></i>烧写</li><li data-action="format"><i class="kenrobot ken-format"></i>格式化</li><li data-action="save"><i class="kenrobot ken-save"></i>保存</li><li data-action="download"><i class="kenrobot ken-download"></i>下载</li><li data-action="logcat"><i class="kenrobot ken-terminal"></i>输出</li>
+								<li data-action="build"><i class="kenrobot ken-build"></i>编译</li><li data-action="burn"><i class="kenrobot ken-upload"></i>烧写</li><li data-action="save"><i class="kenrobot ken-save"></i>保存</li><li data-action="download"><i class="kenrobot ken-download"></i>下载</li><li data-action="logcat"><i class="kenrobot ken-terminal"></i>输出</li>
 							</ul>
 						</div>
 						<div class="user-info {{isset($user) ? 'active' : ''}}">
@@ -300,39 +300,29 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="dialog save-dialog">
-				<div class="close-btn right">
-					<i class="kenrobot ken-close"></i>
-				</div>
-				<div class="wrapper">
-					<form class="form-horizontal">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">项目名称：</label>
-							<div class="col-sm-10">
-								<input class="form-control" name="name" type="text" autocomplete="off" />
+				<div class="x-dialog save-dialog">
+					<i class="kenrobot ken-close x-dialog-close"></i>
+					<div class="x-dialog-content">
+						<form>
+							<div>
+								<span class="filed-key">项目名称：</span>
+								<input class="name" name="name" type="text" autocomplete="off" />
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">项目简介：</label>
-							<div class="col-sm-10">
-								<textarea class="form-control" name="intro" rows="5"></textarea>
+							<div class="filed-intro">
+								<span class="filed-key">项目简介：</span>
+								<textarea class="intro" name="intro" rows="5"></textarea>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">公开：</label>
-							<div class="col-sm-10">
-								<label class="checkbox-inline"><input type="radio" name="public-type" value="1" checked="true" />私有</label>
-								<label class="checkbox-inline"><input type="radio" name="public-type" value="2" />完全公开</label>
-								<label class="checkbox-inline"><input type="radio" name="public-type" value="3" />好友公开</label>
+							<div>
+								<span class="filed-key">公开：</span>
+								<div class="public-type">
+									<label><input type="radio" name="public-type" value="1" checked="true" />私有</label>
+									<label><input type="radio" name="public-type" value="2" />完全公开</label>
+									<label><input type="radio" name="public-type" value="3" />好友公开</label>
+								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<input class="btn save pull-right" type="button" name="save" value="保存项目" />
-							</div>
-						</div>
-					</form>
+							<input class="save-btn" type="button" value="保存项目" />
+						</form>
+					</div>
 				</div>
 			</div>
 			<div class="message-layer"></div>

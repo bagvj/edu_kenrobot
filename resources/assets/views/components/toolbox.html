@@ -1,21 +1,6 @@
 <div ng-if="type === 'software'" class="toolbox layer-7" ng-class="{'active':toolbox.menuLevel === 0, 'inactive--1':toolbox.menuLevel === 1, 'inactive--2': toolbox.menuLevel === 2}">
   <div class="toolbox-shadow absolute-center level--1" ng-show="toolbox.menuLevel !== 0"></div>
   <ul class="toolbox__list">
-    <!-- ZOWI TITLE -->
-    <li class="toolbox__list__item" ng-show="showRobots('zowi')">
-      <button class="toolbox__list__item__button btn--zowi" ng-click="toolbox.select('zowi')" ng-class="{'active':toolbox.activeMenu === 'zowi'}">
-        <span class="toolbox__title--color zowi"></span>
-        <span class="toolbox__title">{{'make-swtoolbox-zowi' | translate}}</span>
-      </button>
-    </li>
-    <!-- EVOLUTION TITLE
-    <li class="toolbox__list__item" ng-show="showRobots('evolution')">
-      <button class="toolbox__list__item__button btn--evolution" ng-click="toolbox.select('evolution')" ng-class="{'active':toolbox.activeMenu === 'evolution'}">
-        <span class="toolbox__title--color evolution"></span>
-        <span class="toolbox__title">{{'make-swtoolbox-evolution' | translate}}</span>
-      </button>
-    </li>
-    -->
     <!-- COMPONENTS TITLE-->
     <li class="toolbox__list__item" ng-repeat="component in tree.components track by $index">
       <button class="toolbox__list__item__button" ng-click="toolbox.select('components')" ng-class="{'active':toolbox.activeMenu === component.titleId}">

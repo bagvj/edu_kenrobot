@@ -125,7 +125,9 @@ angular.module('kenrobot')
 		$document.on('contextmenu', contextMenuDocumentHandler);
 		$document.on('click', clickDocumentHandler);
 
-		$timeout(function() {
+		// $timeout(function() {
+		setTimeout(function() {
 			$scope.init();
 		}, 100);
+		// }, 100);
 	});

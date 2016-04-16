@@ -91,12 +91,6 @@ angular.module('kenrobot')
 				}
 			}
 		};
-		$scope.showRobots = function(robot) {
-			if ($scope.project.hardware.robot === robot) {
-				return true;
-			}
-			return false;
-		};
 
 		$scope.showComponents = function(item) {
 			var stopWord = ['analogWrite', 'digitalWrite', 'pinReadAdvanced', 'pinWriteAdvanced', 'turnOnOffAdvanced', 'digitalReadAdvanced', 'analogReadAdvanced'];
@@ -165,8 +159,6 @@ angular.module('kenrobot')
 				}
 			});
 
-
-
 			$scope.project.hardwareTags = _.uniq(newHardwareTags); //Regenerate hw tags
 
 			if ($scope.project.hardware.robot) {
@@ -197,7 +189,7 @@ angular.module('kenrobot')
 			//Has changed componentsArray?
 			if (plainComponentListTemporal.length > 0 || (plainComponentList.length > 0 && plainComponentList.indexOf('zowi') === -1)) {
 				if (!_.isEqual(plainComponentList, plainComponentListTemporal) && !$scope.hardware.firstLoad) {
-					$log.debug('componentsArray has changed');
+					//$log.debug('componentsArray has changed');
 					readyToSave = true;
 				}
 			}

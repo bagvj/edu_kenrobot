@@ -35,7 +35,7 @@
 	 * # protoBoLa
 	 * Service in the kenrobot.
 	 */
-	app.service('hw2Bloqs', function($rootScope, jsPlumb, $timeout) {
+	app.service('hw2Bloqs', function($rootScope, jsPlumb) {
 		var exports = {};
 
 		var jsPlumbInstance = null;
@@ -399,11 +399,11 @@
 									type: 'automatic'
 								});
 							} else {
-								console.warn('Unable to recover board endpoints');
+								// console.warn('Unable to recover board endpoints');
 							}
 
 						} else {
-							console.warn('mandatoryPins. Some reference lost', mandatoryPins);
+							// console.warn('mandatoryPins. Some reference lost', mandatoryPins);
 						}
 					}
 
@@ -498,7 +498,7 @@
 
 				});
 			} else {
-				console.warn('Unable to add board', ref.schema);
+				// console.warn('Unable to add board', ref.schema);
 			}
 
 			exports.repaint();
@@ -679,7 +679,7 @@
 		};
 
 		exports.repaint = function() {
-			$timeout(function() {
+			setTimeout(function() {
 				try {
 					jsPlumbInstance.repaintEverything();
 				} catch (e) {

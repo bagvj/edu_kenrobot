@@ -29,12 +29,13 @@ var DIST = './public/assets/';
 var args = minimist(process.argv.slice(2));
 
 gulp.task('copy-env', function() {
+	gulp.src('./.env')
+		.pipe(clean());
+
 	var suffix = args.release ? "release" : "debug";
-	return gulp.src('./.env')
-		.pipe(clean())
-		.pipe(gulp.src('./.env-' + suffix))
+	gulp.src('./.env-' + suffix)
 		.pipe(rename('.env'))
-		.pipe(gulp.dest('.'));
+		.pipe(gulp.dest('./'));
 });
 
 gulp.task('clean-js', function() {
@@ -122,6 +123,12 @@ gulp.task('fonts', function() {
 gulp.task('clean', function() {
 	return gulp.src([DIST + 'css', DIST + 'js', DIST + 'images', DIST + 'fonts', DIST + 'views'], {read: false})
 		.pipe(clean());
+});
+
+gulp.task('watch', function() {
+	gulp.watch(SRC + 'css/index.scss', function() {
+		gulp.run('css');
+	});
 });
 
 // 默认任务

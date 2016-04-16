@@ -144,6 +144,7 @@ class ProjectController extends Controller {
 			'project_name' => $request->input('project_name'),
 			'project_intro' => $request->input('project_intro'),
 			'public_type' => $request->input('public_type'),
+			'project_type' => 'scratch',
 		);
 		if($id == 0 || empty($project->hash)) {
 			$params['hash'] = $this->getHash();
@@ -165,7 +166,7 @@ class ProjectController extends Controller {
 	}
 
 	public function getProjects(Request $request, $user_id) {
-		$url = config("platform.url.base").config("platform.url.getUserProjects")."&user_id=".$user_id;
+		$url = config("platform.url.base").config("platform.url.getUserProjects")."&project_type=scratch&user_id=".$user_id;
 		$curl = new Curl();
 		return $curl->get($url);
 	}

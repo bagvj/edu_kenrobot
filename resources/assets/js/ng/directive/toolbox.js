@@ -10,8 +10,7 @@ angular.module('kenrobot')
 				type: '@',
 				showComponents: '=',
 				componentsArray: '=',
-				showCommunications: '=',
-				showRobots: '='
+				showCommunications: '='
 			},
 			controllerAs: 'toolbox',
 			controller: function($rootScope, $scope) {

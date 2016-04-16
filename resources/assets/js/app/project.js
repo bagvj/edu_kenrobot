@@ -14,6 +14,7 @@ define(['./EventManager', './util', './user', './logcat'], function(EventManager
 		var bar = $('.project-sidebar');
 		var icon = $('.project-icon', bar);
 		var list = $('.project-list', bar);
+		$('.operation li', list).on('click', onProjectActionClick);
 
 		var hideList = function() {
 			icon.removeClass("active");
@@ -28,8 +29,9 @@ define(['./EventManager', './util', './user', './logcat'], function(EventManager
 			list.show();
 		});
 
-		projects = [getDefaultProject()];
-		bindProjectEvent();
+		EventManager.bind("user", "login", onLogin);
+
+		load();
 	}
 
 	function isBuild(callback) {
@@ -104,6 +106,71 @@ define(['./EventManager', './util', './user', './logcat'], function(EventManager
 		api.hasChanged(callback);
 	}
 
+	function save() {
+		var doSave = function() {
+			var projectInfo = getCurrentProject();
+			var id = projectInfo.id;
+			if(id == 0) {
+				showSaveDialog(true);
+			} else {
+				doProjectSave(id);
+			}
+		};
+
+		user.authCheck(function(success) {
+			(!success) && (state = 0);
+			success ? doSave() : user.showLoginDialog();
+		});
+	}
+
+	function onLogin() {
+		var projectInfo = getDefaultProject();
+		projectInfo.project_data = getProjectData();
+		projects = [projectInfo];
+
+		$.ajax({
+			url: '/projects/' + user.getUserId(),
+			dataType: 'json',
+		}).done(onLoadSuccess);
+	}
+
+	function load() {
+		user.authCheck(function(success) {
+			if(success) {
+				$.ajax({
+					url: '/projects/' + user.getUserId(),
+					dataType: 'json',
+				}).done(onLoadSuccess);
+			} else {
+				projects = [getDefaultProject()];
+				bindProjectEvent();
+			}
+		});
+	}
+
+	function onLoadSuccess(result) {
+		if(result.status == 0) {
+			projects = result.data.concat(projects);
+		} else {
+			projects = [getDefaultProject()];
+		}
+
+		var ul = $(".project-list .list ul").empty();
+		for(var i = 0; i < projects.length; i++) {
+			var projectInfo = projects[i];
+			if(typeof projectInfo.project_data == "string") {
+				try {
+					projectInfo.project_data = JSON.parse(projectInfo.project_data);
+				} catch(ex) {
+					projectInfo.project_data = {};
+				}
+			}
+			
+			ul.append(getProjectHtml(projectInfo));
+		}
+		bindProjectEvent();
+	}
+
 	function onProjectTitleClick(e) {
 		var li = $(this).parent();
 		util.toggleActive(li, null, true);
@@ -142,15 +209,205 @@ define(['./EventManager', './util', './user', './logcat'], function(EventManager
 	}
 
 	function onProjectNewClick(e) {
-
+		user.authCheck(function(success) {
+			success ? showSaveDialog(true) : user.showLoginDialog();
+		});
 	}
 
 	function onProjectEditClick(e) {
-
+		user.authCheck(function(success) {
+			success ? showSaveDialog() : user.showLoginDialog();
+		});
 	}
 
 	function onProjectDeleteClick(e) {
+		var projectInfo = getCurrentProject();
+		if(!projectInfo) {
+			return;
+		}
 
+		var id = projectInfo.id;
+
+		var showDeleteDialog = function() {
+			var dialog = util.dialog({
+				selector: ".delete-project-dialog",
+				onConfirm: function() {
+					doProjectDelete(id);
+				},
+			});
+
+			$('.name', dialog).text(projectInfo.project_name);
+		}
+
+		if(id == 0) {
+			showDeleteDialog();
+			return;
+		}
+		
+		user.authCheck(function(success) {
+			if(success) {
+				showDeleteDialog();
+			} else {
+				user.showLoginDialog();
+			}
+		});
+	}
+
+	function showSaveDialog(isNew) { 
+		var projectInfo = isNew ? getDefaultProject() : getCurrentProject();
+		var text = isNew ? "创建项目" : "保存项目";
+		
+		var dialog = util.dialog('.save-dialog');
+
+		var form = $('form', dialog);
+		$('input[name="name"]', form).val(projectInfo.project_name);
+		$('textarea[name="intro"]', form).val(projectInfo.project_intro);
+		$('input[name="public-type"][value="' + projectInfo.public_type + '"]', form).attr("checked", true);
+		$('.save-btn', form).val(text).off('click').on('click', function() {
+			doProjectSave(projectInfo.id, true);
+		});
+	}
+
+	function doProjectSave(id, isEdit, showMessage, callback) {
+		var project;
+		showMessage = showMessage != false;
+		if(isEdit) {
+			var dialog = $('.save-dialog');
+			var form = $('form', dialog);
+			var project_name = $('input[name="name"]', form).val();
+			for(var i = 0; i < projects.length; i++) {
+				var projectInfo = projects[i];
+				if(projectInfo.id > 0 && projectInfo.project_name == project_name) {
+					util.message("项目名重复");
+					return;
+				}
+			}
+
+			project = {
+				id: id,
+				project_name: project_name,
+				user_id: user.getUserId(),
+				project_intro: $('textarea[name="intro"]', form).val(),
+				project_data: JSON.stringify(getProjectData()),
+				public_type: $("input[name='public-type']:checked", form).val(),
+			};
+			$('.x-dialog-close', dialog).click();
+		} else {
+			project = {
+				id: id,
+				user_id: user.getUserId(),
+				project_data: JSON.stringify(getProjectData()),
+			}
+		}
+		
+		showMessage && util.message("正在保存，请稍候...");
+		$.ajax({
+			type: 'POST',
+			url: '/project/save',
+			data: project,
+			dataType: 'json',
+		}).done(function(result) {
+			showMessage && util.message(result.message);
+			if(result.status == 0) {
+				if(isEdit) {
+					$.ajax({
+						url: 'project/' + result.data.project_id,
+						dataType: 'json',
+					}).done(function(res) {
+						doUpdateProject(id, res);
+					});
+				} else {
+					var projectInfo = getProjectInfo(id);
+					projectInfo.status = 1;
+					callback && callback();
+				}
+			}
+		});
+	}
+
+	function doUpdateProject(id, result) {
+		if(result.status != 0) {
+			util.message(result.message);
+			return;
+		}
+
+		var projectInfo = result.data;
+		try {
+			projectInfo.project_data = JSON.parse(projectInfo.project_data);
+		} catch(ex) {
+			projectInfo.project_data = {};
+		}
+
+		var list = $('.project-list .list > ul');
+		if(id == 0) {
+			//new
+			list.find('> li[data-project-id="0"]').remove();
+			$('.top-tabs > ul > li[data-project-id="0"]').remove();
+
+			for(var i = 0; i < projects.length; i++){
+				var info = projects[i];
+				if(info.id == 0) {
+					projects.splice(i, 1);
+					break;
+				}
+			}
+			
+			projects.push(projectInfo);
+			list.append(getProjectHtml(projectInfo));
+
+			bindProjectEvent();
+		} else {
+			//save
+			var index = getProjectIndex(projectInfo.id);
+			projects[index] = projectInfo;
+
+			list.find('> li[data-project-id="' + projectInfo.id + '"]').find(".name").text(projectInfo.project_name);
+		}
+	}
+
+	function doProjectDelete(id) {
+		var doDelete = function() {
+			$('.top-tabs > ul > li[data-project-id="' + id + '"]').remove();
+			$('.project-list .list > ul > li[data-project-id="' + id + '"]').remove();
+
+			for(var i = 0; i < projects.length; i++) {
+				var info = projects[i];
+				if(info.id == id) {
+					projects.splice(i, 1);
+					break;
+				}
+			}
+
+			if(projects.length == 0) {
+				var projectInfo = getDefaultProject();
+				projects.push(projectInfo);
+				$(".project-list .list > ul").append(getProjectHtml(projectInfo));
+				bindProjectEvent();
+			} else {
+				var titles = $(".project-list .list .title");
+				titles.eq(titles.length - 1).click();
+			}
+		};
+
+		if(id == 0) {
+			doDelete();
+			return;
+		}
+
+		$.ajax({
+			type: "POST",
+			url: "/project/delete",
+			data: {
+				id: id,
+				user_id: user.getUserId(),
+			},
+			dataType: "json",
+		}).done(function(result){
+			util.message(result.message);
+			if (result.status == 0) {
+				doDelete();
+			}
+		});
 	}
 
 	function bindProjectEvent() {
@@ -184,14 +441,10 @@ define(['./EventManager', './util', './user', './logcat'], function(EventManager
 
 			li.addClass("active");
 		}
-		// var projectInfo = getCurrentProject();
-		// var project_data = projectInfo.project_data;
-
-		// board.setData(project_data.board);
-		// hardware.setData(project_data.hardware);
-		// software.setData(project_data.software);
-
-		// doSwitchView(view);
+		var projectInfo = getCurrentProject();
+		var project_data = projectInfo.project_data;
+		var api = getApi();
+		api.setProject(project_data);
 	}
 
 	function doSwitchView(view) {
@@ -214,9 +467,8 @@ define(['./EventManager', './util', './user', './logcat'], function(EventManager
 	}
 
 	function doSaveView(id) {
-		// var projectInfo = getProjectInfo(id);
-		// software.gen();
-		// projectInfo.project_data = getProjectData();
+		var projectInfo = getProjectInfo(id);
+		projectInfo.project_data = getProjectData();
 	}
 
 	function onTabCloseClick(e) {
@@ -233,7 +485,8 @@ define(['./EventManager', './util', './user', './logcat'], function(EventManager
 		if(active) {
 			var list = $('.top-tabs > ul > li');
 			if(list.length == 0) {
-				$('.main-tabs > .tab.active').removeClass("active");
+				var api = getApi();
+				api.resetProject();
 			} else {
 				setTimeout(function() {
 					list.eq(index).click();
@@ -245,12 +498,8 @@ define(['./EventManager', './util', './user', './logcat'], function(EventManager
 	}
 
 	function getProjectData() {
-		// return {
-		// 	board: board.getData(),
-		// 	hardware: hardware.getData(),
-		// 	software: software.getData(),
-		// };
-		return {};
+		var api = getApi();
+		return api.getProject();
 	}
 
 	function getProjectHtml(projectInfo) {
@@ -298,7 +547,7 @@ define(['./EventManager', './util', './user', './logcat'], function(EventManager
 
 	function getApi() {
 		if(!api) {
-			api = angular.element($('#api-controller')).scope().getApi();
+			api = angular.element('#api-controller').scope().getApi();
 		}
 		return api;
 	}
@@ -307,5 +556,6 @@ define(['./EventManager', './util', './user', './logcat'], function(EventManager
 		init: init,
 		isBuild: isBuild,
 		build: build,
+		save: save,
 	}
 });

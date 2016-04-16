@@ -1,6 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.service('projectApi', function(utils, common, _, alertsService) {
+	.service('projectApi', function(_) {
 		var exports = {};
 		exports.oldProject = null;
 		exports.projectChanged = false;
@@ -25,7 +25,6 @@ angular.module('kenrobot')
 				return true;
 			}
 		};
-
 
 		return exports;
 	});

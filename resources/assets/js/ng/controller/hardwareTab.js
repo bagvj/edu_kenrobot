@@ -159,22 +159,6 @@ angular.module('kenrobot')
 
 		};
 
-		var _addRobot = function(robot) {
-
-			var robotReference = _.find($scope.hardware.robotList, function(r) {
-				return r.id === robot.id;
-			});
-			$scope.project.hardware.robot = robot.id;
-			hw2Bloqs.addRobot(robotReference);
-
-			$scope.project.hardware.board = 'Arduino UNO';
-
-			$scope.componentSelected = null;
-			$scope.project.hardware.components = [];
-
-			$scope.refreshComponentsArray();
-		};
-
 		$scope.hardware.sortToolbox = function() {
 			var componentListLocal = _.cloneDeep($scope.hardware.componentList);
 			var list = [];
@@ -188,12 +172,6 @@ angular.module('kenrobot')
 				item.name = $translate.instant(item.id);
 			});
 			common.hardware.componentSortered = _.sortBy(translatedList, 'name');
-		};
-		$scope.deleteRobot = function() {
-			$scope.project.hardware.robot = null;
-			$scope.project.hardware.board = null;
-			$scope.robotSelected = false;
-			$scope.refreshComponentsArray();
 		};
 
 		function _addComponent(data) {
@@ -271,9 +249,7 @@ angular.module('kenrobot')
 				$scope.componentSelected = false;
 			} else if ($scope.boardSelected) {
 				$scope.deleteBoard();
-			} else if ($scope.robotSelected) {
-				$scope.deleteRobot();
-			} else { //No component or board selected
+			} else {
 				hw2Bloqs.removeSelectedConnection();
 			}
 		};
@@ -466,9 +442,6 @@ angular.module('kenrobot')
 					return false;
 				}
 				_addComponent(data);
-			} else if (data.type === 'robots') {
-				$scope.hardware.cleanSchema();
-				_addRobot(data);
 			}
 		};
 

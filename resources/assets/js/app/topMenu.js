@@ -48,7 +48,7 @@ define(['./EventManager', './project', './logcat', './ext/agent'], function(Even
 	}
 
 	function onSaveClick() {
-		// project.save();
+		project.save();
 	}
 
 	function onDownloadClick() {

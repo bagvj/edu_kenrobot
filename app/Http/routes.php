@@ -11,7 +11,6 @@
 |
  */
 Route::get('/', 'HomeController@index');
-Route::get('/config', 'HomeController@config');
 
 Route::post('/project/build', 'ProjectController@buildProject');
 Route::post('/project/save', 'ProjectController@saveProject');
