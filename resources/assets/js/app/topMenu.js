@@ -14,9 +14,6 @@ define(['./EventManager', './project'], function(EventManager, project) {
 			case "save":
 				onSaveClick();
 				break;
-			case "edit":
-				onEditClick();
-				break;
 			case "upload":
 				onUploadClick();
 				break;
@@ -29,10 +26,6 @@ define(['./EventManager', './project'], function(EventManager, project) {
 
 	function onSaveClick() {
 		project.save();
-	}
-
-	function onEditClick() {
-		project.edit();
 	}
 
 	function onUploadClick() {

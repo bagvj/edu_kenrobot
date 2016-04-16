@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<meta charset='utf-8'>
+		<!-- <meta charset='utf-8'> -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>啃萝卜智能硬件平台</title>
@@ -69,7 +70,7 @@
 					<div class="wrap">
 						<div class="top-menu">
 							<ul>
-								<li data-action="new"><i class="kenrobot ken-project"></i>新建</li><li data-action="save"><i class="kenrobot ken-save"></i>保存</li><li data-action="edit"><i class="kenrobot ken-edit"></i>编辑</li>
+								<li data-action="new"><i class="kenrobot ken-project"></i>新建</li><li data-action="save"><i class="kenrobot ken-save"></i>保存</li>
 							</ul>
 						</div>
 						<div class="user-info {{isset($user) ? 'active' : ''}}">

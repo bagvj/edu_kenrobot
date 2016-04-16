@@ -1,9 +1,9 @@
 'use strict';
 angular.module('kenrobot')
 	.controller('BloqsProjectCtrl', function($scope, $rootScope, $timeout, hw2Bloqs, alertsService, $window, $document, bloqsUtils, projectApi, common, _, $log, bloqs) {
-		$scope.hw2Bloqs = hw2Bloqs;
-		this.common = common;
-
+		 $scope.hw2Bloqs = hw2Bloqs;
+		 this.common = common;
+		 
 		$scope.setProject = function(project) {
 			hw2Bloqs.removeAllComponents();
 			$scope.deleteBoard();

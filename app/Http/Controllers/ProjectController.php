@@ -126,14 +126,15 @@ class ProjectController extends Controller {
 		return $curl->post($url, $params);
 	}
 
-	public function getProject(Request $request, $id) {
-		$url = config("platform.url.base").config("platform.url.getProject")."&id=".$id;
+	public function getProject(Request $request, $key) {
+		$type = intval($key) ? 'id' : 'hash';
+		$url = config("platform.url.base").config("platform.url.getProject")."&$type=$key";
 		$curl = new Curl();
 		return $curl->get($url);
 	}
 
 	public function getProjects(Request $request, $user_id) {
-		$url = config("platform.url.base").config("platform.url.getUserProjects")."&project_type=scratch&user_id=".$user_id;
+		$url = config("platform.url.base").config("platform.url.getUserProjects")."&project_type=scratch&user_id=$user_id";
 		$curl = new Curl();
 		return $curl->get($url);
 	}
@@ -148,7 +149,7 @@ class ProjectController extends Controller {
 	}
 
 	private function getProjectInfo($key, $type = 'id') {
-		$url = config("platform.url.base").config("platform.url.getProject")."&$type=".$key;
+		$url = config("platform.url.base").config("platform.url.getProject")."&$type=$key";
 		$curl = new Curl();
 		$result = json_decode($curl->get($url));
 		return ($result && $result->status == 0) ? $result->data : false;

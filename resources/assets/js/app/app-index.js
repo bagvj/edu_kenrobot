@@ -7,6 +7,7 @@ define(['./EventManager', './util', './user', './project', './topMenu', './confi
 		user.init();
 		project.init();
 		topMenu.init();
+		console.log("ccc");
 	}
 
 	function initAjax() {
