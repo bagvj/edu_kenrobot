@@ -16,7 +16,6 @@ $bloqs-container-width: calc(100% - #{$bloqs-tabs-width});
   float           : left;
   height          : $main-content-with-header-height;
   width           : $bloqs-tabs-width;
-  padding-top     : $bloqs-tabs-width + 1;
 }
 
 .tabcontent {

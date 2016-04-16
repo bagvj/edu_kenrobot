@@ -16,6 +16,8 @@ define(function() {
 
 			//烧写速度
 			uploadDelay: 250,
+
+			bitRate: 115200,
 		},
 	};
 });

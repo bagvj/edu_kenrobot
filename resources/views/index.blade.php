@@ -69,7 +69,7 @@
 					<div class="wrap">
 						<div class="top-menu">
 							<ul>
-								<li data-action="build"><i class="kenrobot ken-build"></i>编译</li><li data-action="burn"><i class="kenrobot ken-upload"></i>烧写</li><li data-action="save"><i class="kenrobot ken-save"></i>保存</li><li data-action="download"><i class="kenrobot ken-download"></i>下载</li><li data-action="logcat"><i class="kenrobot ken-terminal"></i>输出</li>
+								<li data-action="new"><i class="kenrobot ken-project"></i>新建</li><li data-action="save"><i class="kenrobot ken-save"></i>保存</li><li data-action="edit"><i class="kenrobot ken-edit"></i>编辑</li>
 							</ul>
 						</div>
 						<div class="user-info {{isset($user) ? 'active' : ''}}">
@@ -89,48 +89,21 @@
 								</ul>
 							</div>
 						</div>
-						<div class="top-tabs">
-							<ul>
-							</ul>
-						</div>
 					</div>
 				</div>
 				<div class="main-content">
-					<div class="project-sidebar">
-						<button class="project-icon"><i class="kenrobot ken-project"></i></button>
-						<div class="project-list">
-							<div class="list x-scrollbar">
-								<ul>
-									<li data-project-id="0">
-										<div class="title">
-											<span class="name">我的项目</span><i class="kenrobot"></i>
-										</div>
-										<div class="view">
-											<div data-view="software"><span class="name">我的项目</span>.ino</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-							<div class="operation">
-								<ul>
-									<li class="new" data-action="new" title="新建项目"><i class="kenrobot ken-add"></i><span>新建</span></li>
-									<li class="edit" data-action="edit" title="编辑项目"><i class="kenrobot ken-info-info2"></i>信息</li>
-									<li class="delete" data-action="delete" title="删除项目"><i class="kenrobot ken-delete"></i>删除</li>
-								</ul>
-							</div>
-						</div>
-					</div>
 					<div class="ng-app" ng-app="kenrobot">
 						<base href="/" />
 						<div ng-include="'assets/images/sprite.svg'" ng-hide="true"></div>
 						<div data-ng-include="'assets/views/components/alerts.html'" ng-controller="AlertsCtrl" class="alerts--container"></div>
 						<div ng-view></div>
 					</div>
+					<div class="sidebar">
+						<ul>
+							<li data-action="upload"><button><i class="kenrobot ken-upload"></i></button></li>
+						</ul>
+					</div>
 				</div>
-			</div>
-			<div class="bottom-container">
-				<div class="logcat"></div>
-				<div class="drag-handle"></div>
 			</div>
 		</div>
 		<div class="layers">
@@ -195,7 +168,7 @@
 					<div class="x-dialog-content selectable">
 						你没有安装啃萝卜<span class="strong">KenExt.crx</span>，请按以下步骤操作:
 						<div class="step">
-							Step 1: 点击<a href="http://platform.kenrobot.com/download/KenExt.crx" title="啃萝卜">下载</a><br />
+							Step 1: 点击<a href="/download/KenExt.crx" title="啃萝卜">下载</a><br />
 							Step 2: 打开chrome浏览器，在地址栏输入<span class="strong">chrome://extensions</span><br />
 							Step 3: 把<span class="strong">KenExt.crx</span>拖入浏览器<br />
 							Step 4: 完成安装
@@ -320,50 +293,12 @@
 									<label><input type="radio" name="public-type" value="3" />好友公开</label>
 								</div>
 							</div>
-							<input class="save-btn" type="button" value="保存项目" />
+							<input class="save-btn" type="button" value="保存" />
 						</form>
 					</div>
 				</div>
 			</div>
 			<div class="message-layer"></div>
-			@if(!$has_visit)
-			<div class="modal guide-layer">
-				<div class="guide-step guide-login">
-					<div class="guide-title">提示：</div>
-					<div class="guide-content">
-						点击此处即可弹出<span class="strong">登录</span>窗口<br />
-						登录后可解锁更多功能哦<br />
-						推荐使用Google Chrome浏览器
-					</div>
-				</div>
-				<div class="guide-step guide-interactive-mode">
-					<div class="guide-title">提示：</div>
-					<div class="guide-content">
-						点击此处可切换<span class="strong">交互模式</span><br />
-						包括拖拽模式和现代模式
-					</div>
-				</div>
-				<div class="guide-step guide-code-edit">
-					<div class="guide-title">提示：</div>
-					<div class="guide-content">
-						双击空白处或主板<br />
-						可切换到<span class="strong">代码编辑</span>
-					</div>
-				</div>
-				<div class="guide-step guide-burn">
-					<div class="guide-title">提示：</div>
-					<div class="guide-content">
-						点击此处按钮可进行<br />
-						<span class="strong">烧写</span>、<span class="strong">保存</span>和<span class="strong">下载</span>
-					</div>
-				</div>
-				<div class="guide-step guide-enjoy">
-					<div class="guide-content">
-						尽情使用吧
-					</div>
-				</div>
-			</div>
-			@endif
 		</div>
 	</body>
 </html>

@@ -237,9 +237,9 @@ angular.module('kenrobot')
 			if (event.ctrlKey && event.which === 83) {
 				//do save project
 				console.log("ctrl + s => do save");
+				return false;
 			}
 		});
-
 
 		$scope.componentsArray = bloqsUtils.getEmptyComponentsArray();
 		$scope.arduinoMainBloqs = {

@@ -14,71 +14,38 @@ use Session;
 class ProjectController extends Controller {
 
 	public function buildProject(Request $request) {
-		$type = $request->input('type');
-		if($type && $type == "source") {
-			//代码的字节码
-			$source = $request->input('source');
-			//项目名字
-			$project_name = $request->input('project_name');
-			//主板类型
-			$board_type = $request->input('board_type');
-			//项目hash
-			$hash = $request->input('hash');
-			$hash = isset($hash) ? $hash : $this->getHash();
-			$key = $hash;
+		$id = $request->input('id');
+		$project = $this->getProjectInfo($id);
+		if(!$project) {
+			return response()->json(['status' => -1, 'message' => '非法请求']);
+		}
 
-			$path = "/tmp/build/$hash";
-			if(!file_exists($path)) {
-				mkdir($path, 0755, true);
-			}
-			$f = fopen($path . "/main.ino", "wb");
-			fwrite($f, $source);
-			fclose($f);
+		$project_data = json_decode($project->project_data);
+		//代码的字节码
+		$source = $project_data->code;
+		//项目名字
+		$project_name = $project->project_name;
+		//主板类型
+		$board_type = "uno";
+		//项目hash
+		$hash = $project->hash;
 
-			$cmd = "sh ../app/Build/compiler/Arduino/build.sh $path $board_type $project_name 2>&1";
-			$output = array();
-			exec($cmd, $output, $status);
-			if ($status == 0) {
-				return response()->json(['status' => 0, 'message' => '编译成功', 'hash' => $hash, 'url' => "/project/download/$key"]);
-			} else {
-				// return response()->json(['status' => $status, 'message' => '编译失败']);
-				return response()->json(['status' => $status, 'message' => '编译失败', 'hash' => $hash, 'output' => $output]);
-			}
+		$path = "/tmp/build/$hash";
+		if(!file_exists($path)) {
+			mkdir($path, 0755, true);
+		}
+		$f = fopen($path . "/main.ino", "wb");
+		fwrite($f, $source);
+		fclose($f);
+
+		$cmd = "sh ../app/Build/compiler/Arduino/build.sh $path $board_type $project_name 2>&1";
+		$output = array();
+		exec($cmd, $output, $status);
+		if ($status == 0) {
+			return response()->json(['status' => 0, 'message' => '编译成功', 'id' => $id, 'url' => "/api/project/download/$hash"]);
 		} else {
-			$id = $request->input('id');
-			$project = $this->getProjectInfo($id);
-			if(!$project) {
-				return response()->json(['status' => -1, 'message' => '非法请求']);
-			}
-
-			$project_data = json_decode($project->project_data);
-			//代码的字节码
-			$source = $project_data->software->source;
-			//项目名字
-			$project_name = $project->project_name;
-			//主板类型
-			$board_type = $project_data->board->board_type;
-			//项目hash
-			$hash = $project->hash;
-			$key = $id;
-
-			$path = "/tmp/build/$hash";
-			if(!file_exists($path)) {
-				mkdir($path, 0755, true);
-			}
-			$f = fopen($path . "/main.ino", "wb");
-			fwrite($f, $source);
-			fclose($f);
-
-			$cmd = "sh ../app/Build/compiler/Arduino/build.sh $path $board_type $project_name 2>&1";
-			$output = array();
-			exec($cmd, $output, $status);
-			if ($status == 0) {
-				return response()->json(['status' => 0, 'message' => '编译成功', 'id' => $id, 'url' => "/project/download/$key"]);
-			} else {
-				// return response()->json(['status' => $status, 'message' => '编译失败']);
-				return response()->json(['status' => $status, 'message' => '编译失败', 'id' => $id, 'output' => $output]);
-			}
+			// return response()->json(['status' => $status, 'message' => '编译失败']);
+			return response()->json(['status' => $status, 'message' => '编译失败', 'id' => $id, 'output' => $output]);
 		}
 	}
 
@@ -180,8 +147,8 @@ class ProjectController extends Controller {
 		return $curl->post($url, $params);
 	}
 
-	private function getProjectInfo($id) {
-		$url = config("platform.url.base").config("platform.url.getProject")."&id=".$id;
+	private function getProjectInfo($key, $type = 'id') {
+		$url = config("platform.url.base").config("platform.url.getProject")."&$type=".$key;
 		$curl = new Curl();
 		$result = json_decode($curl->get($url));
 		return ($result && $result->status == 0) ? $result->data : false;

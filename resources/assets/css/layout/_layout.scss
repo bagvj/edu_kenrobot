@@ -1,3 +1,5 @@
+$header-size: 66px;
+
 .main {
 	top: 0;
 	bottom: 0;
@@ -13,32 +15,17 @@
 		position: absolute;
 
 		.main-header {
-			height: 66px;
+			height: $header-size;
 			position: relative;
 			background-color: #1e2129;
 		}
 
 		.main-content {
-			top: 66px;
+			top: $header-size;
 			bottom: 0;
 			left: 0;
 			right: 0;
 			position: absolute;
-		}
-	}
-
-	.bottom-container {
-		height: 150px;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		visibility: hidden;
-		z-index: 300;
-		position: absolute;
-		background-color: #393d43;
-
-		&.active {
-			visibility: visible;
 		}
 	}
 }
@@ -46,20 +33,20 @@
 .main-header {
 	.logo {
 		cursor: pointer;
-		height: 66px;
-		width: 66px;
+		height: $header-size;
+		width: $header-size;
 		position: absolute;
 		background: #1d222d url('/assets/images/logo.png') no-repeat center;
 		background-size: 45px 45px;
 	}
 
 	& > .wrap {
-		margin-left: 66px;
-		height: 66px;
+		margin-left: $header-size;
+		height: $header-size;
 	}
 
 	.top-menu {
-		height: 40px;
+		height: $header-size;
 	}
 
 	.user-info {
@@ -69,162 +56,6 @@
 		position: absolute;
 		background-color: #1e2129;
 	}
-
-	.top-tabs {
-		height: 26px;
-		background-color: #1d1e20;
-	}
-}
-
-.main-content {
-	.project-sidebar {
-		position: absolute;
-		width: 66px;
-		height: 67px;
-		border-bottom: 1px solid #797c81;
-		z-index: 5;
-	}
-}
-
-.project-sidebar {
-	.project-icon {
-		width: 66px;
-		height: 66px;
-		float: left;
-
-		& > i {
-			font-size: 30px;
-			color: #797c81;
-		}
-
-		&.active {
-			& > i {
-				color: white;
-			}
-		}
-	}
-
-	.project-list {
-		display: none;
-		width: 240px;
-		height: calc(100vh - 66px);
-		margin-left: 100%;
-		background-color: rgba(52, 58, 74, 0.92);
-		position: relative;
-
-		.operation {
-			position: absolute;
-			bottom: 0;
-			height: 40px;
-			background-color: #313848;
-
-			li {
-				float: left;
-				width: 79px;
-				height: 40px;
-				text-align: center;
-				line-height: 40px;
-				cursor: pointer;
-				margin-left: 1px;
-				color: white;
-
-				&:hover {
-					background-color: #38A1DB;
-				}
-
-				&:first-child {
-					margin-left: 0;
-				}
-
-				& > i {
-					margin-right: 4px;
-				}
-			}
-		}
-
-		.list {
-			overflow-y: auto;
-			top: 0;
-			bottom: 40px;
-			left: 0;
-			right: 0;
-			position: absolute;
-
-			li {
-				.title {
-					height: 36px;
-					line-height: 36px;
-					padding-left: 8px;
-					padding-right: 4px;
-					cursor: pointer;
-					margin-top: 1px;
-					position: relative;
-					color: white;
-					background-color: #4b5765;
-
-					.icon {
-						margin-right: 4px;
-					}
-
-					.arrow {
-						float: right;
-					}
-
-					.arrow:before {
-						content: "\e615";
-					}
-				}
-
-				.view {
-					display: none;
-					background-color: white;
-
-					& > div {
-						font-size: 12px;
-						height: 36px;
-						padding-left: 26px;
-						line-height: 36px;
-						cursor: pointer;
-						color: #515151;
-
-						.icon {
-							margin-right: 4px;
-						}
-
-						&:hover {
-							color: #24c1ff;
-						}
-
-						&.active {
-							color: #24c1ff;
-						}
-					}
-				}
-
-				&:first-child .title {
-					margin-top: 0;
-				}
-				
-				&.active {
-					.title {
-						background-color: #488ac0;
-
-						.arrow:before {
-							content: "\e614";
-						}
-					}
-
-					.view {
-						display: block;
-					}
-				}
-			}
-		}
-
-		&.active {
-			display: block;
-		}
-	}
 }
 
 .top-menu {
@@ -232,8 +63,8 @@
 
 	li {
 		font-size: 14px;
-		line-height: 40px;
-		height: 40px;
+		line-height: $header-size;
+		height: $header-size;
 		width: 84px;
 		display: inline-block;
 		text-align: center;
@@ -255,59 +86,6 @@
 	}
 }
 
-.top-tabs {
-	li {
-		font-size: 12px;
-		line-height: 26px;
-		height: 26px;
-		width: 150px;
-		float: left;
-		position: relative;
-		z-index: 10;
-		cursor: pointer;
-		margin-left: 1px;
-		color: #6e7679;
-
-		.name {
-			margin-left: 10px;
-		}
-
-		.close-btn {
-			display: none;
-			font-size: 12px;
-			line-height: 28px;
-			margin-right: 5px;
-			float: right;
-
-			&:hover {
-				color: #FF9696;
-			}
-		}
-
-		&:first-child {
-			margin-left: 0;
-		}
-
-		&.active {
-			color: white;
-			background-color: #262a34;
-		}
-
-		&:hover {
-			color: white;
-			background-color: #28282e;
-
-			.close-btn {
-				display: block;
-			}
-
-			&.active {
-				background-color: #363c4a;
-			}
-		}
-	}
-}
-
 .user-info {
 	display: none;
 
@@ -321,8 +99,8 @@
 
 		.photo {
 			float: left;
-			line-height: 40px;
-			height: 40px;
+			line-height: $header-size;
+			height: $header-size;
 			margin-left: 8px;
 
 			& > img {
@@ -335,8 +113,8 @@
 		.welcome {
 			float: left;
 			font-size: 12px;
-			line-height: 40px;
-			height: 40px;
+			line-height: $header-size;
+			height: $header-size;
 			margin-left: 8px;
 			margin-right: 8px;
 			min-width: 50px;
@@ -385,6 +163,39 @@
 	}
 }
 
+.main-content {
+	.sidebar {
+		width: $header-size;
+		position: absolute;
+		top: 198px;
+		left: 0;
+	}
+}
+
+.sidebar {
+	li {
+		width: $header-size;
+		height: $header-size;
+		border-bottom: 1px solid #797c81;
+
+		& > button {
+			width: $header-size;
+			height: $header-size;
+		}
+
+		&:hover {
+		 	i {
+				color: white;
+			}
+		}
+
+			i {
+			font-size: 30px;
+			color: #797c81;
+		}
+	}
+}
+
 .copyright {
 	width: 100%;
 	bottom: 0;
@@ -421,53 +232,12 @@
 	}
 }
 
-.bottom-container {
-	.drag-handle {
-		position: absolute;
-		height: 3px;
-		top: 0;
-		width: 100%;
-		cursor: n-resize;
-
-		&.active {
-			background-color: #4CC1FC;
-			opacity: 0.2;
-		}
-	}
-
-	.close-btn {
-		position: absolute;
-		right: 5px;
-		top: 0;
-		font-size: 12px;
-		cursor: pointer;
-		color: white;
-
-		&:hover {
-			color: #FF9696;
-		}
-	}
-
-	.logcat {
-		height: 100%;
-		background-color: transparent;
-
-		.ace_gutter {
-			background-color: transparent;
-		}
-	}
-}
-
 .dialog-layer {
 	z-index: 500;
 	display: none;
 
 	&.active {
 		display: block;
-	}
-	
-	.dialog {
-		display: none;
 	}
 }
 

@@ -308,6 +308,10 @@ angular.module('kenrobot')
 				$scope.setInputFocus();
 			} else if ($(ev.target).closest('.component-name__container').length) {
 				$scope.unsetInputFocus();
+			} else {
+				$scope.boardSelected = $scope.componentSelected = false;
+				$('.component').removeClass('component-selected');
+				hw2Bloqs.unselectAllConnections();
 			}
 		};
 

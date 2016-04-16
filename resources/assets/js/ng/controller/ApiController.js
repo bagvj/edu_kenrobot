@@ -3,7 +3,7 @@ angular.module('kenrobot')
 	.controller('ApiController', function($scope, $route, $rootScope, projectApi, hw2Bloqs, bloqs) {
 
 		function hasChanged(callback) {
-			var project = $scope.getCurrentProject();
+			var project = getProject();
 			var changed = projectApi.hasChanged(project);
 			callback(changed, project);
 		};

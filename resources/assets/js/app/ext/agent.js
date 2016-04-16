@@ -1,10 +1,21 @@
-define(['../util', './burn-dialog'], function(util, burnDialog) {
+define(['../util', './uploader'], function(util, uploader) {
 	var config;
 	var API;
 
 	function init(_config) {
 		config = _config;
 		API = getChromeAPI();
+
+		uploader.init(API, config);
+
+		var bit;
+		if (navigator.userAgent.indexOf("WOW64") != -1 || navigator.userAgent.indexOf("Win64") != -1) {
+			bit = 64;
+		} else {
+			bit = 32;
+		}
+		var downloadUrl = "/download/arduino-driver-x" + bit + ".zip";
+		$('.arduino-driver-dialog .downloadUrl').attr('href', downloadUrl);
 	}
 
 	function check(callback) {
@@ -44,15 +55,14 @@ define(['../util', './burn-dialog'], function(util, burnDialog) {
 		util.dialog(".install-dialog");
 	}
 
-	function showBurnDialog(hexUrl) {
+	function upload(url, callback) {
 		check(function() {
-			burnDialog.init(API, config);
-			burnDialog.show(hexUrl);
+			uploader.upload(url, callback);
 		});
 	}
 
 	return {
 		init: init,
-		showBurnDialog: showBurnDialog,
+		upload: upload,
 	}
 });

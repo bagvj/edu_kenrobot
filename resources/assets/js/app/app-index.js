@@ -1,14 +1,12 @@
-define(['./EventManager', './util', './user', './project', './logcat', './topMenu', './config', './ext/agent'], function(EventManager, util, user, project, logcat, topMenu, config, extAgent) {
+define(['./EventManager', './util', './user', './project', './topMenu', './config', './ext/agent'], function(EventManager, util, user, project, topMenu, config, agent) {
 	function init() {
 		initPV();
 		initAjax();
-		initEscape();
 
-		extAgent.init(config.extension);
+		agent.init(config.extension);
 		user.init();
 		project.init();
 		topMenu.init();
-		logcat.init();
 	}
 
 	function initAjax() {
@@ -27,23 +25,6 @@ define(['./EventManager', './util', './user', './project', './logcat', './topMen
 			var s = document.getElementsByTagName("script")[0]; 
 			s.parentNode.insertBefore(hm, s);
 		}
-	}
-
-	function initEscape() {
-		$(window).on('keydown', function(e) {
-			if(e.keyCode != 27) {
-				return;
-			}
-
-			if(util.isInDialog()) {
-				return;
-			}
-
-			if(logcat.isShow()) {
-				logcat.hide();
-				return;
-			}
-		});
 	}
 
 	return {

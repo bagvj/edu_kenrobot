@@ -1,10 +1,6 @@
-define(['./EventManager', './project', './logcat', './ext/agent'], function(EventManager, project, logcat, agent) {
-
+define(['./EventManager', './project'], function(EventManager, project) {
 	function init() {
-		$('.top-menu > ul > li').on('click', onMenuClick);
-		EventManager.bind('global', 'project.save', onSaveClick);
-		EventManager.bind('global', 'project.build', onBuildClick);
-		EventManager.bind('global', 'software.format', onFormatClick);
+		$('.top-menu > ul > li,.sidebar > ul > li').on('click', onMenuClick);
 	}
 
 	function onMenuClick(e) {
@@ -12,53 +8,35 @@ define(['./EventManager', './project', './logcat', './ext/agent'], function(Even
 		var index = li.index();
 		var action = li.data("action");
 		switch(action) {
-			case "build":
-				onBuildClick();
-				break;
-			case "burn":
-				onBurnClick();
-				break;
-			case "format":
-				onFormatClick();
+			case "new":
+				onNewClick();
 				break;
 			case "save":
 				onSaveClick();
 				break;
-			case "download":
-				onDownloadClick();
+			case "edit":
+				onEditClick();
 				break;
-			case "logcat":
-				onLogcatClick();
+			case "upload":
+				onUploadClick();
 				break;
 		}
 	}
 
-	function onBuildClick() {
-		project.build();
-	}
-
-	function onBurnClick() {
-		project.isBuild(function(url){
-			agent.showBurnDialog(url);
-		});
-	}
-
-	function onFormatClick() {
-		// project.format();
+	function onNewClick() {
+		project.create();
 	}
 
 	function onSaveClick() {
 		project.save();
 	}
 
-	function onDownloadClick() {
-		project.isBuild(function(url) {
-			window.location.href = url;
-		});
+	function onEditClick() {
+		project.edit();
 	}
 
-	function onLogcatClick() {
-		logcat.toggle();
+	function onUploadClick() {
+		project.upload();
 	}
 
 	return {

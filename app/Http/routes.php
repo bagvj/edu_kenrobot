@@ -11,16 +11,16 @@
 |
  */
 Route::get('/', 'HomeController@index');
+Route::get('/logout', 'Auth\AuthController@getLogout2');
 
-Route::post('/project/build', 'ProjectController@buildProject');
-Route::post('/project/save', 'ProjectController@saveProject');
-Route::post('/project/delete', 'ProjectController@deleteProject');
-Route::get('/project/download/{key}/{ext?}', 'ProjectController@downloadProject')->where('key', '([1-9][0-9]*)|([0-9a-zA-Z]{6,6})');
-Route::get('/project/{id}', 'ProjectController@getProject')->where('id', '[1-9][0-9]*');
-Route::get('/projects/{user_id}', 'ProjectController@getProjects')->where('user_id', '[1-9][0-9]*');
+Route::post('/api/project/build', 'ProjectController@buildProject');
+Route::post('/api/project/save', 'ProjectController@saveProject');
+Route::post('/api/project/delete', 'ProjectController@deleteProject');
+Route::get('/api/project/download/{key}/{ext?}', 'ProjectController@downloadProject')->where('key', '([1-9][0-9]*)|([0-9a-zA-Z]{6,6})');
+Route::get('/api/project/{id}', 'ProjectController@getProject')->where('id', '[1-9][0-9]*');
+Route::get('/api/projects/{user_id}', 'ProjectController@getProjects')->where('user_id', '[1-9][0-9]*');
 
 // 登录验证
-Route::post('/auth/login', 'Auth\WebAuthController@snsPostLogin');
-Route::post('/auth/login/weixin', 'Auth\WebAuthController@weixinlogin');
-Route::get('/auth/check', 'Auth\AuthServerController@index');
-Route::get('/logout', 'Auth\AuthController@getLogout2');
+Route::post('/api/auth/login', 'Auth\WebAuthController@snsPostLogin');
+Route::post('/api/auth/login/weixin', 'Auth\WebAuthController@weixinlogin');
+Route::get('/api/auth/check', 'Auth\AuthServerController@index');
