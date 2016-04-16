@@ -61,6 +61,11 @@ class SnsAuth implements WebAuth
 
         $result = $this->validUserFromServer($email,$password);
 
+        if(empty($result)) {
+            $this->error = '接口配置错误';
+            return false;
+        }
+
         //远端验证失败
         if ($result['code'] != 0) {
             $this->error = sprintf('%s',$result['message']);
