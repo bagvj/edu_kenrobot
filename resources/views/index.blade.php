@@ -93,8 +93,7 @@
 					</div>
 				</div>
 				<div class="main-content">
-					<div class="ng-app" ng-app="kenrobot">
-						<base href="/" />
+					<div class="ng-app">
 						<div ng-include="'assets/images/sprite.svg'" ng-hide="true"></div>
 						<div data-ng-include="'assets/views/components/alerts.html'" ng-controller="AlertsCtrl" class="alerts--container"></div>
 						<div ng-view></div>

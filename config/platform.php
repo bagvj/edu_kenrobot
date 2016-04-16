@@ -9,6 +9,7 @@ return [
 
         'saveProject' => "?app=api&mod=Project&act=save",
         'getProject' => "?app=api&mod=Project&act=item",
+        'getLastProject' => "?app=api&mod=Project&act=last",
         'getUserProjects' => "?app=api&mod=Project&act=items",
         'deleteProject' => "?app=api&mod=Project&act=del",
     ]

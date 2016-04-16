@@ -126,14 +126,22 @@ class ProjectController extends Controller {
 		return $curl->post($url, $params);
 	}
 
-	public function getProject(Request $request, $key) {
-		$type = intval($key) ? 'id' : 'hash';
-		$url = config("platform.url.base").config("platform.url.getProject")."&$type=$key";
+	public function getProject(Request $request) {
+		$user_id = $request->input('user_id');
+		$type = $request->input('type');
+		if($type == 'last') {
+			$url = config("platform.url.base").config("platform.url.getLastProject")."&user_id=$user_id";
+		} else {
+			$key = $request->input('key');
+			$type = intval($key) ? 'id' : 'hash';
+			$url = config("platform.url.base").config("platform.url.getProject")."&$type=$key&user_id=$user_id";
+		}
 		$curl = new Curl();
 		return $curl->get($url);
 	}
 
-	public function getProjects(Request $request, $user_id) {
+	public function getProjects(Request $request) {
+		$user_id = $request->input('user_id');
 		$url = config("platform.url.base").config("platform.url.getUserProjects")."&project_type=scratch&user_id=$user_id";
 		$curl = new Curl();
 		return $curl->get($url);

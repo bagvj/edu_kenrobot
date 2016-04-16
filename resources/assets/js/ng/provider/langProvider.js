@@ -321,7 +321,7 @@ angular.module('kenrobot')
 				"modal-update-web2board-title": "Update Web2Board to be able to program your board",
 				"modal-download-web2board-text": "To compile and upload your programs to the board, you will need to install the Bitbloq Web2Board.",
 				"modal-download-web2board-choose-os": "Select your operating system.",
-				"make-swtoolbox-advanced": "Advanced",
+				"make-swtoolbox-advanced": "高级",
 				"make-swtoolbox-advancedComponents": "Components > Advanced",
 				"make-swtoolbox-functions": "函数",
 				"make-swtoolbox-variables": "变量",

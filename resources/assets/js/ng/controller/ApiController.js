@@ -1,6 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.controller('ApiController', function($scope, $route, $rootScope, projectApi, hw2Bloqs, bloqs) {
+	.controller('ApiController', function($scope, $route, $timeout, $location, $rootScope, projectApi, hw2Bloqs, bloqs) {
 
 		function hasChanged(callback) {
 			var project = getProject();
@@ -30,7 +30,6 @@ angular.module('kenrobot')
 
 				hw2Bloqs.repaint();
 				$scope.refreshCode();
-				$scope.$apply();
 				$rootScope.$emit('refreshScroll');
 			} else {
 				resetProject();
@@ -38,6 +37,7 @@ angular.module('kenrobot')
 		}
 
 		function resetProject() {
+			console.log("resetProject");
 			if ($scope.arduinoMainBloqs.varsBloq) {
 				bloqs.removeBloq($scope.arduinoMainBloqs.varsBloq.uuid, true);
 				$scope.arduinoMainBloqs.varsBloq = null;
@@ -46,7 +46,11 @@ angular.module('kenrobot')
 				bloqs.removeBloq($scope.arduinoMainBloqs.loopBloq.uuid, true);
 				$scope.arduinoMainBloqs.loopBloq = null;
 			}
-			$route.reload();
+		}
+
+		function reload() {
+			console.log("reload");
+			$location.path('/').replace();
 		}
 
 		var api = {
@@ -55,6 +59,7 @@ angular.module('kenrobot')
 			getProject: getProject,
 			setProject: setProject,
 			resetProject: resetProject,
+			reload: reload,
 		};
 
 		$scope.getApi = function() {

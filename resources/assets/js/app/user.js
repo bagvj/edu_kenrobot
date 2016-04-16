@@ -26,7 +26,7 @@ define(['vendor/jquery.cookie', './EventManager', './util'], function(_, EventMa
 
 	function authCheck(callback) {
 		$.ajax({
-			type: 'GET',
+			type: 'get',
 			url: '/api/auth/check',
 			dataType: 'json',
 		}).done(function(result){

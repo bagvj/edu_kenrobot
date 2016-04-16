@@ -5,9 +5,7 @@ angular
 		'ngSanitize',
 		'pascalprecht.translate',
 		'ngDialog'
-	]).config(function($routeProvider, $translateProvider, $locationProvider, langProvider) {
-		// $locationProvider.html5Mode(true);
-
+	]).config(function($routeProvider, $translateProvider, langProvider) {
 		$routeProvider
 			.when('/', {
 				templateUrl: '/assets/views/bloqs-project.html'
@@ -21,22 +19,24 @@ angular
 
 		var lang = langProvider.$get();
 		$translateProvider
-			// .useSanitizeValueStrategy('sanitize')
-			// .translations('en', lang.en)
+			.useSanitizeValueStrategy('escaped')
 			.translations('zh', lang.zh)
 			.preferredLanguage('zh');
 	})
-	.run(function(_, bloqs, $rootScope, $routeParams) {
-		console.log("aaaaa");
-		function routeChangeSuccess(event) {
-			
-		}
-		$rootScope.$on('$routeChangeSuccess', routeChangeSuccess);
+	.run(function(_, bloqs, $rootScope, $location, $routeParams) {
+		$rootScope.$on('$locationChangeStart', function(e, next, current) {
+			var path = /project\/([0-9a-zA-Z]{6}).*/i.exec(next);
+			if (!path || !path[1]) {
+				$location.path('/').replace();
+			}
+		});
 
+		$rootScope.$on('$routeChangeSuccess', function(e) {
+			$rootScope.$emit('onRouteChange', $routeParams);
+		});
+		
 		bloqs.setOptions({
 			lang: 'zh',
-			// fieldOffsetLeft: 66,
-			// fieldOffsetTopForced: 66,
 			forcedScrollTop: 0
 		});
 	});

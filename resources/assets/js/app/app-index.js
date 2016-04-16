@@ -3,11 +3,12 @@ define(['./EventManager', './util', './user', './project', './topMenu', './confi
 		initPV();
 		initAjax();
 
+		angular.bootstrap('.ng-app', ['kenrobot']);
+
 		agent.init(config.extension);
 		user.init();
 		project.init();
 		topMenu.init();
-		console.log("ccc");
 	}
 
 	function initAjax() {
