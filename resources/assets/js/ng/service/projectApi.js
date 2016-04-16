@@ -8,11 +8,6 @@ angular.module('kenrobot')
 		exports.getCleanProject = function(projectRef) {
 			var cleanProject = _.cloneDeep(projectRef);
 			delete cleanProject.id;
-			delete cleanProject._acl;
-			delete cleanProject.creatorId;
-			delete cleanProject.creatorUsername;
-			delete cleanProject._createdAt;
-			delete cleanProject._updatedAt;
 			delete cleanProject.links;
 
 			return cleanProject;

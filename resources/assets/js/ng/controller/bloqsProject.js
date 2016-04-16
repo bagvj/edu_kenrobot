@@ -96,37 +96,35 @@ angular.module('kenrobot')
 			var stopWord = ['analogWrite', 'digitalWrite', 'pinReadAdvanced', 'pinWriteAdvanced', 'turnOnOffAdvanced', 'digitalReadAdvanced', 'analogReadAdvanced'];
 			if (stopWord.indexOf(item) === -1) {
 				var result = false;
-				if ($scope.componentsArray.robot.length === 0) {
-					var userComponents = _.keys(_.pick($scope.componentsArray, function(value) {
-						return value.length > 0;
-					}));
-					if (item === 'hwVariable' && userComponents.length !== 0) {
-						result = true;
-					} else {
-						userComponents.forEach(function(value) {
-							if (item.indexOf('serial') > -1) {
-								result = $scope.showCommunications(item);
-							} else {
-								if (value[value.length - 1] === 's') {
-									value = value.substring(0, value.length - 1);
-								}
-								if (value === 'servo') {
-									value = 'servoNormal';
-								}
-								item = item.toUpperCase();
-								value = value.toUpperCase();
-								if (item.includes('RGBLED')) {
-									if (value.includes('RGB')) {
-										result = true;
-									}
-								} else if ((value.includes('SERVO') || value === 'OSCILLATOR') && (item === 'SERVOATTACH' || item === 'SERVODETACH')) {
-									result = true;
-								} else if (item.includes(value) || value.includes(item)) {
-									result = true;
-								}
+				var userComponents = _.keys(_.pick($scope.componentsArray, function(value) {
+					return value.length > 0;
+				}));
+				if (item === 'hwVariable' && userComponents.length !== 0) {
+					result = true;
+				} else {
+					userComponents.forEach(function(value) {
+						if (item.indexOf('serial') > -1) {
+							result = $scope.showCommunications(item);
+						} else {
+							if (value[value.length - 1] === 's') {
+								value = value.substring(0, value.length - 1);
 							}
-						});
-					}
+							if (value === 'servo') {
+								value = 'servoNormal';
+							}
+							item = item.toUpperCase();
+							value = value.toUpperCase();
+							if (item.includes('RGBLED')) {
+								if (value.includes('RGB')) {
+									result = true;
+								}
+							} else if ((value.includes('SERVO') || value === 'OSCILLATOR') && (item === 'SERVOATTACH' || item === 'SERVODETACH')) {
+								result = true;
+							} else if (item.includes(value) || value.includes(item)) {
+								result = true;
+							}
+						}
+					});
 				}
 				return result;
 			} else {
@@ -161,30 +159,21 @@ angular.module('kenrobot')
 
 			$scope.project.hardwareTags = _.uniq(newHardwareTags); //Regenerate hw tags
 
-			if ($scope.project.hardware.robot) {
-				newComponentsArray.robot.push($scope.project.hardware.robot);
-				$scope.project.hardwareTags.push($scope.project.hardware.robot);
-			}
-
 			if ($scope.project.hardware.board) {
 				$scope.project.hardwareTags.push($scope.project.hardware.board);
 			}
 
-			if ($scope.componentsArray.robot.length > 0) {
-				plainComponentList = $scope.componentsArray.robot;
-			} else {
-				_.forEach($scope.componentsArray, function(n, key) {
-					var compUidList = _.map($scope.componentsArray[key], function(item) {
-						return {
-							'uid': item.uid,
-							'name': item.name
-						};
-					});
-					if (compUidList && compUidList.length > 0) {
-						plainComponentList = plainComponentList.concat(compUidList);
-					}
+			_.forEach($scope.componentsArray, function(n, key) {
+				var compUidList = _.map($scope.componentsArray[key], function(item) {
+					return {
+						'uid': item.uid,
+						'name': item.name
+					};
 				});
-			}
+				if (compUidList && compUidList.length > 0) {
+					plainComponentList = plainComponentList.concat(compUidList);
+				}
+			});
 
 			//Has changed componentsArray?
 			if (plainComponentListTemporal.length > 0 || (plainComponentList.length > 0 && plainComponentList.indexOf('zowi') === -1)) {
@@ -222,7 +211,6 @@ angular.module('kenrobot')
 					return newElem;
 				});
 				schema.board = $scope.project.hardware.board;
-				schema.robot = $scope.project.hardware.robot;
 				return schema;
 			} else { //If project is not loading yet on protocanvas
 				return _.cloneDeep($scope.project.hardware);
@@ -263,20 +251,14 @@ angular.module('kenrobot')
 		$scope.hardware = {
 			boardList: null,
 			componentList: null,
-			robotList: null,
 			cleanSchema: null,
 			firstLoad: true,
 			sortToolbox: null
 		};
 
 		$scope.project = {
-			creatorId: '',
-			description: '',
-			userTags: [],
 			hardwareTags: [],
 			compiled: false,
-			imageType: '',
-			videoUrl: '',
 			defaultTheme: 'infotab_option_colorTheme',
 			software: {
 				vars: {
@@ -307,7 +289,6 @@ angular.module('kenrobot')
 
 			hardware: {
 				board: null,
-				robot: null,
 				components: [],
 				connections: []
 			}

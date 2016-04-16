@@ -1,13 +1,4 @@
 'use strict';
-
-/**
- * @ngdoc overview
- * @name kenrobot
- * @description
- * # bitbloq-offline
- *
- * Main module of the application.
- */
 angular
     .module('kenrobot', [
         'ngRoute',

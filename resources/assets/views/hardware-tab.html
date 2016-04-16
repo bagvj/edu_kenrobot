@@ -19,7 +19,7 @@
               </div>
           </div>
 
-          <div class="component__container" ng-class="{'component__container--visible':(project.hardware.components.length === 0 && project.hardware.board) && !project.hardware.robot ,'component__container--pseudovisible':(project.hardware.components.length !== 0) && project.hardware.board && !project.hardware.robot}" >
+          <div class="component__container" ng-class="{'component__container--visible':(project.hardware.components.length === 0 && project.hardware.board) ,'component__container--pseudovisible':(project.hardware.components.length !== 0) && project.hardware.board }" >
               <p class="component__message">{{'make-hardware-component-container' | translate}}</p>
           </div>
 

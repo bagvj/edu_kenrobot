@@ -1,13 +1,4 @@
-/* global Prism, js_beautify */
-/*jshint camelcase: false */
 'use strict';
-
-/**
- * @ngdoc directive
- * @name bitbloqApp.directive:beautyCode
- * @description Directive for beautify auto-generated Aruidno code
- * # prism
- */
 angular.module('kenrobot')
 	.directive('prism', function() {
 		return {

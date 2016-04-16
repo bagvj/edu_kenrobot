@@ -28,13 +28,6 @@
 		return $window.jsPlumb;
 	});
 
-	/**
-	 * @ngdoc service
-	 * @name kenrobot.protoBoLa
-	 * @description
-	 * # protoBoLa
-	 * Service in the kenrobot.
-	 */
 	app.service('hw2Bloqs', function($rootScope, jsPlumb) {
 		var exports = {};
 
@@ -465,11 +458,6 @@
 			});
 		};
 
-		/**
-		 * [loadSchema It loads a board schema]
-		 * @param  {[type]} schema [description]
-		 * @return {[type]}        [description]
-		 */
 		exports.loadSchema = function(newSchema) {
 
 			this.schema = newSchema;

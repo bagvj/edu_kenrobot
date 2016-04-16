@@ -263,61 +263,18 @@ $color_hover: #f19833;
   }
 
   .component__container,
-  .board,
-  .robot {
+  .board {
     display         : flex;
     justify-content : center;
     align-items     : center;
     background-color: white;
   }
 
-  .board,
-  .robot {
+  .board {
     display: none;
 
     &.opaque {
       display: flex;
-    }
-  }
-
-  .robot {
-    background-size    : contain;
-    background-repeat  : no-repeat;
-    background-position: center;
-    background-color   : #f3f3f3;
-    height             : 265px;
-    width              : 355px;
-    outline            : 4px dashed #c0c3c9;
-
-    &.zowi {
-      background-image: url('../images/robots/zowi.svg');
-      background-color: transparent;
-    }
-
-    &.evolution {
-      background-image: url('../images/robots/evolution.svg');
-      background-color: transparent;
-    }
-
-    &.robot--selected {
-      outline         : 4px solid $color !important;
-      background-color: transparent;
-    }
-
-    &.robot--present {
-      outline: none;
-
-      .board__message {
-        opacity: 0;
-      }
-    }
-
-    .board__message {
-      color     : #000;
-      font-size : 1.5em;
-      display   : flex;
-      align-self: center;
-      opacity   : .4;
     }
   }
 

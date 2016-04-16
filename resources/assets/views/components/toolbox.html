@@ -18,26 +18,6 @@
   </ul>
   <div class="toolbox__content" ng-class="{'active':toolbox.menuLevel === 1, 'inactive':toolbox.menuLevel === 2}">
     <div class="toolbox-shadow layer-2 absolute-center level--2" ng-click="toolbox.menuLevel = 1" ng-show="toolbox.menuLevel !== 1"></div>
-    <!-- ROBOTS -->
-    <div class="toolbox__content__item" ng-show="toolbox.activeMenu === 'zowi'">
-      <h3>{{'make-swtoolbox-zowi' | translate}}</h3>
-      <ul class="content__list has-advanced">
-        <li class="content__list__item" ng-repeat="item in tree.robots[0].items track by $index" bitbloq-bloq-creator bloq-schema="item.name"></li>
-      </ul>
-      <button class="toolbox__advanced__button toolbox__list__item__button last" ng-click="toolbox.select('zowi', true)" ng-class="{'active':toolbox.activeMenu === item.contentId}">
-        <span>{{'make-swtoolbox-advanced' | translate}}</span>
-      </button>
-    </div>
-    <!-- div class="toolbox__content__item" ng-show="toolbox.activeMenu === 'evolution'">
-      <h3>{{'make-swtoolbox-evolution' | translate}}</h3>
-      <ul class="content__list has-advanced">
-        <li class="content__list__item" ng-repeat="item in tree.robots[1].items track by $index" bitbloq-bloq-creator bloq-schema="item.name"></li>
-      </ul>
-      <button class="toolbox__advanced__button toolbox__list__item__button last" ng-click="toolbox.select('evolution', true)" ng-class="{'active':toolbox.activeMenu === item.contentId}">
-        <span>{{'make-swtoolbox-advanced' | translate}}</span>
-      </button>
-    </div -->
-    <!-- COMPONENT BLOQS-->
     <div class="toolbox__content__item" ng-repeat="itemContainer in tree.components track by $index" ng-show="toolbox.activeMenu === 'components'">
       <h3>{{'components' | translate}}</h3>
       <ul class="content__list has-advanced">
@@ -60,20 +40,6 @@
   </div>
 
   <div class="toolbox__content level--2" ng-show="toolbox.menuLevel === 2">
-    <!-- ADVANCED ROBOTS -->
-    <div class="toolbox__content__item" ng-show="toolbox.activeMenu === 'zowi'">
-      <h3>{{'make-swtoolbox-zowi' | translate}} > {{'make-swtoolbox-advanced' | translate}}</h3>
-      <ul class="content__list">
-        <li class="content__list__item" ng-repeat="item in tree.robots[0].advancedItems track by $index" bitbloq-bloq-creator bloq-schema="item.name"></li>
-      </ul>
-    </div>
-    <!-- div class="toolbox__content__item" ng-show="toolbox.activeMenu === 'evolution'">
-      <h3>{{'make-swtoolbox-evolution' | translate}} > {{'make-swtoolbox-advanced' | translate}}</h3>
-      <ul class="content__list">
-        <li class="content__list__item" ng-repeat="item in tree.robots[1].advancedItems track by $index" bitbloq-bloq-creator bloq-schema="item.name"></li>
-      </ul>
-    </div -->
-    <!-- ADVANCED COMPONENTS -->
     <div class="toolbox__content__item" ng-show="toolbox.activeMenu === 'components'">
       <h3>{{'components' | translate}} > {{'make-swtoolbox-advanced' | translate}}</h3>
       <ul class="content__list">

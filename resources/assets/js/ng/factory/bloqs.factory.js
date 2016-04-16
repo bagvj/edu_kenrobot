@@ -906,9 +906,6 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			$items,
 			function(value) {
 
-				// Return the unwrapped version. This will return
-				// the underlying DOM nodes contained within each
-				// jQuery value.
 				return (value.get());
 
 			}
@@ -967,13 +964,6 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 		var selectedValue = bloq.$bloq.find('select[data-content-id="' + typeObject.idDropdown + '"][data-dropdowncontent="' + typeObject.options + '"]').val();
 		var selectedVarNameOnDropdown = attributeValue || selectedValue;
 
-		if (!selectedVarNameOnDropdown) {
-			//rare bug, maybe the timeout, cant get the value of a options create disabled and enabled later
-			//selectedVarNameOnDropdown = bloq.$bloq.find('select[data-content-id="' + typeObject.idDropdown + '"][data-dropdowncontent="' + typeObject.options + '"] option:first-child').val();
-			////or maybe a empty set var bloq :D
-			//throw 'check this!';
-		}
-
 		var varData = _.find(softwareArrays[typeObject.options], {
 			name: selectedVarNameOnDropdown
 		});
@@ -1016,14 +1006,6 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 		return '';
 	};
 
-	/**
-	 * Get the extreme of the tree, the root or the leaf
-	 * @param  bloqUuid
-	 * @param  connectors
-	 * @param  bloqs
-	 * @param  connectorPosition 0: tipical position of the top-connector, 1: bottom-connector
-	 * @return
-	 */
 	var getTreeExtreme = function(bloqUuid, bloqs, connectors, connectorPosition) {
 		if (connectors[bloqs[bloqUuid].connectors[connectorPosition]].connectedTo) {
 			return getTreeExtreme(connectors[connectors[bloqs[bloqUuid].connectors[connectorPosition]].connectedTo].bloqUuid, bloqs, connectors, connectorPosition);
@@ -1031,32 +1013,15 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			return bloqs[bloqUuid].connectors[connectorPosition];
 		}
 	};
-	/**
-	 * From a bloq, this function get the bottom Connector of the branch.
-	 * @param  {[type]} bloqUuid   [description]
-	 * @param  {[type]} connectors [description]
-	 * @param  {[type]} bloqs      [description]
-	 * @return {[type]}            [description]
-	 */
+
 	var getLastBottomConnectorUuid = function(bloqUuid, bloqs, connectors) {
 		return getTreeExtreme(bloqUuid, bloqs, connectors, 1);
 	};
-	/**
-	 * From a bloq, this function get the top Connector of the branch.
-	 * @param  {[type]} bloqUuid   [description]
-	 * @param  {[type]} connectors [description]
-	 * @param  {[type]} bloqs      [description]
-	 * @return {[type]}            [description]
-	 */
+
 	var getFirstTopConnectorUuid = function(bloqUuid, bloqs, connectors) {
 		return getTreeExtreme(bloqUuid, bloqs, connectors, 0);
 	};
-	/**
-	 * Get the output connector from a output bloq
-	 * @param  bloq
-	 * @param  IOConnectors
-	 * @return              the connector
-	 */
+
 	var getOutputConnector = function(bloq, IOConnectors) {
 		var i = 0,
 			outputConnector = null;
@@ -1072,14 +1037,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			return outputConnector;
 		}
 	};
-	/**
-	 * Receive a bloq, and if is top go to the bottom connector until the end, and gice the size
-	 * @param  {[type]} bloqUuid   [description]
-	 * @param  {[type]} bloqIsTop  [description]
-	 * @param  {[type]} bloqs      [description]
-	 * @param  {[type]} connectors [description]
-	 * @return {[type]}            [description]
-	 */
+
 	var getNodesHeight = function(bloqUuid, bloqIsTop, bloqs, connectors) {
 		var bloq = bloqs[bloqUuid];
 		var connectorPosition;
@@ -1094,13 +1052,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			return bloq.$bloq.outerHeight(true);
 		}
 	};
-	/**
-	 * You can give any node of the tree, and return the size in px
-	 * @param  {[type]} bloqUuid   [description]
-	 * @param  {[type]} bloqs      [description]
-	 * @param  {[type]} connectors [description]
-	 * @return {[type]}            [description]
-	 */
+
 	var getTreeHeight = function(bloqUuid, bloqs, connectors) {
 		var bloq = bloqs[bloqUuid];
 		var topConnectorUuid = connectors[bloq.connectors[0]].connectedTo,
@@ -1114,13 +1066,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 		}
 		return height;
 	};
-	/**
-	 * draw in console a branch
-	 * @param  {[type]} bloqs            [description]
-	 * @param  {[type]} connectors       [description]
-	 * @param  {[type]} topConnectorUuid [description]
-	 * @return {[type]}                  [description]
-	 */
+
 	var drawBranch = function(bloqs, connectors, topConnectorUuid) {
 		var branchUuid = connectors[topConnectorUuid].bloqUuid;
 		//console.log('          ******* - branch - *********', branchUuid);
@@ -1138,12 +1084,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			drawBranch(bloqs, connectors, connectors[bloqs[branchUuid].connectors[1]].connectedTo);
 		}
 	};
-	/**
-	 * Draw in console the tree
-	 * @param  {[type]} bloqs      [description]
-	 * @param  {[type]} connectors [description]
-	 * @return {[type]}            [description]
-	 */
+
 	var drawTree = function(bloqs, connectors) {
 		//console.log('drawtree');
 		//buscamos los tipo statement q no tienen un top conectado
@@ -1181,13 +1122,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			}
 		}
 	};
-	/**
-	 * get all the connectors of a branch
-	 * @param  {[type]} bloqUuid   [description]
-	 * @param  {[type]} connectors [description]
-	 * @param  {[type]} bloqs      [description]
-	 * @return {[type]}            [description]
-	 */
+
 	var getBranchsConnectors = function(bloqUuid, bloqs, connectors) {
 		var bloq = bloqs[bloqUuid];
 		var result = [];
@@ -1563,15 +1498,6 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			bitbloqLibs = false,
 			finalFunctions = '';
 		if (bloqs.varsBloq && bloqs.setupBloq && bloqs.loopBloq && componentsArray) {
-			//TODO: put this initialization inside bloqs somehow
-			//*******INCLUDES*******//
-			if (componentsArray.robot.length >= 1) {
-				if (componentsArray.robot[0] === 'zowi') {
-					includeCode += '#include <BitbloqZowi.h>\n#include <BitbloqUS.h>\n#include <BitbloqBatteryReader.h>\n#include <BitbloqLedMatrix.h>\n#include <Servo.h>\n#include <BitbloqOscillator.h>\n#include <EEPROM.h>\n';
-					globalVars += 'Zowi zowi;';
-					setupCode += 'zowi.init();';
-				}
-			}
 			if (componentsArray.continuousServos.length >= 1 || componentsArray.servos.length >= 1 || componentsArray.oscillators.length >= 1) {
 				includeCode += '#include <Servo.h>\n';
 			}
@@ -1754,8 +1680,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			lcds: [],
 			serialElements: [],
 			clocks: [],
-			hts221: [],
-			robot: []
+			hts221: []
 		};
 	};
 
@@ -3366,10 +3291,6 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			return result;
 		};
 
-		/**
-		 * Get the bloq's code, substituting each input's value
-		 * @return {[type]} code            [description]
-		 */
 		this.getCode = function(previousCode) {
 			var code = this.bloqData.code;
 			var childBloq, childConnectorId;

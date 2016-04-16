@@ -7075,13 +7075,7 @@ angular.module('kenrobot')
 						"serial": ["s"]
 					}
 				}]
-			},
-			"robots": [{
-				"id": "zowi",
-				"name": "Zowi",
-				"width": 75,
-				"height": 86
-			}]
+			}
 		};
 
 		exports.version = "1.0.1";

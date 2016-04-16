@@ -120,44 +120,6 @@ angular.module('kenrobot')
 					"name": "invokeReturnFunction"
 				}]
 			}],
-			"robots": [{
-				"title": "zowi",
-				"titleId": "zowi",
-				"items": [{
-					"name": "zowiHome"
-				}, {
-					"name": "zowiMovementsSimple"
-				}, {
-					"name": "zowiGestures"
-				}, {
-					"name": "zowiMouth"
-				}, {
-					"name": "zowiSounds"
-				}, {
-					"name": "zowiIfButtons"
-				}, {
-					"name": "zowiIfSound"
-				}, {
-					"name": "zowiIfDistance"
-				}],
-				"advancedItems": [{
-					"name": "zowiMovementsFront"
-				}, {
-					"name": "zowiMovementsSides"
-				}, {
-					"name": "zowiMovementsHeightFront"
-				}, {
-					"name": "zowiMovementsHeightSides"
-				}, {
-					"name": "zowiMovementsNoDir-v1"
-				}, {
-					"name": "zowiButtons"
-				}, {
-					"name": "zowiSound"
-				}, {
-					"name": "zowiDistance"
-				}]
-			}],
 			"toolboxContents": [{
 				"title": "make-swtoolbox-classes",
 				"titleId": "classes",

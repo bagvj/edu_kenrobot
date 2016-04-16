@@ -4,13 +4,11 @@ angular.module('kenrobot')
 		var container = utils.getDOMElement('.protocanvas');
 		var $componentContextMenu = $('#component-context-menu');
 		var $boardContextMenu = $('#board-context-menu');
-		var $robotContextMenu = $('#robot-context-menu');
 		var hwJSON = common.hardware;
 
 		function _initialize() {
 			$scope.hardware.componentList = hwJSON.components;
 			$scope.hardware.boardList = hwJSON.boards;
-			$scope.hardware.robotList = hwJSON.robots;
 			$scope.hardware.sortToolbox($scope.hardware.componentList);
 			generateFullComponentList(hwJSON);
 			hw2Bloqs.initialize(container, 'boardSchema', 'robotSchema');
@@ -26,10 +24,6 @@ angular.module('kenrobot')
 				item.dragtype = 'boards';
 			});
 			$scope.allHwElements = $scope.allHwElements.concat(resources.boards);
-			_.each(resources.robots, function(item) {
-				item.dragtype = 'robots';
-			});
-			$scope.allHwElements = $scope.allHwElements.concat(resources.robots);
 			_.each(resources.components, function(item, cat) {
 				if (cat !== 'oscillators') {
 					_.each(item, function(el) {
@@ -79,12 +73,6 @@ angular.module('kenrobot')
 						top: event.pageY + 'px'
 					});
 				}
-			} else if (ev.target.classList.contains('robot')) {
-				$robotContextMenu.css({
-					display: 'block',
-					left: event.pageX + 'px',
-					top: event.pageY + 'px'
-				});
 			} else {
 				_closeContextMenu();
 			}
@@ -144,10 +132,9 @@ angular.module('kenrobot')
 		};
 
 		var _addBoard = function(board) {
-			if ($scope.project.hardware.board === board.name && !$scope.project.hardware.robot) {
+			if ($scope.project.hardware.board === board.name) {
 				return false;
 			}
-			$scope.project.hardware.robot = null;
 
 			hw2Bloqs.addBoard(board);
 
@@ -297,8 +284,6 @@ angular.module('kenrobot')
 			) {
 				$scope.componentSelected = null;
 				$('.component').removeClass('component-selected');
-			} else if (ev.target.classList.contains('robot')) {
-				$scope.robotSelected = true;
 			} else if (ev.target.classList.contains('board') || $(ev.target).closest('.board').length) {
 				$scope.boardSelected = true;
 
@@ -313,9 +298,7 @@ angular.module('kenrobot')
 					// $scope.subMenuHandler('boards', 'open', 1);
 				}
 			} else if (ev.target.classList.contains('component__container')) {
-				if (!$scope.project.hardware.robot && $scope.project.hardware.components.length === 0) {
-					// $scope.subMenuHandler('hwcomponents', 'open', 1);
-				}
+
 			} else if (ev.target.classList.contains('oscillator--checkbox')) {
 				$scope.unsetInputFocus();
 			} else if ($(ev.target).closest('.baudrate__dropdown').length) {
@@ -325,10 +308,6 @@ angular.module('kenrobot')
 				$scope.setInputFocus();
 			} else if ($(ev.target).closest('.component-name__container').length) {
 				$scope.unsetInputFocus();
-			} else {
-				$scope.robotSelected = $scope.boardSelected = $scope.componentSelected = false;
-				$('.component').removeClass('component-selected');
-				hw2Bloqs.unselectAllConnections();
 			}
 		};
 
@@ -399,9 +378,6 @@ angular.module('kenrobot')
 			if (tmpCompCategories.serialElements) {
 				delete tmpCompCategories.serialElements;
 			}
-			if (tmpCompCategories.robot) {
-				delete tmpCompCategories.robot;
-			}
 
 			if (tmpCompCategories.board) {
 				delete tmpCompCategories.board;
@@ -422,8 +398,7 @@ angular.module('kenrobot')
 				lcds: [],
 				serialElements: [],
 				clocks: [],
-				hts221: [],
-				robot: []
+				hts221: []
 			};
 		}
 
@@ -436,9 +411,6 @@ angular.module('kenrobot')
 			} else if (data.type === 'components') {
 				if (!$scope.project.hardware.board) {
 					alertsService.add('bloqs-project_alert_no-board', 'error_noboard', 'error');
-					return false;
-				} else if ($scope.project.hardware.robot) {
-					alertsService.add('bloqs-project_alert_component_on_robot', 'error_noboard', 'error');
 					return false;
 				}
 				_addComponent(data);
@@ -455,20 +427,14 @@ angular.module('kenrobot')
 			hwSchema.components = _.cloneDeep($scope.project.hardware.components);
 			hwSchema.connections = _.cloneDeep($scope.project.hardware.connections);
 
-			// hwBasicsLoaded.promise.then(function() {
-			if ($scope.project.hardware.robot) {
-				var robotReference = _.find($scope.hardware.robotList, function(robot) {
-					return robot.id === $scope.project.hardware.robot;
-				});
-				hwSchema.robot = robotReference; //The whole board object is passed
-			} else if ($scope.project.hardware.board) {
+			if ($scope.project.hardware.board) {
 				var boardReference = _.find($scope.hardware.boardList, function(board) {
 					return board.name === $scope.project.hardware.board;
 				});
 				hwSchema.board = boardReference; //The whole board object is passed
 			}
 
-			if (hwSchema.robot || hwSchema.board) {
+			if (hwSchema.board) {
 				hw2Bloqs.removeAllComponents();
 				hw2Bloqs.loadSchema(hwSchema);
 				hw2Bloqs.repaint();
