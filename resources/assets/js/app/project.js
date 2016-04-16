@@ -58,11 +58,16 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 			return;
 		}
 
+		var dialog = util.dialog(".building-dialog");
+		var content = $('.x-dialog-content', dialog).text('正在保存...');
+
 		doProjectSave(id, false, function(status) {
 			if(status != 0) {
-				util.message("保存失败");
+				content.text("保存失败");
 				return;
 			}
+
+			content.text("保存成功，正在编译...");
 
 			$.ajax({
 				type: "POST",
@@ -73,35 +78,38 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 				},
 			}).done(function(result) {
 				if(result.status != 0) {
-					util.message("编译失败");
+					content.text("编译失败");
 					return;
 				}
 
-				doUpload(result.url);
+				content.text("编译成功，正在烧写...");
+				doUpload(result.url, content);
 			});
 		});
 	}
 
-	function doUpload(url) {
+	function doUpload(url, content) {
 		agent.upload(url, function(status) {
+			var message;
 			switch(status) {
 				case 0:
-					util.message("烧写成功");
+					message = "烧写成功";
 					break;
 				case 1:
-					util.message("找不到串口");
+					message ="找不到串口";
 					break;
 				case 2:
-					util.message("找不到arduino");
+					message = "找不到arduino";
 					break;
 				case 3:
-					util.message("连接arduino失败");
+					message = "连接arduino失败";
 					break;
 				case 4:
 				default:
-					util.message("烧写失败");
+					message = "烧写失败";
 					break;
 			}
+			content.text(message);
 		});
 	}
 

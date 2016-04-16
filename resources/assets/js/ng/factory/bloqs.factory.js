@@ -195,7 +195,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			"bloq-comment-default": "Type a comment",
 			"bloq-functions-default": "Name",
 			"bloq-wait-ms": "ms",
-			"drag-bloq": "拖一个BLOCK放到这里开始你第一个程序吧",
+			"drag-bloq": "拖一个块放到这里开始你第一个程序吧",
 			"bloq-invoke-class-function-class": "of the object",
 			"bloq-invoke-arguments-class": "Create an object of the class",
 			"bloq-invoke-arguments-class-name": "with the name",

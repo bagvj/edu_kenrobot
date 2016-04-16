@@ -205,72 +205,11 @@
 					</div>
 				</div>
 				<div class="x-dialog x-dialog-info building-dialog">
-					<div class="x-dialog-title">编译</div>
+					<div class="x-dialog-title">烧写</div>
 					<i class="kenrobot ken-close x-dialog-close"></i>
 					<div class="x-dialog-content"></div>
 					<div class="x-dialog-btns">
 						<button class="x-dialog-btn confirm">确定</button>
-					</div>
-				</div>
-				<div class="x-dialog x-dialog-custom burn-dialog">
-					<div class="x-dialog-title">烧写</div>
-					<i class="kenrobot ken-close x-dialog-close"></i>
-					<div class="x-dialog-content">
-						<div class="tab tab-init active">
-							<div class="wrap">
-								<div class="message">
-									正在初始化，请稍候
-								</div>
-							</div>
-						</div>
-						<div class="tab tab-no-serial">
-							<div class="wrap">
-								<div class="message">
-									未检测到有Arduino开发板或其它串口设备插入<br />
-									<a class="driver" href='#'>驱动问题?</a>解决后请关闭本窗口，然后重新点击烧写图标
-								</div>
-							</div>
-						</div>
-						<div class="tab tab-connect">
-							<div class="wrap">
-								<div class="tips">
-									未检测到Arduino开发板连接或您已连接多个<br />请手动设置串口
-								</div>
-								<div class="field">
-									<label>端口:</label>
-									<select class="port">
-									</select>
-									<label>波特率:</label>
-									<select class="bitRate">
-										<option>115200</option>
-										<option>57600</option>
-										<option>19200</option>
-										<option>9600</option>
-										<option>4800</option>
-									</select>
-								</div>
-								<div>
-									<input class="connect" type="button" value="连接" />
-								</div>
-								<div class="message"></div>
-								<a class="driver" href='#'>驱动问题?</a>
-							</div>
-						</div>
-						<div class="tab tab-burn">
-							<div class="wrap">
-								<div class="burn-wrap">
-									<input class="burn" type="button" value="烧写" />
-									<div class="message"></div>
-								</div>
-								<div class="burn-progress">
-									<ul>
-									@for($i = 0; $i < 50; $i++)
-										<li></li>
-									@endfor
-									</ul>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 				<div class="x-dialog save-dialog">
