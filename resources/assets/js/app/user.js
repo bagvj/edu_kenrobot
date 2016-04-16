@@ -88,7 +88,7 @@ define(['vendor/jquery.cookie', './EventManager', './util'], function(_, EventMa
 			}).animate({
 				left: 340,
 				opacity: 1,
-			}, 400, "easeOutExpo");
+			}, 400, "swing");
 		}, function(e) {
 			if(dialog.is(':animated') || scan.is(':animated')) {
 				return;
@@ -97,7 +97,7 @@ define(['vendor/jquery.cookie', './EventManager', './util'], function(_, EventMa
 			scan.animate({
 				left: 440,
 				opacity: 0,
-			}, 400, "easeOutExpo", function() {
+			}, 400, "swing", function() {
 				scan.removeClass("active");
 			});
 		});
