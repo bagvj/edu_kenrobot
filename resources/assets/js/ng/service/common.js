@@ -3302,6 +3302,9 @@ angular.module('kenrobot')
 						"id": "VAR",
 						"alias": "dynamicDropdown",
 						"options": "softwareVars"
+					}, {
+						"alias": "text",
+						"value": "bloq-switch-check-end"
 					}]
 				],
 				"code": "switch (int({VAR})) {{STATEMENTS}}"
