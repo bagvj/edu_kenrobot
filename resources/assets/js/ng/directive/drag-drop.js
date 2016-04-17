@@ -87,7 +87,6 @@
 				}, false);
 
 				el.addEventListener('drop', function(e) {
-
 					// Stops some browsers from redirecting.
 					if (e.preventDefault) {
 						e.preventDefault(); // Necessary. Allows us to drop.
@@ -123,7 +122,7 @@
 	}
 
 	var getFieldOffsetTop = function(source) {
-		var fieldOffsetTop = 0;
+		var fieldOffsetTop = -66;
 		var tempElement;
 		for (var i = 0; i < source.length; i++) {
 			tempElement = document.getElementsByClassName(source[i]);

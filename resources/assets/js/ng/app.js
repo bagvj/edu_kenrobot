@@ -37,6 +37,8 @@ angular
 		
 		bloqs.setOptions({
 			lang: 'zh',
-			forcedScrollTop: 0
+			forcedScrollTop: 0,
+			fieldOffsetLeft: 66,
+			fieldOffsetTopForced: 66,
 		});
 	});

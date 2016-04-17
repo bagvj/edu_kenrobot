@@ -23,9 +23,6 @@ angular.module('kenrobot')
 			}, {
 				"title": "make-swtoolbox-logic",
 				"contentId": "logics"
-			}, {
-				"title": "make-swtoolbox-classes",
-				"contentId": "classes"
 			}],
 			"components": [{
 				"items": [{
@@ -121,45 +118,6 @@ angular.module('kenrobot')
 				}]
 			}],
 			"toolboxContents": [{
-				"title": "make-swtoolbox-classes",
-				"titleId": "classes",
-				"items": [{
-					"name": "class"
-				}, {
-					"name": "invokeClass"
-				}, {
-					"name": "constructorClass"
-				}, {
-					"name": "invokeClassFunction"
-				}, {
-					"name": "invokeClassReturnFunction"
-				}, {
-					"name": "setClassVariable"
-				}, {
-					"name": "selectClassVariable"
-				}],
-				"advancedItems": [{
-					"name": "classChildren"
-				}, {
-					"name": "constructorClassArguments"
-				}, {
-					"name": "invokeArgumentsClass"
-				}, {
-					"name": "public"
-				}, {
-					"name": "protected"
-				}, {
-					"name": "private"
-				}, {
-					"name": "invokeClassFunctionWithArguments"
-				}, {
-					"name": "invokeClassReturnFunctionWithArguments"
-				}, {
-					"name": "arrayClassVariable"
-				}, {
-					"name": "setClassArrayVariable"
-				}]
-			}, {
 				"title": "make-swtoolbox-functions",
 				"titleId": "functions",
 				"items": [{
