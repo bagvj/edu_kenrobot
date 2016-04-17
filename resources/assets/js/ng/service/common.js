@@ -872,12 +872,15 @@ angular.module('kenrobot')
 				"bloqClass": "bloq-serial-receiver",
 				"content": [
 					[{
+						"alias": "text",
+						"value": "bloq-serial-receiver-receive"
+					}, {
 						"id": "SERIAL",
 						"alias": "dynamicDropdown",
 						"options": "serialElements"
 					}, {
 						"alias": "text",
-						"value": "bloq-serial-receiver-receive"
+						"value": "bloq-serial-receiver-receive-end"
 					}]
 				],
 				"code": "{SERIAL}.readString()",
@@ -1158,6 +1161,9 @@ angular.module('kenrobot')
 						"alias": "bloqInput",
 						"acceptType": "all",
 						"name": "8b0e7306-5424-4483-bb25-991cc88ee22c"
+					}, {
+						"alias": "text",
+						"value": "bloq-analog-read-advanced-readpin-end"
 					}]
 				],
 				"code": "'{PIN}'.indexOf('A') !== -1 ? 'analogRead({PIN})'.replace(/\"/g, '') : 'analogRead({PIN})'",
@@ -1333,6 +1339,9 @@ angular.module('kenrobot')
 						"alias": "bloqInput",
 						"acceptType": "all",
 						"name": "584cafc9-1451-42fb-a56b-a219a4db672e"
+					}, {
+						"alias": "text",
+						"value": "bloq-continuous-servo-stop-advanced-stop-end"
 					}]
 				],
 				"code": "{SERVO}.write(90);"
@@ -1359,6 +1368,9 @@ angular.module('kenrobot')
 						"alias": "bloqInput",
 						"acceptType": "all",
 						"name": "c585be5f-5bdf-476d-b3c1-ebb0f8886cb8"
+					}, {
+						"alias": "text",
+						"value": "bloq-digital-read-advanced-readpin-end"
 					}]
 				],
 				"code": "digitalRead({PIN})",
@@ -1437,13 +1449,13 @@ angular.module('kenrobot')
 							"value": "LOW"
 						}]
 					}, {
-						"alias": "text",
-						"value": "bloq-lcd-turn-on-off-advanced-lcdLigth"
-					}, {
 						"bloqInputId": "LCD",
 						"alias": "bloqInput",
 						"acceptType": "all",
 						"name": "6e9f7268-0bf0-45f2-97d8-428034412094"
+					}, {
+						"alias": "text",
+						"value": "bloq-lcd-turn-on-off-advanced-lcdLigth"
 					}]
 				],
 				"code": "{LCD}.setBacklight({STATE});"
@@ -1472,20 +1484,20 @@ angular.module('kenrobot')
 				"content": [
 					[{
 						"alias": "text",
-						"value": "bloq-lcd-writte-advanced-write"
-					}, {
-						"bloqInputId": "TEXT",
-						"alias": "bloqInput",
-						"acceptType": "all",
-						"name": "0ff787be-1b73-4c85-84e0-f38651e4a29d"
-					}, {
-						"alias": "text",
 						"value": "bloq-lcd-writte-advanced-inLCD"
 					}, {
 						"bloqInputId": "LCD",
 						"alias": "bloqInput",
 						"acceptType": "all",
 						"name": "087df5f7-1ad4-4fcf-923b-3c8866b13512"
+					}, {
+						"alias": "text",
+						"value": "bloq-lcd-writte-advanced-write"
+					}, {
+						"bloqInputId": "TEXT",
+						"alias": "bloqInput",
+						"acceptType": "all",
+						"name": "0ff787be-1b73-4c85-84e0-f38651e4a29d"
 					}]
 				],
 				"code": "{LCD}.print({TEXT});"
@@ -1524,14 +1536,6 @@ angular.module('kenrobot')
 				"content": [
 					[{
 						"alias": "text",
-						"value": "bloq-lcd-writte-write"
-					}, {
-						"bloqInputId": "TEXT",
-						"alias": "bloqInput",
-						"acceptType": "all",
-						"name": "5b8ac541-9ef8-48fa-b798-04ef13c0ef83"
-					}, {
-						"alias": "text",
 						"value": "bloq-lcd-writte-inLCD"
 					}, {
 						"bloqInputId": "LCD",
@@ -1539,18 +1543,29 @@ angular.module('kenrobot')
 						"acceptType": "all",
 						"name": "ff3bf8e8-5438-4a0d-822a-346d8838af7d"
 					}, {
+						"bloqInputId": "ROW",
+						"alias": "bloqInput",
+						"acceptType": "all",
+						"name": "c0f6dffb-bbb6-4906-bb65-313ee54e26b9"
+					}, {
 						"alias": "text",
-						"value": "bloq-lcd-writte-advanced-inPosition"
+						"value": "bloq-lcd-writte-advanced-row"
 					}, {
 						"bloqInputId": "COLUMN",
 						"alias": "bloqInput",
 						"acceptType": "all",
 						"name": "7ed6194c-1253-4ac3-a1cd-c5a1b0334e8a"
 					}, {
-						"bloqInputId": "ROW",
+						"alias": "text",
+						"value": "bloq-lcd-writte-advanced-column"
+					}, {
+						"alias": "text",
+						"value": "bloq-lcd-writte-write"
+					}, {
+						"bloqInputId": "TEXT",
 						"alias": "bloqInput",
 						"acceptType": "all",
-						"name": "c0f6dffb-bbb6-4906-bb65-313ee54e26b9"
+						"name": "5b8ac541-9ef8-48fa-b798-04ef13c0ef83"
 					}]
 				],
 				"code": "{LCD}.setCursor({COLUMN},{ROW});{LCD}.print({TEXT});"
@@ -1881,6 +1896,9 @@ angular.module('kenrobot')
 						"id": "SERVO",
 						"alias": "dynamicDropdown",
 						"options": "continuousServos"
+					}, {
+						"alias": "text",
+						"value": "bloq-continuous-servo-stop-stop-end"
 					}]
 				],
 				"code": "{SERVO}.write(90);"
@@ -2093,6 +2111,9 @@ angular.module('kenrobot')
 						"id": "SENSOR",
 						"alias": "dynamicDropdown",
 						"options": "hts221"
+					}, {
+						"alias": "text",
+						"value": "bloq-hts221-humidity-end"
 					}]
 				],
 				"code": "{SENSOR}.getHumidity()",
@@ -2117,6 +2138,9 @@ angular.module('kenrobot')
 						"id": "SENSOR",
 						"alias": "dynamicDropdown",
 						"options": "hts221"
+					}, {
+						"alias": "text",
+						"value": "bloq-hts221-temperature-end"
 					}]
 				],
 				"code": "{SENSOR}.getTemperature()",
@@ -2171,12 +2195,12 @@ angular.module('kenrobot')
 							"value": "LOW"
 						}]
 					}, {
-						"alias": "text",
-						"value": "bloq-lcd-turn-on-off-lcdLigth"
-					}, {
 						"id": "LCD",
 						"alias": "dynamicDropdown",
 						"options": "lcds"
+					}, {
+						"alias": "text",
+						"value": "bloq-lcd-turn-on-off-lcdLigth"
 					}]
 				],
 				"code": "{LCD}.setBacklight({STATE});"
@@ -2195,18 +2219,18 @@ angular.module('kenrobot')
 				"content": [
 					[{
 						"alias": "text",
-						"value": "bloq-lcd-writte-write"
-					}, {
-						"id": "TEXT",
-						"alias": "stringInput",
-						"placeholder": "bloq-lcd-default"
-					}, {
-						"alias": "text",
 						"value": "bloq-lcd-writte-inLCD"
 					}, {
 						"id": "LCD",
 						"alias": "dynamicDropdown",
 						"options": "lcds"
+					}, {
+						"alias": "text",
+						"value": "bloq-lcd-writte-write"
+					}, {
+						"id": "TEXT",
+						"alias": "stringInput",
+						"placeholder": "bloq-lcd-default"
 					}]
 				],
 				"code": "{LCD}.print(\"{TEXT}\");"
@@ -2225,29 +2249,32 @@ angular.module('kenrobot')
 				"content": [
 					[{
 						"alias": "text",
-						"value": "bloq-lcd-writte-write"
-					}, {
-						"id": "TEXT",
-						"alias": "stringInput",
-						"placeholder": "bloq-lcd-default"
-					}, {
-						"alias": "text",
 						"value": "bloq-lcd-writte-inLCD"
 					}, {
 						"id": "LCD",
 						"alias": "dynamicDropdown",
 						"options": "lcds"
 					}, {
+						"id": "ROW",
+						"alias": "numberInput",
+						"value": 0
+					}, {
 						"alias": "text",
-						"value": "bloq-lcd-writte-advanced-inPosition"
+						"value": "bloq-lcd-writte-advanced-row"
 					}, {
 						"id": "COLUMN",
 						"alias": "numberInput",
 						"value": 0
 					}, {
-						"id": "ROW",
-						"alias": "numberInput",
-						"value": 0
+						"alias": "text",
+						"value": "bloq-lcd-writte-advanced-column"
+					}, {
+						"alias": "text",
+						"value": "bloq-lcd-writte-write"
+					}, {
+						"id": "TEXT",
+						"alias": "stringInput",
+						"placeholder": "bloq-lcd-default"
 					}]
 				],
 				"code": "{LCD}.setCursor({COLUMN},{ROW});{LCD}.print(\"{TEXT}\");"
@@ -2464,6 +2491,13 @@ angular.module('kenrobot')
 						"alias": "text",
 						"value": "bloq-rtc"
 					}, {
+						"id": "RTC",
+						"alias": "dynamicDropdown",
+						"options": "clocks"
+					}, {
+						"alias": "text",
+						"value": "bloq-rtc-using"
+					}, {
 						"id": "RTC_FUNC",
 						"alias": "staticDropdown",
 						"options": [{
@@ -2473,13 +2507,6 @@ angular.module('kenrobot')
 							"label": "bloq-rtc-time",
 							"value": "getTime"
 						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-rtc-using"
-					}, {
-						"id": "RTC",
-						"alias": "dynamicDropdown",
-						"options": "clocks"
 					}]
 				],
 				"code": "{RTC}.{RTC_FUNC}()",
@@ -2500,6 +2527,13 @@ angular.module('kenrobot')
 					[{
 						"alias": "text",
 						"value": "bloq-rtc-advanced"
+					}, {
+						"id": "RTC",
+						"alias": "dynamicDropdown",
+						"options": "clocks"
+					}, {
+						"alias": "text",
+						"value": "bloq-rtc-using-advanced"
 					}, {
 						"id": "FUNCTION",
 						"alias": "staticDropdown",
@@ -2522,13 +2556,6 @@ angular.module('kenrobot')
 							"label": "bloq-rtc-year",
 							"value": "getYear"
 						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-rtc-using-advanced"
-					}, {
-						"id": "RTC",
-						"alias": "dynamicDropdown",
-						"options": "clocks"
 					}]
 				],
 				"code": "{RTC}.{FUNCTION}()",
