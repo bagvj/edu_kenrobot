@@ -14,7 +14,8 @@ define(function() {
 			var port;
 			for(var i = 0; i < ports.length; i++) {
 				var p = ports[i];
-				if(p.displayName && p.displayName.toLowerCase().indexOf("arduino") > -1) {
+				var name = p.displayName;
+				if(name && (name.toLowerCase().indexOf("arduino") > -1) || name.toLowerCase().indexOf("usbmodem") > -1 ) {
 					port = p;
 					break;
 				}
