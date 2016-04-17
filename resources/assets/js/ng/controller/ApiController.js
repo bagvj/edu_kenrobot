@@ -18,7 +18,7 @@ angular.module('kenrobot')
 			return $scope.getCurrentProject();
 		}
 
-		function setProject(project) {
+		function loadProject(project) {
 			var hasProp = false;
 			for(var prop in project) {
 				hasProp = true;
@@ -46,6 +46,8 @@ angular.module('kenrobot')
 				bloqs.removeBloq($scope.arduinoMainBloqs.loopBloq.uuid, true);
 				$scope.arduinoMainBloqs.loopBloq = null;
 			}
+
+			$route.reload();
 		}
 
 		function reload() {
@@ -57,7 +59,7 @@ angular.module('kenrobot')
 			hasChanged: hasChanged,
 			setProjectInfo: setProjectInfo,
 			getProject: getProject,
-			setProject: setProject,
+			loadProject: loadProject,
 			resetProject: resetProject,
 			reload: reload,
 		};

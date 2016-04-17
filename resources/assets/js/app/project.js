@@ -7,7 +7,7 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 		projectInfo = getDefaultProject();
 
 		var scope = angular.element('.ng-app').scope();
-		scope.$on('onRouteChange', onRouteChange);
+		// scope.$on('onRouteChange', onRouteChange);
 	}
 
 	function create() {
@@ -35,7 +35,8 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 	function reset() {
 		ensureApi();
 		api.resetProject();
-		load(getDefaultProject());
+		// load(getDefaultProject());
+		projectInfo = getDefaultProject();
 	}
 
 	function load(p) {
@@ -48,7 +49,7 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 		}
 		projectInfo = p;
 		ensureApi();
-		api.setProject(projectInfo.project_data);
+		api.loadProject(projectInfo.project_data);
 	}
 
 	function doBuild() {
