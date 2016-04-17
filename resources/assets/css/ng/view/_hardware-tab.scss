@@ -194,8 +194,10 @@ $color_hover: #f19833;
 
       .component-name__label {
         color           : #000;
-        font-weight     : 900;
-        padding         : 12px 10px;
+        font-weight     : normal;
+        padding-left    : 10px;
+        padding-right   : 10px;
+        line-height     : 38px;
         background-color: $color;
         display         : inline-block;
         white-space     : nowrap;
