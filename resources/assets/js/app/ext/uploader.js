@@ -2,6 +2,7 @@ define(function() {
 	var API;
 	var config;
 	var host;
+	var nameReg = /(arduino)|(\/dev\/cu\.usbmodem)/i;
 
 	function init(api, _config) {
 		API = api;
@@ -15,7 +16,7 @@ define(function() {
 			for(var i = 0; i < ports.length; i++) {
 				var p = ports[i];
 				var name = p.displayName;
-				if(name && (name.toLowerCase().indexOf("arduino") > -1 || name.toLowerCase().indexOf("usbmodem") > -1)) {
+				if(name && nameReg.test(name)) {
 					port = p;
 					break;
 				}
