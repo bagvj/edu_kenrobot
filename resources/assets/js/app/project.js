@@ -1,5 +1,4 @@
 define(['./EventManager', './util', './user', './ext/agent'], function(EventManager, util, user, agent) {
-	var api;
 	var projectInfo;
 	var isLoading;
 
@@ -7,7 +6,7 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 		projectInfo = getDefaultProject();
 
 		var scope = angular.element('.ng-app').scope();
-		// scope.$on('onRouteChange', onRouteChange);
+		scope.$on('onRouteChange', onRouteChange);
 	}
 
 	function create() {
@@ -33,23 +32,8 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 	}
 
 	function reset() {
-		ensureApi();
-		api.resetProject();
-		// load(getDefaultProject());
+		getApi().resetProject();
 		projectInfo = getDefaultProject();
-	}
-
-	function load(p) {
-		if(typeof p.project_data == "string") {
-			try {
-				p.project_data = JSON.parse(p.project_data);
-			} catch(ex) {
-				p.project_data = {};
-			};
-		}
-		projectInfo = p;
-		ensureApi();
-		api.loadProject(projectInfo.project_data);
 	}
 
 	function doBuild() {
@@ -190,7 +174,7 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 
 		user.authCheck(function(success) {
 			if(!success && !hash) {
-				reset();
+				getApi().reload();
 				isLoading = false;
 				return;
 			}
@@ -213,15 +197,23 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 	}
 
 	function onLoadProject(result) {
-		isLoading = false;
 		if(result.status != 0) {
 			util.message(result.message);
-			ensureApi();
-			api.reload();
+			getApi().reload();
+			isLoading = false;
 			return;
 		}
 
-		load(result.data);
+		projectInfo = result.data;
+		if(typeof projectInfo.project_data == "string") {
+			try {
+				projectInfo.project_data = JSON.parse(projectInfo.project_data);
+			} catch(ex) {
+				projectInfo.project_data = {};
+			};
+		}
+		getApi().setProject(projectInfo.project_data);
+		isLoading = false;
 	}
 
 	function getDefaultProject() {
@@ -236,14 +228,11 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 	}
 
 	function getProjectData() {
-		ensureApi();
-		return api.getProject();
+		return getApi().getProject();
 	}
 
-	function ensureApi() {
-		if(!api) {
-			api = angular.element('#api-controller').scope().getApi();
-		}
+	function getApi() {
+		return angular.element('#api-controller').scope().getApi();
 	}
 
 	return {

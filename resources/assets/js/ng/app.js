@@ -25,7 +25,7 @@ angular
 	})
 	.run(function(_, bloqs, $rootScope, $location, $routeParams) {
 		$rootScope.$on('$locationChangeStart', function(e, next, current) {
-			var path = /project\/([0-9a-zA-Z]{6}).*/i.exec(next);
+			var path = /project\/([0-9a-zA-Z]{6})$/.exec(next);
 			if (!path || !path[1]) {
 				$location.path('/').replace();
 			}

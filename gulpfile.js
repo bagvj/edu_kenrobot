@@ -64,7 +64,7 @@ gulp.task('js', ['clean-js', 'copy-env'], function() {
 				SRC + "js/ng/vendor/lodash.js",
 				SRC + "js/ng/vendor/jsPlumb.js",
 				SRC + "js/ng/vendor/bloqs.js",
-				SRC + "js/ng/vendor/angular.min.js",
+				SRC + "js/ng/vendor/angular.js",
 				SRC + "js/ng/vendor/angular-route.js",
 				SRC + "js/ng/vendor/angular-sanitize.js",
 				SRC + "js/ng/vendor/angular-translate.js",
