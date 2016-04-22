@@ -205,7 +205,7 @@ define(['vendor/jquery.cookie', './EventManager', './util'], function(_, EventMa
 		userMenu.on('mouseleave', hideMenu);
 		user.on('mouseleave', hideMenu);
 
-		$('.wrap', user).on('mouseover', function() {
+		$('.user-info', user).on('mouseover', function() {
 			userMenu.show();
 		});
 
