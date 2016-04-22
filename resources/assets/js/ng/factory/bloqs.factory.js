@@ -74,6 +74,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 			"bloq-servo-advanced-to": "角度为",
 			"bloq-servo-advanced-degrees": "度",
 			"bloq-buzzer-sound": "蜂鸣器",
+			"bloq-buzzer-sound-off": "关闭蜂鸣器",
 			"bloq-buzzer-note": "发出音阶",
 			"bloq-buzzer-for": "持续",
 			"bloq-buzzer-ms": "毫秒",

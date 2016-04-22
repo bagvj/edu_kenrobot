@@ -32,6 +32,8 @@ angular.module('kenrobot')
 				}, {
 					"name": "buzzer"
 				}, {
+					"name": "buzzerClose"
+				}, {
 					"name": "continuousServoStart"
 				}, {
 					"name": "continuousServoStop"

@@ -1841,6 +1841,29 @@ angular.module('kenrobot')
 				],
 				"code": "tone({BUZZER},{NOTE},{SECONDS});\ndelay({SECONDS});"
 			},
+			"buzzerClose": {
+				"type": "statement",
+				"name": "buzzerClose",
+				"connectors": [{
+					"type": "connector--top",
+					"accept": "connector--bottom"
+				}, {
+					"type": "connector--bottom",
+					"accept": "connector--top"
+				}],
+				"bloqClass": "bloq-buzzer",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-buzzer-sound-off"
+					}, {
+						"id": "BUZZER",
+						"alias": "dynamicDropdown",
+						"options": "buzzers"
+					}]
+				],
+				"code": "noTone({BUZZER});"
+			},
 			"continuousServoStart": {
 				"type": "statement",
 				"name": "continuousServoStart",
