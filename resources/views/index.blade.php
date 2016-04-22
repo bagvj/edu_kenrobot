@@ -64,22 +64,26 @@
 		<div class="main">
 			<div class="main-wrap">
 				<div class="main-header">
-					<div class="logo">
-					</div>
+					<a class="logo" href="http://www.kenrobot.com"></a>
 					<div class="wrap">
 						<div class="top-menu">
 							<ul>
 								<li data-action="new"><i class="kenrobot ken-project"></i>新建</li><li data-action="save"><i class="kenrobot ken-save"></i>保存</li>
 							</ul>
 						</div>
-						<div class="user-info {{isset($user) ? 'active' : ''}}">
-							<div class="wrap">
+						<div class="user{{isset($user) ? ' active' : ''}}">
+							<div class="user-info">
 								<a class="photo" href="{{$mainpage}}" target="_blank">
 									<img src="{{$user->avatar_url or asset('assets/images/default_portrait.png')}}" />
 								</a>
 								<div class="welcome">
 									<span class="name">{{isset($user) ? $user->name : ''}}</span><i class="kenrobot ken-triangle-down arrow"></i>
 								</div>
+							</div>
+							<div class="user-login">
+								<ul>
+									<li data-action="login">登录</li><li><a href="{{$register_url}}">注册</a></li>
+								</ul>
 							</div>
 							<div class="user-menu">
 								<ul>

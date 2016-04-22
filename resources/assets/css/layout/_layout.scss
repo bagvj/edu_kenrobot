@@ -49,8 +49,8 @@ $header-size: 66px;
 		height: $header-size;
 	}
 
-	.user-info {
-		height: 40px;
+	.user {
+		height: $header-size;
 		right: 0;
 		top: 0;
 		position: absolute;
@@ -86,14 +86,42 @@ $header-size: 66px;
 	}
 }
 
-.user-info {
-	display: none;
-
+.user {
 	&.active {
-		display: block;
+		.user-login {
+			display: none;
+		}
+
+		.user-info {
+			display: block;
+		}
 	}
 
-	.wrap {
+	.user-login {
+		margin-right: 20px;
+
+		ul li {
+			height: $header-size;
+			line-height: $header-size;
+			margin-left: 8px;
+			margin-right: 8px;
+			letter-spacing: 2px;
+			float: left;
+			cursor: pointer;
+			color: white;
+		
+			&:hover {
+				color: #24c1ff;
+
+				& > a {
+					color: #24c1ff;
+				}
+			}
+		}
+	}
+
+	.user-info {
+		display: none;
 		position: relative;
 		float: right;
 
