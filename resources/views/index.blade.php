@@ -233,9 +233,9 @@
 							<div>
 								<span class="filed-key">公开：</span>
 								<div class="public-type">
-									<label><input type="radio" name="public-type" value="1" checked="true" />私有</label>
+									<label><input type="radio" name="public-type" value="0" checked="true" />私有</label>
+									<label><input type="radio" name="public-type" value="1" />好友公开</label>
 									<label><input type="radio" name="public-type" value="2" />完全公开</label>
-									<label><input type="radio" name="public-type" value="3" />好友公开</label>
 								</div>
 							</div>
 							<input class="save-btn" type="button" value="保存" />
