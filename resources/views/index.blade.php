@@ -12,6 +12,7 @@
 		<link href="/assets/images/favicon.ico" type="image/x-icon" rel="shortcut icon" />
 		<link href="/assets/css/index.css" rel="stylesheet" />
 
+		<script src="//hm.baidu.com/hm.js?{{env('PV_KEY')}}" async="true"></script>
 		<script src="/assets/js/jquery.js"></script>
 		@if(env('APP_DEBUG'))
 		<script src="/assets/js/ng/vendor/autogrow.js"></script>
