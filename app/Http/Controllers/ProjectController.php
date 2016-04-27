@@ -15,7 +15,8 @@ class ProjectController extends Controller {
 
 	public function buildProject(Request $request) {
 		$id = $request->input('id');
-		$project = $this->getProjectInfo($id);
+		$user_id = $request->input('user_id');
+		$project = $this->getProjectInfo($user_id, $id);
 		if(!$project) {
 			return response()->json(['status' => -1, 'message' => '非法请求']);
 		}
@@ -49,17 +50,10 @@ class ProjectController extends Controller {
 		}
 	}
 
-	public function downloadProject(Request $request, $key, $ext = "zip") {
-		if(intval($key)) {
-			$id = intval($key);
-			$project = $this->getProjectInfo($id);
-			if(!$project) {
-				return abort(404);
-			}
-
-			$hash = $project->hash;
-		} else {
-			$hash = $key;
+	public function downloadProject(Request $request, $hash, $ext = "zip") {
+		$project = $this->getProjectInfo(null, $hash, 'hash', config("platform.url.token"));
+		if(!$project) {
+			return abort(404);
 		}
 		
 		$ext = "." . $ext;
@@ -96,8 +90,9 @@ class ProjectController extends Controller {
 
 	public function saveProject(Request $request) {
 		$id = $request->input('id');
+		$user_id = $request->input('user_id');
 		if($id != 0) {
-			$project = $this->getProjectInfo($id);
+			$project = $this->getProjectInfo($user_id, $id);
 			if(!$project) {
 				return response()->json(['status' => -1, 'message' => '非法请求']);
 			}
@@ -118,7 +113,6 @@ class ProjectController extends Controller {
 		}
 
 		//传递默认参数
-		$user_id = $request->input('user_id');
 		$user = User::find($user_id);
 		$params['uid'] = empty($user) ? 0 : $user->uid;
 
@@ -156,8 +150,13 @@ class ProjectController extends Controller {
 		return $curl->post($url, $params);
 	}
 
-	private function getProjectInfo($key, $type = 'id') {
-		$url = config("platform.url.base").config("platform.url.getProject")."&$type=$key";
+	private function getProjectInfo($user_id, $key, $type = 'id', $token = '') {
+		$url = config("platform.url.base").config("platform.url.getProject");
+		if(!empty($token)) {
+			$url = $url."&token=$token&$type=$key";
+		} else {
+			$url = $url."&user_id=$user_id&$type=$key";
+		}
 		$curl = new Curl();
 		$result = json_decode($curl->get($url));
 		return ($result && $result->status == 0) ? $result->data : false;

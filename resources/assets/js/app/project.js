@@ -59,7 +59,8 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 				url: "/api/project/build",
 				dataType: "json",
 				data: {
-					id: id
+					id: id,
+					user_id: user.getUserId(),
 				},
 			}).done(function(result) {
 				if(result.status != 0) {
@@ -222,7 +223,7 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 			user_id: user.getUserId(),
 			project_name: "我的项目",
 			project_intro: "我的项目简介",
-			public_type: 1,
+			public_type: 0,
 			project_data: {},
 		};
 	}
