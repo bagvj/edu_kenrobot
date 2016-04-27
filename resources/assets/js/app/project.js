@@ -1,4 +1,4 @@
-define(['./EventManager', './util', './user', './ext/agent'], function(EventManager, util, user, agent) {
+define(['./EventManager', './util', './projectApi', './user', './ext/agent'], function(EventManager, util, projectApi, user, agent) {
 	var projectInfo;
 	var isLoading;
 
@@ -14,21 +14,15 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 	}
 
 	function upload() {
-		user.authCheck(function(success) {
-			success ? doBuild() : user.showLoginDialog();
-		});
+		user.authCheck().then(doBuild, user.showLoginDialog);
 	}
 
 	function save() {
-		user.authCheck(function(success) {
-			success ? doSave() : user.showLoginDialog();
-		});
+		user.authCheck().then(doSave, user.showLoginDialog);
 	}
 
 	function edit() {
-		user.authCheck(function(success) {
-			success ? showSaveDialog() : user.showLoginDialog();
-		});
+		user.authCheck().then(showSaveDialog, user.showLoginDialog);
 	}
 
 	function reset() {
@@ -173,13 +167,7 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 		var hash = routeParams.hash || "";
 		hash = /^[0-9a-zA-Z]{6}$/.test(hash) ? hash : "";
 
-		user.authCheck(function(success) {
-			if(!success && !hash) {
-				getApi().reload();
-				isLoading = false;
-				return;
-			}
-
+		var doLoad = function() {
 			var data = {};
 			data.user_id = user.getUserId();
 			if(hash) {
@@ -194,6 +182,15 @@ define(['./EventManager', './util', './user', './ext/agent'], function(EventMana
 				dataType: 'json',
 				data: data,
 			}).done(onLoadProject);
+		};
+
+		user.authCheck().then(doLoad, function() {
+			if(hash) {
+				doLoad();
+			} else {
+				getApi().reload();
+				isLoading = false;
+			}
 		});
 	}
 
