@@ -9,7 +9,7 @@ define(['vendor/jquery.cookie', './EventManager', './util'], function(_, EventMa
 		initUserDialog();
 		initCopyright();
 
-		$('.user-login li[data-action="login"]').on('click', onLogin);
+		$('.user-login li').on('click', onLogin);
 	}
 
 	function getUserId() {
