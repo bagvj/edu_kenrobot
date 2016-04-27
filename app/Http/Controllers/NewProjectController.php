@@ -26,11 +26,11 @@ class NewProjectController extends Controller {
 
         $project_data = json_decode($project->project_data);
         //代码的字节码
-        $source = $project_data->software->source;
+        $source = $project_data->code;
         //项目名字
         $project_name = $project->project_name;
         //主板类型
-        $board_type = $project_data->board->board_type;
+        $board_type = "uno";
         //项目hash
         $hash = $project->hash;
 

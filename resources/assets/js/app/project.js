@@ -48,15 +48,7 @@ define(['./EventManager', './util', './projectApi', './user', './ext/agent'], fu
 
 			content.text("保存成功，正在编译...");
 
-			$.ajax({
-				type: "POST",
-				url: "/api/project/build",
-				dataType: "json",
-				data: {
-					id: id,
-					user_id: user.getUserId(),
-				},
-			}).done(function(result) {
+			projectApi.build(id).done(function(result) {
 				if(result.status != 0) {
 					content.text("编译失败");
 					return;
@@ -139,12 +131,7 @@ define(['./EventManager', './util', './projectApi', './user', './ext/agent'], fu
 			}
 		}
 
-		$.ajax({
-			type: 'POST',
-			url: '/api/project/save',
-			data: project,
-			dataType: 'json',
-		}).done(function(result) {
+		projectApi.save(project).done(function(result) {
 			if(result.status == 0) {
 				if(id == 0) {
 					projectInfo.id = result.data.project_id;
@@ -168,20 +155,8 @@ define(['./EventManager', './util', './projectApi', './user', './ext/agent'], fu
 		hash = /^[0-9a-zA-Z]{6}$/.test(hash) ? hash : "";
 
 		var doLoad = function() {
-			var data = {};
-			data.user_id = user.getUserId();
-			if(hash) {
-				data.key = hash;
-			} else {
-				data.type = 'last';
-			}
-
-			$.ajax({
-				type: 'POST',
-				url: '/api/project/get',
-				dataType: 'json',
-				data: data,
-			}).done(onLoadProject);
+			var type = hash ? 'hash' : 'last';
+			projectApi.get(hash, type).done(onLoadProject);
 		};
 
 		user.authCheck().then(doLoad, function() {

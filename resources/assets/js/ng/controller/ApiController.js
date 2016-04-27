@@ -22,6 +22,10 @@ angular.module('kenrobot')
 			} else {
 				resetProject();
 			}
+
+			$timeout(function() {
+				$rootScope.$apply();
+			}, 100);
 		}
 
 		function resetProject() {

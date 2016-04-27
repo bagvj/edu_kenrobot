@@ -37,7 +37,8 @@ class WebAuthController extends Controller
 
         //kenrobot_id cookie
         $kenrobot_id = WebAuthHelper::encryptKenrobotId($user->uid);
-        return response()->json(['status' => 0, 'message' => '登录成功', 'data' => $user])->withCookie(cookie('kenrobot_id', $kenrobot_id));
+        $userinfo = array_only($user->toArray(), ['id', 'name', 'avatar_url']);
+        return response()->json(['status' => 0, 'message' => '登录成功', 'data' => $userinfo])->withCookie(cookie('kenrobot_id', $kenrobot_id));
     }
 
     /**
@@ -48,7 +49,8 @@ class WebAuthController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            return response()->json(['status' => 1, 'message' => '已经登录', 'data' => $user]);
+            $userinfo = array_only($user->toArray(), ['id', 'name', 'avatar_url']);
+            return response()->json(['status' => 1, 'message' => '已经登录', 'data' => $userinfo]);
         }
 
         $weixinauth = WebAuthFactory::create('weixin');
@@ -66,7 +68,8 @@ class WebAuthController extends Controller
             Auth::logout();
         }
         Auth::login($user,false);
-        return response()->json(['status' => 0, 'message' => '登录成功','data' => $user]);
+        $userinfo = array_only($user->toArray(), ['id', 'name', 'avatar_url']);
+        return response()->json(['status' => 0, 'message' => '登录成功','data' => $userinfo]);
     }
 
     /**
@@ -76,8 +79,7 @@ class WebAuthController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            $userinfo = $user->toArray();
-            $userinfo = array_only($userinfo, ['id', 'name', 'avatar_url']);
+            $userinfo = array_only($user->toArray(), ['id', 'name', 'avatar_url']);
             return response()->json(['status' => 0, 'message' => '已经登录', 'user' => $userinfo]);
         }
         return response()->json(['status' => -1, 'message' => '未登录']);
