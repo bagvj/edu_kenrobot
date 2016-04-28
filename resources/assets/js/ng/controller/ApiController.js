@@ -19,8 +19,8 @@ angular.module('kenrobot')
 			$scope.setProject(project);
 			hw2Bloqs.repaint();
 			$scope.refreshCode();
-			$scope.$apply();
 			$rootScope.$emit('refreshScroll');
+			$rootScope.$apply();
 		}
 
 		function reload() {

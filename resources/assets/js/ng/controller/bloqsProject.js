@@ -256,10 +256,10 @@ angular.module('kenrobot')
 			return project;
 		};
 
-		$document.on('keyup', function() {
+		$document.on('keyup', function(e) {
 			if (event.ctrlKey && event.which === 83) {
 				//do save project
-				console.log("ctrl + s => do save");
+				// console.log("ctrl + s => do save");
 				return false;
 			}
 		});
