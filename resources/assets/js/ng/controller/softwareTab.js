@@ -1,31 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.controller('SoftwareTabCtrl', function($scope, $http, common, bloqs, $translate, $rootScope, $document, $log, $window, $timeout) {
-		$scope.init = function() {
-			if ($scope.arduinoMainBloqs.varsBloq) {
-				bloqs.removeBloq($scope.arduinoMainBloqs.varsBloq.uuid, true);
-				$scope.arduinoMainBloqs.varsBloq = null;
-				bloqs.removeBloq($scope.arduinoMainBloqs.setupBloq.uuid, true);
-				$scope.arduinoMainBloqs.setupBloq = null;
-				bloqs.removeBloq($scope.arduinoMainBloqs.loopBloq.uuid, true);
-				$scope.arduinoMainBloqs.loopBloq = null;
-			}
-
-			$scope.arduinoMainBloqs.varsBloq = bloqs.buildBloqWithContent($scope.project.software.vars, $scope.componentsArray, common.bloqsSchemas, $scope.$field);
-			$scope.arduinoMainBloqs.setupBloq = bloqs.buildBloqWithContent($scope.project.software.setup, $scope.componentsArray, common.bloqsSchemas);
-			$scope.arduinoMainBloqs.loopBloq = bloqs.buildBloqWithContent($scope.project.software.loop, $scope.componentsArray, common.bloqsSchemas);
-
-			$scope.$field.append($scope.arduinoMainBloqs.varsBloq.$bloq, $scope.arduinoMainBloqs.setupBloq.$bloq, $scope.arduinoMainBloqs.loopBloq.$bloq);
-			$scope.arduinoMainBloqs.varsBloq.enable(true);
-			$scope.arduinoMainBloqs.varsBloq.doConnectable();
-
-			$scope.arduinoMainBloqs.setupBloq.enable(true);
-			$scope.arduinoMainBloqs.setupBloq.doConnectable();
-
-			$scope.arduinoMainBloqs.loopBloq.enable(true);
-			$scope.arduinoMainBloqs.loopBloq.doConnectable();
-		};
-
+	.controller('SoftwareTabCtrl', function($scope, common, bloqs, $translate, $rootScope, $document, $log, $window, $timeout) {
 		$scope.onFieldKeyUp = function(event) {
 			switch (event.keyCode) {
 				case 46:
@@ -124,10 +99,4 @@ angular.module('kenrobot')
 
 		$document.on('contextmenu', contextMenuDocumentHandler);
 		$document.on('click', clickDocumentHandler);
-
-		// $timeout(function() {
-		setTimeout(function() {
-			$scope.init();
-		}, 100);
-		// }, 100);
 	});

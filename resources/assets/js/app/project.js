@@ -10,7 +10,8 @@ define(['./EventManager', './util', './projectApi', './user', './ext/agent'], fu
 	}
 
 	function create() {
-		reset();
+		getApi().setProject();
+		projectInfo = getDefaultProject();
 	}
 
 	function upload() {
@@ -23,11 +24,6 @@ define(['./EventManager', './util', './projectApi', './user', './ext/agent'], fu
 
 	function edit() {
 		user.authCheck().then(showSaveDialog, user.showLoginDialog);
-	}
-
-	function reset() {
-		getApi().resetProject();
-		projectInfo = getDefaultProject();
 	}
 
 	function doBuild() {

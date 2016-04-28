@@ -1,5 +1,3 @@
-var kenrobot = window.kenrobot = window.kenrobot || {};
-
 'use strict';
 (function(bloqsLanguages) {
 	var texts = {
@@ -442,7 +440,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 	};
 	bloqsLanguages.texts = texts;
 	return bloqsLanguages;
-})(kenrobot.bloqsLanguages = kenrobot.bloqsLanguages || {}, undefined);
+})(window.bloqsLanguages = window.bloqsLanguages || {}, undefined);
 
 'use strict';
 (function(bloqsUtils, _) {
@@ -1557,7 +1555,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 
 	return bloqsUtils;
 
-})(kenrobot.bloqsUtils = kenrobot.bloqsUtils || {}, _, undefined);
+})(window.bloqsUtils = window.bloqsUtils || {}, _, undefined);
 
 'use strict';
 (function(exports, _, bloqsUtils, bloqsLanguages) {
@@ -3371,7 +3369,7 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 
 	return exports;
 
-})(kenrobot.bloqs = kenrobot.bloqs || {}, _, kenrobot.bloqsUtils, kenrobot.bloqsLanguages, undefined);
+})(window.bloqs = window.bloqs || {}, _, window.bloqsUtils, window.bloqsLanguages, undefined);
 
 (function() {
 	'use strict';
@@ -3380,18 +3378,18 @@ var kenrobot = window.kenrobot = window.kenrobot || {};
 		.factory('bloqs', function($window) {
 			// Get a local handle on the global lodash reference.
 			// Return the [formerly global] reference so that it can be injected into other aspects of the AngularJS application.
-			return $window.kenrobot.bloqs;
+			return $window.bloqs;
 		})
 		// I provide an injectable (and exteded) version of the underscore / lodash lib.
 		.factory('bloqsUtils', function($window) {
 			// Get a local handle on the global lodash reference.
 			// Return the [formerly global] reference so that it can be injected into other aspects of the AngularJS application.
-			return $window.kenrobot.bloqsUtils;
+			return $window.bloqsUtils;
 		})
 		// I provide an injectable (and exteded) version of the underscore / lodash lib.
 		.factory('bloqsLanguages', function($window) {
 			// Get a local handle on the global lodash reference.
 			// Return the [formerly global] reference so that it can be injected into other aspects of the AngularJS application.
-			return $window.kenrobot.bloqsLanguages;
+			return $window.bloqsLanguages;
 		});
 })();

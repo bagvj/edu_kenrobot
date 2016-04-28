@@ -10,6 +10,34 @@ angular.module('kenrobot')
 			$scope.refreshComponentsArray();
 			$scope.project = project;
 			$scope.refreshComponentsArray();
+			$scope.refreshSoftware();
+		};
+
+		$scope.refreshSoftware = function() {
+			var $field = $('#bloqs--field');
+			
+			if ($scope.arduinoMainBloqs.varsBloq) {
+				bloqs.removeBloq($scope.arduinoMainBloqs.varsBloq.uuid, true);
+				$scope.arduinoMainBloqs.varsBloq = null;
+				bloqs.removeBloq($scope.arduinoMainBloqs.setupBloq.uuid, true);
+				$scope.arduinoMainBloqs.setupBloq = null;
+				bloqs.removeBloq($scope.arduinoMainBloqs.loopBloq.uuid, true);
+				$scope.arduinoMainBloqs.loopBloq = null;
+			}
+
+			$scope.arduinoMainBloqs.varsBloq = bloqs.buildBloqWithContent($scope.project.software.vars, $scope.componentsArray, common.bloqsSchemas, $field);
+			$scope.arduinoMainBloqs.setupBloq = bloqs.buildBloqWithContent($scope.project.software.setup, $scope.componentsArray, common.bloqsSchemas, $field);
+			$scope.arduinoMainBloqs.loopBloq = bloqs.buildBloqWithContent($scope.project.software.loop, $scope.componentsArray, common.bloqsSchemas, $field);
+
+			$field.append($scope.arduinoMainBloqs.varsBloq.$bloq, $scope.arduinoMainBloqs.setupBloq.$bloq, $scope.arduinoMainBloqs.loopBloq.$bloq);
+			$scope.arduinoMainBloqs.varsBloq.enable(true);
+			$scope.arduinoMainBloqs.varsBloq.doConnectable();
+
+			$scope.arduinoMainBloqs.setupBloq.enable(true);
+			$scope.arduinoMainBloqs.setupBloq.doConnectable();
+
+			$scope.arduinoMainBloqs.loopBloq.enable(true);
+			$scope.arduinoMainBloqs.loopBloq.doConnectable();
 		};
 
 		$scope.deleteBoard = function() {
@@ -20,6 +48,7 @@ angular.module('kenrobot')
 		};
 
 		$scope.tabsClick = function() {
+            bloqs.componentsArray = $scope.componentsArray;
 			$scope.refreshCode();
 			$timeout(function() {
 				$rootScope.$emit('bloqs:updated');
@@ -33,7 +62,6 @@ angular.module('kenrobot')
 
 		$scope.updateBloqs = function() {
 			if ($scope.arduinoMainBloqs.varsBloq) {
-
 				var allBloqs = bloqs.bloqs;
 				var allComponents = [];
 
@@ -69,13 +97,12 @@ angular.module('kenrobot')
 					}
 
 				};
-				var bloqCanvasEl = null;
+                		var bloqCanvasEl = document.getElementsByClassName('bloqs-tab')[0];
 				//Update dropdowns values from bloqs canvas
 				for (var type in $scope.componentsArray) {
 					if (!$scope.componentsArray[type].length) {
 						continue;
 					}
-					bloqCanvasEl = document.getElementsByClassName('bloqs-tab')[0];
 					var nodeList = bloqCanvasEl.querySelectorAll('select[data-dropdowncontent="' + type + '"]');
 					for (var i = 0, len = nodeList.length; i < len; i++) {
 						updateBloq(nodeList[i], $scope.componentsArray[type]);
@@ -184,12 +211,8 @@ angular.module('kenrobot')
 			}
 
 			$scope.componentsArray = newComponentsArray;
+            bloqs.componentsArray = $scope.componentsArray;
 			$scope.updateBloqs();
-
-			if (!$scope.hardware.firstLoad && readyToSave) {
-				// $scope.startAutosave();
-			}
-
 		};
 		$scope.showCommunications = function(item) {
 			var stopWord = ['convert'];
@@ -256,42 +279,45 @@ angular.module('kenrobot')
 			sortToolbox: null
 		};
 
-		$scope.project = {
-			hardwareTags: [],
-			compiled: false,
-			defaultTheme: 'infotab_option_colorTheme',
-			software: {
-				vars: {
-					enable: true,
-					name: 'varsBloq',
-					childs: [],
-					content: [
-						[]
-					]
+		$scope.getDefaultProject = function() {
+			return {
+				hardwareTags: [],
+				compiled: false,
+				defaultTheme: 'infotab_option_colorTheme',
+				software: {
+					vars: {
+						enable: true,
+						name: 'varsBloq',
+						childs: [],
+						content: [
+							[]
+						]
+					},
+					setup: {
+						enable: true,
+						name: 'setupBloq',
+						childs: [],
+						content: [
+							[]
+						]
+					},
+					loop: {
+						enable: true,
+						name: 'loopBloq',
+						childs: [],
+						content: [
+							[]
+						]
+					}
 				},
-				setup: {
-					enable: true,
-					name: 'setupBloq',
-					childs: [],
-					content: [
-						[]
-					]
-				},
-				loop: {
-					enable: true,
-					name: 'loopBloq',
-					childs: [],
-					content: [
-						[]
-					]
-				}
-			},
 
-			hardware: {
-				board: null,
-				components: [],
-				connections: []
-			}
-		};
-		projectApi.oldProject = projectApi.getCleanProject($scope.project);
+				hardware: {
+					board: null,
+					components: [],
+					connections: []
+				}
+			};
+		}
+
+		$scope.project = $scope.getDefaultProject();
 	});

@@ -90,7 +90,7 @@ angular.module('kenrobot')
 
 			function _detectConnected(pins) {
 				var filtered = _.filter(pins, function(pin) {
-					return pin !== undefined;
+                    			return !!pin;
 				});
 				return filtered.length > 0;
 			}
