@@ -99,4 +99,8 @@ angular.module('kenrobot')
 
 		$document.on('contextmenu', contextMenuDocumentHandler);
 		$document.on('click', clickDocumentHandler);
+
+		$timeout(function() {
+			$scope.refreshSoftware();
+		}, 100);
 	});
