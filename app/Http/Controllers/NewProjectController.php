@@ -186,7 +186,7 @@ class NewProjectController extends Controller {
         }else if ($type == 'hash') {
             $project = ProjectModel::where('hash', $hash)->first();
         }else if($type == 'last'){
-            $project = ProjectModel::where('user_id', $user_id)->orderby('updated_at','desc')->first();
+            $project = ProjectModel::where(array('user_id' => $user_id, 'project_type' => 'scratch'))->orderby('updated_at','desc')->first();
             if ($project != null) {
                 return response()->json(['status' => 0, 'message' => '获取成功', 'data' => $project->toArray()]);
             }
