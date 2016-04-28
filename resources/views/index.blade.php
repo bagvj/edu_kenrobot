@@ -9,7 +9,6 @@
 		<meta name="description" content="啃萝卜智能硬件平台" />
 		<meta name="csrf-token" content="{{csrf_token()}}" />
 
-		<link href="/assets/images/favicon.ico" type="image/x-icon" rel="shortcut icon" />
 		<link href="/assets/css/index.css" rel="stylesheet" />
 
 		@if(!env('APP_DEBUG'))
@@ -78,7 +77,7 @@
 						<div class="user{{isset($user) ? ' active' : ''}}">
 							<div class="user-info">
 								<a class="photo" href="{{$mainpage}}" target="_blank">
-									<img src="{{$user->avatar_url or asset('assets/images/default_portrait.png')}}" />
+									<img src="{{$user->avatar_url or asset('assets/image/default_portrait.png')}}" />
 								</a>
 								<div class="welcome">
 									<span class="name">{{isset($user) ? $user->name : ''}}</span><i class="kenrobot ken-triangle-down arrow"></i>
@@ -101,7 +100,7 @@
 				</div>
 				<div class="main-content">
 					<div class="ng-app">
-						<div ng-include="'assets/images/sprite.svg'" ng-hide="true"></div>
+						<div ng-include="'assets/image/sprite.svg'" ng-hide="true"></div>
 						<div data-ng-include="'assets/views/components/alerts.html'" ng-controller="AlertsCtrl" class="alerts--container"></div>
 						<div ng-view></div>
 					</div>
@@ -153,7 +152,7 @@
 						</div>
 						<div class="tab tab-weixin">
 							<div class="scan">
-								<img src="{{asset('/assets/images/weixin-scan.png')}}" />
+								<img src="{{asset('/assets/image/weixin-scan.png')}}" />
 							</div>
 							<img class="qrcode" alt="微信扫码" src="{{$qrcodeurl or ''}}" />
 							<div class="tips">

@@ -85,7 +85,7 @@
       <ul class="content__list">
         <li class="content__list__item" ng-repeat="board in tree.boards track by board.id">
           <div class="board-name name title"><span>{{board.name | translate}}</span></div>
-          <img class="board-image" draggable dragid="{{board.id}}" dragtype="boards" ng-src="/assets/images/boards/{{board.id}}.png">
+          <img class="board-image" draggable dragid="{{board.id}}" dragtype="boards" ng-src="/assets/image/boards/{{board.id}}.png">
         </li>
       </ul>
     </div>
@@ -93,7 +93,7 @@
       <ul class="content__list">
         <li class="content__list__item" ng-repeat="component in tree.componentSortered track by $index">
           <div class="board-name name title"><span>{{component.id | translate}}</span></div>
-          <img class="component-image" dragcategory="{{component.category}}" draggable dragid="{{component.id}}" dragtype="components" ng-src="/assets/images/components/{{component.id}}.svg" ng-style="{width:component.width + 'px'}">
+          <img class="component-image" dragcategory="{{component.category}}" draggable dragid="{{component.id}}" dragtype="components" ng-src="/assets/image/components/{{component.id}}.svg" ng-style="{width:component.width + 'px'}">
         </li>
       </ul>
     </div>
