@@ -26,7 +26,7 @@ class WebAuthController extends Controller
         $loginResult = $snsauth->validate($crendentials);
 
         if ($loginResult === false) {
-            return response()->json(['code' => $snsauth->getErrorCode(), 'message' => $snsauth->getError()]);
+            return response()->json(['status' => $snsauth->getErrorCode(), 'message' => $snsauth->getError()]);
         }
 
         $user = $snsauth->localUser();
@@ -37,7 +37,7 @@ class WebAuthController extends Controller
 
         //kenrobot_id cookie
         $kenrobot_id = WebAuthHelper::encryptKenrobotId($user->uid);
-        return response()->json(['code' => 0, 'message' => '登录成功', 'data' => $user])->withCookie(cookie('kenrobot_id', $kenrobot_id));
+        return response()->json(['status' => 0, 'message' => '登录成功', 'data' => $user])->withCookie(cookie('kenrobot_id', $kenrobot_id));
     }
 
     /**
@@ -48,7 +48,7 @@ class WebAuthController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            return response()->json(['code' => 1, 'message' => '已经登录', 'data' => $user]);
+            return response()->json(['status' => 1, 'message' => '已经登录', 'data' => $user]);
         }
 
         $weixinauth = WebAuthFactory::create('weixin');
@@ -57,7 +57,7 @@ class WebAuthController extends Controller
         $loginResult = $weixinauth->validate($crendentials);
 
         if ($loginResult === false) {
-            return response()->json(['code' => 2, 'message' => '登录失败']);
+            return response()->json(['status' => 2, 'message' => '登录失败']);
         }
 
         $user = $weixinauth->localUser();
@@ -66,7 +66,21 @@ class WebAuthController extends Controller
             Auth::logout();
         }
         Auth::login($user,false);
-        return response()->json(['code' => 0, 'message' => '登录成功','data' => $user]);
+        return response()->json(['status' => 0, 'message' => '登录成功','data' => $user]);
+    }
+
+    /**
+     * 验证登录
+     */
+    public function check()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $userinfo = $user->toArray();
+            $userinfo = array_only($userinfo, ['id', 'name', 'avatar_url']);
+            return response()->json(['status' => 0, 'message' => '已经登录', 'user' => $userinfo]);
+        }
+        return response()->json(['status' => -1, 'message' => '未登录']);
     }
 
 }
