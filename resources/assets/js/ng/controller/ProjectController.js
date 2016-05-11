@@ -33,9 +33,11 @@ angular.module('kenrobot')
 			$field.append($scope.arduinoMainBloqs.varsBloq.$bloq, $scope.arduinoMainBloqs.setupBloq.$bloq, $scope.arduinoMainBloqs.loopBloq.$bloq);
 			$scope.arduinoMainBloqs.varsBloq.enable(true);
 			$scope.arduinoMainBloqs.varsBloq.doConnectable();
+			$scope.arduinoMainBloqs.varsBloq.collapseGroupContent();
 
 			$scope.arduinoMainBloqs.setupBloq.enable(true);
 			$scope.arduinoMainBloqs.setupBloq.doConnectable();
+			$scope.arduinoMainBloqs.setupBloq.collapseGroupContent();
 
 			$scope.arduinoMainBloqs.loopBloq.enable(true);
 			$scope.arduinoMainBloqs.loopBloq.doConnectable();

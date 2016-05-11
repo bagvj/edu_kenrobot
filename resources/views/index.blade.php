@@ -33,9 +33,11 @@
 		<script src="/assets/js/ng/app.js"></script>
 
 		<script src="/assets/js/ng/provider/langProvider.js"></script>
-		<script src="/assets/js/ng/factory/bloqs.factory.js"></script>
-		<script src="/assets/js/ng/factory/lodash.factory.js"></script>
+		<script src="/assets/js/ng/factory/VendorFactory.js"></script>
 
+		<script src="/assets/js/ng/service/bloqsLanguages.js"></script>
+		<script src="/assets/js/ng/service/bloqsUtils.js"></script>
+		<script src="/assets/js/ng/service/bloqs.js"></script>
 		<script src="/assets/js/ng/service/common.js"></script>
 		<script src="/assets/js/ng/service/hw2Bloqs.js"></script>
 		<script src="/assets/js/ng/service/utils.js"></script>

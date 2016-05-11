@@ -1,34 +1,25 @@
-(function() {
-	'use strict';
-	var throttle = function(type, name, obj) {
-		obj = obj || window;
-		var running = false;
-		var func = function() {
-			if (running) {
-				return;
-			}
-			running = true;
-			requestAnimationFrame(function() {
-				obj.dispatchEvent(new CustomEvent(name));
-				running = false;
-			});
+'use strict';
+angular.module('kenrobot')
+	.service('hw2Bloqs', function($rootScope, jsPlumb) {
+		var throttle = function(type, name, obj) {
+			obj = obj || window;
+			var running = false;
+			var func = function() {
+				if (running) {
+					return;
+				}
+				running = true;
+				requestAnimationFrame(function() {
+					obj.dispatchEvent(new CustomEvent(name));
+					running = false;
+				});
+			};
+			obj.addEventListener(type, func);
 		};
-		obj.addEventListener(type, func);
-	};
 
-	/* init - you can init any event */
-	throttle('resize', 'optimizedResize');
+		/* init - you can init any event */
+		throttle('resize', 'optimizedResize');
 
-	var app = angular.module('kenrobot');
-
-	// I provide an injectable (and exteded) version of the jsPlumb lib.
-	app.factory('jsPlumb', function($window) {
-		// Get a local handle on the global lodash reference.
-		// Return the [formerly global] reference so that it can be injected into other aspects of the AngularJS application.
-		return $window.jsPlumb;
-	});
-
-	app.service('hw2Bloqs', function($rootScope, jsPlumb) {
 		var exports = {};
 
 		var jsPlumbInstance = null;
@@ -721,7 +712,4 @@
 		}
 
 		return exports;
-
 	});
-
-})();
