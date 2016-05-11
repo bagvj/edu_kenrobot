@@ -1,6 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.service('bloqs', function(_, bloqsUtils, bloqsLanguages){
+	.service('bloqs', function(_, bloqsUtils, common){
 		/**
 		 * Events
 		 * bloqs:connect
@@ -1234,7 +1234,7 @@ angular.module('kenrobot')
 		};
 
 		var translateBloq = function(lang, key) {
-			return bloqsLanguages.texts[lang][key] || key;
+			return common.bloqsLanguages[lang][key] || key;
 		};
 
 		// Block Constructor

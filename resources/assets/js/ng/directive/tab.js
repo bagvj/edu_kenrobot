@@ -4,7 +4,7 @@ angular.module('kenrobot')
 		return {
 			restrict: 'E',
 			transclude: true,
-			templateUrl: 'assets/views/components/tab.html',
+			template: '<div class="tab" role="tabpanel" ng-show="active" ng-transclude></div>',
 			require: '^tabset',
 			scope: {
 				heading: '=',

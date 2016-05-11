@@ -1,6 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.service('utils', function(_, $q) {
+	.service('utils', function() {
 		// AngularJS will instantiate a singleton by calling "new" on this function
 		var exports = {};
 

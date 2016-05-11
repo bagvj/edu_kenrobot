@@ -1,8 +1,7 @@
 'use strict';
 angular.module('kenrobot')
-	.controller('ProjectController', function($scope, $rootScope, $timeout, hw2Bloqs, alertsService, $window, $document, bloqsUtils, common, _, $log, bloqs) {
+	.controller('ProjectController', function($scope, $rootScope, $timeout, hw2Bloqs, $window, $document, bloqsUtils, common, _, $log, bloqs) {
 		$scope.hw2Bloqs = hw2Bloqs;
-		// this.common = common;
 		$scope.commonHardware = common.hardware;
 		 
 		$scope.setProject = function(project) {

@@ -1,7 +1,7 @@
 <div ng-controller="SoftwareTabCtrl" ng-keyup="onFieldKeyUp($event)" ng-cloak>
 
   <div id="bloqs--field" ng-class="{'theme-colors':project.defaultTheme === 'infotab_option_colorTheme', 'theme-basic':project.defaultTheme === 'infotab_option_grayTheme' || !project.defaultTheme}">
-    <div ng-include="'assets/views/toolbox-sw.html'"></div>
+    <toolbox class="toolbox-sw" tree="commonSoftware" type="software" components-array="componentsArray"  show-components="showComponents", show-communications="showCommunications"></toolbox>
     <scrollbar class="software--scroll" type="'horizontal'" target=".field--content > .bloq--extension__content" container=".field--content"></scrollbar>
     <scrollbar class="software--vscroll" type="'vertical'" bind-only="true" target="#bloqs--field" container=".software"></scrollbar>
     <div id="empty"></div>

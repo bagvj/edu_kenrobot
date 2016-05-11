@@ -3,7 +3,7 @@ angular.module('kenrobot')
 	.directive('scrollbar', function() {
 		return {
 			restrict: 'E',
-			templateUrl: 'assets/views/components/scrollbar.html',
+			template: '<div ng-show="showScroll" class="scrollbar"><div class="scrollbar--inner"></div></div>',
 			scope: {
 				type: '=',
 				target: '@',

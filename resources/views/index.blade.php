@@ -35,10 +35,9 @@
 		<script src="/assets/js/ng/provider/langProvider.js"></script>
 		<script src="/assets/js/ng/factory/VendorFactory.js"></script>
 
-		<script src="/assets/js/ng/service/bloqsLanguages.js"></script>
+		<script src="/assets/js/ng/service/common.js"></script>
 		<script src="/assets/js/ng/service/bloqsUtils.js"></script>
 		<script src="/assets/js/ng/service/bloqs.js"></script>
-		<script src="/assets/js/ng/service/common.js"></script>
 		<script src="/assets/js/ng/service/hw2Bloqs.js"></script>
 		<script src="/assets/js/ng/service/utils.js"></script>
 		<script src="/assets/js/ng/service/alerts.js"></script>
@@ -53,12 +52,11 @@
 		<script src="/assets/js/ng/directive/prism.js"></script>
 		<script src="/assets/js/ng/directive/commonDropdown.js"></script>
 
+		<script src="/assets/js/ng/controller/AlertController.js"></script>
 		<script src="/assets/js/ng/controller/ProjectController.js"></script>
 		<script src="/assets/js/ng/controller/ApiController.js"></script>
 		<script src="/assets/js/ng/controller/softwareTab.js"></script>
-		<script src="/assets/js/ng/controller/toolboxSW.js"></script>
 		<script src="/assets/js/ng/controller/hardwareTab.js"></script>
-		<script src="/assets/js/ng/controller/alerts.js"></script>
 		@else
 		<script src="/assets/js/app.js"></script>
 		@endif
@@ -102,7 +100,7 @@
 				<div class="main-content">
 					<div class="ng-app">
 						<div ng-include="'assets/image/sprite.svg'" ng-hide="true"></div>
-						<div data-ng-include="'assets/views/components/alerts.html'" ng-controller="AlertsCtrl" class="alerts--container"></div>
+						<div ng-include="'assets/views/components/alerts.html'" ng-controller="AlertController" class="alerts--container"></div>
 						<div ng-view></div>
 					</div>
 					<div class="sidebar">
