@@ -230,11 +230,11 @@
 						<form>
 							<div>
 								<span class="filed-key">项目名称：</span>
-								<input class="name" name="name" type="text" autocomplete="off" />
+								<input class="name" name="name" type="text" autocomplete="off" spellcheck="false" />
 							</div>
 							<div class="filed-intro">
 								<span class="filed-key">项目简介：</span>
-								<textarea class="intro" name="intro" rows="5"></textarea>
+								<textarea class="intro" name="intro" rows="5" spellcheck="false"></textarea>
 							</div>
 							<div>
 								<span class="filed-key">公开：</span>
