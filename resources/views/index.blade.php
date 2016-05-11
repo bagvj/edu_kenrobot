@@ -55,8 +55,8 @@
 		<script src="/assets/js/ng/controller/AlertController.js"></script>
 		<script src="/assets/js/ng/controller/ProjectController.js"></script>
 		<script src="/assets/js/ng/controller/ApiController.js"></script>
-		<script src="/assets/js/ng/controller/softwareTab.js"></script>
-		<script src="/assets/js/ng/controller/hardwareTab.js"></script>
+		<script src="/assets/js/ng/controller/HardwareController.js"></script>
+		<script src="/assets/js/ng/controller/SoftwareController.js"></script>
 		@else
 		<script src="/assets/js/app.js"></script>
 		@endif

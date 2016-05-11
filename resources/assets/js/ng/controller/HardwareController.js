@@ -1,6 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.controller('hardwareTabCtrl', function($scope, $q, $timeout, $log, $window, $rootScope, $translate, $document, utils, common, hw2Bloqs, _, alertsService) {
+	.controller('HardwareController', function($scope, $q, $timeout, $log, $window, $rootScope, $translate, $document, utils, common, hw2Bloqs, _, alertsService) {
 		var container = utils.getDOMElement('.protocanvas');
 		var $componentContextMenu = $('#component-context-menu');
 		var $boardContextMenu = $('#board-context-menu');

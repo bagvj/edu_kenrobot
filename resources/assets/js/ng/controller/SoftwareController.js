@@ -1,6 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.controller('SoftwareTabCtrl', function($scope, common, bloqs, $translate, $rootScope, $document, $log, $window, $timeout) {
+	.controller('SoftwareController', function($scope, common, bloqs, $translate, $rootScope, $document, $log, $window, $timeout) {
 		$scope.commonSoftware = common.software;
 
 		$scope.onFieldKeyUp = function(event) {
