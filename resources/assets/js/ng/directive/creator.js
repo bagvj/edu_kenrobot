@@ -1,9 +1,9 @@
 'use strict';
 angular.module('kenrobot')
-	.directive('bitbloqBloqCreator', function($log, bloqs, common) {
+	.directive('creator', function($log, bloqs, common) {
 		return {
 			restrict: 'A',
-			name: 'bitbloq-bloq-creator',
+			name: 'creator',
 			scope: {
 				componentsArray: '=',
 				bloqSchema: '='

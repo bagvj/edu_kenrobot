@@ -8,10 +8,10 @@ angular
 	]).config(function($routeProvider, $translateProvider, langProvider) {
 		$routeProvider
 			.when('/', {
-				templateUrl: '/assets/views/bloqs-project.html'
+				templateUrl: '/assets/views/main.html'
 			})
 			.when('/project/:hash', {
-				templateUrl: '/assets/views/bloqs-project.html'
+				templateUrl: '/assets/views/main.html'
 			})
 			.otherwise({
 				redirectTo: '/'

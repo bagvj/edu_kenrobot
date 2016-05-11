@@ -1,8 +1,9 @@
 'use strict';
 angular.module('kenrobot')
-	.controller('BloqsProjectCtrl', function($scope, $rootScope, $timeout, hw2Bloqs, alertsService, $window, $document, bloqsUtils, projectApi, common, _, $log, bloqs) {
-		 $scope.hw2Bloqs = hw2Bloqs;
-		 this.common = common;
+	.controller('ProjectController', function($scope, $rootScope, $timeout, hw2Bloqs, alertsService, $window, $document, bloqsUtils, common, _, $log, bloqs) {
+		$scope.hw2Bloqs = hw2Bloqs;
+		// this.common = common;
+		$scope.commonHardware = common.hardware;
 		 
 		$scope.setProject = function(project) {
 			hw2Bloqs.removeAllComponents();
@@ -57,8 +58,14 @@ angular.module('kenrobot')
 
 		$scope.refreshCode = function() {
 			$scope.updateBloqs();
-			$scope.project.code = $scope.code = bloqsUtils.getCode($scope.componentsArray, $scope.arduinoMainBloqs);
+			$scope.project.code = bloqsUtils.getCode($scope.componentsArray, $scope.arduinoMainBloqs);
+			$scope.code = maskCode($scope.project.code);
 		};
+
+		function maskCode(code) {
+			return code.replace(/Bitbloq/g, "Kenrobot")
+					   .replace(/bq/g, "ken");
+		}
 
 		$scope.updateBloqs = function() {
 			if ($scope.arduinoMainBloqs.varsBloq) {
@@ -160,8 +167,6 @@ angular.module('kenrobot')
 		};
 
 		$scope.refreshComponentsArray = function() {
-			projectApi.projectChanged = true;
-			projectApi.oldProject = $scope.project;
 			var newComponentsArray = bloqsUtils.getEmptyComponentsArray();
 			var newHardwareTags = [];
 			var readyToSave = false;

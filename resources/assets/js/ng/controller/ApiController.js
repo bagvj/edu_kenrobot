@@ -1,6 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.controller('ApiController', function($scope, $route, $timeout, $location, $rootScope, $window, projectApi, hw2Bloqs, bloqs) {
+	.controller('ApiController', function($scope, $route, $timeout, $location, $rootScope, $window, hw2Bloqs, bloqs) {
 
 		function getProject() {
 			return $scope.getCurrentProject();

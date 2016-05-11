@@ -87,14 +87,13 @@ define(function(){
 		return $('.dialog-layer').hasClass("active");
 	}
 
-	function toggleActive(target, tag, collapseMode) {
-		tag = tag || "li";
+	function toggleActive(target, collapseMode) {
 		if(collapseMode) {
 			if(target.hasClass("active")) {
 				target.removeClass("active");
 				return false;
 			} else {
-				target.parent().find(tag + ".active").removeClass("active");
+				target.siblings(".active").removeClass("active");
 				target.addClass("active");
 				return true;
 			}
@@ -103,7 +102,7 @@ define(function(){
 				return false;
 			}
 
-			target.parent().find(tag + ".active").removeClass("active");
+			target.siblings(".active").removeClass("active");
 			target.addClass("active");
 
 			return true;

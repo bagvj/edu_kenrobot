@@ -39,20 +39,19 @@
 		<script src="/assets/js/ng/service/common.js"></script>
 		<script src="/assets/js/ng/service/hw2Bloqs.js"></script>
 		<script src="/assets/js/ng/service/utils.js"></script>
-		<script src="/assets/js/ng/service/projectApi.js"></script>
 		<script src="/assets/js/ng/service/alerts.js"></script>
 
 		<script src="/assets/js/ng/directive/tab.js"></script>
 		<script src="/assets/js/ng/directive/tabset.js"></script>
 		<script src="/assets/js/ng/directive/dropdown.js"></script>
 		<script src="/assets/js/ng/directive/toolbox.js"></script>
-		<script src="/assets/js/ng/directive/bitbloqBloqCreator.js"></script>
+		<script src="/assets/js/ng/directive/creator.js"></script>
 		<script src="/assets/js/ng/directive/drag-drop.js"></script>
 		<script src="/assets/js/ng/directive/scrollBar.js"></script>
 		<script src="/assets/js/ng/directive/prism.js"></script>
 		<script src="/assets/js/ng/directive/commonDropdown.js"></script>
 
-		<script src="/assets/js/ng/controller/bloqsProject.js"></script>
+		<script src="/assets/js/ng/controller/ProjectController.js"></script>
 		<script src="/assets/js/ng/controller/ApiController.js"></script>
 		<script src="/assets/js/ng/controller/softwareTab.js"></script>
 		<script src="/assets/js/ng/controller/toolboxSW.js"></script>
@@ -155,16 +154,24 @@
 								<img src="{{asset('/assets/image/weixin-scan.png')}}" />
 							</div>
 							<img class="qrcode" alt="微信扫码" src="{{$qrcodeurl or ''}}" />
-							<div class="tips">
-								请使用微信扫一扫<br />
-								扫码关注后即可直接登录
+							<div class="login-tips tips">
+								请使用微信扫一扫<br />扫码关注后即可直接登录
+							</div>
+							<div class="register-tips tips">
+								推荐使用微信扫码功能<br />扫码后将完成注册并登录
 							</div>
 						</div>
 					</div>
 					<div class="footer">
-						<a class="forget-password" href="{{$find_password_url}}">忘记密码</a>
-						<a class="register" href="{{$register_url}}">点击注册</a>
-						<span class="no-account">还没有啃萝卜账号？</span>
+						<div class="login-footer">
+							<a class="forget-password" href="{{$find_password_url}}">忘记密码</a>
+							<a class="register" href="{{$register_url}}">点击注册</a>
+							<span class="no-account">还没有啃萝卜账号？</span>
+						</div>
+						<div class="register-footer">
+							<span class="no-account">不使用微信？前往</span>
+							<a class="register" href="{{$register_url}}">网站注册</a>
+						</div>
 					</div>
 				</div>
 				<div class="x-dialog x-dialog-info install-dialog">

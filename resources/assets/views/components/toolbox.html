@@ -21,7 +21,7 @@
     <div class="toolbox__content__item" ng-repeat="itemContainer in tree.components track by $index" ng-show="toolbox.activeMenu === 'components'">
       <h3>{{'components' | translate}}</h3>
       <ul class="content__list has-advanced">
-        <li id="{{'bloq' + component.name}}" class="content__list__item" ng-repeat="component in itemContainer.items track by $index" bitbloq-bloq-creator bloq-schema="component.name" components-array="componentsArray" ng-show="showComponents(component.name)"></li>
+        <li id="{{'bloq' + component.name}}" class="content__list__item" ng-repeat="component in itemContainer.items track by $index" creator bloq-schema="component.name" components-array="componentsArray" ng-show="showComponents(component.name)"></li>
       </ul>
       <button class="toolbox__advanced__button toolbox__list__item__button last" ng-click="toolbox.select('components', true)" ng-class="{'active':toolbox.activeMenu === item.contentId}">
         <span>{{'make-swtoolbox-advanced' | translate}}</span>
@@ -31,7 +31,7 @@
     <div class="toolbox__content__item" ng-repeat="itemContainer in tree.toolboxContents track by $index" ng-show="itemContainer.titleId === toolbox.activeMenu">
       <h3>{{itemContainer.title | translate}}</h3>
       <ul class="content__list" ng-class="{'has-advanced':itemContainer.advancedItems.length > 0}">
-        <li class="content__list__item" ng-repeat="item in itemContainer.items track by $index" bitbloq-bloq-creator bloq-schema="item.name"></li>
+        <li class="content__list__item" ng-repeat="item in itemContainer.items track by $index" creator bloq-schema="item.name"></li>
       </ul>
       <button ng-show="itemContainer.advancedItems.length > 0" class="toolbox__advanced__button toolbox__list__item__button last" ng-click="toolbox.select(itemContainer.titleId, true)" ng-class="{'active':toolbox.activeMenu === item.contentId}">
         <span>{{'make-swtoolbox-advanced' | translate}}</span>
@@ -45,7 +45,7 @@
       <ul class="content__list">
         <li ng-repeat="itemContainer in tree.components">
           <ul>
-            <li class="content__list__item" ng-repeat="component in itemContainer.advancedItems track by $index" ng-show="showComponents(component.name)" bitbloq-bloq-creator bloq-schema="component.name" components-array="componentsArray"></li>
+            <li class="content__list__item" ng-repeat="component in itemContainer.advancedItems track by $index" ng-show="showComponents(component.name)" creator bloq-schema="component.name" components-array="componentsArray"></li>
           </ul>
         </li>
       </ul>
@@ -54,7 +54,7 @@
     <div class="toolbox__content__item advanced__bloqs" ng-repeat="itemContainer in tree.toolboxContents" ng-show="toolbox.activeMenu === itemContainer.titleId">
       <h3>{{itemContainer.title | translate}} > {{'make-swtoolbox-advanced' | translate}}</h3>
       <ul class="content__list">
-        <li class="content__list__item" ng-repeat="bloq in itemContainer.advancedItems track by $index" bitbloq-bloq-creator bloq-schema="bloq.name" components-array="componentsArray"></li>
+        <li class="content__list__item" ng-repeat="bloq in itemContainer.advancedItems track by $index" creator bloq-schema="bloq.name" components-array="componentsArray"></li>
       </ul>
     </div>
 
