@@ -1,5 +1,4 @@
 'use strict';
-
 angular.module('kenrobot')
 	.directive('toolbox', function($parse, $timeout) {
 		return {

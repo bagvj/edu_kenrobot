@@ -1,6 +1,5 @@
 'use strict';
-angular
-	.module('kenrobot', [
+angular.module('kenrobot', [
 		'ngRoute',
 		'ngSanitize',
 		'pascalprecht.translate',

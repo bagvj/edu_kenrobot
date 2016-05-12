@@ -1,9 +1,7 @@
 'use strict';
 angular.module('kenrobot')
 	.service('common', function($http, $filter, $rootScope, $translate) {
-		var exports = {};
-
-		exports.bloqsSchemas = {
+		var bloqsSchemas = {
 			"arrayClassVariable": {
 				"type": "output",
 				"name": "arrayClassVariable",
@@ -6802,7 +6800,7 @@ angular.module('kenrobot')
 			}
 		};
 
-		exports.hardware = {
+		var hardware = {
 			"boards": [{
 				"name": "Arduino UNO",
 				"id": "ArduinoUNO",
@@ -7131,7 +7129,7 @@ angular.module('kenrobot')
 			}
 		};
 
-		exports.software = {
+		var software = {
 			"toolboxTitles": [{
 				"title": "make-swtoolbox-functions",
 				"contentId": "functions"
@@ -7426,7 +7424,7 @@ angular.module('kenrobot')
 			}]
 		};
 
-		exports.bloqsLanguages = {
+		var bloqsLanguages = {
 			"zh": {
 				"bloq-zowi-mouth-tongueOut": "smile with tongue out",
 				"bloq-zowi-mouth-confused": "confused face",
@@ -7865,9 +7863,11 @@ angular.module('kenrobot')
 			}
 		};
 
-		exports.version = "1.0.1";
-		exports.bloqsVersion = "0.1.4";
-		exports.translate = $filter('translate');
-
-		return exports;
+		return {
+			bloqsSchemas: bloqsSchemas,
+			hardware: hardware,
+			software: software,
+			bloqsLanguages: bloqsLanguages,
+			translate: $filter('translate'),
+		};
 	});

@@ -1,47 +1,18 @@
-(function() {
-	'use strict';
-
-	// Create the module and define its dependencies.
-	var app = angular.module('kenrobot');
-
-	app.directive('draggable', draggable);
-	app.directive('droppable', droppable);
-
-	function draggable() {
-		return function(scope, element, attrs) {
-			// this gives us the native JS object
-
-			var el = element[0];
-
-			el.draggable = true;
-
-			el.addEventListener('dragstart', function(e) {
-
-				e.dataTransfer.effectAllowed = 'move';
-
-				e.dataTransfer.setData('mouseOffsetX', e.offsetX);
-				e.dataTransfer.setData('mouseOffsetY', e.offsetY);
-
-				e.dataTransfer.setData('dragtype:' + attrs.dragtype, '');
-				e.dataTransfer.setData('dragtype', attrs.dragtype);
-				e.dataTransfer.setData('dragcategory', attrs.dragcategory);
-				e.dataTransfer.setData('dragid', attrs.dragid);
-
-				this.classList.add('dragging');
-
-				return false;
-
-			}, false);
-
-			el.addEventListener('dragend', function() {
-				this.classList.remove('dragging');
-				return false;
-			}, false);
-
+'use strict';
+angular.module('kenrobot')
+	.directive('droppable', function() {
+		var getFieldOffsetTop = function(source) {
+			var fieldOffsetTop = -66;
+			var tempElement;
+			for (var i = 0; i < source.length; i++) {
+				tempElement = document.getElementsByClassName(source[i]);
+				if (tempElement[0]) {
+					fieldOffsetTop += tempElement[0].clientHeight;
+				}
+			}
+			return fieldOffsetTop;
 		};
-	}
-
-	function droppable() {
+		
 		return {
 			scope: {
 				drop: '=', // parent
@@ -119,18 +90,4 @@
 				}, false);
 			}
 		};
-	}
-
-	var getFieldOffsetTop = function(source) {
-		var fieldOffsetTop = -66;
-		var tempElement;
-		for (var i = 0; i < source.length; i++) {
-			tempElement = document.getElementsByClassName(source[i]);
-			if (tempElement[0]) {
-				fieldOffsetTop += tempElement[0].clientHeight;
-			}
-		}
-		return fieldOffsetTop;
-	};
-
-})();
+	});

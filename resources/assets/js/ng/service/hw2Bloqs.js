@@ -20,8 +20,6 @@ angular.module('kenrobot')
 		/* init - you can init any event */
 		throttle('resize', 'optimizedResize');
 
-		var exports = {};
-
 		var jsPlumbInstance = null;
 
 		var config = {
@@ -39,7 +37,7 @@ angular.module('kenrobot')
 		var connectionEvent = new CustomEvent('connectionEvent');
 
 		/*jshint validthis:true */
-		exports.initialize = function(container, boardContainerIdRef) {
+		function initialize(container, boardContainerIdRef) {
 
 			if (!container) {
 				throw Error;
@@ -92,7 +90,7 @@ angular.module('kenrobot')
 
 			// window.removeEventListener('optimizedResize');
 			window.addEventListener('optimizedResize', function() {
-				exports.repaint();
+				repaint();
 			}, false);
 
 			document.addEventListener('mouseup', function() {
@@ -106,9 +104,8 @@ angular.module('kenrobot')
 
 		};
 
-		exports.addBoard = function(newBoard) {
-
-			exports.removeBoard();
+		function addBoard(newBoard) {
+			removeBoard();
 
 			board = newBoard;
 
@@ -188,7 +185,7 @@ angular.module('kenrobot')
 
 		};
 
-		exports.removeBoard = function() {
+		function removeBoard() {
 			if (jsPlumbInstance && board && boardDOMElement) {
 				boardDOMElement.classList.remove(board.id);
 				jsPlumbInstance.removeAllEndpoints(boardDOMElement);
@@ -200,7 +197,7 @@ angular.module('kenrobot')
 			var comp = this;
 			componentDragging = comp;
 
-			exports.unselectAllConnections();
+			unselectAllConnections();
 
 			var connectionsArray = jsPlumbInstance.getConnections().filter(function(el) {
 				return el.sourceId === comp.id;
@@ -216,7 +213,7 @@ angular.module('kenrobot')
 			});
 		};
 
-		exports.addComponent = function(newComponent) {
+		function addComponent(newComponent) {
 
 			if (!newComponent) {
 				throw new Error('You need provide a component element :: addComponent');
@@ -246,7 +243,7 @@ angular.module('kenrobot')
 			DOMComponent.addEventListener('mousedown', onComponentMouseDown);
 
 			_loadComponent(DOMComponent);
-			exports.repaint();
+			repaint();
 
 			return DOMComponent;
 
@@ -356,7 +353,7 @@ angular.module('kenrobot')
 
 						ep.canvas.classList.add('selected');
 
-						exports.unselectAllConnections();
+						unselectAllConnections();
 
 						if (ep.hasType('selected')) {
 							return false;
@@ -407,18 +404,18 @@ angular.module('kenrobot')
 
 		};
 
-		exports.disconnectComponent = function(component) {
+		function disconnectComponent(component) {
 			var el = document.querySelector('[data-uid="' + component.uid + '"]');
 			jsPlumbInstance.select({
 				source: el.id
 			}).detach();
 		};
 
-		exports.disconnectAllComponents = function() {
+		function disconnectAllComponents() {
 			jsPlumbInstance.detachAllConnections(boardDOMElement);
 		};
 
-		exports.removeComponent = function(component) {
+		function removeComponent(component) {
 			component.removeEventListener('mousedown', onComponentMouseDown);
 
 			jsPlumbInstance.getConnections(component).forEach(function(conn) {
@@ -428,7 +425,7 @@ angular.module('kenrobot')
 			jsPlumbInstance.remove(component);
 		};
 
-		exports.removeAllComponents = function() {
+		function removeAllComponents() {
 			jsPlumbInstance.deleteEveryEndpoint();
 			var nodeList = containerDefault.querySelectorAll('.component');
 			[].forEach.call(nodeList, function(el) {
@@ -437,7 +434,7 @@ angular.module('kenrobot')
 			});
 		};
 
-		exports.removeSelectedConnection = function() {
+		function removeSelectedConnection() {
 			jsPlumbInstance.getAllConnections().forEach(function(con) {
 				if (con.hasType('selected')) {
 					con.endpoints.forEach(function(elem) {
@@ -449,7 +446,7 @@ angular.module('kenrobot')
 			});
 		};
 
-		exports.loadSchema = function(newSchema) {
+		function loadSchema(newSchema) {
 
 			this.schema = newSchema;
 			var ref = this;
@@ -457,11 +454,11 @@ angular.module('kenrobot')
 			if (ref.schema.board) {
 
 				//Add board
-				exports.addBoard(ref.schema.board);
+				addBoard(ref.schema.board);
 
 				//Add components
 				this.schema.components.forEach(function(component) {
-					exports.addComponent(component);
+					addComponent(component);
 				});
 
 				//Add connections
@@ -480,11 +477,11 @@ angular.module('kenrobot')
 				// console.warn('Unable to add board', ref.schema);
 			}
 
-			exports.repaint();
+			repaint();
 
 		};
 
-		exports.saveSchema = function() {
+		function saveSchema() {
 
 			var schema = {
 				components: [],
@@ -566,7 +563,7 @@ angular.module('kenrobot')
 				};
 
 				connection.connection.bind('click', function(c) {
-					exports.unselectAllConnections();
+					unselectAllConnections();
 					_selectConnection(c);
 				});
 
@@ -644,7 +641,7 @@ angular.module('kenrobot')
 			});
 		}
 
-		exports.unselectAllConnections = function() {
+		function unselectAllConnections() {
 			jsPlumbInstance.getAllConnections().forEach(function(con) {
 				con.removeType('selected');
 
@@ -657,7 +654,7 @@ angular.module('kenrobot')
 			});
 		};
 
-		exports.repaint = function() {
+		function repaint() {
 			setTimeout(function() {
 				try {
 					jsPlumbInstance.repaintEverything();
@@ -711,5 +708,19 @@ angular.module('kenrobot')
 			});
 		}
 
-		return exports;
+		return {
+			initialize: initialize,
+			repaint: repaint,
+			addBoard: addBoard,
+			removeBoard: removeBoard,
+			unselectAllConnections: unselectAllConnections,
+			addComponent: addComponent,
+			disconnectComponent: disconnectComponent,
+			disconnectAllComponents: disconnectAllComponents,
+			removeComponent: removeComponent,
+			removeAllComponents: removeAllComponents,
+			removeSelectedConnection: removeSelectedConnection,
+			loadSchema: loadSchema,
+			saveSchema: saveSchema,
+		}
 	});

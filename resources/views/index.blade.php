@@ -47,7 +47,8 @@
 		<script src="/assets/js/ng/directive/dropdown.js"></script>
 		<script src="/assets/js/ng/directive/toolbox.js"></script>
 		<script src="/assets/js/ng/directive/creator.js"></script>
-		<script src="/assets/js/ng/directive/drag-drop.js"></script>
+		<script src="/assets/js/ng/directive/draggable.js"></script>
+		<script src="/assets/js/ng/directive/droppable.js"></script>
 		<script src="/assets/js/ng/directive/scrollBar.js"></script>
 		<script src="/assets/js/ng/directive/prism.js"></script>
 		<script src="/assets/js/ng/directive/commonDropdown.js"></script>
