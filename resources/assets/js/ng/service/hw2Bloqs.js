@@ -233,7 +233,7 @@ angular.module('kenrobot')
 			DOMComponent.classList.add('component');
 			DOMComponent.style.top = newComponent.coordinates.y + '%';
 			DOMComponent.style.left = newComponent.coordinates.x + '%';
-			DOMComponent.src = '/assets/images/components/' + newComponent.id + '.svg';
+			DOMComponent.src = '/assets/image/components/' + newComponent.id + '.svg';
 			DOMComponent.style.width = newComponent.width + 'px';
 			DOMComponent.style.height = newComponent.height + 'px';
 			DOMComponent.draggable = true;
