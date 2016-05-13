@@ -8,15 +8,12 @@
 		<meta name="keywords" content="arduino 开发 IDE 开发平台 教程" />
 		<meta name="description" content="啃萝卜智能硬件平台" />
 		<meta name="csrf-token" content="{{csrf_token()}}" />
-
 		<link href="/assets/css/index.css" rel="stylesheet" />
-
-		@if(!env('APP_DEBUG'))
+@if(!env('APP_DEBUG'))
 		<script src="//hm.baidu.com/hm.js?{{env('PV_KEY')}}" async></script>
-		@endif
-		
+@endif
 		<script src="/assets/js/jquery.js"></script>
-		@if(env('APP_DEBUG'))
+@if(env('APP_DEBUG'))
 		<script src="/assets/js/ng/vendor/autogrow.js"></script>
 		<script src="/assets/js/ng/vendor/beautify.js"></script>
 		<script src="/assets/js/ng/vendor/prism.js"></script>
@@ -58,9 +55,9 @@
 		<script src="/assets/js/ng/controller/ApiController.js"></script>
 		<script src="/assets/js/ng/controller/HardwareController.js"></script>
 		<script src="/assets/js/ng/controller/SoftwareController.js"></script>
-		@else
+@else
 		<script src="/assets/js/app.js"></script>
-		@endif
+@endif
 		<script src="/assets/js/require.js" data-main="/assets/js/index"></script>
 	</head>
 	<body>
