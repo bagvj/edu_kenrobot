@@ -12,13 +12,14 @@
  */
 Route::get('/', 'HomeController@index');
 Route::get('/logout', 'Auth\AuthController@getLogout2');
-Route::get('/project/download/{hash}/{ext?}', 'NewProjectController@downloadProject')->where('hash', '[0-9a-zA-Z]{6}');
+Route::get('/project/download/{hash}/{ext?}', 'ProjectController@downloadProject')->where('hash', '[0-9a-zA-Z]{6}');
 
-Route::post('/api/project/build', 'NewProjectController@buildProject');
-Route::post('/api/project/save', 'NewProjectController@saveProject');
-Route::post('/api/project/delete', 'NewProjectController@deleteProject');
-Route::post('/api/project/get', 'NewProjectController@getProject');
-Route::post('/api/projects/user', 'NewProjectController@getProjects');
+Route::post('/api/project/build', 'ProjectController@buildProject');
+Route::post('/api/project/save', 'ProjectController@saveProject');
+Route::post('/api/project/delete', 'ProjectController@deleteProject');
+Route::post('/api/project/get', 'ProjectController@getProject');
+Route::post('/api/projects/user', 'ProjectController@getProjects');
+Route::post('/api/projects/list', 'ProjectController@getList');
 
 // 登录验证
 Route::post('/api/auth/login', 'Auth\WebAuthController@snsPostLogin');
