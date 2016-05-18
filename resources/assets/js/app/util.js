@@ -31,7 +31,6 @@ define(function(){
 		var selector = args.selector;
 		var dialogWin = $(selector);
 		if(!dialogWin || !dialogWin.hasClass("x-dialog")) {
-			// console.log("Can not find " + selector + " or it is not a x-dialog");
 			return false;
 		}
 
@@ -47,38 +46,29 @@ define(function(){
 		}
 
 		var dialogLayer = $('.dialog-layer').addClass("active");
-		var doClose = function() {
-			dialogWin.slideUp(200, function() {
-				dialogWin.hide().removeClass("active");
+		var doClose = function(callback) {
+			dialogWin.removeClass("dialog-fadeIn").addClass("dialog-fadeOut").delay(300).queue(function() {
+				dialogWin.hide().removeClass("dialog-fadeOut");
 				dialogLayer.removeClass("active");
 				onClose && onClose();
+				callback && callback();
 			});
 		}
 
 		$('.x-dialog-btns .confirm', dialogWin).off('click').on('click', function(){
 			if(!onClosing || onClosing() != false) {
-				doClose();
-				onConfirm && onConfirm();
+				doClose(onConfirm);
 			} 
 		});	
 
 		$('.x-dialog-close,.x-dialog-btns .cancel', dialogWin).off('click').on('click', function(){
 			if(!onClosing || onClosing() != false) {
-				doClose();
-				onCancel && onCancel();
+				doClose(onCancel);
 			} 
 		});
 
-		dialogWin.css({
-			top: -dialogWin.height(),
-		});
-
-		(function() {
-			onShow && onShow();
-			dialogWin.show().addClass("active").animate({
-				top: 200,
-			}, 300, "swing");
-		})();
+		onShow && onShow();
+		dialogWin.stop().show().removeClass('dialog-fadeOut').addClass("dialog-fadeIn");
 
 		return dialogWin;
 	}
