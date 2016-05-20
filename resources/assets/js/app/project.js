@@ -52,6 +52,7 @@ define(['./EventManager', './util', './projectApi', './user', './ext/agent'], fu
 
 			state.resume = false;
 			var portPath = $('.portList', dialog).val();
+			content.text("正在烧写...");
 			agent.resumeUpload(state.url, portPath, function(status) {
 				var message;
 				switch(status) {

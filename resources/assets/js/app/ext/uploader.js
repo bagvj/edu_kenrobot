@@ -22,7 +22,7 @@ define(function() {
 				}
 			}
 
-			if(port) {
+			if(!port) {
 				//没有arduino
 				callback(2, ports);
 				return;
