@@ -204,22 +204,12 @@
 						<button class="x-dialog-btn confirm">确定</button>
 					</div>
 				</div>
-				<div class="x-dialog x-dialog-confirm delete-project-dialog">
-					<div class="x-dialog-title">删除确认</div>
-					<i class="kenrobot ken-close x-dialog-close"></i>
-					<div class="x-dialog-content">
-						删除后不可恢复，确定要删除项目"<span class="strong name"></span>"吗？
-					</div>
-					<div class="x-dialog-btns">
-						<button class="x-dialog-btn confirm">确定</button><button class="x-dialog-btn cancel">取消</button>
-					</div>
-				</div>
 				<div class="x-dialog x-dialog-info building-dialog">
 					<div class="x-dialog-title">烧写</div>
 					<i class="kenrobot ken-close x-dialog-close"></i>
 					<div class="x-dialog-content"></div>
 					<div class="x-dialog-btns">
-						<button class="x-dialog-btn confirm">确定</button>
+						<button class="x-dialog-btn confirm-btn">确定</button>
 					</div>
 				</div>
 				<div class="x-dialog save-dialog">

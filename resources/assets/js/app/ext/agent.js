@@ -61,8 +61,13 @@ define(['../util', './uploader'], function(util, uploader) {
 		});
 	}
 
+	function resumeUpload(url, portPath, callback) {
+		uploader.resumeUpload(url, portPath, callback);
+	}
+
 	return {
 		init: init,
 		upload: upload,
+		resumeUpload: resumeUpload,
 	}
 });

@@ -33,12 +33,50 @@ define(['./EventManager', './util', './projectApi', './user', './ext/agent'], fu
 			return;
 		}
 
-		var dialog = util.dialog(".building-dialog");
+		var state = {};
+		state.isBuilding = true;
+
+		var dialog = util.dialog({
+			selector: ".building-dialog",
+			onClosing: function() {
+				return !state.isBuilding;
+			}
+		});
 		var content = $('.x-dialog-content', dialog).text('正在保存...');
+
+		$('.confirm-btn', dialog).off('click').on('click', function() {
+			if(!state.resume) {
+				$('.x-dialog-close', dialog).click();
+				return;
+			}
+
+			state.resume = false;
+			var portPath = $('.portList', dialog).val();
+			agent.resumeUpload(state.url, portPath, function(status) {
+				var message;
+				switch(status) {
+					case 0:
+						message = "烧写成功";
+						state.isBuilding = false;
+						break;
+					case 3:
+						message = "连接失败";
+						state.isBuilding = false;
+						break;
+					case 4:
+					default:
+						message = "烧写失败";
+						state.isBuilding = false;
+						break;
+				}
+				content.html(message);
+			});
+		});
 
 		doProjectSave(id, false, function(status) {
 			if(status != 0) {
 				content.text("保存失败");
+				state.isBuilding = false;
 				return;
 			}
 
@@ -47,37 +85,50 @@ define(['./EventManager', './util', './projectApi', './user', './ext/agent'], fu
 			projectApi.build(id).done(function(result) {
 				if(result.status != 0) {
 					content.text("编译失败");
+					state.isBuilding = false;
 					return;
 				}
 
 				content.text("编译成功，正在烧写...");
-				doUpload(result.url, content);
+				doUpload(result.url, content, state);
 			});
 		});
 	}
 
-	function doUpload(url, content) {
-		agent.upload(url, function(status) {
+	function doUpload(url, content, state) {
+		agent.upload(url, function(status, ports) {
 			var message;
 			switch(status) {
 				case 0:
 					message = "烧写成功";
+					state.isBuilding = false;
 					break;
 				case 1:
 					message ="找不到串口";
+					state.isBuilding = false;
 					break;
 				case 2:
-					message = "找不到arduino";
+					message = "请选择串口：";
+					var portList = $('<select class="portList">');
+					for(var i = 0; i < ports.length; i++) {
+						var port = ports[i];
+						$('<option>').text(port.path).attr("title", port.displayName).appendTo(portList);
+					}
+					message += portList.prop("outerHTML");
+					state.resume = true;
+					state.url = url;
 					break;
 				case 3:
-					message = "连接arduino失败";
+					message = "连接失败";
+					state.isBuilding = false;
 					break;
 				case 4:
 				default:
 					message = "烧写失败";
+					state.isBuilding = false;
 					break;
 			}
-			content.text(message);
+			content.html(message);
 		});
 	}
 

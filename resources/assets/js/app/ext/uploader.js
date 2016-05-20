@@ -22,35 +22,13 @@ define(function() {
 				}
 			}
 
-			if(!port) {
+			if(port) {
 				//没有arduino
-				callback(2);
+				callback(2, ports);
 				return;
 			}
 
-			sendMessage({
-				action: "serial.connect",
-				portPath: port.path,
-				bitRate: config.bitRate,
-			}, function(connectionId) {
-				if(!connectionId) {
-					callback(3);
-					return;
-				}
-
-				sendMessage({
-					action: "upload",
-					url: host + url + "/hex",
-					delay: config.uploadDelay,
-				}, function(success) {
-					sendMessage({
-						action: "serial.disconnect",
-						connectionId: connectionId,
-					});
-
-					callback(success ? 0 : 4);
-				});
-			});
+			resumeUpload(url, port.path, callback);
 		};
 
 		var first = true;
@@ -74,6 +52,32 @@ define(function() {
 		checkPorts();
 	}
 
+	function resumeUpload(url, portPath, callback) {
+		sendMessage({
+			action: "serial.connect",
+			portPath: portPath,
+			bitRate: config.bitRate,
+		}, function(connectionId) {
+			if(!connectionId) {
+				callback(3);
+				return;
+			}
+
+			sendMessage({
+				action: "upload",
+				url: host + url + "/hex",
+				delay: config.uploadDelay,
+			}, function(success) {
+				sendMessage({
+					action: "serial.disconnect",
+					connectionId: connectionId,
+				});
+
+				callback(success ? 0 : 4);
+			});
+		});
+	}
+
 	function sendMessage(message, callback) {
 		message = typeof message == "string" ? {action: message} : message;
 		callback = callback || function() {}
@@ -83,5 +87,6 @@ define(function() {
 	return {
 		init: init,
 		upload: upload,
+		resumeUpload: resumeUpload,
 	};
 });
