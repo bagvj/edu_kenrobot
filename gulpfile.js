@@ -95,8 +95,8 @@ gulp.task('css', function() {
 	var cssSrc = SRC + 'css/index.scss',
 		cssDst = DIST + 'css/';
 
-	return sass(cssSrc, {style: 'expaned'})
-		.pipe(gulpif(args.prefix, autoprefixer()))
+	return sass(cssSrc, {style: 'expanded'})
+		.pipe(autoprefixer())
 		.pipe(gulpif(args.release, cleanCSS()))
 		.pipe(gulp.dest(cssDst));
 });
