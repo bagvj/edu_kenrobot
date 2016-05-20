@@ -1,4 +1,4 @@
-define(['./EventManager', './util', './projectApi', './user', './ext/agent'], function(EventManager, util, projectApi, user, agent) {
+define(['./EventManager', './config', './util', './projectApi', './user', './ext/agent'], function(EventManager, config, util, projectApi, user, agent) {
 	var projectInfo;
 	var isLoading;
 
@@ -177,6 +177,11 @@ define(['./EventManager', './util', './projectApi', './user', './ext/agent'], fu
 				user_id: user.getUserId(),
 				project_data: JSON.stringify(getProjectData()),
 			}
+		}
+
+		if(project.project_data.length > config.project.maxCodeLength) {
+			util.showMessage('代码太长');
+			return;
 		}
 
 		projectApi.save(project).done(function(result) {
