@@ -20,6 +20,6 @@
 	"externally_connectable": {
   		"matches": ["*://*.kenrobot.com/*"]
 	},
-	"update_url": "http://platform.kenrobot.com/extension-update.xml",
-	"version": "0.1.17"
+	"update_url": "http://edu.kenrobot.com/extension-update.xml",
+	"version": "0.1.18"
 }
