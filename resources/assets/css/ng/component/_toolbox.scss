@@ -140,6 +140,7 @@ $toolbox-advanced-button-hover-color: #fbfbfb;
   border-top  : 1px solid $toolbox-advanced-border-color;
   width       : 100%;
   transition  : background-color $transition-duration;
+  font-weight : bold;
 
   &:hover {
     background-color: $toolbox-advanced-button-hover-color;
