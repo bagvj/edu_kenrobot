@@ -9,8 +9,7 @@
 		}
 	},
 	"icons": {
-		"16": "image/logo.ico",
-		"128": "image/logo.ico"
+		"128": "image/logo.png"
 	},
 	"permissions": [
 		"serial",
@@ -21,5 +20,5 @@
   		"matches": ["*://*.kenrobot.com/*"]
 	},
 	"update_url": "http://edu.kenrobot.com/extension-update.xml",
-	"version": "0.1.18"
+	"version": "0.1.20"
 }
