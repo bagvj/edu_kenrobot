@@ -131,8 +131,8 @@ angular.module('kenrobot')
 					var epBoard = jsPlumbInstance.addEndpoint(boardDOMElement, {
 						anchor: [pin.x, pin.y, 0, -1, 0, 0],
 						endpoint: ['Rectangle', {
-							width: board.pinSize[type].w,
-							height: board.pinSize[type].h
+							width: pin.rotate ? board.pinSize[type].h : board.pinSize[type].w,
+							height: pin.rotate ? board.pinSize[type].w : board.pinSize[type].h
 						}],
 						overlays: [
 							['Label', {

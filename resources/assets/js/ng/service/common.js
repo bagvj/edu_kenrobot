@@ -6928,136 +6928,129 @@ angular.module('kenrobot')
 						"name": "serial",
 						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ac05"
 					}]
-				}
+				},
+				"board_type": "Arduino",
 			}, {
 				"name": "ATmega328主控板",
 				"id": "NEO328",
 				"mcu": "uno",
 				"pinSize": {
 					"digital": {
-						"w": 9,
-						"h": 15
+						"w": 32,
+						"h": 20
 					},
 					"analog": {
-						"w": 9,
-						"h": 15
+						"w": 32,
+						"h": 20
 					},
 					"serial": {
-						"w": 33,
-						"h": 66
-					}
+						"w": 40,
+						"h": 20
+					},
+					"iic": {
+						"w": 40,
+						"h": 20
+					},
+					"motor": {
+						"w": 20,
+						"h": 54
+					},
 				},
 				"pins": {
 					"digital": [{
-						"x": 0.478,
-						"y": 0.098,
-						"name": "13",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad01"
-					}, {
-						"x": 0.508,
-						"y": 0.098,
-						"name": "12",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad02"
-					}, {
-						"x": 0.545,
-						"y": 0.098,
-						"name": "11",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad03"
-					}, {
-						"x": 0.58,
-						"y": 0.098,
-						"name": "10",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad04"
-					}, {
-						"x": 0.615,
-						"y": 0.098,
-						"name": "9",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad05"
-					}, {
-						"x": 0.649,
-						"y": 0.098,
-						"name": "8",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad06"
-					}, {
-						"x": 0.695,
-						"y": 0.098,
-						"name": "7",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad07"
-					}, {
-						"x": 0.73,
-						"y": 0.098,
-						"name": "6",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad08"
-					}, {
-						"x": 0.765,
-						"y": 0.098,
-						"name": "5",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad09"
-					}, {
-						"x": 0.795,
-						"y": 0.098,
-						"name": "4",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad10"
-					}, {
-						"x": 0.832,
-						"y": 0.098,
-						"name": "3",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad11"
-					}, {
-						"x": 0.869,
-						"y": 0.098,
+						"x": 0.333,
+						"y": 0.851,
 						"name": "2",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad12"
+						"uid": "c9168884-b454-4342-b677-f06dacb0b3cc"
 					}, {
-						"x": 0.9,
-						"y": 0.098,
-						"name": "1",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad13"
+						"x": 0.431,
+						"y": 0.851,
+						"name": "3",
+						"uid": "55798942-05de-4d9c-82e8-ddced2259aec"
 					}, {
-						"x": 0.935,
-						"y": 0.098,
-						"name": "0",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad13"
+						"x": 0.529,
+						"y": 0.851,
+						"name": "8",
+						"uid": "c297515b-2a2d-4b5c-96a8-e740d83a75ce"
+					}, {
+						"x": 0.627,
+						"y": 0.851,
+						"name": "9",
+						"uid": "86624d9f-0ddb-4356-8664-0afc9223e12e"
+					}, {
+						"x": 0.725,
+						"y": 0.851,
+						"name": "10",
+						"uid": "e29d477e-8923-40c2-8922-af988a78811f"
+					}, {
+						"x": 0.823,
+						"y": 0.851,
+						"name": "11",
+						"uid": "08001087-da26-451b-b124-5c100d928201"
 					}],
 					"analog": [{
-						"x": 0.763,
-						"y": 0.92,
+						"x": 0.333,
+						"y": 0.149,
 						"name": "A0",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa00"
+						"uid": "7186a1cf-2fab-4c5a-8d1e-19836d4a561d"
 					}, {
-						"x": 0.795,
-						"y": 0.92,
+						"x": 0.431,
+						"y": 0.149,
 						"name": "A1",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa01"
+						"uid": "7c10ef7d-a65e-497d-868a-b9c2e43bea81"
 					}, {
-						"x": 0.83,
-						"y": 0.92,
+						"x": 0.529,
+						"y": 0.149,
 						"name": "A2",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa02"
+						"uid": "15ad5a73-f510-44bc-b4ac-5886a8211d38"
 					}, {
-						"x": 0.862,
-						"y": 0.92,
+						"x": 0.627,
+						"y": 0.149,
 						"name": "A3",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa03"
+						"uid": "129d8693-115f-40c4-a6c1-4315bd020254"
 					}, {
-						"x": 0.895,
-						"y": 0.92,
-						"name": "A4",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa04"
+						"x": 0.725,
+						"y": 0.149,
+						"name": "A6",
+						"uid": "d679b1cd-91d4-4aed-8f6f-6ad31d041518"
 					}, {
-						"x": 0.935,
-						"y": 0.92,
-						"name": "A5",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa05"
+						"x": 0.823,
+						"y": 0.149,
+						"name": "A7",
+						"uid": "15c50e12-8705-4d47-803d-5c50b7512981"
 					}],
 					"serial": [{
-						"x": 0.045,
-						"y": 0.315,
-						"name": "serial",
-						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ac05"
-					}]
+						"x": 0.228,
+						"y": 0.851,
+						"name": "USART",
+						"uid": "ed9cbaec-e3fb-4acb-87d9-c4825bb5594c"
+					}],
+					"iic": [{
+						"x": 0.228,
+						"y": 0.149,
+						"name": "IIC",
+						"uid": "e6f796e0-d283-41d3-a996-7316acb2c4cc"
+					}, {
+						"x": 0.970,
+						"y": 0.720,
+						"name": "IIC",
+						"uid": "cc94cecf-1424-4352-8309-474a814981f5",
+						"rotate": true,
+					}],
+					"motor": [{
+						"x": 0.970,
+						"y": 0.336,
+						"name": "MA",
+						"uid": "0ae7f137-66e0-437a-998f-c71a2ec62c3b"
+					}, {
+						"x": 0.970,
+						"y": 0.540,
+						"name": "MB",
+						"uid": "ee0399c9-2700-4456-96e1-47803c1ff60a",
+					}],
 				},
-				"in_use": false,
+				"board_type": "RoSys",
+				// "in_use": false,
 			}],
 			"components": {
 				"leds": [{
@@ -7066,14 +7059,17 @@ angular.module('kenrobot')
 					"height": 83,
 					"pins": {
 						"digital": ["s"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "ACT001",
-					"width": 88,
-					"height": 88,
+					"width": 60,
+					"height": 90,
 					"pins": {
 						"digital": ["s"]
-					}
+					},
+					// "in_use": false,
+					"board_type": "RoSys",
 				}],
 				"rgbs": [{
 					"id": "RGBled",
@@ -7081,7 +7077,8 @@ angular.module('kenrobot')
 					"height": 79,
 					"pins": {
 						"digital": ["r", "g", "b"]
-					}
+					},
+					"board_type": "Arduino",
 				}],
 				"sensors": [{
 					"id": "us",
@@ -7090,7 +7087,8 @@ angular.module('kenrobot')
 					"height": 79,
 					"pins": {
 						"digital": ["trigger", "echo"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "button",
 					"type": "digital",
@@ -7098,7 +7096,17 @@ angular.module('kenrobot')
 					"height": 73,
 					"pins": {
 						"digital": ["s"]
-					}
+					},
+					"board_type": "Arduino",
+				}, {
+					"id": "SEN001",
+					"type": "digital",
+					"width": 60,
+					"height": 90,
+					"pins": {
+						"digital": ["s"]
+					},
+					"board_type": "RoSys",
 				}, {
 					"id": "limitswitch",
 					"type": "digital",
@@ -7106,7 +7114,8 @@ angular.module('kenrobot')
 					"height": 92,
 					"pins": {
 						"digital": ["s"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "encoder",
 					"type": "encoder",
@@ -7118,7 +7127,8 @@ angular.module('kenrobot')
 					},
 					"pins": {
 						"digital": ["k", "sa", "sb"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "sound",
 					"type": "digital",
@@ -7126,7 +7136,8 @@ angular.module('kenrobot')
 					"height": 102,
 					"pins": {
 						"digital": ["s"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "buttons",
 					"type": "ButtonPad",
@@ -7134,7 +7145,8 @@ angular.module('kenrobot')
 					"height": 120,
 					"pins": {
 						"analog": ["s"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "irs",
 					"type": "digital",
@@ -7142,7 +7154,8 @@ angular.module('kenrobot')
 					"height": 77,
 					"pins": {
 						"digital": ["s"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "irs2",
 					"type": "LineFollower",
@@ -7150,7 +7163,8 @@ angular.module('kenrobot')
 					"height": 88,
 					"pins": {
 						"digital": ["s1", "s2"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "joystick",
 					"type": "Joystick",
@@ -7159,7 +7173,8 @@ angular.module('kenrobot')
 					"pins": {
 						"analog": ["x", "y"],
 						"digital": ["k"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "ldrs",
 					"type": "analog",
@@ -7167,7 +7182,8 @@ angular.module('kenrobot')
 					"height": 65,
 					"pins": {
 						"analog": ["s"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "pot",
 					"type": "analog",
@@ -7175,7 +7191,17 @@ angular.module('kenrobot')
 					"height": 101,
 					"pins": {
 						"analog": ["s"]
-					}
+					},
+					"board_type": "Arduino",
+				}, {
+					"id": "SEN005",
+					"type": "analog",
+					"width": 60,
+					"height": 90,
+					"pins": {
+						"analog": ["s"]
+					},
+					"board_type": "RoSys",
 				}],
 				"clocks": [{
 					"id": "rtc",
@@ -7188,7 +7214,8 @@ angular.module('kenrobot')
 					},
 					"pins": {
 						"analog": ["sda", "scl"]
-					}
+					},
+					"board_type": "Arduino",
 				}],
 				"hts221": [{
 					"id": "hts221",
@@ -7201,7 +7228,8 @@ angular.module('kenrobot')
 					},
 					"pins": {
 						"analog": ["sda", "scl"]
-					}
+					},
+					"board_type": "Arduino",
 				}],
 				"buzzers": [{
 					"id": "buzz",
@@ -7210,7 +7238,8 @@ angular.module('kenrobot')
 					"height": 80,
 					"pins": {
 						"digital": ["s"]
-					}
+					},
+					"board_type": "Arduino",
 				}],
 				"servos": [{
 					"id": "servo",
@@ -7219,7 +7248,8 @@ angular.module('kenrobot')
 					"pins": {
 						"digital": ["s"]
 					},
-					"oscillator": "false"
+					"oscillator": "false",
+					"board_type": "Arduino",
 				}],
 				"continuousServos": [{
 					"id": "servocont",
@@ -7227,7 +7257,8 @@ angular.module('kenrobot')
 					"height": 106,
 					"pins": {
 						"digital": ["s"]
-					}
+					},
+					"board_type": "Arduino",
 				}],
 				"oscillators": [{}],
 				"lcds": [{
@@ -7240,7 +7271,8 @@ angular.module('kenrobot')
 					},
 					"pins": {
 						"analog": ["sda", "scl"]
-					}
+					},
+					"board_type": "Arduino",
 				}],
 				"serialElements": [{
 					"id": "bt",
@@ -7249,7 +7281,8 @@ angular.module('kenrobot')
 					"height": 88,
 					"pins": {
 						"digital": ["rx", "tx"]
-					}
+					},
+					"board_type": "Arduino",
 				}, {
 					"id": "sp",
 					"baudRate": "9600",
@@ -7260,7 +7293,8 @@ angular.module('kenrobot')
 					},
 					"pins": {
 						"serial": ["s"]
-					}
+					},
+					"board_type": "Arduino",
 				}]
 			}
 		};
@@ -8002,6 +8036,7 @@ angular.module('kenrobot')
 		var boards = hardware.boards;
 		for(var i = boards.length - 1; i >= 0; i--) {
 			var board = boards[i];
+			board.in_use = board.board_type != "RoSys";
 			if(board.in_use !== undefined && board.in_use == false) {
 				boards.splice(i, 1);
 			}
@@ -8012,6 +8047,7 @@ angular.module('kenrobot')
 			var component = components[key];
 			for(var i = component.length - 1; i >= 0; i--) {
 				var com = component[i];
+				com.in_use = com.board_type != "RoSys";
 				if(com.in_use !== undefined && com.in_use == false) {
 					component.splice(i, 1);
 				}

@@ -290,12 +290,6 @@ angular.module('kenrobot')
 				$scope.componentSelected = null;
 				$('.component').removeClass('component-selected');
 				hw2Bloqs.unselectAllConnections();
-
-				if ($scope.project.hardware.board) {
-					// $scope.subMenuHandler('hwcomponents', 'open', 1);
-				} else {
-					// $scope.subMenuHandler('boards', 'open', 1);
-				}
 			} else if (ev.target.classList.contains('component__container')) {
 
 			} else if (ev.target.classList.contains('oscillator--checkbox')) {
