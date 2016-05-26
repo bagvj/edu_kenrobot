@@ -4,14 +4,13 @@ angular.module('kenrobot')
 		var container = utils.getDOMElement('.protocanvas');
 		var $componentContextMenu = $('#component-context-menu');
 		var $boardContextMenu = $('#board-context-menu');
-		var hwJSON = common.hardware;
 
 		function _initialize() {
-			$scope.hardware.componentList = hwJSON.components;
-			$scope.hardware.boardList = hwJSON.boards;
+			$scope.hardware.componentList = common.hardware.components;
+			$scope.hardware.boardList = common.hardware.boards;
 			$scope.hardware.sortToolbox($scope.hardware.componentList);
-			generateFullComponentList(hwJSON);
-			hw2Bloqs.initialize(container, 'boardSchema', 'robotSchema');
+			generateFullComponentList(common.hardware);
+			hw2Bloqs.initialize(container, 'boardSchema');
 			container.addEventListener('mousedown', _mouseDownHandler, true);
 			$document.on('contextmenu', _contextMenuDocumentHandler);
 			$document.on('click', _clickDocumentHandler);

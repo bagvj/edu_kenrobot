@@ -136,3 +136,13 @@ gulp.task('watch', function() {
 gulp.task('default', function() {
 	return runSequence('clean', ['html', 'css', 'image', 'font'], 'js');
 });
+
+gulp.task('uuid', function() {
+	var d = new Date().getTime();
+	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		var r = (d + Math.random() * 16) % 16 | 0;
+		d = Math.floor(d / 16);
+		return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+	});
+	console.log("uuid: " + uuid);
+});

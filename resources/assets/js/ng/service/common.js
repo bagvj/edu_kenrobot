@@ -1,6 +1,6 @@
 'use strict';
 angular.module('kenrobot')
-	.service('common', function($http, $filter, $rootScope, $translate) {
+	.service('common', function($filter, $translate) {
 		var bloqsSchemas = {
 			"arrayClassVariable": {
 				"type": "output",
@@ -6929,12 +6929,148 @@ angular.module('kenrobot')
 						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ac05"
 					}]
 				}
+			}, {
+				"name": "ATmega328主控板",
+				"id": "NEO328",
+				"mcu": "uno",
+				"pinSize": {
+					"digital": {
+						"w": 9,
+						"h": 15
+					},
+					"analog": {
+						"w": 9,
+						"h": 15
+					},
+					"serial": {
+						"w": 33,
+						"h": 66
+					}
+				},
+				"pins": {
+					"digital": [{
+						"x": 0.478,
+						"y": 0.098,
+						"name": "13",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad01"
+					}, {
+						"x": 0.508,
+						"y": 0.098,
+						"name": "12",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad02"
+					}, {
+						"x": 0.545,
+						"y": 0.098,
+						"name": "11",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad03"
+					}, {
+						"x": 0.58,
+						"y": 0.098,
+						"name": "10",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad04"
+					}, {
+						"x": 0.615,
+						"y": 0.098,
+						"name": "9",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad05"
+					}, {
+						"x": 0.649,
+						"y": 0.098,
+						"name": "8",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad06"
+					}, {
+						"x": 0.695,
+						"y": 0.098,
+						"name": "7",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad07"
+					}, {
+						"x": 0.73,
+						"y": 0.098,
+						"name": "6",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad08"
+					}, {
+						"x": 0.765,
+						"y": 0.098,
+						"name": "5",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad09"
+					}, {
+						"x": 0.795,
+						"y": 0.098,
+						"name": "4",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad10"
+					}, {
+						"x": 0.832,
+						"y": 0.098,
+						"name": "3",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad11"
+					}, {
+						"x": 0.869,
+						"y": 0.098,
+						"name": "2",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad12"
+					}, {
+						"x": 0.9,
+						"y": 0.098,
+						"name": "1",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad13"
+					}, {
+						"x": 0.935,
+						"y": 0.098,
+						"name": "0",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad13"
+					}],
+					"analog": [{
+						"x": 0.763,
+						"y": 0.92,
+						"name": "A0",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa00"
+					}, {
+						"x": 0.795,
+						"y": 0.92,
+						"name": "A1",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa01"
+					}, {
+						"x": 0.83,
+						"y": 0.92,
+						"name": "A2",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa02"
+					}, {
+						"x": 0.862,
+						"y": 0.92,
+						"name": "A3",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa03"
+					}, {
+						"x": 0.895,
+						"y": 0.92,
+						"name": "A4",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa04"
+					}, {
+						"x": 0.935,
+						"y": 0.92,
+						"name": "A5",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa05"
+					}],
+					"serial": [{
+						"x": 0.045,
+						"y": 0.315,
+						"name": "serial",
+						"uid": "6be0dd9d-2e52-4b7d-9dfc-c9edad53ac05"
+					}]
+				},
+				"in_use": false,
 			}],
 			"components": {
 				"leds": [{
 					"id": "led",
 					"width": 55,
 					"height": 83,
+					"pins": {
+						"digital": ["s"]
+					}
+				}, {
+					"id": "ACT001",
+					"width": 88,
+					"height": 88,
 					"pins": {
 						"digital": ["s"]
 					}
@@ -7862,6 +7998,25 @@ angular.module('kenrobot')
 				"bloq-num-conversion-float": "浮点数"
 			}
 		};
+
+		var boards = hardware.boards;
+		for(var i = boards.length - 1; i >= 0; i--) {
+			var board = boards[i];
+			if(board.in_use !== undefined && board.in_use == false) {
+				boards.splice(i, 1);
+			}
+		}
+
+		var components = hardware.components;
+		for(var key in components) {
+			var component = components[key];
+			for(var i = component.length - 1; i >= 0; i--) {
+				var com = component[i];
+				if(com.in_use !== undefined && com.in_use == false) {
+					component.splice(i, 1);
+				}
+			}
+		}
 
 		return {
 			bloqsSchemas: bloqsSchemas,
