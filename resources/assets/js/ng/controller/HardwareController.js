@@ -8,7 +8,7 @@ angular.module('kenrobot')
 		function _initialize() {
 			$scope.hardware.componentList = common.hardware.components;
 			$scope.hardware.boardList = common.hardware.boards;
-			$scope.hardware.sortToolbox($scope.hardware.componentList);
+			$scope.hardware.sortToolbox();
 			generateFullComponentList(common.hardware);
 			hw2Bloqs.initialize(container, 'boardSchema');
 			container.addEventListener('mousedown', _mouseDownHandler, true);
@@ -138,11 +138,11 @@ angular.module('kenrobot')
 			hw2Bloqs.addBoard(board);
 
 			$scope.project.hardware.board = board.name;
+			$scope.project.hardware.board_type = board.board_type;
 
 			$scope.refreshComponentsArray();
 
 			$rootScope.$broadcast('toolboxSelect', 'components');
-
 		};
 
 		$scope.hardware.sortToolbox = function() {
@@ -158,7 +158,17 @@ angular.module('kenrobot')
 				item.name = $translate.instant(item.id);
 			});
 			common.hardware.componentSortered = _.sortBy(translatedList, 'name');
+
+			$scope.filterComponent();
 		};
+
+		$scope.filterComponent = function() {
+			if($scope.project.hardware.board_type) {
+				common.hardware.componentFiltered = _.filter(common.hardware.componentSortered, 'board_type', $scope.project.hardware.board_type);
+			} else {
+				common.hardware.componentFiltered = common.hardware.componentSortered;
+			}
+		}
 
 		function _addComponent(data) {
 			var component = _.find($scope.hardware.componentList[data.category], function(component) {
@@ -188,6 +198,7 @@ angular.module('kenrobot')
 			hw2Bloqs.removeBoard();
 			$scope.boardSelected = false;
 			$scope.project.hardware.board = null;
+			$scope.project.hardware.board_type = null;
 			$scope.refreshComponentsArray();
 		};
 
@@ -455,7 +466,9 @@ angular.module('kenrobot')
 			}
 		});
 
-
+		$scope.$watch('project.hardware.board_type', function(newVal, oldVal) {
+			$scope.filterComponent();
+		});
 
 		$scope.checkName = function() {
 			var isNameDuplicated = _.filter($scope.project.hardware.components, {

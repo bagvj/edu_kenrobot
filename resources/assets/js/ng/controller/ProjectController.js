@@ -46,6 +46,7 @@ angular.module('kenrobot')
 			hw2Bloqs.removeBoard();
 			$scope.boardSelected = false;
 			$scope.project.hardware.board = null;
+			$scope.project.hardware.board_type = null;
 			$scope.refreshComponentsArray();
 		};
 
