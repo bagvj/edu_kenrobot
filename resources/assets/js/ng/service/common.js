@@ -7022,7 +7022,7 @@ angular.module('kenrobot')
 		var boards = hardware.boards;
 		for(var i = boards.length - 1; i >= 0; i--) {
 			var board = boards[i];
-			// board.in_use = board.board_type != "RoSys";
+			board.in_use = board.board_type != "RoSys";
 			if(board.in_use !== undefined && board.in_use == false) {
 				boards.splice(i, 1);
 			}
@@ -7033,7 +7033,7 @@ angular.module('kenrobot')
 			var component = components[key];
 			for(var i = component.length - 1; i >= 0; i--) {
 				var com = component[i];
-				// com.in_use = com.board_type != "RoSys";
+				com.in_use = com.board_type != "RoSys";
 				if(com.in_use !== undefined && com.in_use == false) {
 					component.splice(i, 1);
 				}
