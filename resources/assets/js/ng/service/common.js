@@ -5807,997 +5807,6 @@ angular.module('kenrobot')
 				],
 				"code": "{NAME} = {VALUE};"
 			},
-			"zowiButtons": {
-				"type": "output",
-				"name": "zowiButtons",
-				"connectors": [{
-					"type": "connector--output",
-					"accept": "connector--input"
-				}],
-				"bloqClass": "bloq-zowi-buttons",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-buttons"
-					}, {
-						"id": "BUTTON",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-buttons-A",
-							"value": "PIN_AButton"
-						}, {
-							"label": "bloq-zowi-buttons-B",
-							"value": "PIN_BButton"
-						}]
-					}]
-				],
-				"code": "digitalRead({BUTTON})",
-				"returnType": {
-					"type": "simple",
-					"value": "float"
-				}
-			},
-			"zowiDistance": {
-				"type": "output",
-				"name": "zowiDistance",
-				"connectors": [{
-					"type": "connector--output",
-					"accept": "connector--input"
-				}],
-				"bloqClass": "bloq-zowi-distance",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-distance"
-					}]
-				],
-				"code": "zowi.getDistance()",
-				"returnType": {
-					"type": "simple",
-					"value": "float"
-				}
-			},
-			"zowiMovementsFront": {
-				"type": "statement",
-				"name": "zowiMovementsFront",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-movements-front",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-movements"
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-walk"
-					}, {
-						"id": "DIR",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-forward",
-							"value": "FORWARD"
-						}, {
-							"label": "bloq-zowi-movements-backward",
-							"value": "BACKWARD"
-						}]
-					}, {
-						"id": "STEPS",
-						"alias": "numberInput",
-						"value": 4
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-speed"
-					}, {
-						"id": "SPEED",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-speed-small",
-							"value": "LOW_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-medium",
-							"value": "MEDIUM_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-high",
-							"value": "HIGH_SPEED"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-endtext"
-					}]
-				],
-				"code": "zowi.walk({STEPS},{SPEED},{DIR});"
-			},
-			"zowiMovementsHeightFront": {
-				"type": "statement",
-				"name": "zowiMovementsHeightFront",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-movements-height-front",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-movements-height"
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-height-flapping"
-					}, {
-						"id": "DIR",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-height-forward",
-							"value": "FORWARD"
-						}, {
-							"label": "bloq-zowi-movements-height-backward",
-							"value": "BACKWARD"
-						}]
-					}, {
-						"id": "STEPS",
-						"alias": "numberInput",
-						"value": 1
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-height-speed"
-					}, {
-						"id": "SPEED",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-speed-small",
-							"value": "LOW_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-medium",
-							"value": "MEDIUM_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-high",
-							"value": "HIGH_SPEED"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-height-height"
-					}, {
-						"id": "HEIGHT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-height-small",
-							"value": "SMALL_HEIGHT"
-						}, {
-							"label": "bloq-zowi-movements-height-medium",
-							"value": "MEDIUM_HEIGHT"
-						}, {
-							"label": "bloq-zowi-movements-height-big",
-							"value": "BIG_HEIGHT"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-height-endtext"
-					}]
-				],
-				"code": "zowi.flapping({STEPS},{SPEED},{HEIGHT},{DIR});"
-			},
-			"zowiMovementsHeightSides": {
-				"type": "statement",
-				"name": "zowiMovementsHeightSides",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-movements-height-sides",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-movements-height"
-					}, {
-						"id": "MOVEMENT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-height-moonwalker",
-							"value": "moonwalker"
-						}, {
-							"label": "bloq-zowi-movements-height-crusaito",
-							"value": "crusaito"
-						}]
-					}, {
-						"id": "DIR",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-height-left",
-							"value": "LEFT"
-						}, {
-							"label": "bloq-zowi-movements-height-right",
-							"value": "RIGHT"
-						}]
-					}, {
-						"id": "STEPS",
-						"alias": "numberInput",
-						"value": 1
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-height-speed"
-					}, {
-						"id": "SPEED",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-speed-small",
-							"value": "LOW_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-medium",
-							"value": "MEDIUM_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-high",
-							"value": "HIGH_SPEED"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-height-height"
-					}, {
-						"id": "HEIGHT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-height-small",
-							"value": "SMALL_HEIGHT"
-						}, {
-							"label": "bloq-zowi-movements-height-medium",
-							"value": "MEDIUM_HEIGHT"
-						}, {
-							"label": "bloq-zowi-movements-height-big",
-							"value": "BIG_HEIGHT"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-height-endtext"
-					}]
-				],
-				"code": "zowi.{MOVEMENT}({STEPS},{SPEED},{HEIGHT},{DIR});"
-			},
-			"zowiMovementsNoDir-v1": {
-				"type": "statement",
-				"name": "zowiMovementsNoDir-v1",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-movements-no-dir-v1",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-movements-no-dir"
-					}, {
-						"id": "MOVEMENT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-no-dir-updown",
-							"value": "updown"
-						}, {
-							"label": "bloq-zowi-movements-no-dir-swing",
-							"value": "swing"
-						}, {
-							"label": "bloq-zowi-movements-no-dir-tiptoeSwing",
-							"value": "tiptoeSwing"
-						}, {
-							"label": "bloq-zowi-movements-no-dir-jitter",
-							"value": "jitter"
-						}, {
-							"label": "bloq-zowi-movements-no-dir-ascendingTurn",
-							"value": "ascendingTurn"
-						}]
-					}, {
-						"id": "STEPS",
-						"alias": "numberInput",
-						"value": 4
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-no-dir-speed"
-					}, {
-						"id": "SPEED",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-speed-small",
-							"value": "LOW_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-medium",
-							"value": "MEDIUM_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-high",
-							"value": "HIGH_SPEED"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-no-dir-height"
-					}, {
-						"id": "HEIGHT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-height-small",
-							"value": "SMALL_HEIGHT"
-						}, {
-							"label": "bloq-zowi-movements-height-medium",
-							"value": "MEDIUM_HEIGHT"
-						}, {
-							"label": "bloq-zowi-movements-height-big",
-							"value": "BIG_HEIGHT"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-no-dir-endtext"
-					}]
-				],
-				"code": "zowi.{MOVEMENT}({STEPS},{SPEED},{HEIGHT});"
-			},
-			"zowiMovementsSides": {
-				"type": "statement",
-				"name": "zowiMovementsSides",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-movements-sides",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-movements"
-					}, {
-						"id": "MOVEMENT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-turn",
-							"value": "turn"
-						}, {
-							"label": "bloq-zowi-movements-shakeLeg",
-							"value": "shakeLeg"
-						}, {
-							"label": "bloq-zowi-movements-bend",
-							"value": "bend"
-						}]
-					}, {
-						"id": "DIR",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-left",
-							"value": "LEFT"
-						}, {
-							"label": "bloq-zowi-movements-right",
-							"value": "RIGHT"
-						}]
-					}, {
-						"id": "STEPS",
-						"alias": "numberInput",
-						"value": 4
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-speed"
-					}, {
-						"id": "SPEED",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-speed-small",
-							"value": "LOW_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-medium",
-							"value": "MEDIUM_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-high",
-							"value": "HIGH_SPEED"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-endtext"
-					}]
-				],
-				"code": "zowi.{MOVEMENT}({STEPS},{SPEED},{DIR});"
-			},
-			"zowiSound": {
-				"type": "output",
-				"name": "zowiSound",
-				"connectors": [{
-					"type": "connector--output",
-					"accept": "connector--input"
-				}],
-				"bloqClass": "bloq-zowi-sound",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-sound"
-					}]
-				],
-				"code": "zowi.getNoise()",
-				"returnType": {
-					"type": "simple",
-					"value": "float"
-				}
-			},
-			"zowiMovements": {
-				"type": "statement",
-				"name": "zowiMovements",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-movements",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-movements"
-					}, {
-						"id": "MOVEMENT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-walk",
-							"value": "walk"
-						}, {
-							"label": "bloq-zowi-movements-turn",
-							"value": "turn"
-						}, {
-							"label": "bloq-zowi-movements-shakeLeg",
-							"value": "shakeLeg"
-						}, {
-							"label": "bloq-zowi-movements-bend",
-							"value": "bend"
-						}]
-					}, {
-						"id": "DIR",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-forward",
-							"value": "FORWARD"
-						}, {
-							"label": "bloq-zowi-movements-backward",
-							"value": "BACKWARD"
-						}, {
-							"label": "bloq-zowi-movements-left",
-							"value": "LEFT"
-						}, {
-							"label": "bloq-zowi-movements-right",
-							"value": "RIGHT"
-						}]
-					}, {
-						"id": "STEPS",
-						"alias": "numberInput",
-						"value": 4
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-speed"
-					}, {
-						"id": "SPEED",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-speed-small",
-							"value": "LOW_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-medium",
-							"value": "MEDIUM_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-high",
-							"value": "HIGH_SPEED"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-endtext"
-					}]
-				],
-				"code": "zowi.{MOVEMENT}({STEPS},{SPEED},{DIR});"
-			},
-			"zowiMovementsHeight": {
-				"type": "statement",
-				"name": "zowiMovementsHeight",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-movements-height",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-movements-height"
-					}, {
-						"id": "MOVEMENT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-height-moonwalker",
-							"value": "moonwalker"
-						}, {
-							"label": "bloq-zowi-movements-height-crusaito",
-							"value": "crusaito"
-						}, {
-							"label": "bloq-zowi-movements-height-flapping",
-							"value": "flapping"
-						}]
-					}, {
-						"id": "DIR",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-height-forward",
-							"value": "FORWARD"
-						}, {
-							"label": "bloq-zowi-movements-height-backward",
-							"value": "BACKWARD"
-						}, {
-							"label": "bloq-zowi-movements-height-left",
-							"value": "LEFT"
-						}, {
-							"label": "bloq-zowi-movements-height-right",
-							"value": "RIGHT"
-						}]
-					}, {
-						"id": "STEPS",
-						"alias": "numberInput",
-						"value": 1
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-height-speed"
-					}, {
-						"id": "SPEED",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-speed-small",
-							"value": "LOW_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-medium",
-							"value": "MEDIUM_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-high",
-							"value": "HIGH_SPEED"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-height-height"
-					}, {
-						"id": "HEIGHT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-height-small",
-							"value": "SMALL_HEIGHT"
-						}, {
-							"label": "bloq-zowi-movements-height-medium",
-							"value": "MEDIUM_HEIGHT"
-						}, {
-							"label": "bloq-zowi-movements-height-big",
-							"value": "BIG_HEIGHT"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-height-endtext"
-					}]
-				],
-				"code": "zowi.{MOVEMENT}({STEPS},{SPEED},{HEIGHT},{DIR});"
-			},
-			"zowiMovementsNoDir": {
-				"type": "statement",
-				"name": "zowiMovementsNoDir",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-movements-no-dir",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-movements-no-dir"
-					}, {
-						"id": "MOVEMENT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-no-dir-updown",
-							"value": "updown"
-						}, {
-							"label": "bloq-zowi-movements-no-dir-swing",
-							"value": "swing"
-						}, {
-							"label": "bloq-zowi-movements-no-dir-tiptoeSwing",
-							"value": "tiptoeSwing"
-						}, {
-							"label": "bloq-zowi-movements-no-dir-jitter",
-							"value": "jitter"
-						}, {
-							"label": "bloq-zowi-movements-no-dir-ascendingTurn",
-							"value": "ascendingTurn"
-						}, {
-							"label": "bloq-zowi-movements-no-dir-jump",
-							"value": "jump"
-						}]
-					}, {
-						"id": "STEPS",
-						"alias": "numberInput",
-						"value": 4
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-no-dir-speed"
-					}, {
-						"id": "SPEED",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-speed-small",
-							"value": "LOW_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-medium",
-							"value": "MEDIUM_SPEED"
-						}, {
-							"label": "bloq-zowi-movements-speed-high",
-							"value": "HIGH_SPEED"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-no-dir-height"
-					}, {
-						"id": "HEIGHT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-height-small",
-							"value": "SMALL_HEIGHT"
-						}, {
-							"label": "bloq-zowi-movements-height-medium",
-							"value": "MEDIUM_HEIGHT"
-						}, {
-							"label": "bloq-zowi-movements-height-big",
-							"value": "BIG_HEIGHT"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-no-dir-endtext"
-					}]
-				],
-				"code": "zowi.{MOVEMENT}({STEPS},{SPEED},{HEIGHT});"
-			},
-			"zowiGestures": {
-				"type": "statement",
-				"name": "zowiGestures",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-gestures",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-gestures"
-					}, {
-						"id": "GESTURE",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-gestures-ZowiHappy",
-							"value": "ZowiHappy"
-						}, {
-							"label": "bloq-zowi-gestures-ZowiSuperHappy",
-							"value": "ZowiSuperHappy"
-						}, {
-							"label": "bloq-zowi-gestures-ZowiSad",
-							"value": "ZowiSad"
-						}, {
-							"label": "bloq-zowi-gestures-ZowiSleeping",
-							"value": "ZowiSleeping"
-						}, {
-							"label": "bloq-zowi-gestures-ZowiFart",
-							"value": "ZowiFart"
-						}, {
-							"label": "bloq-zowi-gestures-ZowiConfused",
-							"value": "ZowiConfused"
-						}, {
-							"label": "bloq-zowi-gestures-ZowiLove",
-							"value": "ZowiLove"
-						}, {
-							"label": "bloq-zowi-gestures-ZowiAngry",
-							"value": "ZowiAngry"
-						}, {
-							"label": "bloq-zowi-gestures-ZowiFretful",
-							"value": "ZowiFretful"
-						}, {
-							"label": "bloq-zowi-gestures-ZowiVictory",
-							"value": "ZowiVictory"
-						}, {
-							"label": "bloq-zowi-gestures-ZowiFail",
-							"value": "ZowiFail"
-						}]
-					}]
-				],
-				"code": "zowi.playGesture({GESTURE});"
-			},
-			"zowiHome": {
-				"type": "statement",
-				"name": "zowiHome",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-rest",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-rest"
-					}]
-				],
-				"code": "zowi.home();"
-			},
-			"zowiIfButtons": {
-				"type": "statement-input",
-				"name": "zowiIfButtons",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}, {
-					"type": "connector--root",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-if-buttons",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-if-buttons"
-					}, {
-						"id": "BUTTON",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-if-buttons-A",
-							"value": "PIN_AButton"
-						}, {
-							"label": "bloq-zowi-if-buttons-B",
-							"value": "PIN_BButton"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-if-buttons-then"
-					}]
-				],
-				"code": "if(digitalRead({BUTTON}) == 1){{STATEMENTS}}"
-			},
-			"zowiIfDistance": {
-				"type": "statement-input",
-				"name": "zowiIfDistance",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}, {
-					"type": "connector--root",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-if-distance",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-if-distance"
-					}, {
-						"id": "OPERATOR",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-if-distance-less",
-							"value": "<"
-						}, {
-							"label": "bloq-zowi-if-distance-more",
-							"value": ">"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-if-distance-than"
-					}, {
-						"id": "DISTANCE",
-						"alias": "numberInput",
-						"value": 15
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-if-distance-then"
-					}]
-				],
-				"code": "if(zowi.getDistance() {OPERATOR} {DISTANCE}){{STATEMENTS}}"
-			},
-			"zowiIfSound": {
-				"type": "statement-input",
-				"name": "zowiIfSound",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}, {
-					"type": "connector--root",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-if-sound",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-if-sound"
-					}]
-				],
-				"code": " if(zowi.getNoise() >= 650){{STATEMENTS}}"
-			},
-			"zowiMouth": {
-				"type": "statement",
-				"name": "zowiMouth",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-mouth",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-mouth"
-					}, {
-						"id": "GESTURE",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-mouth-smile",
-							"value": "smile_code"
-						}, {
-							"label": "bloq-zowi-mouth-sad",
-							"value": "sad_code"
-						}, {
-							"label": "bloq-zowi-mouth-happy",
-							"value": "happyOpen_code"
-						}, {
-							"label": "bloq-zowi-mouth-confused",
-							"value": "confused_code"
-						}, {
-							"label": "bloq-zowi-mouth-bigSurprise",
-							"value": "bigSurprise_code"
-						}, {
-							"label": "bloq-zowi-mouth-tongueOut",
-							"value": "tongueOut_code"
-						}]
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-mouth-mouth"
-					}]
-				],
-				"code": "zowi.putMouth({GESTURE}, false);"
-			},
-			"zowiMovementsSimple": {
-				"type": "statement",
-				"name": "zowiMovementsSimple",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-movements-simple",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-movements-simple"
-					}, {
-						"id": "MOVEMENT",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-movements-simple-walk",
-							"value": "walk"
-						}, {
-							"label": "bloq-zowi-movements-simple-turn",
-							"value": "turn"
-						}, {
-							"label": "bloq-zowi-movements-simple-shakeLeg",
-							"value": "shakeLeg"
-						}, {
-							"label": "bloq-zowi-movements-simple-bend",
-							"value": "bend"
-						}, {
-							"label": "bloq-zowi-movements-simple-moonwalker",
-							"value": "moonwalker"
-						}, {
-							"label": "bloq-zowi-movements-simple-crusaito",
-							"value": "crusaito"
-						}, {
-							"label": "bloq-zowi-movements-simple-flapping",
-							"value": "flapping"
-						}, {
-							"label": "bloq-zowi-movements-simple-updown",
-							"value": "updown"
-						}, {
-							"label": "bloq-zowi-movements-simple-swing",
-							"value": "swing"
-						}, {
-							"label": "bloq-zowi-movements-simple-tiptoeSwing",
-							"value": "tiptoeSwing"
-						}, {
-							"label": "bloq-zowi-movements-simple-jitter",
-							"value": "jitter"
-						}, {
-							"label": "bloq-zowi-movements-simple-ascendingTurn",
-							"value": "ascendingTurn"
-						}, {
-							"label": "bloq-zowi-movements-simple-jump",
-							"value": "jump"
-						}]
-					}, {
-						"id": "STEPS",
-						"alias": "numberInput",
-						"value": 4
-					}, {
-						"alias": "text",
-						"value": "bloq-zowi-movements-simple-steps"
-					}]
-				],
-				"code": "zowi.{MOVEMENT}({STEPS});"
-			},
-			"zowiSounds": {
-				"type": "statement",
-				"name": "zowiSounds",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}],
-				"bloqClass": "bloq-zowi-sounds",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-zowi-sounds"
-					}, {
-						"id": "SOUND",
-						"alias": "staticDropdown",
-						"options": [{
-							"label": "bloq-zowi-sounds-surprise",
-							"value": "S_surprise"
-						}, {
-							"label": "bloq-zowi-sounds-OhOoh",
-							"value": "S_OhOoh"
-						}, {
-							"label": "bloq-zowi-sounds-cuddly",
-							"value": "S_cuddly"
-						}, {
-							"label": "bloq-zowi-sounds-sleeping",
-							"value": "S_sleeping"
-						}, {
-							"label": "bloq-zowi-sounds-happy",
-							"value": "S_happy"
-						}, {
-							"label": "bloq-zowi-sounds-sad",
-							"value": "S_sad"
-						}, {
-							"label": "bloq-zowi-sounds-confused",
-							"value": "S_confused"
-						}, {
-							"label": "bloq-zowi-sounds-fart1-v1",
-							"value": "S_fart1"
-						}]
-					}]
-				],
-				"code": "zowi.sing({SOUND});"
-			}
 		};
 
 		var hardware = {
@@ -7060,6 +6069,9 @@ angular.module('kenrobot')
 					"pins": {
 						"digital": ["s"]
 					},
+					"anchors": {
+						"s": [0.5, 1]
+					},
 					"board_type": "Arduino",
 				}, {
 					"id": "ACT001",
@@ -7067,6 +6079,9 @@ angular.module('kenrobot')
 					"height": 90,
 					"pins": {
 						"digital": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1]
 					},
 					// "in_use": false,
 					"board_type": "RoSys",
@@ -7078,6 +6093,11 @@ angular.module('kenrobot')
 					"pins": {
 						"digital": ["r", "g", "b"]
 					},
+					"anchors": {
+						"r": [0.25, 1],
+						"g": [0.5, 1],
+						"b": [0.75, 1],
+					},
 					"board_type": "Arduino",
 				}],
 				"sensors": [{
@@ -7088,6 +6108,10 @@ angular.module('kenrobot')
 					"pins": {
 						"digital": ["trigger", "echo"]
 					},
+					"anchors": {
+						"trigger": [0.33, 1],
+						"echo": [0.67, 1],
+					},
 					"board_type": "Arduino",
 				}, {
 					"id": "button",
@@ -7096,6 +6120,9 @@ angular.module('kenrobot')
 					"height": 73,
 					"pins": {
 						"digital": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1],
 					},
 					"board_type": "Arduino",
 				}, {
@@ -7106,6 +6133,9 @@ angular.module('kenrobot')
 					"pins": {
 						"digital": ["s"]
 					},
+					"anchors": {
+						"s": [0.5, 1],
+					},
 					"board_type": "RoSys",
 				}, {
 					"id": "limitswitch",
@@ -7114,6 +6144,9 @@ angular.module('kenrobot')
 					"height": 92,
 					"pins": {
 						"digital": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1],
 					},
 					"board_type": "Arduino",
 				}, {
@@ -7128,6 +6161,11 @@ angular.module('kenrobot')
 					"pins": {
 						"digital": ["k", "sa", "sb"]
 					},
+					"anchors": {
+						"k": [0.25, 1],
+						"sa": [0.5, 1],
+						"sb": [0.75, 1],
+					},
 					"board_type": "Arduino",
 				}, {
 					"id": "sound",
@@ -7136,6 +6174,9 @@ angular.module('kenrobot')
 					"height": 102,
 					"pins": {
 						"digital": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1],
 					},
 					"board_type": "Arduino",
 				}, {
@@ -7146,6 +6187,9 @@ angular.module('kenrobot')
 					"pins": {
 						"analog": ["s"]
 					},
+					"anchors": {
+						"s": [0.5, 0],
+					},
 					"board_type": "Arduino",
 				}, {
 					"id": "irs",
@@ -7155,6 +6199,9 @@ angular.module('kenrobot')
 					"pins": {
 						"digital": ["s"]
 					},
+					"anchors": {
+						"s": [0.5, 1],
+					},
 					"board_type": "Arduino",
 				}, {
 					"id": "irs2",
@@ -7163,6 +6210,10 @@ angular.module('kenrobot')
 					"height": 88,
 					"pins": {
 						"digital": ["s1", "s2"]
+					},
+					"anchors": {
+						"s1": [0.33, 1],
+						"s2": [0.33, 1],
 					},
 					"board_type": "Arduino",
 				}, {
@@ -7174,6 +6225,11 @@ angular.module('kenrobot')
 						"analog": ["x", "y"],
 						"digital": ["k"]
 					},
+					"anchors": {
+						"x": [0.33, 0],
+						"y": [0.67, 0],
+						"k": [0.5, 1],
+					},
 					"board_type": "Arduino",
 				}, {
 					"id": "ldrs",
@@ -7182,6 +6238,9 @@ angular.module('kenrobot')
 					"height": 65,
 					"pins": {
 						"analog": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 0],
 					},
 					"board_type": "Arduino",
 				}, {
@@ -7192,6 +6251,9 @@ angular.module('kenrobot')
 					"pins": {
 						"analog": ["s"]
 					},
+					"anchors": {
+						"s": [0.5, 0],
+					},
 					"board_type": "Arduino",
 				}, {
 					"id": "SEN005",
@@ -7200,6 +6262,9 @@ angular.module('kenrobot')
 					"height": 90,
 					"pins": {
 						"analog": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1],
 					},
 					"board_type": "RoSys",
 				}],
@@ -7215,6 +6280,10 @@ angular.module('kenrobot')
 					"pins": {
 						"analog": ["sda", "scl"]
 					},
+					"anchors": {
+						"sda": [0.33, 0],
+						"scl": [0.67, 0],
+					},
 					"board_type": "Arduino",
 				}],
 				"hts221": [{
@@ -7229,6 +6298,10 @@ angular.module('kenrobot')
 					"pins": {
 						"analog": ["sda", "scl"]
 					},
+					"anchors": {
+						"sda": [0.33, 0],
+						"scl": [0.67, 0],
+					},
 					"board_type": "Arduino",
 				}],
 				"buzzers": [{
@@ -7239,6 +6312,9 @@ angular.module('kenrobot')
 					"pins": {
 						"digital": ["s"]
 					},
+					"anchors": {
+						"s": [0.5, 1],
+					},
 					"board_type": "Arduino",
 				}],
 				"servos": [{
@@ -7247,6 +6323,9 @@ angular.module('kenrobot')
 					"height": 106,
 					"pins": {
 						"digital": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1],
 					},
 					"oscillator": "false",
 					"board_type": "Arduino",
@@ -7257,6 +6336,9 @@ angular.module('kenrobot')
 					"height": 106,
 					"pins": {
 						"digital": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1],
 					},
 					"board_type": "Arduino",
 				}],
@@ -7272,6 +6354,10 @@ angular.module('kenrobot')
 					"pins": {
 						"analog": ["sda", "scl"]
 					},
+					"anchors": {
+						"sda": [0.33, 0],
+						"scl": [0.67, 0],
+					},
 					"board_type": "Arduino",
 				}],
 				"serialElements": [{
@@ -7281,6 +6367,10 @@ angular.module('kenrobot')
 					"height": 88,
 					"pins": {
 						"digital": ["rx", "tx"]
+					},
+					"anchors": {
+						"rx": [0.33, 1],
+						"tx": [0.67, 1],
 					},
 					"board_type": "Arduino",
 				}, {
@@ -7293,6 +6383,9 @@ angular.module('kenrobot')
 					},
 					"pins": {
 						"serial": ["s"]
+					},
+					"anchors": {
+						"s": [1, 0.5],
 					},
 					"board_type": "Arduino",
 				}]
@@ -7596,23 +6689,6 @@ angular.module('kenrobot')
 
 		var bloqsLanguages = {
 			"zh": {
-				"bloq-zowi-mouth-tongueOut": "smile with tongue out",
-				"bloq-zowi-mouth-confused": "confused face",
-				"bloq-zowi-mouth-bigSurprise": "surprised face",
-				"bloq-zowi-distance": "Zowi, measure the distance",
-				"bloq-zowi-sound": "Zowi, listen carefully",
-				"bloq-zowi-sounds-OhOoh": "oh-oh",
-				"bloq-zowi-sounds-surprise": "surprise",
-				"bloq-zowi-sounds-sad": "sadness",
-				"bloq-zowi-sounds-happy": "happiness",
-				"bloq-zowi-sounds-sleeping": "sleepiness",
-				"bloq-zowi-sounds-cuddly": "cuddle",
-				"bloq-zowi-sounds-confused": "confusion",
-				"bloq-zowi-movements-shakeLeg": "move leg ",
-				"bloq-zowi-sounds-fart1": "fart",
-				"bloq-zowi-movements-speed-medium": "medium",
-				"bloq-zowi-movements-speed-small": "low",
-				"bloq-zowi-movements-speed-high": "high",
 				"bloq-break-stopLoop": "结束本轮循环",
 				"bloq-code-writeYourCode": "输入你自己的代码",
 				"bloq-comment-comment": "注释 //",
@@ -7829,47 +6905,6 @@ angular.module('kenrobot')
 				"bloq-pin-digital-write": "设置引脚",
 				"bloq-pin-analog-write-data": "模拟量为",
 				"bloq-pin-digital-write-data": "数字量为",
-				"bloq-zowi-movements": "Zowi:",
-				"bloq-zowi-movements-walk": "walk",
-				"bloq-zowi-movements-turn": "turn",
-				"bloq-zowi-movements-height-moonwalker": "moonwalk",
-				"bloq-zowi-movements-height-crusaito": "cross-step",
-				"bloq-zowi-movements-height-flapping": "flap",
-				"bloq-zowi-movements-shakeleg": "shake your legs",
-				"bloq-zowi-movements-bend": "bend",
-				"bloq-zowi-movements-forward": "forward",
-				"bloq-zowi-movements-backward": "backward",
-				"bloq-zowi-movements-left": "left",
-				"bloq-zowi-movements-right": "right",
-				"bloq-zowi-movements-speed": "steps with a",
-				"bloq-zowi-mouth": "Zowi, draw a",
-				"bloq-zowi-mouth-mouth": "on your mouth",
-				"bloq-zowi-mouth-smile": "smile",
-				"bloq-zowi-mouth-sad": "sad face",
-				"bloq-zowi-mouth-happy": "happy face",
-				"bloq-zowi-movements-height": "Zowi,",
-				"bloq-zowi-movements-height-forward": "forward",
-				"bloq-zowi-movements-height-backward": "backward",
-				"bloq-zowi-movements-height-left": "left",
-				"bloq-zowi-movements-height-right": "right",
-				"bloq-zowi-movements-height-speed": "times with a",
-				"bloq-zowi-movements-height-height": "speed and a",
-				"bloq-zowi-movements-height-big": "high",
-				"bloq-zowi-movements-height-medium": "medium",
-				"bloq-zowi-movements-height-small": "low",
-				"bloq-zowi-movements-no-dir": "Zowi,",
-				"bloq-zowi-movements-no-dir-updown": "go up and down",
-				"bloq-zowi-movements-no-dir-swing": "swing",
-				"bloq-zowi-movements-no-dir-tiptoeSwing": "swing on tiptoes",
-				"bloq-zowi-movements-no-dir-jitter": "jitter",
-				"bloq-zowi-movements-no-dir-ascendingTurn": "ascending turn",
-				"bloq-zowi-movements-no-dir-jump": "jump",
-				"bloq-zowi-movements-no-dir-speed": "times with a",
-				"bloq-zowi-movements-no-dir-height": "speed and a",
-				"bloq-zowi-movements-no-dir-big": "high",
-				"bloq-zowi-movements-no-dir-medium": "medium",
-				"bloq-zowi-movements-no-dir-small": "low",
-				"bloq-zowi-sounds": "Zowi, make this sound:",
 				"bloq-hts221-humidity": "读取",
 				"bloq-hts221-humidity-end": "的温度",
 				"bloq-hts221-temperature": "读取",
@@ -7908,36 +6943,6 @@ angular.module('kenrobot')
 				"bloq-rgbLed-simple-red": "red",
 				"bloq-rgbLed-simple-green": "green",
 				"bloq-rgbLed-simple-blue": "blue",
-				"bloq-zowi-gestures": "Zowi, show",
-				"bloq-zowi-gestures-ZowiHappy": "happy",
-				"bloq-zowi-gestures-ZowiSuperHappy": "super happy",
-				"bloq-zowi-gestures-ZowiSad": "sad",
-				"bloq-zowi-gestures-ZowiSleeping": "sleepy",
-				"bloq-zowi-gestures-ZowiFart": "fart",
-				"bloq-zowi-gestures-ZowiConfused": "confused",
-				"bloq-zowi-gestures-ZowiLove": "in love",
-				"bloq-zowi-gestures-ZowiAngry": "angry",
-				"bloq-zowi-gestures-ZowiFretful": "anxious",
-				"bloq-zowi-gestures-ZowiMagic": "magic",
-				"bloq-zowi-gestures-ZowiWave": "wave",
-				"bloq-zowi-gestures-ZowiVictory": "victory",
-				"bloq-zowi-gestures-ZowiFail": "defeat",
-				"bloq-zowi-movements-simple": "Zowi,",
-				"bloq-zowi-movements-simple-steps": "times",
-				"bloq-zowi-movements-simple-walk": "walk",
-				"bloq-zowi-movements-simple-turn": "turn",
-				"bloq-zowi-movements-simple-shakeLeg": "move leg",
-				"bloq-zowi-movements-simple-bend": "bend",
-				"bloq-zowi-movements-simple-moonwalker": "moonwalk",
-				"bloq-zowi-movements-simple-crusaito": "cross-step",
-				"bloq-zowi-movements-simple-flapping": "flap",
-				"bloq-zowi-movements-simple-updown": "go up and down",
-				"bloq-zowi-movements-simple-swing": "swing",
-				"bloq-zowi-movements-simple-tiptoeSwing": "swing on tiptoes",
-				"bloq-zowi-movements-simple-jitter": "jitter",
-				"bloq-zowi-movements-simple-ascendingTurn": "ascending turn",
-				"bloq-zowi-movements-simple-jump": "jump",
-				"bloq-zowi-rest": "Zowi, rest",
 				"bloq-millis": "获取执行到此刻的时间",
 				"bloq-random-seed": "随机数种子初始化",
 				"bloq-rgbLed-simple-white": "white",
@@ -7948,19 +6953,6 @@ angular.module('kenrobot')
 				"bloq-rgbLed-simple-pink": "pink",
 				"bloq-argument-int": "整数",
 				"bloq-argument-char": "字符",
-				"bloq-zowi-buttons": "button",
-				"bloq-zowi-buttons-A": "A",
-				"bloq-zowi-buttons-B": "B",
-				"bloq-zowi-if-distance": "If it detects a distance",
-				"bloq-zowi-if-distance-less": "of less",
-				"bloq-zowi-if-distance-more": "of more",
-				"bloq-zowi-if-distance-than": "than",
-				"bloq-zowi-if-distance-then": "centimetres, it will do this:",
-				"bloq-zowi-if-buttons": "If the I press button",
-				"bloq-zowi-if-buttons-A": "A",
-				"bloq-zowi-if-buttons-B": "B",
-				"bloq-zowi-if-buttons-then": ", do:",
-				"bloq-zowi-if-sound": "If it hears a noise, it will do this:",
 				"bloq-evolution-rest": "Rest",
 				"bloq-evolution-movements-simple": "Move",
 				"bloq-evolution-movements-simple-fordward": "forward",
@@ -8020,12 +7012,6 @@ angular.module('kenrobot')
 				"bloq-evolution-if-light-high": "high",
 				"bloq-evolution-if-light-medium": "medium",
 				"bloq-evolution-if-light-low": "low",
-				"bloq-zowi-movements-endtext": "speed",
-				"bloq-zowi-movements-height-endtext": "height",
-				"bloq-zowi-movements-no-dir-endtext": "height",
-				"bloq-zowi-if-buttons-then-v1": ", do:",
-				"bloq-zowi-if-distance-then-v1": "cm, do:",
-				"bloq-zowi-if-sound-v1": "If Zowi hears a sound, do:",
 				"bloq-num-conversion": "把",
 				"bloq-num-conversion-to": "转换为",
 				"bloq-num-conversion-int": "整数",
@@ -8036,7 +7022,7 @@ angular.module('kenrobot')
 		var boards = hardware.boards;
 		for(var i = boards.length - 1; i >= 0; i--) {
 			var board = boards[i];
-			board.in_use = board.board_type != "RoSys";
+			// board.in_use = board.board_type != "RoSys";
 			if(board.in_use !== undefined && board.in_use == false) {
 				boards.splice(i, 1);
 			}
@@ -8047,7 +7033,7 @@ angular.module('kenrobot')
 			var component = components[key];
 			for(var i = component.length - 1; i >= 0; i--) {
 				var com = component[i];
-				com.in_use = com.board_type != "RoSys";
+				// com.in_use = com.board_type != "RoSys";
 				if(com.in_use !== undefined && com.in_use == false) {
 					component.splice(i, 1);
 				}

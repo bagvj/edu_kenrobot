@@ -115,9 +115,7 @@ angular.module('kenrobot')
 			boardDOMElement.classList.add('opaque');
 
 			var _addBoardEndpoints = function() {
-
 				function addEP(pin) {
-
 					var overLayLocation = [];
 					if (type === 'digital') {
 						overLayLocation = [0.5, 1.5];
@@ -182,7 +180,6 @@ angular.module('kenrobot')
 			};
 
 			_addBoardEndpoints();
-
 		};
 
 		function removeBoard() {
@@ -214,7 +211,6 @@ angular.module('kenrobot')
 		};
 
 		function addComponent(newComponent) {
-
 			if (!newComponent) {
 				throw new Error('You need provide a component element :: addComponent');
 			}
@@ -249,7 +245,6 @@ angular.module('kenrobot')
 
 			//Adds a raw svg for a component
 			function _loadComponent() {
-
 				var spaceInterPin;
 				if (newComponent.pins.digital && newComponent.pins.analog) {
 					spaceInterPin = {
@@ -304,7 +299,9 @@ angular.module('kenrobot')
 					if (typeof element !== 'string') {
 						el = Object.keys(element)[0];
 					}
-					var anchorValue = [spaceInterPin[type].x * (index + 1), spaceInterPin[type].y, 0, 0, 0, 0];
+					// var anchorValue = [spaceInterPin[type].x * (index + 1), spaceInterPin[type].y, 0, 0, 0, 0];
+					var anchorValue = newComponent.anchors[element];
+					anchorValue = [anchorValue[0], anchorValue[1], 0, 0, 0, 0];
 
 					if (!newComponent.endpoints) {
 						newComponent.endpoints = {};
@@ -350,7 +347,6 @@ angular.module('kenrobot')
 
 					epComponent.unbind('click');
 					epComponent.bind('click', function(ep) {
-
 						ep.canvas.classList.add('selected');
 
 						unselectAllConnections();
@@ -362,7 +358,6 @@ angular.module('kenrobot')
 						ep.connections.forEach(function(con) {
 							_selectConnection(con);
 						});
-
 					});
 
 					//Connect automaticaly these pins
@@ -387,7 +382,6 @@ angular.module('kenrobot')
 							// console.warn('mandatoryPins. Some reference lost', mandatoryPins);
 						}
 					}
-
 				}
 
 				for (var type in newComponent.pins) {
@@ -399,9 +393,7 @@ angular.module('kenrobot')
 				jsPlumbInstance.draggable(DOMComponent, {
 					containment: true
 				});
-
 			}
-
 		};
 
 		function disconnectComponent(component) {
@@ -447,7 +439,6 @@ angular.module('kenrobot')
 		};
 
 		function loadSchema(newSchema) {
-
 			this.schema = newSchema;
 			var ref = this;
 
@@ -471,18 +462,15 @@ angular.module('kenrobot')
 						uuids: [connection.pinSourceUid, connection.pinTargetUid],
 						type: 'automatic'
 					});
-
 				});
 			} else {
 				// console.warn('Unable to add board', ref.schema);
 			}
 
 			repaint();
-
 		};
 
 		function saveSchema() {
-
 			var schema = {
 				components: [],
 				connections: []
@@ -665,7 +653,6 @@ angular.module('kenrobot')
 		};
 
 		function _registerJsPlumbTypes() {
-
 			// Register connection types
 			var commonConnectionType = {
 

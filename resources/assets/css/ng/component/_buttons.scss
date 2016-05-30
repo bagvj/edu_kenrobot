@@ -99,19 +99,6 @@ dropdown {
   }
 }
 
-.btn--reset--zowi {
-  background-color: $color-white;
-  border-radius   : 4px;
-  padding         : 10px;
-  margin          : 16px 16px 0;
-  transition      : background-color $transition-duration;
-  border          : 1px solid $bitbloq-color-gray;
-
-  &:hover {
-    background-color: $button-zowi-hover;
-  }
-}
-
 .btn--dropdown {
   color: #8c919b;
   -webkit-flex: 1;

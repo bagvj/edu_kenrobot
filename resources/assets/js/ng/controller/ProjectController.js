@@ -210,7 +210,7 @@ angular.module('kenrobot')
 			});
 
 			//Has changed componentsArray?
-			if (plainComponentListTemporal.length > 0 || (plainComponentList.length > 0 && plainComponentList.indexOf('zowi') === -1)) {
+			if (plainComponentListTemporal.length > 0 || plainComponentList.length > 0 ) {
 				if (!_.isEqual(plainComponentList, plainComponentListTemporal) && !$scope.hardware.firstLoad) {
 					//$log.debug('componentsArray has changed');
 					readyToSave = true;
