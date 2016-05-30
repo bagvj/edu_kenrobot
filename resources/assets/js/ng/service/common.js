@@ -6127,7 +6127,31 @@ angular.module('kenrobot')
 					"board_type": "Arduino",
 				}, {
 					"id": "SEN001",
-					"type": "digital",
+					"type": "INPUT_PULLUP",
+					"width": 60,
+					"height": 90,
+					"pins": {
+						"digital": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1],
+					},
+					"board_type": "RoSys",
+				}, {
+					"id": "SEN002",
+					"type": "INPUT_PULLUP",
+					"width": 60,
+					"height": 90,
+					"pins": {
+						"digital": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1],
+					},
+					"board_type": "RoSys",
+				}, {
+					"id": "SEN004",
+					"type": "INPUT_PULLUP",
 					"width": 60,
 					"height": 90,
 					"pins": {
@@ -6244,6 +6268,18 @@ angular.module('kenrobot')
 					},
 					"board_type": "Arduino",
 				}, {
+					"id": "SEN013",
+					"type": "analog",
+					"width": 60,
+					"height": 90,
+					"pins": {
+						"analog": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1],
+					},
+					"board_type": "RoSys",
+				}, {
 					"id": "pot",
 					"type": "analog",
 					"width": 74,
@@ -6316,6 +6352,18 @@ angular.module('kenrobot')
 						"s": [0.5, 1],
 					},
 					"board_type": "Arduino",
+				}, {
+					"id": "ACT005",
+					"type": "digital",
+					"width": 60,
+					"height": 90,
+					"pins": {
+						"digital": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1],
+					},
+					"board_type": "RoSys",
 				}],
 				"servos": [{
 					"id": "servo",

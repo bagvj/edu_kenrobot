@@ -845,6 +845,7 @@ angular.module('kenrobot')
 				if (componentsArray.buzzers.length >= 1) {
 					componentsArray.buzzers.forEach(function(buzzer) {
 						globalVars += 'int ' + buzzer.name + ' = ' + (buzzer.pin.s || '') + ';';
+						setupCode += 'pinMode(' + buzzer.name + ', OUTPUT);';
 					});
 				}
 				//*******CLOCKS*******//
@@ -908,6 +909,9 @@ angular.module('kenrobot')
 						} else if (sensor.type === 'encoder') {
 							globalVars += 'Encoder ' + sensor.name + '(encoderUpdaterWrapper,' + (sensor.pin.k || '') + ',' + (sensor.pin.sa || '') + ',' + (sensor.pin.sb || '') + ');';
 							finalFunctions += 'void encoderUpdaterWrapper(){' + sensor.name + '.update();}';
+						} else if(sensor.type == 'INPUT_PULLUP') {
+							globalVars += 'int ' + sensor.name + ' = ' + (sensor.pin.s || '') + ';';
+							setupCode += 'pinMode(' + sensor.name + ', INPUT_PULLUP);';
 						}
 					});
 				}
