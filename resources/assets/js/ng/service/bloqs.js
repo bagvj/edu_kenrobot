@@ -1476,7 +1476,6 @@ angular.module('kenrobot')
 					value = element.val() || '';
 					//hardcoded!!
 					for (var j = 0; j < this.componentsArray.sensors.length; j++) {
-
 						if (value === this.componentsArray.sensors[j].name) {
 							type = this.componentsArray.sensors[j].type;
 							if (type === 'analog') {
@@ -1485,7 +1484,6 @@ angular.module('kenrobot')
 								value = 'digitalRead(' + this.componentsArray.sensors[j].pin.s + ')';
 							} else if (type === 'LineFollower') { // patch. When the new Web2Board is launched with float * as return, remove this
 								value = '(float *)' + this.componentsArray.sensors[j].name + '.read()';
-
 							} else {
 								value = this.componentsArray.sensors[j].name + '.read()';
 							}

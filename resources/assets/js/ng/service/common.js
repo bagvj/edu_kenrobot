@@ -6127,7 +6127,7 @@ angular.module('kenrobot')
 					"board_type": "Arduino",
 				}, {
 					"id": "SEN001",
-					"type": "INPUT_PULLUP",
+					"type": "digital",
 					"width": 60,
 					"height": 90,
 					"pins": {
@@ -6136,10 +6136,11 @@ angular.module('kenrobot')
 					"anchors": {
 						"s": [0.5, 1],
 					},
+					"pinMode": "INPUT_PULLUP",
 					"board_type": "RoSys",
 				}, {
 					"id": "SEN002",
-					"type": "INPUT_PULLUP",
+					"type": "digital",
 					"width": 60,
 					"height": 90,
 					"pins": {
@@ -6148,10 +6149,11 @@ angular.module('kenrobot')
 					"anchors": {
 						"s": [0.5, 1],
 					},
+					"pinMode": "INPUT_PULLUP",
 					"board_type": "RoSys",
 				}, {
 					"id": "SEN004",
-					"type": "INPUT_PULLUP",
+					"type": "digital",
 					"width": 60,
 					"height": 90,
 					"pins": {
@@ -6160,6 +6162,7 @@ angular.module('kenrobot')
 					"anchors": {
 						"s": [0.5, 1],
 					},
+					"pinMode": "INPUT_PULLUP",
 					"board_type": "RoSys",
 				}, {
 					"id": "limitswitch",

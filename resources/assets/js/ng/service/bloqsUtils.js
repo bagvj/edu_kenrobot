@@ -897,7 +897,7 @@ angular.module('kenrobot')
 					componentsArray.sensors.forEach(function(sensor) {
 						if (sensor.type === 'analog' || sensor.type === 'digital') {
 							globalVars += 'int ' + sensor.name + ' = ' + (sensor.pin.s || '') + ';';
-							setupCode += 'pinMode(' + sensor.name + ', INPUT);';
+							setupCode += 'pinMode(' + sensor.name + ',' + (sensor.pin.pinMode || 'INPUT') + ' );';
 						} else if (sensor.type === 'Joystick') {
 							globalVars += 'Joystick ' + sensor.name + '(' + (sensor.pin.x || '') + ',' + (sensor.pin.y || '') + ',' + (sensor.pin.k || '') + ');';
 						} else if (sensor.type === 'ButtonPad') {
@@ -909,9 +909,6 @@ angular.module('kenrobot')
 						} else if (sensor.type === 'encoder') {
 							globalVars += 'Encoder ' + sensor.name + '(encoderUpdaterWrapper,' + (sensor.pin.k || '') + ',' + (sensor.pin.sa || '') + ',' + (sensor.pin.sb || '') + ');';
 							finalFunctions += 'void encoderUpdaterWrapper(){' + sensor.name + '.update();}';
-						} else if(sensor.type == 'INPUT_PULLUP') {
-							globalVars += 'int ' + sensor.name + ' = ' + (sensor.pin.s || '') + ';';
-							setupCode += 'pinMode(' + sensor.name + ', INPUT_PULLUP);';
 						}
 					});
 				}
