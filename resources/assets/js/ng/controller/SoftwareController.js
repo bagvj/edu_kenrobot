@@ -79,7 +79,6 @@ angular.module('kenrobot')
 		}
 
 		function copyBloq(bloq) {
-
 			var newBloq = bloqs.buildBloqWithContent(bloq.structure, $scope.componentsArray, common.bloqsSchemas);
 
 			newBloq.doConnectable();
@@ -87,15 +86,9 @@ angular.module('kenrobot')
 
 			newBloq.$bloq[0].style.transform = 'translate(' + (bloq.left - 50) + 'px,' + (bloq.top - 100) + 'px)';
 			$scope.$field.append(newBloq.$bloq);
-			var i = 0;
-			if (newBloq.varInputs) {
-				for (i = 0; i < newBloq.varInputs.length; i++) {
-					newBloq.varInputs[i].keyup();
-				}
-			}
 		}
-		bloqs.updateDropdowns();
 
+		bloqs.updateDropdowns();
 		var $contextMenu = $('#bloqs-context-menu');
 		$scope.$field = $('#bloqs--field').last();
 
