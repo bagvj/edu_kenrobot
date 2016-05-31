@@ -897,7 +897,7 @@ angular.module('kenrobot')
 					componentsArray.sensors.forEach(function(sensor) {
 						if (sensor.type === 'analog' || sensor.type === 'digital') {
 							globalVars += 'int ' + sensor.name + ' = ' + (sensor.pin.s || '') + ';';
-							setupCode += 'pinMode(' + sensor.name + ',' + (sensor.pin.pinMode || 'INPUT') + ' );';
+							setupCode += 'pinMode(' + sensor.name + ',' + (sensor.pinMode || 'INPUT') + ' );';
 						} else if (sensor.type === 'Joystick') {
 							globalVars += 'Joystick ' + sensor.name + '(' + (sensor.pin.x || '') + ',' + (sensor.pin.y || '') + ',' + (sensor.pin.k || '') + ');';
 						} else if (sensor.type === 'ButtonPad') {
