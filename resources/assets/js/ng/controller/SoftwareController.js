@@ -29,8 +29,6 @@ angular.module('kenrobot')
 		};
 		$scope.removeBloqFromContextMenu = function(bloq) {
 			bloqs.removeBloq(bloq.uuid, true);
-			//saveBloqStep from here to not listen remove event from children and store one step for children
-			// $scope.saveBloqStep();
 		};
 
 		$scope.duplicateBloqFromContextMenu = function(bloq) {
