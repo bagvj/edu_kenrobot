@@ -8,57 +8,57 @@
 		<meta name="keywords" content="arduino 开发 IDE 开发平台 教程" />
 		<meta name="description" content="啃萝卜智能硬件平台" />
 		<meta name="csrf-token" content="{{csrf_token()}}" />
-		<link href="/assets/css/index.css" rel="stylesheet" />
+		<link href="assets/css/index.css" rel="stylesheet" />
 @if(!env('APP_DEBUG'))
 		<script src="//hm.baidu.com/hm.js?{{env('PV_KEY')}}" async></script>
 @endif
-		<script src="/assets/js/jquery.js"></script>
+		<script src="assets/js/jquery.js"></script>
 @if(env('APP_DEBUG'))
-		<script src="/assets/js/ng/vendor/autogrow.js"></script>
-		<script src="/assets/js/ng/vendor/beautify.js"></script>
-		<script src="/assets/js/ng/vendor/prism.js"></script>
-		<script src="/assets/js/ng/vendor/prism-line-numbers.js"></script>
-		<script src="/assets/js/ng/vendor/lodash.js"></script>
-		<script src="/assets/js/ng/vendor/jsPlumb.js"></script>
+		<script src="assets/js/ng/vendor/autogrow.js"></script>
+		<script src="assets/js/ng/vendor/beautify.js"></script>
+		<script src="assets/js/ng/vendor/prism.js"></script>
+		<script src="assets/js/ng/vendor/prism-line-numbers.js"></script>
+		<script src="assets/js/ng/vendor/lodash.js"></script>
+		<script src="assets/js/ng/vendor/jsPlumb.js"></script>
 
-		<script src="/assets/js/ng/vendor/angular.js"></script>
-		<script src="/assets/js/ng/vendor/angular-route.js"></script>
-		<script src="/assets/js/ng/vendor/angular-sanitize.js"></script>
-		<script src="/assets/js/ng/vendor/angular-translate.js"></script>
-		<script src="/assets/js/ng/vendor/ngDialog.js"></script>
+		<script src="assets/js/ng/vendor/angular.js"></script>
+		<script src="assets/js/ng/vendor/angular-route.js"></script>
+		<script src="assets/js/ng/vendor/angular-sanitize.js"></script>
+		<script src="assets/js/ng/vendor/angular-translate.js"></script>
+		<script src="assets/js/ng/vendor/ngDialog.js"></script>
 
-		<script src="/assets/js/ng/app.js"></script>
+		<script src="assets/js/ng/app.js"></script>
 
-		<script src="/assets/js/ng/provider/langProvider.js"></script>
-		<script src="/assets/js/ng/factory/VendorFactory.js"></script>
+		<script src="assets/js/ng/provider/langProvider.js"></script>
+		<script src="assets/js/ng/factory/VendorFactory.js"></script>
 
-		<script src="/assets/js/ng/service/common.js"></script>
-		<script src="/assets/js/ng/service/bloqsUtils.js"></script>
-		<script src="/assets/js/ng/service/bloqs.js"></script>
-		<script src="/assets/js/ng/service/hw2Bloqs.js"></script>
-		<script src="/assets/js/ng/service/utils.js"></script>
-		<script src="/assets/js/ng/service/alerts.js"></script>
+		<script src="assets/js/ng/service/common.js"></script>
+		<script src="assets/js/ng/service/bloqsUtils.js"></script>
+		<script src="assets/js/ng/service/bloqs.js"></script>
+		<script src="assets/js/ng/service/hw2Bloqs.js"></script>
+		<script src="assets/js/ng/service/utils.js"></script>
+		<script src="assets/js/ng/service/alerts.js"></script>
 
-		<script src="/assets/js/ng/directive/tab.js"></script>
-		<script src="/assets/js/ng/directive/tabset.js"></script>
-		<script src="/assets/js/ng/directive/dropdown.js"></script>
-		<script src="/assets/js/ng/directive/toolbox.js"></script>
-		<script src="/assets/js/ng/directive/creator.js"></script>
-		<script src="/assets/js/ng/directive/draggable.js"></script>
-		<script src="/assets/js/ng/directive/droppable.js"></script>
-		<script src="/assets/js/ng/directive/scrollBar.js"></script>
-		<script src="/assets/js/ng/directive/prism.js"></script>
-		<script src="/assets/js/ng/directive/commonDropdown.js"></script>
+		<script src="assets/js/ng/directive/tab.js"></script>
+		<script src="assets/js/ng/directive/tabset.js"></script>
+		<script src="assets/js/ng/directive/dropdown.js"></script>
+		<script src="assets/js/ng/directive/toolbox.js"></script>
+		<script src="assets/js/ng/directive/creator.js"></script>
+		<script src="assets/js/ng/directive/draggable.js"></script>
+		<script src="assets/js/ng/directive/droppable.js"></script>
+		<script src="assets/js/ng/directive/scrollBar.js"></script>
+		<script src="assets/js/ng/directive/prism.js"></script>
+		<script src="assets/js/ng/directive/commonDropdown.js"></script>
 
-		<script src="/assets/js/ng/controller/AlertController.js"></script>
-		<script src="/assets/js/ng/controller/ProjectController.js"></script>
-		<script src="/assets/js/ng/controller/ApiController.js"></script>
-		<script src="/assets/js/ng/controller/HardwareController.js"></script>
-		<script src="/assets/js/ng/controller/SoftwareController.js"></script>
+		<script src="assets/js/ng/controller/AlertController.js"></script>
+		<script src="assets/js/ng/controller/ProjectController.js"></script>
+		<script src="assets/js/ng/controller/ApiController.js"></script>
+		<script src="assets/js/ng/controller/HardwareController.js"></script>
+		<script src="assets/js/ng/controller/SoftwareController.js"></script>
 @else
-		<script src="/assets/js/app.js"></script>
+		<script src="assets/js/app.js"></script>
 @endif
-		<script src="/assets/js/require.js" data-main="/assets/js/index"></script>
+		<script src="assets/js/require.js" data-main="assets/js/index"></script>
 	</head>
 	<body>
 		<div class="main">
@@ -149,7 +149,7 @@
 						</div>
 						<div class="tab tab-weixin">
 							<div class="scan">
-								<img src="{{asset('/assets/image/weixin-scan.png')}}" />
+								<img src="{{asset('assets/image/weixin-scan.png')}}" />
 							</div>
 							<img class="qrcode" alt="微信扫码" src="{{$qrcodeurl or ''}}" />
 							<div class="login-tips tips">

@@ -7,10 +7,10 @@ angular.module('kenrobot', [
 	]).config(function($routeProvider, $translateProvider, langProvider) {
 		$routeProvider
 			.when('/', {
-				templateUrl: '/assets/views/main.html'
+				templateUrl: 'assets/views/main.html'
 			})
 			.when('/project/:hash', {
-				templateUrl: '/assets/views/main.html'
+				templateUrl: 'assets/views/main.html'
 			})
 			.otherwise({
 				redirectTo: '/'

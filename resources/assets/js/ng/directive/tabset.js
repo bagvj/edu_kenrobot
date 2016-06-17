@@ -5,7 +5,7 @@ angular.module('kenrobot')
 			restrict: 'E',
 			transclude: true,
 			scope: {},
-			templateUrl: '/assets/views/components/tabset.html',
+			templateUrl: 'assets/views/components/tabset.html',
 			bindToController: true,
 			controllerAs: 'tabset',
 			controller: function() {
