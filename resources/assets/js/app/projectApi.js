@@ -1,4 +1,4 @@
-define(['./config', './user'], function(config, user) {
+define(['./config', './user', './util'], function(config, user, util) {
 	var host = config.host || "";
 
 	function get(key, type) {
@@ -35,36 +35,48 @@ define(['./config', './user'], function(config, user) {
 	}
 
 	function save(project) {
-		return $.ajax({
-			type: 'POST',
-			url: host + '/api/project/save',
-			data: project,
-			dataType: 'json',
-		});
+		if(config.pc) {
+			return window.kenrobot.api.project.save(project);
+		} else {		
+			return $.ajax({
+				type: 'POST',
+				url: host + '/api/project/save',
+				data: project,
+				dataType: 'json',
+			});
+		}
 	}
 
 	function build(id) {
-		return $.ajax({
-			type: "POST",
-			url: host + "/api/project/build",
-			dataType: "json",
-			data: {
-				id: id,
-				user_id: user.getUserId(),
-			},
-		});
+		if(config.pc) {
+			return window.kenrobot.api.project.build(id);
+		} else {
+			return $.ajax({
+				type: "POST",
+				url: host + "/api/project/build",
+				dataType: "json",
+				data: {
+					id: id,
+					user_id: user.getUserId(),
+				},
+			});
+		}
 	}
 
 	function remove(id) {
-		return $.ajax({
-			type: "POST",
-			url: host + "/api/project/delete",
-			data: {
-				id: id,
-				user_id: user.getUserId(),
-			},
-			dataType: "json",
-		});
+		if(config.pc) {
+			return window.kenrobot.api.project.remove(id);
+		} else {
+			return $.ajax({
+				type: "POST",
+				url: host + "/api/project/delete",
+				data: {
+					id: id,
+					user_id: user.getUserId(),
+				},
+				dataType: "json",
+			});
+		}
 	}
 
 	return {

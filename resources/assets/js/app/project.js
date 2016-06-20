@@ -19,11 +19,11 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 	}
 
 	function save() {
-		user.authCheck().then(doSave, user.showLoginDialog);
-	}
-
-	function edit() {
-		user.authCheck().then(showSaveDialog, user.showLoginDialog);
+		if(config.pc) {
+			doSave();
+		} else {
+			user.authCheck().then(doSave, user.showLoginDialog);
+		}
 	}
 
 	function doBuild() {
@@ -265,7 +265,6 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 		init: init,
 		create: create, 
 		save: save,
-		edit: edit,
 		upload: upload,
 	}
 });

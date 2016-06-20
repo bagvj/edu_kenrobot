@@ -26,16 +26,13 @@ var gulp = require('gulp'),                      //基础库
 
 var SRC = './resources/assets/';
 var DIST = './public/assets/';
-var DIST2 = '../kenrobot-pc/assets/';
+var DIST2 = '../pc_kenrobot/assets/';
 var args = minimist(process.argv.slice(2));
 
 gulp.task('copy-env', function() {
 	if(args.pc) {
 		return;
 	}
-
-	gulp.src('./.env')
-		.pipe(clean());
 
 	var suffix = args.release ? "release" : "debug";
 	gulp.src('./.env-' + suffix)
