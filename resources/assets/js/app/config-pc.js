@@ -1,5 +1,7 @@
 define(function() {
-	return {	
+	return {
+		pc: true,
+		
 		//引导配置
 		guide: {
 			showIfFirstVisit: true,
@@ -9,6 +11,8 @@ define(function() {
 		project: {
 			maxCodeLength: 10 * 1024 * 1024,
 		},
+
+		host: "http://platform0.kenrobot.com",
 
 		//chrome扩展app配置
 		extension: {

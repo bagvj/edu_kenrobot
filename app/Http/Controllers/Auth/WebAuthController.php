@@ -86,6 +86,13 @@ class WebAuthController extends Controller
         return response()->json(['status' => -1, 'message' => '未登录']);
     }
 
+    public function postLogout2() {
+        Auth::logout();
+        return response()->json(['status' => 0])->withCookie(Cookie::forget('kenrobot_id'))
+                ->withCookie(Cookie::forget(config('session.cookie')))
+                ->withCookie(Cookie::forget('PHPSESSID'));
+    }
+
 
     public function loginInfo(Request $request) {
         $key = rand(70000,80000);

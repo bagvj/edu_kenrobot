@@ -99,10 +99,16 @@ define(function(){
 		}
 	}
 
+	function dispatchEvent(type, detail) {
+		var event = new CustomEvent(type, {detail: detail});
+		window.dispatchEvent(event);
+	}
+
 	return {
 		message: message,
 		dialog: dialog,
 		isInDialog: isInDialog,
 		toggleActive: toggleActive,
+		dispatchEvent: dispatchEvent,
 	}
 });

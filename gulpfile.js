@@ -1,6 +1,6 @@
 /**
  * 组件安装
- * npm install gulp gulp-if gulp-rev gulp-rev-replace minimist run-sequence gulp-concat gulp-rename gulp-clean gulp-jshint gulp-uglify gulp-jsonminify gulp-ruby-sass gulp-clean-css gulp-autoprefixer gulp-imagemin gulp-minify-html gulp-ng-annotate gulp-sourcemaps gulp-requirejs-optimize --save-dev
+ * npm install gulp gulp-if gulp-rev gulp-rev-replace minimist run-sequence gulp-concat gulp-rename gulp-clean gulp-uglify gulp-jsonminify gulp-ruby-sass gulp-clean-css gulp-autoprefixer gulp-imagemin gulp-minify-html gulp-ng-annotate gulp-sourcemaps gulp-requirejs-optimize --save-dev
  */
 
 // 引入 gulp及组件
@@ -13,7 +13,6 @@ var gulp = require('gulp'),                      //基础库
 	concat = require('gulp-concat'),             //合并文件
 	rename = require('gulp-rename'),             //重命名
 	clean = require('gulp-clean');               //清空文件夹
-	jshint = require('gulp-jshint'),             //js检查
 	uglify = require('gulp-uglify'),             //js压缩
 	jsonminify = require('gulp-jsonminify');     //json压缩
 	sass = require('gulp-ruby-sass'),            //sass
@@ -27,9 +26,14 @@ var gulp = require('gulp'),                      //基础库
 
 var SRC = './resources/assets/';
 var DIST = './public/assets/';
+var DIST2 = '../kenrobot-pc/assets/';
 var args = minimist(process.argv.slice(2));
 
 gulp.task('copy-env', function() {
+	if(args.pc) {
+		return;
+	}
+
 	gulp.src('./.env')
 		.pipe(clean());
 
@@ -40,14 +44,22 @@ gulp.task('copy-env', function() {
 });
 
 gulp.task('clean-js', function() {
-	return gulp.src(DIST + 'js')
-		.pipe(clean());
+	return gulp.src((args.pc ? DIST2 : DIST) + 'js')
+		.pipe(clean({force: true}));
+});
+
+gulp.task('copy-config', function() {
+	var config = args.pc ? "config-pc.js" : "config-web.js";
+	var dir = SRC + 'js/app/';
+	return gulp.src(dir + config)
+		.pipe(rename("config.js"))
+		.pipe(gulp.dest(dir));
 });
 
 // js处理
-gulp.task('js', ['clean-js', 'copy-env'], function() {
+gulp.task('js', ['clean-js', 'copy-env', 'copy-config'], function() {
 	var jsSrc = SRC + 'js/**/*.js',
-		jsDst = DIST + 'js/';
+		jsDst = (args.pc ? DIST2 : DIST) + 'js/';
 
 	if(args.release) {
 		gulp.src([SRC + 'js/require.js', SRC + 'js/jquery.js'])
@@ -75,7 +87,7 @@ gulp.task('js', ['clean-js', 'copy-env'], function() {
 			.pipe(uglify())
 			.pipe(gulp.dest(jsDst));
 	} else {
-		return gulp.src(jsSrc)
+		return gulp.src([jsSrc, '!' + SRC + 'js/app/config-*.js'])
 			.pipe(gulp.dest(jsDst));
 	}
 });
@@ -83,7 +95,7 @@ gulp.task('js', ['clean-js', 'copy-env'], function() {
 // HTML处理
 gulp.task('html', function() {
 	var htmlSrc = SRC + 'views/**/*.html',
-		htmlDst = DIST + 'views/';
+		htmlDst = (args.pc ? DIST2 : DIST) + 'views/';
 
 	return gulp.src([htmlSrc])
 		.pipe(gulpif(args.release, minifyHtml()))
@@ -93,7 +105,7 @@ gulp.task('html', function() {
 // 样式处理
 gulp.task('css', function() {
 	var cssSrc = SRC + 'css/index.scss',
-		cssDst = DIST + 'css/';
+		cssDst = (args.pc ? DIST2 : DIST) + 'css/';
 
 	return sass(cssSrc, {style: 'expanded'})
 		.pipe(autoprefixer())
@@ -104,17 +116,16 @@ gulp.task('css', function() {
 // 图片处理
 gulp.task('image', function() {
 	var imgSrc = SRC + 'image/**/*',
-		imgDst = DIST + 'image/';
+		imgDst = (args.pc ? DIST2 : DIST) + 'image/';
 
 	return gulp.src(imgSrc)
-		// .pipe(imagemin())
 		.pipe(gulp.dest(imgDst));
 });
 
 // font处理
 gulp.task('font', function() {
 	var fontSrc = SRC + 'font/**/*',
-		fontDst = DIST + 'font/';
+		fontDst = (args.pc ? DIST2 : DIST) + 'font/';
 
 	return gulp.src(fontSrc)
 		.pipe(gulp.dest(fontDst));
@@ -122,8 +133,9 @@ gulp.task('font', function() {
 
 // 清空图片、样式、js
 gulp.task('clean', function() {
-	return gulp.src([DIST + 'css', DIST + 'js', DIST + 'image', DIST + 'font', DIST + 'views'], {read: false})
-		.pipe(clean());
+	var dist = args.pc ? DIST2 : DIST;
+	return gulp.src([dist + 'css', dist + 'js', dist + 'image', dist + 'font', dist + 'views'], {read: false})
+		.pipe(clean({force: true}));
 });
 
 gulp.task('watch', function() {

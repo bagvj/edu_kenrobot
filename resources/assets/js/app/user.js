@@ -1,4 +1,4 @@
-define(['vendor/jquery.cookie', './EventManager', './util', './userApi'], function(_, EventManager, util, userApi) {
+define(['vendor/jquery.cookie', './EventManager', './util', './config', './userApi'], function(_, EventManager, util, config, userApi) {
 	var userInfo;
 	var loginCheckTimer;
 	var loginCallback;
@@ -10,6 +10,10 @@ define(['vendor/jquery.cookie', './EventManager', './util', './userApi'], functi
 		initCopyright();
 
 		$('.user-login li').on('click', onLogin);
+
+		if(config.pc) {
+			authCheck().done(doUpdateUser);
+		}
 	}
 
 	function getUserId() {
@@ -29,7 +33,7 @@ define(['vendor/jquery.cookie', './EventManager', './util', './userApi'], functi
 		userApi.authCheck().done(function(result){
 			if(result.status == 0) {
 				userInfo = result.user;
-				promise.resolve();
+				promise.resolve(result.user);
 			} else {
 				userInfo = null;
 				promise.reject();
@@ -49,6 +53,9 @@ define(['vendor/jquery.cookie', './EventManager', './util', './userApi'], functi
 				setWeixinLoginCheck(false);
 			},
 		});
+
+		$('.email', dialog).val('');
+		$('.password', dialog).val('');
 
 		type = type || "account";
 
@@ -74,6 +81,16 @@ define(['vendor/jquery.cookie', './EventManager', './util', './userApi'], functi
 
 	function initLoginDialog() {
 		var dialog = $('.login-dialog');
+
+		if(config.pc) {
+			userApi.loginInfo().done(function(info) {
+				$('.qrcode-key', dialog).val(info.key);
+				$('.qrcode', dialog).attr("src", info.qrcode);
+				$('.forget-password', dialog).attr("href", info.find_password_url);
+				$('.register', dialog).attr("href", info.register_url);
+			});
+		}
+
 		var scan = $('.scan', dialog);
 
 		$('.switch li', dialog).on('click', function() {
@@ -136,13 +153,11 @@ define(['vendor/jquery.cookie', './EventManager', './util', './userApi'], functi
 				util.message(result.message);
 				$('.x-dialog-close', dialog).click();
 
-				userInfo = result.data;
-				doUpdateUser();
+				doUpdateUser(result.data);
 				doLoginCallback();
 				EventManager.trigger("user", "login");
 			} else if (result.status == 1) {
-				userInfo = result.data;
-				doUpdateUser();
+				doUpdateUser(result.data);
 				doLoginCallback();
 			} else {
 				var message = $('.message', dialog);
@@ -165,19 +180,17 @@ define(['vendor/jquery.cookie', './EventManager', './util', './userApi'], functi
 			userApi.weixinLogin(key).done(function(result) {
 				if (result.status == 0) {
 					//登录成功
-					userInfo = result.data;
 					setWeixinLoginCheck(false);
 					$('.x-dialog-close', dialog).click();
 					util.message(result.message);
 
-					doUpdateUser();
+					doUpdateUser(result.data);
 					doLoginCallback();
 					EventManager.trigger("user", "login");
 				} else if (result.status == 1) {
 					//已经登录
-					userInfo = result.data;
 					setWeixinLoginCheck(false);
-					doUpdateUser();
+					doUpdateUser(result.data);
 				} else {
 					//登录失败
 
@@ -244,12 +257,21 @@ define(['vendor/jquery.cookie', './EventManager', './util', './userApi'], functi
 				util.message("敬请期待");
 				break;
 			case "logout":
-				window.location.href = "/logout";
+				if(config.pc) {
+					userApi.logout().done(function() {
+						util.dispatchEvent("app:reload");
+					});
+				} else {
+					window.location.href = "/logout";
+				}
+				
 				break;
 		}
 	}
 
-	function doUpdateUser() {
+	function doUpdateUser(info) {
+		userInfo = info;
+
 		var user = $('.user');
 		var topMenu = $('.top-menu');
 

@@ -26,3 +26,4 @@ Route::post('/api/auth/info', 'Auth\WebAuthController@loginInfo');
 Route::post('/api/auth/check', 'Auth\WebAuthController@check');
 Route::post('/api/auth/login', 'Auth\WebAuthController@snsPostLogin');
 Route::post('/api/auth/login/weixin', 'Auth\WebAuthController@weixinLogin');
+Route::post('/api/auth/logout', 'Auth\WebAuthController@postLogout2');
