@@ -36,15 +36,12 @@ class HomeController extends Controller {
 		return view("index", compact('user', 'mainpage', 'qrcodeurl', 'register_url', 'find_password_url', 'key', 'has_visit'));
 	}
 
-	private function getQrcodeurl($key = '') {
-		$url = config('weixin.qrcode.url');
-		$url .="$key";
+	private function getQrcodeurl($key) {
+		$url = config('weixin.qrcode.url') . "$key";
 		$curl = new Curl();
 		$qrcodeurl = $curl->get($url);
 
 		$image_data = base64_encode($curl->get($qrcodeurl));
 		return "data:image/jpg;base64," . $image_data;
-		
-		// return $qrcodeurl;
 	}
 }

@@ -22,6 +22,7 @@ Route::post('/api/projects/user', 'ProjectController@getProjects');
 Route::post('/api/projects/list', 'ProjectController@getList');
 
 // 登录验证
+Route::post('/api/auth/info', 'Auth\WebAuthController@loginInfo');
+Route::post('/api/auth/check', 'Auth\WebAuthController@check');
 Route::post('/api/auth/login', 'Auth\WebAuthController@snsPostLogin');
 Route::post('/api/auth/login/weixin', 'Auth\WebAuthController@weixinLogin');
-Route::post('/api/auth/check', 'Auth\WebAuthController@check');

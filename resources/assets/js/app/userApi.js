@@ -1,9 +1,10 @@
-define(function() {
+define(['./config'], function(config) {
+	var host = config.host || "";
 
 	function authCheck() {
 		return $.ajax({
 			type: 'POST',
-			url: '/api/auth/check',
+			url: host + '/api/auth/check',
 			data: {
 				id: 0
 			},
@@ -14,7 +15,7 @@ define(function() {
 	function login(username, password) {
 		return $.ajax({
 			type: 'POST',
-			url: '/api/auth/login',
+			url: host + '/api/auth/login',
 			dataType: 'json',
 			data: {
 				email: username,
@@ -26,7 +27,7 @@ define(function() {
 	function weixinLogin(key) {
 		return $.ajax({
 			type: 'POST',
-			url: '/api/auth/login/weixin',
+			url: host + '/api/auth/login/weixin',
 			data: {
 				key: key,
 			},

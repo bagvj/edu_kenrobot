@@ -1,4 +1,5 @@
-define(['./user'], function(user) {
+define(['./config', './user'], function(config, user) {
+	var host = config.host || "";
 
 	function get(key, type) {
 		type = type || "id";
@@ -16,7 +17,7 @@ define(['./user'], function(user) {
 
 		return $.ajax({
 			type: 'POST',
-			url: '/api/project/get',
+			url: host + '/api/project/get',
 			data: data,
 			dataType: 'json',
 		});
@@ -25,7 +26,7 @@ define(['./user'], function(user) {
 	function getAll() {
 		return $.ajax({
 			type: 'POST',
-			url: '/api/projects/user',
+			url: host + '/api/projects/user',
 			data: {
 			user_id: user.getUserId(),
 			},
@@ -36,7 +37,7 @@ define(['./user'], function(user) {
 	function save(project) {
 		return $.ajax({
 			type: 'POST',
-			url: '/api/project/save',
+			url: host + '/api/project/save',
 			data: project,
 			dataType: 'json',
 		});
@@ -45,7 +46,7 @@ define(['./user'], function(user) {
 	function build(id) {
 		return $.ajax({
 			type: "POST",
-			url: "/api/project/build",
+			url: host + "/api/project/build",
 			dataType: "json",
 			data: {
 				id: id,
@@ -57,7 +58,7 @@ define(['./user'], function(user) {
 	function remove(id) {
 		return $.ajax({
 			type: "POST",
-			url: "/api/project/delete",
+			url: host + "/api/project/delete",
 			data: {
 				id: id,
 				user_id: user.getUserId(),

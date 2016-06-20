@@ -11,7 +11,8 @@ use App\WebAuth\Factory as WebAuthFactory;
 use App\WebAuth\Helper as WebAuthHelper;
 
 use Auth;
-
+use Curl\Curl;
+use Cookie;
 
 class WebAuthController extends Controller
 {
@@ -85,4 +86,24 @@ class WebAuthController extends Controller
         return response()->json(['status' => -1, 'message' => '未登录']);
     }
 
+
+    public function loginInfo(Request $request) {
+        $key = rand(70000,80000);
+        $qrcode = $this->getQrcodeurl($key);
+        $key = 'qrscene_'.$key;
+
+        $register_url = config('platform.url.register').'&redirect_uri='.urlencode($request->url());
+        $find_password_url = config('platform.url.find_password');
+
+        return response()->json(['key' => $key, 'qrcode' => $qrcode, 'register_url' => $register_url, 'find_password_url' => $find_password_url]);
+    }
+
+    private function getQrcodeurl($key) {
+        $url = config('weixin.qrcode.url') . "$key";
+        $curl = new Curl();
+        $qrcodeurl = $curl->get($url);
+
+        $image_data = base64_encode($curl->get($qrcodeurl));
+        return "data:image/jpg;base64," . $image_data;
+    }
 }
