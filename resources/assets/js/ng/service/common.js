@@ -6424,6 +6424,8 @@ angular.module('kenrobot')
 						"tx": [0.67, 1],
 					},
 					"board_type": "Arduino",
+					"no_name": true,
+					"in_use": false,
 				}, {
 					"id": "sp",
 					"baudRate": "9600",
@@ -6439,6 +6441,7 @@ angular.module('kenrobot')
 						"s": [1, 0.5],
 					},
 					"board_type": "Arduino",
+					"no_name": true,
 				}]
 			}
 		};

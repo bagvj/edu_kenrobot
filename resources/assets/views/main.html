@@ -8,8 +8,8 @@
     	                <div class="name--container">
     	                    <div class="component-name__container" ng-class="{opaque:componentSelected}">
     	                        <span class="form--input form--input--reset">
-    	                            <label for="componentName" class="component-name__label">{{'name' | translate}}</label>
-    	                            <input id="componentName" class="component-name__input" type="text" placeholder="{{'insert-name' | translate}}" ng-model="componentSelected.name" ng-model-options="{ debounce: { 'default': 500, 'blur': 0 } }">
+    	                            <label ng-if="!componentSelected.no_name" for="componentName" class="component-name__label">{{'name' | translate}}</label>
+    	                            <input ng-if="!componentSelected.no_name" id="componentName" class="component-name__input" type="text" placeholder="{{'insert-name' | translate}}" ng-model="componentSelected.name" ng-model-options="{ debounce: { 'default': 500, 'blur': 0 } }">
     	                            <span ng-if="componentSelected.oscillator !== undefined" class="input input--checkbox input--checkbox__oscillator form--input--reset">
     	                                <label for="sample--checkbox" class="component-name__label">{{'make-hardware-component-oscillator' | translate}}</label>
     	                                <input type="checkbox" id="oscillator--checkbox" class="oscillator--checkbox" name="oscillator--checkbox" ng-model="componentSelected.oscillator">

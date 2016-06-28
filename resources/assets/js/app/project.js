@@ -248,7 +248,7 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 			user_id: user.getUserId(),
 			project_name: "我的项目",
 			project_intro: "我的项目简介",
-			public_type: 0,
+			public_type: 2,
 			project_data: {},
 		};
 	}

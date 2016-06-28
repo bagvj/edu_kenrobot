@@ -798,10 +798,6 @@ angular.module('kenrobot')
 					includeCode += '#include <BitbloqLiquidCrystal.h>\n';
 					bitbloqLibs = true;
 				}
-				if (componentsArray.serialElements.length >= 1) {
-					includeCode += '#include <SoftwareSerial.h>\n#include <BitbloqSoftwareSerial.h>\n';
-					bitbloqLibs = true;
-				}
 				if (componentsArray.clocks.length >= 1) {
 					if (includeCode.indexOf('#include <Wire.h>') === -1) {
 						includeCode += '#include <Wire.h>\n';
@@ -914,11 +910,7 @@ angular.module('kenrobot')
 				}
 				if (componentsArray.serialElements.length >= 1) {
 					componentsArray.serialElements.forEach(function(serialElement) {
-						if (serialElement.pin.s === 'serial') {
-							serialElement.pin.rx = '0';
-							serialElement.pin.tx = '1';
-						}
-						globalVars += 'bqSoftwareSerial ' + serialElement.name + '(' + (serialElement.pin.rx || '') + ',' + (serialElement.pin.tx || '') + ',' + (serialElement.baudRate || '') + ');';
+						setupCode += "Serial.begin(" + (serialElement.baudRate || '') + ");";
 					});
 				}
 				code = '\n/***   Included libraries  ***/\n' + includeCode + '\n\n/***   Global variables and function definition  ***/\n' + globalVars + bloqs.varsBloq.getCode() + '\n\n/***   Setup  ***/\n' + bloqs.setupBloq.getCode(setupCode) + '\n\n/***   Loop  ***/\n' + bloqs.loopBloq.getCode() + '' + finalFunctions;
