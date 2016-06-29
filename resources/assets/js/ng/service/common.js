@@ -835,10 +835,6 @@ angular.module('kenrobot')
 				"bloqClass": "bloq-serial-send",
 				"content": [
 					[{
-						"id": "SERIAL",
-						"alias": "dynamicDropdown",
-						"options": "serialElements"
-					}, {
 						"alias": "text",
 						"value": "bloq-serial-send-send"
 					}, {
@@ -858,7 +854,7 @@ angular.module('kenrobot')
 						}]
 					}]
 				],
-				"code": "{SERIAL}.{FUNCTION}({DATA});"
+				"code": "Serial.{FUNCTION}({DATA});"
 			},
 			"serialReceive": {
 				"type": "output",
@@ -872,19 +868,12 @@ angular.module('kenrobot')
 					[{
 						"alias": "text",
 						"value": "bloq-serial-receiver-receive"
-					}, {
-						"id": "SERIAL",
-						"alias": "dynamicDropdown",
-						"options": "serialElements"
-					}, {
-						"alias": "text",
-						"value": "bloq-serial-receiver-receive-end"
 					}]
 				],
-				"code": "{SERIAL}.readString()",
+				"code": "Serial.read()",
 				"returnType": {
 					"type": "simple",
-					"value": "String"
+					"value": "char"
 				}
 			},
 			"serialSend-v1": {
@@ -905,10 +894,6 @@ angular.module('kenrobot')
 				"bloqClass": "bloq-serial-send",
 				"content": [
 					[{
-						"id": "SERIAL",
-						"alias": "dynamicDropdown",
-						"options": "serialElements"
-					}, {
 						"alias": "text",
 						"value": "bloq-serial-send-send"
 					}, {
@@ -928,7 +913,7 @@ angular.module('kenrobot')
 						}]
 					}]
 				],
-				"code": "{SERIAL}.{LN}({DATA});"
+				"code": "Serial.{LN}({DATA});"
 			},
 			"rgbLed": {
 				"type": "statement",
@@ -6752,9 +6737,9 @@ angular.module('kenrobot')
 				"bloq-convert-hex": "十六进制",
 				"bloq-convert-oct": "八进制",
 				"bloq-convert-bin": "二进制",
-				"bloq-serial-receiver-receive": "接收",
-				"bloq-serial-receiver-receive-end": "的数据",
-				"bloq-serial-send-send": "发送",
+				"bloq-serial-receiver-receive": "接收串口数据",
+				"bloq-serial-receiver-receive-end": "",
+				"bloq-serial-send-send": "串口发送",
 				"bloq-serial-send-print": "没有换行符",
 				"bloq-serial-send-println": "有换行符",
 				"bloq-buzzer-advance-sound": "蜂鸣器",
