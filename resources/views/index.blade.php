@@ -238,6 +238,25 @@
 				</div>
 			</div>
 			<div class="message-layer"></div>
+			<div class="modal guide-cover">
+				<div class="guide-step guide-step-1" data-target=".tabpanel .tablist li:eq(0)">
+					<div class="part part-1"></div>
+					<div class="part part-2"></div>
+				</div>
+				<div class="guide-step guide-step-2" data-target=".tabpanel .tablist li:eq(1)">
+					<div class="part part-1"></div>
+					<div class="part part-2"></div>
+				</div>
+				<div class="guide-step guide-step-3" data-target=".tabpanel .tablist li:eq(2)">
+					<div class="part part-1"></div>
+					<div class="part part-2"></div>
+				</div>
+				<div class="guide-step guide-step-4" data-target=".sidebar ul li[data-action='upload']">
+					<div class="part part-1"></div>
+					<div class="part part-2"></div>
+				</div>
+				<div class="guide-skip"></div>
+			</div>
 		</div>
 	</body>
 </html>

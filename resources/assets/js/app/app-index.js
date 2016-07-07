@@ -1,4 +1,4 @@
-define(['./EventManager', './util', './user', './project', './topMenu', './config', './ext/agent'], function(EventManager, util, user, project, topMenu, config, agent) {
+define(['./EventManager', './util', './user', './project', './topMenu', './config', './ext/agent', './guide'], function(EventManager, util, user, project, topMenu, config, agent, guide) {
 	function init() {
 		if(!config.pc) {
 			initAjax();
@@ -14,6 +14,7 @@ define(['./EventManager', './util', './user', './project', './topMenu', './confi
 		user.init();
 		project.init();
 		topMenu.init();
+		guide.init();
 	}
 	
 	function initAjax() {

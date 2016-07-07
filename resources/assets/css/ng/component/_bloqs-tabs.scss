@@ -16,6 +16,18 @@ $bloqs-container-width: calc(100% - #{$bloqs-tabs-width});
   float           : left;
   height          : $main-content-with-header-height;
   width           : $bloqs-tabs-width;
+
+  .tablist__item {
+    &.guide-highlight {
+      .tablist__item__button {
+        background-color: #1e1f21;
+
+        svg {
+          fill: $color-white;
+        }
+      }
+    }
+  }
 }
 
 .tabcontent {

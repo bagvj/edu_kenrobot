@@ -211,6 +211,16 @@ $header-size: 66px;
 			height: $header-size;
 		}
 
+		&.guide-highlight {
+			& > button {
+				background-color: #1e1f21;
+			}
+
+			i {
+				color: white;
+			}
+		}
+
 		&:hover {
 		 	i {
 				color: white;
@@ -237,7 +247,7 @@ $header-size: 66px;
 		padding-bottom: 4px;
 		line-height: 20px;
 		text-align: center;
-		z-index: 600;
+		z-index: 5;
 		margin: 0 auto;
 		position: relative;
 
@@ -271,5 +281,10 @@ $header-size: 66px;
 
 .guide-layer {
 	display: none;
-	z-index: 4;
+	z-index: 10;
+}
+
+.guide-cover {
+	display: none;
+	z-index: 11;
 }
