@@ -18,6 +18,8 @@ define(['vendor/jquery.cookie', './util'], function(_, util) {
 		$('.guide-highlight').removeClass('guide-highlight');
 
 		$.cookie('has_visit', true);
+
+		$('.tabpanel .tablist li:eq(0) > button').click();
 	}
 
 	function onGuideCoverNext(e) {
