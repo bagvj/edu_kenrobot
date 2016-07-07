@@ -84,6 +84,7 @@ $toolbox-advanced-button-hover-color: #fbfbfb;
 
     &.has-advanced {
       height: $toolbox-content-list-height-with-advanced;
+      padding-top: 50px;
     }
   }
 }
@@ -130,7 +131,7 @@ $toolbox-advanced-button-hover-color: #fbfbfb;
 
   &.last {
     position: absolute;
-    bottom  : 0;
+    top     : 58px;
     right   : 0;
   }
 }

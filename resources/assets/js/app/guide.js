@@ -34,14 +34,19 @@ define(['vendor/jquery.cookie', './util'], function(_, util) {
 
 		var steps = $('.guide-step', guideCover);
 		var index = steps.filter('.active').index();
-		if(index + 1 < steps.length) {
+		index = index + 1;
+		if(index < steps.length) {
 			guideCover.show();
 			$('.guide-highlight').removeClass('guide-highlight');
 
-			var step = steps.eq(index + 1);
+			var step = steps.eq(index);
 			util.toggleActive(step);
 			var target = $(step.data('target'));
 			target.addClass('guide-highlight');
+
+			if(index == 1 || index == 2) {
+				$('>button', target).click();
+			}
 		} else {
 			onGuideSkipClick();
 		}
