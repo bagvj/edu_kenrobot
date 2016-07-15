@@ -1426,10 +1426,10 @@ angular.module('kenrobot')
 						"alias": "staticDropdown",
 						"options": [{
 							"label": "bloq-lcd-turn-on-off-advanced-turnon",
-							"value": "HIGH"
+							"value": "backlight"
 						}, {
 							"label": "bloq-lcd-turn-on-off-advanced-turnoff",
-							"value": "LOW"
+							"value": "noBacklight"
 						}]
 					}, {
 						"bloqInputId": "LCD",
@@ -1441,7 +1441,7 @@ angular.module('kenrobot')
 						"value": "bloq-lcd-turn-on-off-advanced-lcdLigth"
 					}]
 				],
-				"code": "{LCD}.setBacklight({STATE});"
+				"code": "{LCD}.{STATE}();"
 			},
 			"lcdWriteAdvanced": {
 				"type": "statement",
@@ -1485,9 +1485,9 @@ angular.module('kenrobot')
 				],
 				"code": "{LCD}.print({TEXT});"
 			},
-			"lcdWritePositionAdvanced-v1": {
+			"lcdWritePositionAdvanced": {
 				"type": "statement",
-				"name": "lcdWritePositionAdvanced-v1",
+				"name": "lcdWritePositionAdvanced",
 				"connectors": [{
 					"type": "connector--top",
 					"accept": "connector--bottom"
@@ -1945,59 +1945,59 @@ angular.module('kenrobot')
 				],
 				"code": "{SERVO}.write({DIRECTION});"
 			},
-			"lcdWritePositionAdvanced": {
-				"type": "statement",
-				"name": "lcdWritePositionAdvanced",
-				"connectors": [{
-					"type": "connector--top",
-					"accept": "connector--bottom"
-				}, {
-					"type": "connector--bottom",
-					"accept": "connector--top"
-				}, {
-					"type": "connector--input",
-					"accept": "connector--output",
-					"acceptType": "all",
-					"name": "fe2d7071-a756-4d39-aae0-79b5fb3fd462"
-				}, {
-					"type": "connector--input",
-					"accept": "connector--output",
-					"acceptType": "all",
-					"name": "d99d1f3b-b502-4a4e-b7af-d1ce23f9f858"
-				}],
-				"bloqClass": "bloq-lcd-writte deprecated",
-				"content": [
-					[{
-						"alias": "text",
-						"value": "bloq-lcd-writte-write"
-					}, {
-						"bloqInputId": "TEXT",
-						"alias": "bloqInput",
-						"acceptType": "all",
-						"name": "fe2d7071-a756-4d39-aae0-79b5fb3fd462"
-					}, {
-						"alias": "text",
-						"value": "bloq-lcd-writte-inLCD"
-					}, {
-						"bloqInputId": "LCD",
-						"alias": "bloqInput",
-						"acceptType": "all",
-						"name": "d99d1f3b-b502-4a4e-b7af-d1ce23f9f858"
-					}, {
-						"alias": "text",
-						"value": "bloq-lcd-writte-advanced-inPosition"
-					}, {
-						"id": "COLUMN",
-						"alias": "numberInput",
-						"value": 0
-					}, {
-						"id": "ROW",
-						"alias": "numberInput",
-						"value": 0
-					}]
-				],
-				"code": "{LCD}.setCursor({COLUMN},{ROW});{LCD}.print({TEXT});"
-			},
+			// "lcdWritePositionAdvanced": {
+			// 	"type": "statement",
+			// 	"name": "lcdWritePositionAdvanced",
+			// 	"connectors": [{
+			// 		"type": "connector--top",
+			// 		"accept": "connector--bottom"
+			// 	}, {
+			// 		"type": "connector--bottom",
+			// 		"accept": "connector--top"
+			// 	}, {
+			// 		"type": "connector--input",
+			// 		"accept": "connector--output",
+			// 		"acceptType": "all",
+			// 		"name": "fe2d7071-a756-4d39-aae0-79b5fb3fd462"
+			// 	}, {
+			// 		"type": "connector--input",
+			// 		"accept": "connector--output",
+			// 		"acceptType": "all",
+			// 		"name": "d99d1f3b-b502-4a4e-b7af-d1ce23f9f858"
+			// 	}],
+			// 	"bloqClass": "bloq-lcd-writte deprecated",
+			// 	"content": [
+			// 		[{
+			// 			"alias": "text",
+			// 			"value": "bloq-lcd-writte-write"
+			// 		}, {
+			// 			"bloqInputId": "TEXT",
+			// 			"alias": "bloqInput",
+			// 			"acceptType": "all",
+			// 			"name": "fe2d7071-a756-4d39-aae0-79b5fb3fd462"
+			// 		}, {
+			// 			"alias": "text",
+			// 			"value": "bloq-lcd-writte-inLCD"
+			// 		}, {
+			// 			"bloqInputId": "LCD",
+			// 			"alias": "bloqInput",
+			// 			"acceptType": "all",
+			// 			"name": "d99d1f3b-b502-4a4e-b7af-d1ce23f9f858"
+			// 		}, {
+			// 			"alias": "text",
+			// 			"value": "bloq-lcd-writte-advanced-inPosition"
+			// 		}, {
+			// 			"id": "COLUMN",
+			// 			"alias": "numberInput",
+			// 			"value": 0
+			// 		}, {
+			// 			"id": "ROW",
+			// 			"alias": "numberInput",
+			// 			"value": 0
+			// 		}]
+			// 	],
+			// 	"code": "{LCD}.setCursor({COLUMN},{ROW});{LCD}.print({TEXT});"
+			// },
 			"pinReadAdvanced": {
 				"type": "output",
 				"name": "pinReadAdvanced",
@@ -2195,10 +2195,10 @@ angular.module('kenrobot')
 						"alias": "staticDropdown",
 						"options": [{
 							"label": "bloq-lcd-turn-on-off-turnon",
-							"value": "HIGH"
+							"value": "backlight"
 						}, {
 							"label": "bloq-lcd-turn-on-off-turnoff",
-							"value": "LOW"
+							"value": "noBacklight"
 						}]
 					}, {
 						"id": "LCD",
@@ -2209,7 +2209,7 @@ angular.module('kenrobot')
 						"value": "bloq-lcd-turn-on-off-lcdLigth"
 					}]
 				],
-				"code": "{LCD}.setBacklight({STATE});"
+				"code": "{LCD}.{STATE}();"
 			},
 			"lcdWrite": {
 				"type": "statement",
@@ -6537,7 +6537,7 @@ angular.module('kenrobot')
 				}, {
 					"name": "servoNormalAdvanced"
 				}, {
-					"name": "lcdWritePositionAdvanced-v1"
+					"name": "lcdWritePositionAdvanced"
 				}],
 				"functions": [{
 					"name": "voidFunction"

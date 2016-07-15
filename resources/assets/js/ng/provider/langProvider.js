@@ -582,7 +582,7 @@ angular.module('kenrobot')
 				"default-var-name-buzz": "buzzer",
 				"default-var-name-servo": "servo",
 				"default-var-name-servocont": "continuous_servo",
-				"default-var-name-lcd": "LCD",
+				"default-var-name-lcd": "lcd",
 				"default-var-name-bt": "bluetooth",
 				"default-var-name-sp": "serial_port",
 				"modalPublish_text_publish": "This project will be made public. Any Bitbloq user will be able to view it but not modify it. Any changes you make from now on will be seen by any user that opens the project on Explore.",

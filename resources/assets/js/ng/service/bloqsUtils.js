@@ -795,7 +795,7 @@ angular.module('kenrobot')
 					if (includeCode.indexOf('#include <Wire.h>') === -1) {
 						includeCode += '#include <Wire.h>\n';
 					}
-					includeCode += '#include <BitbloqLiquidCrystal.h>\n';
+					includeCode += '#include <LiquidCrystal_I2C.h>\n';
 					bitbloqLibs = true;
 				}
 				if (componentsArray.clocks.length >= 1) {
@@ -865,8 +865,8 @@ angular.module('kenrobot')
 				}
 				if (componentsArray.lcds.length >= 1) {
 					componentsArray.lcds.forEach(function(lcd) {
-						globalVars += 'LiquidCrystal ' + lcd.name + '(0);';
-						setupCode += lcd.name + '.begin(16, 2);' + lcd.name + '.clear();';
+						globalVars += 'LiquidCrystal_I2C ' + lcd.name + '(0x27, 16, 2);';
+						setupCode += lcd.name + '.begin();' + lcd.name + '.clear();';
 					});
 				}
 				if (componentsArray.leds.length >= 1) {

@@ -30,7 +30,8 @@ class ProjectController extends Controller {
         //项目名字
         $project_name = $project->project_name;
         //主板类型
-        $board_type = "uno";
+        $board_type = $request->input('board_type');
+        $board_type = isset($board_type) ? $board_type : 'uno';
         //项目hash
         $hash = $project->hash;
 
@@ -42,15 +43,15 @@ class ProjectController extends Controller {
         fwrite($f, $source);
         fclose($f);
 
-        $cmd = "sh ../app/Build/compiler/Arduino/build.sh $path $board_type $project_name 2>&1";
+        $cmd = "sudo sh ../app/Build/build.sh $path $board_type $project_name 2>&1";
         $output = array();
         exec($cmd, $output, $status);
-        if ($status == 0) {
-            return response()->json(['status' => 0, 'message' => '编译成功', 'hash' => $hash, 'url' => "/project/download/$hash"]);
-        } else {
-            // return response()->json(['status' => $status, 'message' => '编译失败']);
+        if ($status != 0) {
+            $output = Tools::filterBuildOutput($output, $path);
             return response()->json(['status' => $status, 'message' => '编译失败', 'hash' => $hash, 'output' => $output]);
         }
+
+        return response()->json(['status' => 0, 'message' => '编译成功', 'hash' => $hash, 'url' => "/project/download/$hash"]);
     }
 
     public function downloadProject(Request $request, $hash, $ext = "zip") {

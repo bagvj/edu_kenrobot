@@ -1,5 +1,7 @@
 #!/bin/bash
-#export PATH=/usr/local/avrtools/bin:$PATH
+#export PATH=/usr/bin:$PATH
+export PLATFORMIO_LIB_DIR=/home/arduino/libraries
+
 if [ $# -ne 3 ];then
 	echo "参数个数必须为3"
     exit 1
@@ -14,9 +16,6 @@ if [ ! -d "$1" ]; then
 	exit 2
 fi
 
-#MAKE路径
-MAKE_PATH=/usr/bin/make
-
 #项目目录
 PROJECT_PATH=$1
 #主板类型
@@ -27,25 +26,21 @@ PROJECT_NAME=$3
 DIR=`pwd`
 
 #进入项目目录
-cd ${PROJECT_PATH};
+cd ${PROJECT_PATH}
 
-#如果src文件夹不存在，则创建
-if [ ! -d "src" ]; then
-  mkdir src
-fi
-
-#lib同理src
-if [ ! -d "lib" ]; then
-  mkdir lib
-fi
+rm -rf build.*
+echo "初始化"
+echo y | platformio init --board ${BOARD_TYPE} 1>build.log
 
 #把.ino源代码文件复制(移动)到src下
 # cp *.ino src/
-mv main.ino src/
+if [ -f main.ino ]; then
+	mv main.ino src/
+fi
 
-rm -rf build.*
 #开始编译
-ino build -m ${BOARD_TYPE} --make ${MAKE_PATH}
+echo "开始编译"
+platformio run -v -e ${BOARD_TYPE}
 
 #编译出错
 if [ $? -ne 0 ]; then
@@ -56,18 +51,19 @@ if [ $? -ne 0 ]; then
 fi
 
 #编译成功
+echo
 echo "编译成功"
 
 #复制文件
-cp .build/${BOARD_TYPE}/firmware.hex build.hex
+cp .pioenvs/${BOARD_TYPE}/firmware.hex build.hex
 
 #开始打包
 cp src/main.ino ./${PROJECT_NAME}.ino
-cp .build/${BOARD_TYPE}/firmware.hex ${PROJECT_NAME}.hex
+cp .pioenvs/${BOARD_TYPE}/firmware.hex ${PROJECT_NAME}.hex
 
 #如果eep存在
-if [ -f ".build/${BOARD_TYPE}/firmware.eep" ]; then
-	cp .build/${BOARD_TYPE}/firmware.eep ${PROJECT_NAME}.eep
+if [ -f ".pioenvs/${BOARD_TYPE}/firmware.eep" ]; then
+	cp .pioenvs/${BOARD_TYPE}/firmware.eep ${PROJECT_NAME}.eep
 fi
 zip build.zip ${PROJECT_NAME}.*
 rm -rf ${PROJECT_NAME}.*
