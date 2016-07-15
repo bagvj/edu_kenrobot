@@ -2122,7 +2122,7 @@ angular.module('kenrobot')
 						"value": "bloq-hts221-humidity-end"
 					}]
 				],
-				"code": "{SENSOR}.readHumidity();",
+				"code": "{SENSOR}.readHumidity()",
 				"returnType": {
 					"type": "simple",
 					"value": "float"
@@ -2149,10 +2149,37 @@ angular.module('kenrobot')
 						"value": "bloq-hts221-temperature-end"
 					}]
 				],
-				"code": "{SENSOR}.readTemperature();",
+				"code": "{SENSOR}.readTemperature()",
 				"returnType": {
 					"type": "simple",
 					"value": "float"
+				}
+			},
+			"encoderRead": {
+				"type": "output",
+				"name": "encoderRead",
+				"connectors": [{
+					"type": "connector--output",
+					"accept": "connector--input"
+				}],
+				"bloqClass": "bloq-encoder-read",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-encoder-read"
+					}, {
+						"id": "SENSOR",
+						"alias": "dynamicDropdown",
+						"options": "encoders"
+					}, {
+						"alias": "text",
+						"value": "bloq-encoder-read-end"
+					}]
+				],
+				"code": "{SENSOR}.read()",
+				"returnType": {
+					"type": "simple",
+					"value": "int"
 				}
 			},
 			"lcdClear": {
@@ -6076,7 +6103,7 @@ angular.module('kenrobot')
 					"width": 67,
 					"height": 79,
 					"pins": {
-						"digital": ["r", "g", "b"]
+						"analog": ["r", "g", "b"]
 					},
 					"anchors": {
 						"r": [0.25, 1],
@@ -6167,8 +6194,8 @@ angular.module('kenrobot')
 					"width": 74,
 					"height": 84,
 					"pin": {
-						"sb": "2",
-						"sa": "3"
+						"sa": "3",
+						"sb": "2"
 					},
 					"pins": {
 						"digital": ["k", "sa", "sb"]
@@ -6221,11 +6248,10 @@ angular.module('kenrobot')
 					"width": 97,
 					"height": 88,
 					"pins": {
-						"digital": ["s1", "s2"]
+						"digital": ["s"]
 					},
 					"anchors": {
-						"s1": [0.33, 1],
-						"s2": [0.67, 1],
+						"s": [0.5, 1],
 					},
 					"board_type": "Arduino",
 				}, {
@@ -6454,6 +6480,8 @@ angular.module('kenrobot')
 					"name": "hts221Temperature"
 				}, {
 					"name": "hts221Humidity"
+				}, {
+					"name": "encoderRead"
 				}, {
 					"name": "buzzer"
 				}, {

@@ -93,7 +93,7 @@ color: #A6E22E\
 color: #FD971F\
 }\
 .ace-default .ace_string {\
-color: #ffe724;;\
+color: #ffe724;\
 }\
 .ace-default .ace_comment {\
 color: #979797;\

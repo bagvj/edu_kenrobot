@@ -778,8 +778,7 @@ angular.module('kenrobot')
 				globalVars = '',
 				code = '',
 				setupCode = '',
-				bitbloqLibs = false,
-				finalFunctions = '';
+				bitbloqLibs = false;
 			if (bloqs.varsBloq && bloqs.setupBloq && bloqs.loopBloq && componentsArray) {
 				if (componentsArray.continuousServos.length >= 1 || componentsArray.servos.length >= 1 || componentsArray.oscillators.length >= 1) {
 					includeCode += '#include <Servo.h>\n';
@@ -829,8 +828,8 @@ angular.module('kenrobot')
 							includeCode += '#include <BitbloqUS.h>\n';
 							bitbloqLibs = true;
 						} else if (sensor.type === 'encoder') {
-							includeCode += '#include <BitbloqEncoder.h>\n';
-							bitbloqLibs = true;
+							includeCode += '#include <Encoder.h>\n';
+							// bitbloqLibs = true;
 						}
 					});
 				}
@@ -874,9 +873,9 @@ angular.module('kenrobot')
 				}
 				if (componentsArray.rgbs.length >= 1) {
 					componentsArray.rgbs.forEach(function(rgbs) {
-						if (includeCode.indexOf('#include <BitbloqRGB.h>') === -1) {
-							includeCode += '#include <BitbloqRGB.h>\n';
-						}
+						// if (includeCode.indexOf('#include <BitbloqRGB.h>') === -1) {
+						// 	includeCode += '#include <BitbloqRGB.h>\n';
+						// }
 						globalVars += 'ZumRGB ' + rgbs.name + '(' + (rgbs.pin.r || '') + ',' + (rgbs.pin.g || '') + ',' + (rgbs.pin.b || '') + ');';
 					});
 				}
@@ -900,8 +899,7 @@ angular.module('kenrobot')
 						} else if (sensor.type === 'US') {
 							globalVars += 'US ' + sensor.name + '(' + (sensor.pin.trigger || '') + ',' + (sensor.pin.echo || '') + ');';
 						} else if (sensor.type === 'encoder') {
-							globalVars += 'Encoder ' + sensor.name + '(encoderUpdaterWrapper,' + (sensor.pin.k || '') + ',' + (sensor.pin.sa || '') + ',' + (sensor.pin.sb || '') + ');';
-							finalFunctions += 'void encoderUpdaterWrapper(){' + sensor.name + '.update();}';
+							globalVars += 'Encoder ' + sensor.name + '(' + (sensor.pin.sa || '') + ',' + (sensor.pin.sb || '') + ');';
 						}
 					});
 				}
@@ -910,7 +908,7 @@ angular.module('kenrobot')
 						setupCode += "Serial.begin(" + (serialElement.baudRate || '') + ");";
 					});
 				}
-				code = '\n/***   Included libraries  ***/\n' + includeCode + '\n\n/***   Global variables and function definition  ***/\n' + globalVars + bloqs.varsBloq.getCode() + '\n\n/***   Setup  ***/\n' + bloqs.setupBloq.getCode(setupCode) + '\n\n/***   Loop  ***/\n' + bloqs.loopBloq.getCode() + '' + finalFunctions;
+				code = '\n/***   Included libraries  ***/\n' + includeCode + '\n\n/***   Global variables and function definition  ***/\n' + globalVars + bloqs.varsBloq.getCode() + '\n\n/***   Setup  ***/\n' + bloqs.setupBloq.getCode(setupCode) + '\n\n/***   Loop  ***/\n' + bloqs.loopBloq.getCode();
 			} else {
 				//console.log('cant generate code');
 			}
@@ -954,7 +952,8 @@ angular.module('kenrobot')
 				lcds: [],
 				serialElements: [],
 				clocks: [],
-				hts221: []
+				hts221: [],
+				encoders: [],
 			};
 		};
 

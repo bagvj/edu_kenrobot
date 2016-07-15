@@ -81,7 +81,7 @@ class SnsAuth implements WebAuth
             return false;
         }
 
-        $this->user = $this->formatUserData($userResult['data']);;
+        $this->user = $this->formatUserData($userResult['data']);
         $this->errorcode = 0;
         return true;
     }
@@ -134,7 +134,7 @@ class SnsAuth implements WebAuth
             return false;
         }
 
-        $this->user = $this->formatUserData($userResult['data']);;
+        $this->user = $this->formatUserData($userResult['data']);
         return $this->user;
     }
 
