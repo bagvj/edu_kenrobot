@@ -645,7 +645,7 @@ angular.module('kenrobot')
 				"default-var-name-RGBled": "RGB_LED",
 				"default-var-name-sound": "sound_sensor",
 				"default-var-name-rtc": "real_time_clock",
-				"default-var-name-hts221": "temperature_humidity_sensor",
+				"default-var-name-hts221": "dht",
 				"RGBled": "三色LED",
 				"sound": "声音传感器",
 				"rtc": "时钟模块",

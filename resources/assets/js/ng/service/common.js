@@ -2122,7 +2122,7 @@ angular.module('kenrobot')
 						"value": "bloq-hts221-humidity-end"
 					}]
 				],
-				"code": "{SENSOR}.getHumidity()",
+				"code": "{SENSOR}.readHumidity();",
 				"returnType": {
 					"type": "simple",
 					"value": "float"
@@ -2149,7 +2149,7 @@ angular.module('kenrobot')
 						"value": "bloq-hts221-temperature-end"
 					}]
 				],
-				"code": "{SENSOR}.getTemperature()",
+				"code": "{SENSOR}.readTemperature();",
 				"returnType": {
 					"type": "simple",
 					"value": "float"
@@ -6315,16 +6315,11 @@ angular.module('kenrobot')
 					"type": "digital",
 					"width": 107,
 					"height": 113,
-					"pin": {
-						"sda": "a4",
-						"scl": "a5"
-					},
 					"pins": {
-						"analog": ["sda", "scl"]
+						"digital": ["s"]
 					},
 					"anchors": {
-						"sda": [0.33, 0],
-						"scl": [0.67, 0],
+						"s": [0.5, 0],
 					},
 					"board_type": "Arduino",
 				}],
@@ -6945,7 +6940,7 @@ angular.module('kenrobot')
 				"bloq-pin-analog-write-data": "模拟量为",
 				"bloq-pin-digital-write-data": "数字量为",
 				"bloq-hts221-humidity": "读取",
-				"bloq-hts221-humidity-end": "的温度",
+				"bloq-hts221-humidity-end": "的湿度",
 				"bloq-hts221-temperature": "读取",
 				"bloq-hts221-temperature-end": "的温度",
 				"bloq-rgbLed-fade-red": "色值红色为",

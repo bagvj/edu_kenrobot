@@ -9,19 +9,19 @@ angular.module('kenrobot')
 			return (nodeList.length) ? nodeList[nodeList.length - 1] : null;
 		};
 
-		exports.prettyCode = function(code) {
-			var pretty = '';
+		// exports.prettyCode = function(code) {
+		// 	var pretty = '';
 
-			//Prepare string to js_beautify
-			function insertBeautyIgnores(match) {
-				return '/* beautify ignore:start */' + match + '/* beautify ignore:end */';
-			}
+		// 	//Prepare string to js_beautify
+		// 	function insertBeautyIgnores(match) {
+		// 		return '/* beautify ignore:start */' + match + '/* beautify ignore:end */';
+		// 	}
 
-			//Remove beautify ignore & preserve sections
-			pretty = js_beautify(code.replace(/(#include *.*)/gm, insertBeautyIgnores).replace(/(#define *.*)/gm, insertBeautyIgnores)).replace(/(\/\* (beautify)+ .*? \*\/)/gm, ''); // jshint ignore:line
+		// 	//Remove beautify ignore & preserve sections
+		// 	pretty = js_beautify(code.replace(/(#include *.*)/gm, insertBeautyIgnores).replace(/(#define *.*)/gm, insertBeautyIgnores)).replace(/(\/\* (beautify)+ .*? \*\/)/gm, ''); // jshint ignore:line
 
-			return pretty;
-		};
+		// 	return pretty;
+		// };
 
 		return exports;
 	});

@@ -796,7 +796,7 @@ angular.module('kenrobot')
 						includeCode += '#include <Wire.h>\n';
 					}
 					includeCode += '#include <LiquidCrystal_I2C.h>\n';
-					bitbloqLibs = true;
+					// bitbloqLibs = true;
 				}
 				if (componentsArray.clocks.length >= 1) {
 					if (includeCode.indexOf('#include <Wire.h>') === -1) {
@@ -806,15 +806,12 @@ angular.module('kenrobot')
 					bitbloqLibs = true;
 				}
 				if (componentsArray.hts221.length >= 1) {
-					if (includeCode.indexOf('#include <Wire.h>') === -1) {
-						includeCode += '#include <Wire.h>\n';
-					}
-					includeCode += '#include <BitbloqHTS221.h>\n#include <HTS221_Registers.h>\n';
-					bitbloqLibs = true;
+					includeCode += '#include <DHT.h>\n';
+					// bitbloqLibs = true;
 
 					componentsArray.hts221.forEach(function(sensor) {
-						globalVars += 'HTS221 ' + sensor.name + ';';
-						setupCode += 'Wire.begin();' + sensor.name + '.begin();';
+						globalVars += 'DHT ' + sensor.name + '(' + sensor.pin.s + ', DHT22);';
+						setupCode += sensor.name + '.begin();';
 					});
 				}
 				if (componentsArray.sensors.length >= 1) {
