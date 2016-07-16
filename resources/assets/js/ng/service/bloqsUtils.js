@@ -791,27 +791,23 @@ angular.module('kenrobot')
 					bitbloqLibs = true;
 				}
 				if (componentsArray.lcds.length >= 1) {
-					if (includeCode.indexOf('#include <Wire.h>') === -1) {
-						includeCode += '#include <Wire.h>\n';
-					}
 					includeCode += '#include <LiquidCrystal_I2C.h>\n';
-					// bitbloqLibs = true;
 				}
 				if (componentsArray.clocks.length >= 1) {
-					if (includeCode.indexOf('#include <Wire.h>') === -1) {
-						includeCode += '#include <Wire.h>\n';
-					}
-					includeCode += '#include <BitbloqRTC.h>\n';
-					bitbloqLibs = true;
+					includeCode += '#include <DS1307RTC.h>\n#include <Time.h>\n';
 				}
 				if (componentsArray.hts221.length >= 1) {
 					includeCode += '#include <DHT.h>\n';
-					// bitbloqLibs = true;
-
 					componentsArray.hts221.forEach(function(sensor) {
 						globalVars += 'DHT ' + sensor.name + '(' + sensor.pin.s + ', DHT22);';
 						setupCode += sensor.name + '.begin();';
 					});
+				}
+				if (componentsArray.encoders.length >= 1) {
+					includeCode += '#include <Encoder.h>\n';
+				}
+				if (componentsArray.ultrasounds.length >= 1) {
+					includeCode += '#include <SR04.h>\n';
 				}
 				if (componentsArray.sensors.length >= 1) {
 					componentsArray.sensors.forEach(function(sensor) {
@@ -824,12 +820,6 @@ angular.module('kenrobot')
 						} else if (sensor.type === 'LineFollower') {
 							includeCode += '#include <BitbloqLineFollower.h>\n';
 							bitbloqLibs = true;
-						} else if (sensor.type === 'US') {
-							includeCode += '#include <BitbloqUS.h>\n';
-							bitbloqLibs = true;
-						} else if (sensor.type === 'encoder') {
-							includeCode += '#include <Encoder.h>\n';
-							// bitbloqLibs = true;
 						}
 					});
 				}
@@ -843,7 +833,7 @@ angular.module('kenrobot')
 				//*******CLOCKS*******//
 				if (componentsArray.clocks.length >= 1) {
 					componentsArray.clocks.forEach(function(clock) {
-						globalVars += 'RTC_DS1307 ' + clock.name + ';';
+						globalVars += 'tmElements_t ' + clock.name + ';';
 					});
 				}
 				//*******CONTINUOUSSERVOS*******//
@@ -873,10 +863,10 @@ angular.module('kenrobot')
 				}
 				if (componentsArray.rgbs.length >= 1) {
 					componentsArray.rgbs.forEach(function(rgbs) {
-						// if (includeCode.indexOf('#include <BitbloqRGB.h>') === -1) {
-						// 	includeCode += '#include <BitbloqRGB.h>\n';
-						// }
-						globalVars += 'ZumRGB ' + rgbs.name + '(' + (rgbs.pin.r || '') + ',' + (rgbs.pin.g || '') + ',' + (rgbs.pin.b || '') + ');';
+						if (includeCode.indexOf('#include <RoSys.h>') === -1) {
+							includeCode += '#include <RoSys.h>\n';
+						}
+						globalVars += 'RoRGB ' + rgbs.name + '(' + (rgbs.pin.r || '') + ',' + (rgbs.pin.g || '') + ',' + (rgbs.pin.b || '') + ');';
 					});
 				}
 				if (componentsArray.oscillators.length >= 1) {
@@ -885,6 +875,17 @@ angular.module('kenrobot')
 						setupCode += oscillator.name + '.attach(' + (oscillator.pin.s || '') + ');';
 					});
 				}
+				if (componentsArray.encoders.length >= 1) {
+					componentsArray.encoders.forEach(function(encoder) {
+						globalVars += 'Encoder ' + encoder.name + '(' + (encoder.pin.sa || '') + ',' + (encoder.pin.sb || '') + ');';
+					});
+				}
+				if (componentsArray.ultrasounds.length >= 1) {
+					componentsArray.ultrasounds.forEach(function(ultrasound) {
+						globalVars += 'SR04 ' + ultrasound.name + '(' + (ultrasound.pin.echo || '') + ',' + (ultrasound.pin.trigger || '') + ');';
+					});
+				}
+
 				if (componentsArray.sensors.length >= 1) {
 					componentsArray.sensors.forEach(function(sensor) {
 						if (sensor.type === 'analog' || sensor.type === 'digital') {
@@ -898,8 +899,6 @@ angular.module('kenrobot')
 							globalVars += 'LineFollower ' + sensor.name + '(' + (sensor.pin.s1 || '') + ',' + (sensor.pin.s2 || '') + ');';
 						} else if (sensor.type === 'US') {
 							globalVars += 'US ' + sensor.name + '(' + (sensor.pin.trigger || '') + ',' + (sensor.pin.echo || '') + ');';
-						} else if (sensor.type === 'encoder') {
-							globalVars += 'Encoder ' + sensor.name + '(' + (sensor.pin.sa || '') + ',' + (sensor.pin.sb || '') + ');';
 						}
 					});
 				}
@@ -954,6 +953,7 @@ angular.module('kenrobot')
 				clocks: [],
 				hts221: [],
 				encoders: [],
+				ultrasounds: [],
 			};
 		};
 

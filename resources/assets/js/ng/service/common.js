@@ -2182,6 +2182,184 @@ angular.module('kenrobot')
 					"value": "int"
 				}
 			},
+			"encoderWrite": {
+				"type": "statement",
+				"name": "encoderWrite",
+				"connectors": [{
+					"type": "connector--top",
+					"accept": "connector--bottom"
+				}, {
+					"type": "connector--bottom",
+					"accept": "connector--top"
+				}],
+				"bloqClass": "bloq-encoder-write",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-encoder-write"
+					}, {
+						"id": "SENSOR",
+						"alias": "dynamicDropdown",
+						"options": "encoders"
+					}, {
+						"alias": "text",
+						"value": "bloq-encoder-write-end"
+					}, {
+						"alias": "numberInput",
+						"id": "VALUE",
+					}]
+				],
+				"code": "{SENSOR}.write({VALUE});",
+			},
+			"encoderWriteAdvanced": {
+				"type": "statement",
+				"name": "encoderWriteAdvanced",
+				"connectors": [{
+					"type": "connector--top",
+					"accept": "connector--bottom"
+				}, {
+					"type": "connector--bottom",
+					"accept": "connector--top"
+				}, {
+					"type": "connector--input",
+					"accept": "connector--output",
+					"acceptType": "all",
+					"name": "b444f54e-ce20-4b09-a246-cc6c4ec4ee1b"
+				}, {
+					"type": "connector--input",
+					"accept": "connector--output",
+					"acceptType": "all",
+					"name": "f76dc724-1666-4d74-9d58-0733fbe78071"
+				}],
+				"bloqClass": "bloq-encoder-write-advanced",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-encoder-write"
+					}, {
+						"bloqInputId": "ENCODER",
+						"alias": "bloqInput",
+						"acceptType": "all",
+						"name": "b444f54e-ce20-4b09-a246-cc6c4ec4ee1b"
+					}, {
+						"alias": "text",
+						"value": "bloq-encoder-write-end"
+					}, {
+						"bloqInputId": "VALUE",
+						"alias": "bloqInput",
+						"acceptType": "all",
+						"name": "f76dc724-1666-4d74-9d58-0733fbe78071"
+					}]
+				],
+				"code": "{ENCODER}.write({VALUE});"
+			},
+			"ultrasoundDistance": {
+				"type": "output",
+				"name": "ultrasoundDistance",
+				"connectors": [{
+					"type": "connector--output",
+					"accept": "connector--input"
+				}],
+				"bloqClass": "bloq-ultrasound-distance",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-ultrasound-distance"
+					}, {
+						"id": "SENSOR",
+						"alias": "dynamicDropdown",
+						"options": "ultrasounds"
+					}, {
+						"alias": "text",
+						"value": "bloq-ultrasound-distance-end"
+					}]
+				],
+				"code": "{SENSOR}.Distance()",
+				"returnType": {
+					"type": "simple",
+					"value": "long"
+				}
+			},
+			"ultrasoundDistanceAvg": {
+				"type": "output",
+				"name": "ultrasoundDistanceAvg",
+				"connectors": [{
+					"type": "connector--output",
+					"accept": "connector--input"
+				}],
+				"bloqClass": "bloq-ultrasound-distance-avg",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-ultrasound-distance-avg"
+					}, {
+						"id": "SENSOR",
+						"alias": "dynamicDropdown",
+						"options": "ultrasounds"
+					}, {
+						"alias": "text",
+						"value": "bloq-ultrasound-distance-avg-end"
+					}]
+				],
+				"code": "{SENSOR}.DistanceAvg()",
+				"returnType": {
+					"type": "simple",
+					"value": "long"
+				}
+			},
+			"ultrasoundPing": {
+				"type": "statement",
+				"name": "ultrasoundPing",
+				"connectors": [{
+					"type": "connector--top",
+					"accept": "connector--bottom"
+				}, {
+					"type": "connector--bottom",
+					"accept": "connector--top"
+				}],
+				"bloqClass": "bloq-ultrasound-ping",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-ultrasound-ping"
+					}, {
+						"id": "SENSOR",
+						"alias": "dynamicDropdown",
+						"options": "ultrasounds"
+					}, {
+						"alias": "text",
+						"value": "bloq-ultrasound-ping-end"
+					}]
+				],
+				"code": "{SENSOR}.Ping();",
+			},
+			"ultrasoundGetDistance": {
+				"type": "output",
+				"name": "ultrasoundGetDistance",
+				"connectors": [{
+					"type": "connector--output",
+					"accept": "connector--input"
+				}],
+				"bloqClass": "bloq-ultrasound-get-distance",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-ultrasound-get-distance"
+					}, {
+						"id": "SENSOR",
+						"alias": "dynamicDropdown",
+						"options": "ultrasounds"
+					}, {
+						"alias": "text",
+						"value": "bloq-ultrasound-get-distance-end"
+					}]
+				],
+				"code": "{SENSOR}.getDistance()",
+				"returnType": {
+					"type": "simple",
+					"value": "long"
+				}
+			},
 			"lcdClear": {
 				"type": "statement",
 				"name": "lcdClear",
@@ -6112,9 +6290,26 @@ angular.module('kenrobot')
 					},
 					"board_type": "Arduino",
 				}],
-				"sensors": [{
+				"encoders": [{
+					"id": "encoder",
+					"width": 74,
+					"height": 84,
+					"pin": {
+						"sa": "3",
+						"sb": "2"
+					},
+					"pins": {
+						"digital": ["k", "sa", "sb"]
+					},
+					"anchors": {
+						"k": [0.25, 1],
+						"sa": [0.5, 1],
+						"sb": [0.75, 1],
+					},
+					"board_type": "Arduino",
+				}],
+				"ultrasounds": [{
 					"id": "us",
-					"type": "US",
 					"width": 120,
 					"height": 79,
 					"pins": {
@@ -6125,7 +6320,8 @@ angular.module('kenrobot')
 						"echo": [0.67, 1],
 					},
 					"board_type": "Arduino",
-				}, {
+				}],
+				"sensors": [{
 					"id": "button",
 					"type": "digital",
 					"width": 90,
@@ -6186,24 +6382,6 @@ angular.module('kenrobot')
 					},
 					"anchors": {
 						"s": [0.5, 1],
-					},
-					"board_type": "Arduino",
-				}, {
-					"id": "encoder",
-					"type": "encoder",
-					"width": 74,
-					"height": 84,
-					"pin": {
-						"sa": "3",
-						"sb": "2"
-					},
-					"pins": {
-						"digital": ["k", "sa", "sb"]
-					},
-					"anchors": {
-						"k": [0.25, 1],
-						"sa": [0.5, 1],
-						"sb": [0.75, 1],
 					},
 					"board_type": "Arduino",
 				}, {
@@ -6483,6 +6661,16 @@ angular.module('kenrobot')
 				}, {
 					"name": "encoderRead"
 				}, {
+					"name": "encoderWrite"
+				}, {
+					"name": "ultrasoundDistance"
+				}, {
+					"name": "ultrasoundDistanceAvg"
+				}, {
+					"name": "ultrasoundPing"
+				}, {
+					"name": "ultrasoundGetDistance"
+				}, {
 					"name": "buzzer"
 				}, {
 					"name": "buzzerClose"
@@ -6541,6 +6729,8 @@ angular.module('kenrobot')
 					"name": "lcdWriteAdvanced"
 				}, {
 					"name": "ledAdvanced"
+				}, {
+					"name": "encoderWriteAdvanced"
 				}, {
 					"name": "rgbLedAdvanced"
 				}, {
@@ -6971,6 +7161,18 @@ angular.module('kenrobot')
 				"bloq-hts221-humidity-end": "的湿度",
 				"bloq-hts221-temperature": "读取",
 				"bloq-hts221-temperature-end": "的温度",
+				"bloq-encoder-read": "读取旋转编码器",
+				"bloq-encoder-read-end": "的值",
+				"bloq-encoder-write": "旋转编码器",
+				"bloq-encoder-write-end": "写入",
+				"bloq-ultrasound-distance": "超声波",
+				"bloq-ultrasound-distance-end": "测量距离",
+				"bloq-ultrasound-distance-avg": "超声波",
+				"bloq-ultrasound-distance-avg-end": "测量平均距离",
+				"bloq-ultrasound-ping": "超声波",
+				"bloq-ultrasound-ping-end": "Ping",
+				"bloq-ultrasound-get-distance": "获取超声波",
+				"bloq-ultrasound-get-distance-end": "上次测量的距离",
 				"bloq-rgbLed-fade-red": "色值红色为",
 				"bloq-enable-interrupt": "Execute the function",
 				"bloq-enable-interrupt-rising": "change from 0 to 1",
@@ -6992,11 +7194,11 @@ angular.module('kenrobot')
 				"bloq-rtc-using": "的",
 				"bloq-rtc-advanced": "获取",
 				"bloq-rtc": "获取",
-				"default-var-name-rtc": "real_time_clock",
+				"default-var-name-rtc": "RTC",
 				"bloq-rtc-date": "日期",
 				"default-var-name-sound": "sound_sensor",
 				"bloq-rgbLed-blue": "蓝色为",
-				"default-var-name-RGBled": "RGB_LED",
+				"default-var-name-RGBled": "RGB",
 				"bloq-rgbLed": "点亮三色LED",
 				"bloq-rgbLed-fade-blue": "蓝色为",
 				"bloq-rgbLed-fade-green": "绿色为",

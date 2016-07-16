@@ -406,7 +406,9 @@ angular.module('kenrobot')
 				lcds: [],
 				serialElements: [],
 				clocks: [],
-				hts221: []
+				hts221: [],
+				encoders: [],
+				ultrasounds: [],
 			};
 		}
 
