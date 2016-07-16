@@ -223,7 +223,7 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 			isLoading = false;
 		}
 
-		user.authCheck().then(doLoad, doLoad);
+		setTimeout(doLoad, 100);
 	}
 
 	function onLoadProject(result) {
