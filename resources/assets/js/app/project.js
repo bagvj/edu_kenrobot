@@ -204,22 +204,26 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 		}
 
 		isLoading = true;
-		var hash = routeParams.hash || "";
-		hash = /^[0-9a-zA-Z]{6}$/.test(hash) ? hash : "";
+		var hash = routeParams.hash;
+		var action = routeParams.action;
 
 		var doLoad = function() {
-			var type = hash ? 'hash' : 'last';
-			projectApi.get(hash, type).done(onLoadProject);
-		};
-
-		user.authCheck().then(doLoad, function() {
-			if(hash) {
-				doLoad();
-			} else {
-				getApi().reload();
-				isLoading = false;
+			if(action) {
+				if(action == "create") {
+					getApi().reload();
+					isLoading = false;
+					return;
+				}
+			} else if(hash) {
+				projectApi.get(hash, "hash").done(onLoadProject);
+				return;
 			}
-		});
+
+			getApi().reload();
+			isLoading = false;
+		}
+
+		user.authCheck().then(doLoad, doLoad);
 	}
 
 	function onLoadProject(result) {

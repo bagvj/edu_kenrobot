@@ -12,6 +12,9 @@ angular.module('kenrobot', [
 			.when('/project/:hash', {
 				templateUrl: 'assets/views/main.html'
 			})
+			.when('/action/:action', {
+				templateUrl: 'assets/views/main.html'
+			})
 			.otherwise({
 				redirectTo: '/'
 			});
@@ -23,9 +26,9 @@ angular.module('kenrobot', [
 			.preferredLanguage('zh');
 	})
 	.run(function(_, bloqs, $rootScope, $location, $routeParams) {
+		var pathRegex = /(project\/([0-9a-zA-Z]{6})$)|(action\/([0-9a-zA-Z]+)$)/;
 		$rootScope.$on('$locationChangeStart', function(e, next, current) {
-			var path = /project\/([0-9a-zA-Z]{6})$/.exec(next);
-			if (!path || !path[1]) {
+			if (!pathRegex.test(next)) {
 				$location.path('/').replace();
 			}
 		});

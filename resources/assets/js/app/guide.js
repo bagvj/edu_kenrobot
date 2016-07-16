@@ -3,23 +3,26 @@ define(['vendor/jquery.cookie', './util'], function(_, util) {
 	var guideCoverTime;
 
 	function init() {
-		$(window).on('keyup', onGuideCoverNext);
-		guideCover = $('.guide-cover').on('click', onGuideCoverNext);
-		$('.guide-cover .guide-skip').on('click', onGuideSkipClick);
+		guideCover = $('.guide-cover');
 
 		if(!$.cookie('has_visit')) {
-			setTimeout(onGuideCoverNext, 1000);
-			// onGuideCoverNext();
+			$(window).on('keyup', onGuideCoverNext);
+			guideCover.addClass("active").on('click', onGuideCoverNext);
+			$('.guide-skip', guideCover).on('click', onGuideSkipClick);
+
+			onGuideCoverNext();
 		}
 	}
 
 	function onGuideSkipClick(e) {
-		guideCover.hide();
 		$('.guide-highlight').removeClass('guide-highlight');
 
-		$.cookie('has_visit', true);
+		$(window).off('keyup', onGuideCoverNext);
+		$('.guide-skip', guideCover).off('click', onGuideSkipClick);
+		guideCover.off('click', onGuideCoverNext).removeClass("active").remove();
+		guideCover = null;
 
-		$('.tabpanel .tablist li:eq(0) > button').click();
+		$.cookie('has_visit', true, {expires: 365});
 	}
 
 	function onGuideCoverNext(e) {
