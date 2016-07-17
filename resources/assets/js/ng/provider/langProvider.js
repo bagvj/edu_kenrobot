@@ -46,6 +46,7 @@ angular.module('kenrobot')
 				"SEN013": "光敏传感模块",
 				"ACT001": "LED模块",
 				"ACT005": "蜂鸣器模块",
+				"ACT020": "电机",
 				"buzz": "蜂鸣器",
 				"us": "超声波模块",
 				"button": "按键模块",
