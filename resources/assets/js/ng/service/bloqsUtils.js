@@ -885,6 +885,14 @@ angular.module('kenrobot')
 						globalVars += 'SR04 ' + ultrasound.name + '(' + (ultrasound.pin.echo || '') + ',' + (ultrasound.pin.trigger || '') + ');';
 					});
 				}
+				if (componentsArray.motors.length >= 1) {
+					componentsArray.motors.forEach(function(motor) {
+						if (includeCode.indexOf('#include <RoSys.h>') === -1) {
+							includeCode += '#include <RoSys.h>\n';
+						}
+						globalVars += 'RoDCMotor ' + motor.name + '(' + (motor.pin.s || '') + ');';
+					});
+				}
 
 				if (componentsArray.sensors.length >= 1) {
 					componentsArray.sensors.forEach(function(sensor) {
@@ -954,6 +962,7 @@ angular.module('kenrobot')
 				hts221: [],
 				encoders: [],
 				ultrasounds: [],
+				motors: [],
 			};
 		};
 

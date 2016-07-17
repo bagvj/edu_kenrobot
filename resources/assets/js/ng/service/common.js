@@ -2360,6 +2360,97 @@ angular.module('kenrobot')
 					"value": "long"
 				}
 			},
+			"motorRun": {
+				"type": "statement",
+				"name": "motorRun",
+				"connectors": [{
+					"type": "connector--top",
+					"accept": "connector--bottom"
+				}, {
+					"type": "connector--bottom",
+					"accept": "connector--top"
+				}],
+				"bloqClass": "bloq-motor-run",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-motor-run"
+					}, {
+						"id": "MOTOR",
+						"alias": "dynamicDropdown",
+						"options": "motors"
+					}, {
+						"alias": "text",
+						"value": "bloq-motor-run-end"
+					}, {
+						"id": "SPEED",
+						"alias": "numberInput",
+					}]
+				],
+				"code": "{MOTOR}.run({SPEED});"
+			},
+			"motorStop": {
+				"type": "statement",
+				"name": "motorStop",
+				"connectors": [{
+					"type": "connector--top",
+					"accept": "connector--bottom"
+				}, {
+					"type": "connector--bottom",
+					"accept": "connector--top"
+				}],
+				"bloqClass": "bloq-motor-stop",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-motor-stop"
+					}, {
+						"id": "MOTOR",
+						"alias": "dynamicDropdown",
+						"options": "motors"
+					}, {
+						"alias": "text",
+						"value": "bloq-motor-stop-end"
+					}]
+				],
+				"code": "{MOTOR}.stop();",
+			},
+			"motorRunAdvanced": {
+				"type": "statement",
+				"name": "motorRunAdvanced",
+				"connectors": [{
+					"type": "connector--top",
+					"accept": "connector--bottom"
+				}, {
+					"type": "connector--bottom",
+					"accept": "connector--top"
+				}, {
+					"type": "connector--input",
+					"accept": "connector--output",
+					"acceptType": "all",
+					"name": "a3ea169d-374d-4c22-886a-28111090a21d"
+				}],
+				"bloqClass": "bloq-motor-run-advanced",
+				"content": [
+					[{
+						"alias": "text",
+						"value": "bloq-motor-run"
+					}, {
+						"id": "MOTOR",
+						"alias": "dynamicDropdown",
+						"options": "motors"
+					}, {
+						"alias": "text",
+						"value": "bloq-motor-run-end"
+					}, {
+						"bloqInputId": "SPEED",
+						"alias": "bloqInput",
+						"acceptType": "all",
+						"name": "a3ea169d-374d-4c22-886a-28111090a21d"
+					}]
+				],
+				"code": "{MOTOR}.run({SPEED});"
+			},
 			"lcdClear": {
 				"type": "statement",
 				"name": "lcdClear",
@@ -6496,6 +6587,19 @@ angular.module('kenrobot')
 					},
 					"board_type": "RoSys",
 				}],
+				"motors": [{
+					"id": "ACT020",
+					"width": 82,
+					"height": 82,
+					"pins": {
+						"motor": ["s"]
+					},
+					"anchors": {
+						"s": [0.5, 1]
+					},
+					// "in_use": false,
+					"board_type": "RoSys",
+				}],
 				"clocks": [{
 					"id": "rtc",
 					"type": "analog",
@@ -6671,6 +6775,10 @@ angular.module('kenrobot')
 				}, {
 					"name": "ultrasoundGetDistance"
 				}, {
+					"name": "motorRun"
+				}, {
+					"name": "motorStop"
+				}, {
 					"name": "buzzer"
 				}, {
 					"name": "buzzerClose"
@@ -6719,6 +6827,8 @@ angular.module('kenrobot')
 					"name": "hwVariable"
 				}, {
 					"name": "buzzerAdvanced"
+				}, {
+					"name": "motorRunAdvanced"
 				}, {
 					"name": "continuousServoStartAdvanced-v1"
 				}, {
@@ -6980,6 +7090,10 @@ angular.module('kenrobot')
 				"bloq-led-advanced-turnon": "点亮",
 				"bloq-led-advanced-turnoff": "关闭",
 				"bloq-led-advanced-theLED": "LED",
+				"bloq-motor-run": "电机",
+				"bloq-motor-run-end": "转动，速度为",
+				"bloq-motor-stop": "电机",
+				"bloq-motor-stop-end": "停止转动",
 				"bloq-oscillator-advanced-oscillate": "Oscillate servo",
 				"bloq-oscillator-advanced-around": "around",
 				"bloq-oscillator-advanced-amplitude": "with amplitude",

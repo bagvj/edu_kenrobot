@@ -566,6 +566,7 @@ angular.module('kenrobot')
 				"default-var-name-led": "LED",
 				"default-var-name-ACT001": "RoLED",
 				"default-var-name-ACT005": "RoBuzzer",
+				"default-var-name-ACT020": "RoDCMotor",
 				"default-var-name-SEN001": "RoSwitch",
 				"default-var-name-SEN002": "RoButton",
 				"default-var-name-SEN004": "RoCrash",

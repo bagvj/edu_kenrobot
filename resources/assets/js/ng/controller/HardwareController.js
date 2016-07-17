@@ -409,6 +409,7 @@ angular.module('kenrobot')
 				hts221: [],
 				encoders: [],
 				ultrasounds: [],
+				motors: [],
 			};
 		}
 
