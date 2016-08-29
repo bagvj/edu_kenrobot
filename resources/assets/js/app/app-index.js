@@ -8,13 +8,15 @@ define(['./EventManager', './util', './user', './project', './topMenu', './confi
 			initHref();
 		}
 
-		angular.bootstrap('.ng-app', ['kenrobot']);
+		project.loadMyProject().done(function() {
+			angular.bootstrap('.ng-app', ['kenrobot']);
 
-		agent.init(config.extension);
-		user.init();
-		project.init();
-		topMenu.init();
-		guide.init();
+			agent.init(config.extension);
+			user.init();
+			project.init();
+			topMenu.init();
+			guide.init();
+		});
 	}
 	
 	function initAjax() {

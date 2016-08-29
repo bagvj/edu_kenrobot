@@ -23,8 +23,9 @@ angular.module('kenrobot')
 			$rootScope.$apply();
 		}
 
-		function reload() {
-			$location.path('/').replace();
+		function reload(force) {
+			var path = force == true ? $location.path() : (force || '/');
+			$location.path(path).replace();
 			$rootScope.$apply();
 		}
 

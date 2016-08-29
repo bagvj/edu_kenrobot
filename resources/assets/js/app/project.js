@@ -1,9 +1,10 @@
 define(['./EventManager', './config', './util', './projectApi', './user', './ext/agent'], function(EventManager, config, util, projectApi, user, agent) {
-	var projectInfo;
 	var isLoading;
+	var myProjects = [];
+	var createNew;
 
 	function init() {
-		projectInfo = getDefaultProject();
+		EventManager.bind('user', 'login', onLogin);
 
 		var scope = angular.element('.ng-app').scope();
 		scope.$on('onRouteChange', onRouteChange);
@@ -11,7 +12,6 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 
 	function create() {
 		getApi().setProject();
-		projectInfo = getDefaultProject();
 	}
 
 	function upload() {
@@ -26,8 +26,63 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 		}
 	}
 
+	function onLogin() {
+		loadMyProject();
+	}
+
+	function loadMyProject() {
+		var promise = $.Deferred();
+		user.authCheck().done(function() {
+			projectApi.getAll().done(function(result) {
+				addProject(result.data);
+				promise.resolve();
+			});
+		}).fail(function() {
+			promise.resolve();
+		});
+
+		return promise;
+	}
+
+	function addProject(projects) {
+		projects.forEach(function(info) {
+			myProjects.push(convertProject(info));
+		});
+	}
+
+	function convertProject(info) {
+		if(typeof info.project_data == "string") {
+			try {
+				info.project_data = JSON.parse(info.project_data);
+			} catch(ex) {
+				info.project_data = {};
+			}
+		}
+
+		if(typeof info.created_at == "string") {
+			info.created_at = new Date(info.created_at);
+		}
+
+		if(typeof info.updated_at == "string") {
+			info.updated_at = new Date(info.updated_at);
+		}
+
+		return info;
+	}
+
+	function getCurrentProject() {
+		return projectInfo;
+	}
+
+	function openProject(info) {
+		projectInfo = info || getDefaultProject();
+		getApi().setProject(projectInfo.project_data);
+		isLoading = false;
+	}
+
 	function doBuild() {
-		var id = projectInfo.id;
+		var info = getCurrentProject();
+		var id = info.id;
 		if(id == 0) {
 			util.message("请先保存");
 			return;
@@ -134,7 +189,8 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 	}
 
 	function doSave() {
-		var id = projectInfo.id;
+		var info = getCurrentProject();
+		var id = info.id;
 		if(id == 0) {
 			showSaveDialog();
 		} else {
@@ -144,11 +200,12 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 
 	function showSaveDialog() { 
 		var dialog = util.dialog('.save-dialog');
+		var info = getCurrentProject();
 
 		var form = $('form', dialog);
-		$('input[name="name"]', form).val(projectInfo.project_name);
-		$('textarea[name="intro"]', form).val(projectInfo.project_intro);
-		$('input[name="public-type"][value="' + projectInfo.public_type + '"]', form).attr("checked", true);
+		$('input[name="name"]', form).val(info.project_name);
+		$('textarea[name="intro"]', form).val(info.project_intro);
+		$('input[name="public-type"][value="' + info.public_type + '"]', form).attr("checked", true);
 		$('.save-btn', form).off('click').on('click', function() {
 			doProjectSave(0);
 		});
@@ -187,10 +244,11 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 		projectApi.save(project).done(function(result) {
 			if(result.status == 0) {
 				if(id == 0) {
-					projectInfo.id = result.data.project_id;
-					projectInfo.project_name = project.project_name;
-					projectInfo.project_intro = project.project_intro;
-					projectInfo.public_type = project.public_type;
+					var info = getCurrentProject();
+					info.id = result.data.project_id;
+					info.project_name = project.project_name;
+					info.project_intro = project.project_intro;
+					info.public_type = project.public_type;
 				}
 			}
 			showMessage && util.message(result.message);
@@ -208,19 +266,17 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 		var action = routeParams.action;
 
 		var doLoad = function() {
-			if(action) {
-				if(action == "create") {
-					getApi().reload();
-					isLoading = false;
-					return;
-				}
+			if(action == "create") {
+				createNew = true;
+				getApi().reload();
+				return;
 			} else if(hash) {
 				projectApi.get(hash, "hash").done(onLoadProject);
 				return;
 			}
 
-			getApi().reload();
-			isLoading = false;
+			var info = createNew ? getDefaultProject() : getLastProject();
+			openProject(info);
 		}
 
 		setTimeout(doLoad, 100);
@@ -229,21 +285,24 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 	function onLoadProject(result) {
 		if(result.status != 0) {
 			util.message(result.message);
-			getApi().reload();
-			isLoading = false;
+			openProject();
 			return;
 		}
 
-		projectInfo = result.data;
-		if(typeof projectInfo.project_data == "string") {
-			try {
-				projectInfo.project_data = JSON.parse(projectInfo.project_data);
-			} catch(ex) {
-				projectInfo.project_data = {};
-			};
-		}
-		getApi().setProject(projectInfo.project_data);
-		isLoading = false;
+		openProject(convertProject(result.data));
+	}
+
+	function getLastProject() {
+		var index = -1;
+		var time = 0;
+		myProjects.forEach(function(info, i) {
+			if(info.updated_at > time) {
+				time = info.updated_at;
+				index = i;
+			}
+		});
+
+		return index >= 0 ? myProjects[index] : getDefaultProject();
 	}
 
 	function getDefaultProject() {
@@ -270,5 +329,6 @@ define(['./EventManager', './config', './util', './projectApi', './user', './ext
 		create: create, 
 		save: save,
 		upload: upload,
+		loadMyProject: loadMyProject,
 	}
 });
