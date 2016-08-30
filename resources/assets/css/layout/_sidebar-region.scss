@@ -1,0 +1,61 @@
+.sidebar-region {
+	background-color: #0b75d2;
+
+	.logo {
+		height: 160px;
+		background-color: #0b7bdc;
+		display: block;
+	}
+
+	.top {
+		margin-top: 20px;
+	}
+
+	.bottom {
+		position: absolute;
+		bottom: 20px;
+		width: 100%;
+	}
+
+	& > ul > li {
+		cursor: pointer;
+		color: white;
+		font-size: 16px;
+		letter-spacing: 5.33px;
+		height: 60px;
+		line-height: 60px;
+		text-align: center;
+		transition: background-color 0.2s;
+		position: relative;
+
+		&:hover {
+			background-color: #0088ff;
+		}
+
+		&.active {
+			background-color: #0088ff;
+
+			&:after {
+				display: block;
+			}
+		}
+
+		&:after {
+			display: none;
+			position: absolute;
+			content: ' ';
+			width: 16px;
+			height: 16px;
+			top: calc(50% - 8px);
+			right: 0;
+			border: 8px transparent solid;
+			border-right-color: white;
+		}
+
+		&.fold {
+			&:after {
+				border-right-color: #f7f9f9;
+			}
+		}
+	}
+}

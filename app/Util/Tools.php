@@ -2,6 +2,8 @@
 
 namespace App\Util;
 
+use Curl\Curl;
+
 class Tools {
 
 	//生成短url
@@ -42,5 +44,32 @@ class Tools {
 		    $output[$i] = str_replace($path . "/src/", "", $line);
 		}
 		return array_merge(array_slice($output, $start + 1, $end - $start - 1), array_slice($output, $end + 2));
+	}
+
+	public static function getLoginInfo($redirect_uri) {
+		$qrcode = rand(70000,80000);
+		$qrcode_url = Tools::getQrcodeUrl($qrcode);
+		$key = 'qrscene_'.$qrcode;
+		$register_url = config('platform.url.register')."&redirect_uri=".urlencode($redirect_uri);
+		$find_password_url = config('platform.url.find_password');
+		$home_url = config('navigation.master.mainpage');
+
+		return (object)array(
+			'key' => $key,
+			'qrcode_url' => $qrcode_url,
+			'register_url' => $register_url,
+			'find_password_url' => $find_password_url,
+			'home_url' => $home_url,
+		);
+	}
+
+	private static function getQrcodeUrl($key = '') {
+		$url = config('weixin.qrcode.url');
+		$url .="$key";
+		$curl = new Curl();
+		$qrcodeurl = $curl->get($url);
+
+		$image_data = base64_encode($curl->get($qrcodeurl));
+		return "data:image/jpg;base64," . $image_data;
 	}
 }
