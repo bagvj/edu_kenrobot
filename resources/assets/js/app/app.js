@@ -1,23 +1,22 @@
-define(['vendor/jquery', 'vendor/director', 'app/config', 'app/util/emitor', './component/sidebar/sidebar', './component/content/content'], function(_, _, config, emitor, sidebar, content) {
-	var router;
-
+define(['vendor/jquery', 'vendor/director', 'app/config', 'app/util/emitor', './controller/controller', './component/component'], function(_, _, config, emitor, controller, component) {
+	
 	function init() {
-		$.when(doInit()).done(function() {
-			emitor.trigger('app', 'start');
-			// router.init();
-		});
-	}
-
-	function doInit() {
-		var promise = $.Deferred();
-
 		printJoinUs();
+		initAjax();
 		initRoute();
 
-		sidebar.init();
-		content.init();
+		controller.init();
+		component.init();
 
-		return promise.resolve();
+		emitor.trigger('app', 'start');
+	}
+
+	function initAjax() {
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
 	}
 
 	function printJoinUs() {

@@ -7,9 +7,12 @@ use App\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use ZipArchive;
 use Curl\Curl;
 use Session;
+use Storage;
+use App\Util\Tools;
 use App\Project\Project as ProjectModel;
 
 class ProjectController extends Controller {
@@ -72,24 +75,7 @@ class ProjectController extends Controller {
         fclose($file);
 
         $download_name = $build_name.$ext;
-        //返回的文件类型
-        header("Content-type: application/octet-stream");
-        //按照字节大小返回
-        header("Accept-Ranges: bytes");
-        //返回文件的大小
-        header("Accept-Length: " . filesize($filename));
-        //这里对客户端的弹出对话框，对应的文件名
-        Header("Content-Disposition: attachment; filename=$download_name");
-        //一次只传输4096个字节的数据给客户端
-        //打开文件
-        $file = fopen($filename, "r");
-        $buffer = 4096;
-        //判断文件是否读完
-        while (!feof($file)) {
-            //将文件读入内存, 每次向客户端回送4096个字节的数据
-            echo fread($file, $buffer);
-        }
-        fclose($file);
+        return response()->download($filename, $download_name);
     }
 
     /**
@@ -97,7 +83,7 @@ class ProjectController extends Controller {
      */
     public function saveProject(Request $request) {
         $keys_required = array('project_name', 'user_id');
-        $keys = array('project_name', 'user_id','project_intro','project_data','public_type');
+        $keys = array('project_name', 'user_id','project_intro','project_data','public_type', 'imageHash');
         $input = $request->only($keys);
 
         $input['id'] = $request->input('id');
@@ -137,6 +123,10 @@ class ProjectController extends Controller {
                 return response()->json(['status' => -5, 'message' => '没有该项目所有权']);
             }
 
+            if(!$this->saveImage($input['imageHash'], $project->imageHash)) {
+                unset($input['imageHash']);
+            }
+
             //只留下要修改的字段
             foreach ($input as $k => $val) {
                 if (!isset($input[$k])) {
@@ -152,7 +142,11 @@ class ProjectController extends Controller {
                 return response()->json(['status' => -4, 'message' => '保存失败']);
             }
         }else {
-            $input['hash'] = $this->getHash();
+            if(!$this->saveImage($input['imageHash'])) {
+                $input['imageHash'] = '';
+            }
+
+            $input['hash'] = Tools::getHash();
             $project =  ProjectModel::create($input);
             if ($project == null) {
                 return response()->json(['status' => -4, 'message' => '保存失败']);
@@ -220,7 +214,9 @@ class ProjectController extends Controller {
 
 
         $projectList = ProjectModel::where('user_id', $user_id)
-            ->where('project_type', $project_type)->get();
+            ->where('project_type', $project_type)
+            ->orderby('updated_at', 'desc')
+            ->get();
         if (!empty($projectList) && $projectList->count() > 0) {
             return response()->json(['status' => 0, 'message' => '', 'data' => $projectList->toArray()]);
         }
@@ -302,28 +298,48 @@ class ProjectController extends Controller {
         }
     }
 
-    //生成短url
-    //返回：一个长度为6的由字母和数组组成的字符串
-    private function getHash($value = "") {
-        $key = "HwpGAejoUOPr6DbKBlvRILmsq4z7X3TCtky8NVd5iWE0ga2MchSZxfn1Y9JQuF";
-
-        $result = array();
-        $time = time();
-        $salt = md5(rand(10000, 99999));
-        $md5 = md5($salt . $value . $time);
-
-        for($i = 0; $i < 4; $i++) {
-            $hex = 0x3FFFFFFF & intval(substr($md5, $i * 8, 8), 16);
-            $out = '';
-            for($j = 0; $j < 6; $j++) {
-                $index = 0x0000003D & $hex;
-                $out = $out . $key[$index];
-                $hex = $hex >> 5;
-            }
-            $result[$i] = $out;
+    public function uploadImage(Request $request) {
+        $file = $request->file('file');
+        // 文件是否上传成功
+        if (!$file || !$file->isValid()) {
+            return response()->json(['status' => 1, 'message' => '上传失败']);
         }
 
-        return $result[0];
+        // 获取文件相关信息
+        $realPath = $file->getRealPath();
+        $hash = Tools::getHash();
+
+        $path = "/tmp/upload";
+        Tools::mkdirs($path);
+        rename($realPath, "$path/$hash");
+        return response()->json(['status' => 0, 'message' => '上传成功', 'hash' => $hash]);
     }
 
+    public function getImage(Request $request, $hash) {
+        $file = storage_path('app/upload') . "/$hash";
+        if(file_exists($file)) {
+            return response()->download($file, null, [], null);
+        }
+
+        return response()->download(storage_path('app/upload') . "/default", null, [], null);
+    }
+
+    private function saveImage($hash, $oldHash = '') {
+        if(!$hash) {
+            return false;
+        }
+        
+        $path = "/tmp/upload/$hash";
+        if(!file_exists($path)) {
+            return false;
+        }
+
+        $disk = Storage::disk("upload");
+        if($oldHash && $disk->has($oldHash)) {
+             $disk->delete($oldHash);
+        }
+
+        $disk->put($hash, file_get_contents($path));
+        return true;
+    }
 }

@@ -1,3 +1,39 @@
 .project-region {
-	
+	.name {
+		color: #39426a;
+		letter-spacing: 1px;
+		line-height: 20px;
+		font-size: 14px;
+		margin-bottom: 15px;
+	}
+
+	input[type="button"] {
+		background-color: #0b7bdc;
+		border-radius: 5px;
+		height: 42px;
+		line-height: 42px;
+		letter-spacing: 1.75px;
+		color: white;
+	}
+
+	.new {
+		width: 100px;
+	}
+
+	.boards {
+		margin-left: 15px;
+		border: 1px solid #c4d1dd;
+		width: 280px;
+		height: 42px;
+	}
+
+	.save {
+		width: 60px;
+		margin-left: 15px;
+	}
+
+	.upload {
+		width: 60px;
+		margin-left: 15px;
+	}
 }

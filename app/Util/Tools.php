@@ -63,6 +63,17 @@ class Tools {
 		);
 	}
 
+	public static function mkdirs($dir, $mode = 0777)
+	{
+	    if (is_dir($dir) || @mkdir($dir, $mode))
+	    	return true;
+
+	    if (!Tools::mkdirs(dirname($dir), $mode))
+	    	return false;
+
+	    return @mkdir($dir, $mode);
+	}
+
 	private static function getQrcodeUrl($key = '') {
 		$url = config('weixin.qrcode.url');
 		$url .="$key";

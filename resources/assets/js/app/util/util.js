@@ -39,6 +39,7 @@ define(function() {
 		var onCancel = args.onCancel;
 		var onClosing = args.onClosing;
 		var onClose = args.onClose;
+		var onClosed = args.onClosed;
 		var onShow = args.onShow;
 
 		var content = args.content;
@@ -53,6 +54,7 @@ define(function() {
 				dialogLayer.removeClass("active");
 				onClose && onClose();
 				callback && callback();
+				onClosed && onClosed();
 			});
 			dialogWin.dequeue("fadeOut");
 		}
@@ -103,6 +105,15 @@ define(function() {
 
 			return true;
 		}
+	}
+
+	function showMessage(selector, message, duration) {
+		duration = duration || 2000;
+		selector = $(selector).empty();
+		var messageDiv = $('<div>').text(message).appendTo(selector);
+		messageDiv.delay(duration).fadeOut(400, function() {
+			messageDiv.remove();
+		});
 	}
 
 	function aspectReset(aspect) {
@@ -174,6 +185,7 @@ define(function() {
 
 	return {
 		message: message,
+		showMessage: showMessage,
 		dialog: dialog,
 		isInDialog: isInDialog,
 		toggleActive: toggleActive,

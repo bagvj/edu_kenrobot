@@ -1,9 +1,12 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', './hardware/hardware', './software/software', './code/code'], function(_, util, emitor, hardware, software, code) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', './sidebar', './login', './project', './hardware', './software', './code'], function(_, util, emitor, sidebar, login, project, hardware, software, code) {
 	var region;
 
 	function init() {
 		region = $('.content-tabs');
 
+		sidebar.init();
+		login.init();
+		project.init();
 		hardware.init();
 		software.init();
 		code.init();

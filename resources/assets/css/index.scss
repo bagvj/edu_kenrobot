@@ -14,6 +14,11 @@
 @import "layout/_sidebar-tabs.scss";
 @import "layout/_project-region.scss";
 @import "layout/_login-region.scss";
+@import "layout/_tab-project.scss";
+@import "layout/_tab-hardware.scss";
+@import "layout/_tab-software.scss";
+@import "layout/_tab-code.scss";
 
 @import "component/x-widget.scss";
 @import "component/_login-dialog.scss";
+@import "component/_project-dialog.scss";

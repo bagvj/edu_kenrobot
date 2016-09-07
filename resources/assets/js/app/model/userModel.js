@@ -1,4 +1,4 @@
-define(['vendor/jquery'], function() {
+define(['vendor/jquery', 'app/util/emitor'], function(_, emitor) {
 	var userInfo;
 
 	function getUserId() {
@@ -13,7 +13,7 @@ define(['vendor/jquery'], function() {
 		return userInfo ? userInfo.name : "";
 	}
 
-	function authCheck() {
+	function authCheck(showLogin) {
 		var promise = $.Deferred();
 		$.ajax({
 			type: 'POST',
@@ -29,6 +29,7 @@ define(['vendor/jquery'], function() {
 			} else {
 				userInfo = null;
 				promise.reject();
+				showLogin && emitor.trigger("login", "show");
 			}
 		});
 

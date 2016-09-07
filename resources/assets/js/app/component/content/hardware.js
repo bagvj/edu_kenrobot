@@ -6,11 +6,21 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 		emitor.on('app', 'start', onAppStart);
 	}
 
+	function getData() {
+		return {};
+	}
+
+	function reset() {
+		
+	}
+
 	function onAppStart() {
 
 	}
 
 	return {
 		init: init,
+		getData: getData,
+		reset: reset,
 	};
 });

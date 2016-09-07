@@ -17,22 +17,28 @@
 	<body>
 		<div class="main">
 			<div class="sidebar-region">
-				<a class="logo" href="http://www.kenrobot.com">教育版</a>
-				<ul class="top">
+				<div class="top">
+					<a class="logo" href="http://www.kenrobot.com">
+						<i class="kenrobot ken-kenrobot-logo"></i>
+					</a>
+					<div class="name">教育版</div>
+					<div class="url">edu.kenrobot.com</div>
+				</div>
+				<ul class="center">
 					<li data-action="project">项目</li>
 					<li data-action="hardware">硬件</li>
 					<li data-action="software">编程</li>
-					<li data-action="code">源代码</li>
+					<li data-action="code">源码</li>
 				</ul>
 				<ul class="bottom">
-					<li data-action="upload">上传</li>
+					<li data-action="share">分享</li>
 					<li data-action="help">帮助</li>
 				</ul>
 			</div>
 			<div class="content-region">
 				<div class="sidebar-tabs">
-					<div class="tab tab-project">
-						项目
+					<div class="tab tab-project no-scrollbar">
+						<ul class="list"></ul>
 					</div>
 					<div class="tab tab-hardware">
 						硬件
@@ -44,10 +50,11 @@
 				<div class="wrap">
 					<div class="content-header">
 						<div class="project-region">
+							<div class="name">项目名字</div>
 							<input class="new" type="button" value="新建项目" />
 							<select class="boards">
-								<option></option>
-								<option></option>
+								<option>Arduino UNO</option>
+								<option>Arduino Nano</option>
 							</select>
 							<input class="save" type="button" value="保存" />
 							<input class="upload" type="button" value="上传" />
@@ -63,15 +70,18 @@
 							</a>
 							@endif
 							<div class="login-menu">
-								<div class="tab tab-action {{isset($user) ? 'active' : ''}}">
+								<div class="tab tab-user {{isset($user) ? 'active' : ''}}">
 									<ul>
-										<li><a href="{{$loginInfo->home_url}}" target="_blank">主页</a></li>
+										<li data-action="share"><span>分享</span></li>
+										<li data-action="setting"><span>设置</span></li>
 										<li><a href="/logout">退出</a></li>
 									</ul>
 								</div>
-								<div class="tab tab-login {{isset($user) ? '' : 'active'}}">
-									<input class="login-btn" type="button" value="立即登录" />
-									<div class="no-accout">没有账号？<a class="register-btn" href="{{$loginInfo->register_url}}">立即注册</a></div>
+								<div class="tab tab-no-user {{isset($user) ? '' : 'active'}}">
+									<ul>
+										<li data-action="login"><span>登录</span></li>
+										<li><a class="register-btn" href="{{$loginInfo->register_url}}">注册</a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -84,7 +94,7 @@
 							编程
 						</div>
 						<div class="tab tab-code">
-							代码
+							<div id="code-container" class="code-container"></div>
 						</div>
 					</div>
 				</div>
@@ -92,7 +102,7 @@
 		</div>
 		<div class="layers">
 			<div class="modal dialog-layer">
-				<div class="x-dialog x-dialog-custom login-dialog">
+				<div class="x-dialog login-dialog">
 					<i class="kenrobot ken-close x-dialog-close"></i>
 					<ul class="switch">
 						<li class="account active" data-action="account"></li>
@@ -143,6 +153,30 @@
 							<span class="no-account">不使用微信？前往</span>
 							<a class="register" href="{{$loginInfo->register_url}}">网站注册</a>
 						</div>
+					</div>
+				</div>
+				<div class="x-dialog project-dialog">
+					<i class="kenrobot ken-close x-dialog-close"></i>
+					<div class="image no-image">
+						<div class="mask"></div>
+						<input class="absolute-center upload" type="button" value="上传项目图片" />
+						<input class="file" type="file" accept="image/jpeg" />
+						<div class="message"></div>
+					</div>
+					<div class="info">
+						<div class="field-label">项目名称：</div>
+						<input class="name" type="text" placeholder="在此输入项目名称，如Arduino Project 01" />
+						<div class="field-label">项目介绍：</div>
+						<textarea class="intro" placeholder="介绍下您的项目，如项目背景、目的、功能..." spellcheck="false"></textarea>
+						<div class="field-label public-label">公开程度：</div>
+						<div>
+							<input class="public" id="public-2" name="public" type="radio" value="2" checked="checked" /><label for="public-2">完全公开</label>
+							<input class="public" id="public-1" name="public" type="radio" value="1" /><label for="public-1">好友公开</label>
+							<input class="public" id="public-0" name="public" type="radio" value="0" /><label for="public-0">仅自己可见</label>
+						</div>
+					</div>
+					<div class="x-dialog-btns">
+						<input class="x-dialog-btn cancel" type="button" value="取消" /><input class="x-dialog-btn confirm" type="button" value="创建" />
 					</div>
 				</div>
 			</div>

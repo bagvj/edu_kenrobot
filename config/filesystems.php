@@ -48,6 +48,13 @@ return [
             'root'   => storage_path('app'),
         ],
 
+        'upload' => [
+            'driver' => 'local',
+
+            // 文件将上传到storage/app/uploads目录
+            'root' => storage_path('app/upload'),
+        ],
+
         'ftp' => [
             'driver'   => 'ftp',
             'host'     => 'ftp.example.com',

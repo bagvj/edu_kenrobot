@@ -3,7 +3,7 @@ ace.define("ace/theme/default",["require","exports","module","ace/lib/dom"], fun
 exports.isdefault = true;
 exports.cssClass = "ace-default";
 exports.cssText = ".ace-default .ace_gutter {\
-background: #212227;\
+background: transparent;\
 color: #979797;\
 }\
 .ace-default .ace_print-margin {\
@@ -11,11 +11,11 @@ width: 1px;\
 background: #555651\
 }\
 .ace-default {\
-background-color: #262a34;\
-color: white;\
+background-color: transparent;\
+color: rgba(18, 42, 64, 0.8);\
 }\
 .ace-default .ace_cursor {\
-color: #515151;\
+color: transparent;\
 }\
 .ace-default .ace_marker-layer .ace_selection {\
 background-color: rgba(72, 138, 192, 0.4)\
@@ -31,7 +31,7 @@ margin: -1px 0 0 -1px;\
 border: 1px solid #49483E\
 }\
 .ace-default .ace_marker-layer .ace_active-line {\
-background: #171921;\
+background: transparent;\
 }\
 .ace-default .ace_gutter-active-line {\
 background-color: transparent;\
@@ -93,19 +93,28 @@ color: #A6E22E\
 color: #FD971F\
 }\
 .ace-default .ace_string {\
-color: #ffe724;\
+color: #ffaa26;\
 }\
 .ace-default .ace_comment {\
-color: #979797;\
+color: #a9b6d2;\
+}\
+.ace-default .ace_identifier {\
+  color: #0088ff;\
+}\
+.ace-default .ace_operator {\
+  color: rgba(18, 42, 64, 0.8);\
 }\
 .ace-default .ace_indent-guide {\
 background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWPQ0FD0ZXBzd/wPAAjVAoxeSgNeAAAAAElFTkSuQmCC) right repeat-y\
 }\
 .ace_gutter-cell {\
 	padding-left: 19px;\
+  border-right: 1px solid #a9b6d2;\
+  color: #718ac0;\
+  letter-spacing: 2px;\
 }\
 .ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line {\
-    background-color: #606060;\
+    background-color: transparent;\
 }\
 .ace_editor.ace_autocomplete .ace_line.ace_selected {\
     color: white;\
