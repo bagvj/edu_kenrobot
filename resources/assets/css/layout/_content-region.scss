@@ -57,6 +57,7 @@ $seperator-width: 5px;
 		}
 
 		.tab {
+			position: relative;
 			height: 100%;
 			width: $sidebar-tabs-width;
 			display: none;
@@ -107,11 +108,11 @@ $seperator-width: 5px;
 			position: absolute;
 			top: 127px;
 			bottom: 0;
-			left: 40px;
-			right: 40px;
+			left: 0;
+			right: 0;
 
 			.tab {
-
+				position: relative;
 				height: 100%;
 				display: none;
 

@@ -298,6 +298,10 @@ class ProjectController extends Controller {
         }
     }
 
+    public function getSchema(Request $request) {
+        return response()->json(['status' => 0, 'message' => '获取成功', 'data' => []]);
+    }
+
     public function uploadImage(Request $request) {
         $file = $request->file('file');
         // 文件是否上传成功

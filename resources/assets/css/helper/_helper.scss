@@ -1,4 +1,4 @@
-.unselectable {
+.no-select {
   -moz-user-select: none;
   -o-user-select:none;
   -khtml-user-select:none;
@@ -8,7 +8,7 @@
   cursor: default;
 }
 
-.selectable {
+.can-select {
   -moz-user-select: text;
   -o-user-select:text;
   -khtml-user-select:text;

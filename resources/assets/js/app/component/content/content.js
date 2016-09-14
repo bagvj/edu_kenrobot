@@ -21,7 +21,11 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', './sidebar', './log
 
 	function onActiveTab(name) {
 		var tab = $('.tab-' + name, region);
-		util.toggleActive(tab);
+		tab.length && util.toggleActive(tab);
+		var target = tab.length ? name : $('.tab.active', region).data('action');
+		setTimeout(function() {
+			emitor.trigger(target, "resize");
+		}, 300);
 	}
 
 	return {

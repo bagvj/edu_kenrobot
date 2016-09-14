@@ -6,8 +6,16 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 		emitor.on('app', 'start', onAppStart);
 	}
 
+	function loadSchema(schema) {
+		
+	}
+
 	function getData() {
 		return {};
+	}
+
+	function setData() {
+
 	}
 
 	function reset() {
@@ -20,6 +28,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 
 	return {
 		init: init,
+		loadSchema: loadSchema,
 		getData: getData,
+		setData: setData,
+		reset: reset,
 	};
 });

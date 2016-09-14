@@ -15,6 +15,7 @@ Route::get('/logout', 'Auth\AuthController@getLogout2');
 Route::get('/project/download/{hash}/{ext?}', 'ProjectController@downloadProject')->where('hash', '[0-9a-zA-Z]{6}');
 Route::get('/project/image/{hash}', 'ProjectController@getImage');
 
+Route::post('/api/project/schema', 'ProjectController@getSchema');
 Route::post('/api/project/build', 'ProjectController@buildProject');
 Route::post('/api/project/save', 'ProjectController@saveProject');
 Route::post('/api/project/delete', 'ProjectController@deleteProject');

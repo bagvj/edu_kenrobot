@@ -41,7 +41,74 @@
 						<ul class="list"></ul>
 					</div>
 					<div class="tab tab-hardware">
-						硬件
+						<div class="search-wrap">
+							<input class="search" type="text" placeholder="搜索..." />
+							<i class="kenrobot ken-search"></i>
+						</div>
+						<div class="filters-wrap">
+							<ul class="filters">
+								<li data-filter="all">全部</li>
+								<li data-filter="sensor">传感模块</li>
+								<li data-filter="action">执行模块</li>
+								<li data-filter="function">功能模块</li>
+							</ul>
+						</div>
+						<div class="components-wrap no-scrollbar">
+							<ul class="components">
+								<li data-filter="sensor" data-label="LED">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED</div>
+								</li>
+								<li data-filter="sensor" data-label="LED">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED</div>
+								</li>
+								<li data-filter="sensor" data-label="LED">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED</div>
+								</li>
+								<li data-filter="sensor" data-label="LED">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED</div>
+								</li>
+								<li data-filter="action" data-label="LED">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED 222</div>
+								</li>
+								<li data-filter="action" data-label="LED">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED 222</div>
+								</li>
+								<li data-filter="action" data-label="LED hhh">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED hhh</div>
+								</li>
+								<li data-filter="action" data-label="LED ggg">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED ggg</div>
+								</li>
+								<li data-filter="function" data-label="LED fff">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED fff</div>
+								</li>
+								<li data-filter="function" data-label="LED ddd">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED ddd</div>
+								</li>
+								<li data-filter="function" data-label="LED ccc">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED ccc</div>
+								</li>
+								<li data-filter="function" data-label="LED bbb">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED bbb</div>
+								</li>
+								<li data-filter="function" data-label="LED aaa">
+									<img class="image" draggable="true" src="assets/image/components/led.png" />
+									<div class="name">LED aaa</div>
+								</li>
+							</ul>
+						</div>
 					</div>
 					<div class="tab tab-software">
 						编程
@@ -52,10 +119,7 @@
 						<div class="project-region">
 							<div class="name">项目名字</div>
 							<input class="new" type="button" value="新建项目" />
-							<select class="boards">
-								<option>Arduino UNO</option>
-								<option>Arduino Nano</option>
-							</select>
+							<select class="boards"></select>
 							<input class="save" type="button" value="保存" />
 							<input class="upload" type="button" value="上传" />
 						</div>
@@ -87,13 +151,31 @@
 						</div>
 					</div>
 					<div class="content-tabs">
-						<div class="tab tab-hardware">
-							硬件
+						<div class="tab tab-hardware" data-action="hardware">
+							<div id="hardware-container" class="hardware-container no-select" droppable="true">
+								<div class="board absolute-center">
+								</div>
+							</div>
+							<div class="name-dialog">
+								<div class="wrap">
+									<span class="name-label">名字</span>
+									<input class="name" type="text" />
+								</div>
+							</div>
+							<ul class="x-context-menu component-menu">
+								<li data-action="copy">复制</li>
+								<li data-action="disconnect">断开</li>
+								<li data-action="delete">删除</li>
+							</ul>
+							<ul class="x-context-menu board-menu">
+								<li data-action="disconnect">断开</li>
+								<li data-action="delete">删除</li>
+							</ul>
 						</div>
-						<div class="tab tab-software">
-							编程
+						<div class="tab tab-software" data-action="software">
+							<div id="software-container" class="software-container"></div>
 						</div>
-						<div class="tab tab-code">
+						<div class="tab tab-code" data-action="code">
 							<div id="code-container" class="code-container"></div>
 						</div>
 					</div>
@@ -177,6 +259,14 @@
 					</div>
 					<div class="x-dialog-btns">
 						<input class="x-dialog-btn cancel" type="button" value="取消" /><input class="x-dialog-btn confirm" type="button" value="创建" />
+					</div>
+				</div>
+				<div class="x-dialog common-dialog">
+					<i class="kenrobot ken-close x-dialog-close"></i>
+					<div class="x-dialog-header"></div>
+					<div class="x-dialog-content"></div>
+					<div class="x-dialog-btns">
+						<input class="x-dialog-btn cancel" type="button" value="取消" /><input class="x-dialog-btn confirm" type="button" value="确定" />
 					</div>
 				</div>
 			</div>

@@ -42,10 +42,13 @@ define(function() {
 		var onClosed = args.onClosed;
 		var onShow = args.onShow;
 
+		var cls = dialogWin.data('cls');
+		dialogWin.removeClass(cls);
+		cls = args.cls;
+		cls && dialogWin.addClass(cls).data('cls', cls);
+
 		var content = args.content;
-		if (content) {
-			$('.x-dialog-content', dialogWin).text(content);
-		}
+		content && $('.x-dialog-content', dialogWin).html(content);
 
 		var dialogLayer = $('.dialog-layer').addClass("active");
 		var doClose = function(callback) {
@@ -183,6 +186,31 @@ define(function() {
 		return result;
 	}
 
+	function repeat(func, times, delay) {
+		if(!func) {
+			return;
+		}
+
+		delay = delay || 0;
+		if(delay == 0) {
+			for(; times > 0; times--)
+				func();
+		} else {
+			times--;
+			func();
+			if(times == 0) {
+				return;
+			}
+			var timerId = setInterval(function() {
+				times--
+				func();
+				if(times == 0) {
+					clearInterval(timerId);
+				}
+			}, delay);
+		}
+	}
+
 	return {
 		message: message,
 		showMessage: showMessage,
@@ -192,5 +220,6 @@ define(function() {
 		aspectReset: aspectReset,
 		parseJson: parseJson,
 		numberToChinese: numberToChinese,
+		repeat: repeat,
 	}
 });

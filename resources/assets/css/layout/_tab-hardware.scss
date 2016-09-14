@@ -1,11 +1,229 @@
+@include keyframes('component-fadeIn') {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .sidebar-tabs {
 	.tab-hardware {
+		padding-top: 30px;
 
+		.search-wrap {
+			padding-left: 20px;
+			padding-right: 20px;
+			position: relative;
+
+			.search {
+				background-color: #f7f7f9;
+				color: #718ac0;
+				width: 100%;
+				height: 36px;
+				padding: 10px 30px 10px 10px;
+				border-radius: 5px;
+				border: 1px solid #ddd;
+
+				&:placeholder {
+					color: #a0b1c0 !important;
+				}
+			}
+
+			& > i {
+				position: absolute;
+				color: #a0b1c0;
+				top: 0;
+				right: 30px;
+				line-height: 36px;
+			}
+		}
+
+		.filters-wrap {
+			padding-left: 20px;
+			padding-right: 20px;
+			height: 96px;
+			margin-bottom: 20px;
+
+			.filters {
+				float: left;
+
+				li {
+					border-radius: 5px;
+					width: 80px;
+					height: 36px;
+					font-size: 13px;
+					color: #a0b1c0;
+					letter-spacing: 2px;
+					text-align: center;
+					line-height: 36px;
+					border: 1px solid #eceef1;
+					margin-right: 10px;
+					margin-top: 12px;
+					cursor: pointer;
+					float: left;
+					transition: background-color 0.2s;
+
+					&:nth-child(3n) {
+						margin-right: 0;
+					}
+
+					&:hover {
+						background-color: #f7f7f9;
+					}
+
+					&.active {
+						background-color: #0b7bdc;
+						color: white;
+						border: none;
+					}
+				}
+			}
+		}
+
+		.components-wrap {
+			left: 0;
+			right: 0;
+			top: 182px;
+			bottom: 20px;
+			position: absolute;
+
+			.components {
+				float: left;
+				padding-left: 9px;
+				padding-right: 9px;
+
+				li {
+					width: 72px;
+					float: left;
+					margin: 10px 11px;
+					opacity: 0;
+					display: none;
+
+					.image {
+						cursor: grab;
+						width: 72px;
+						height: 72px;
+					}
+
+					.name {
+						cursor: default;
+						margin-top: 7px;
+						width: 72px;
+						text-align: center;
+						color: #718ac0;
+						user-select: none;
+					}
+
+					&.active {
+						display: block;
+						@include animation('component-fadeIn' 1s both);
+					}
+				}
+			}
+		}
 	}
 }
 
 .content-tabs {
 	.tab-hardware {
+		.hardware-container {
+			height: 100%;
+			position: relative;
+		}
 
+		.name-dialog {
+			position: absolute;
+			display: none;
+		}
+
+		.component-menu {
+			display: none;
+		}
+
+		.board-menu {
+			display: none;
+		}
 	}
+}
+
+.hardware-container {
+	.board {
+		// width: 360px;
+		// height: 240px;
+		width: 355px;
+		height: 265px;
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	.component {
+		position: absolute;
+		box-shadow: #aaa 0 0 5px 1px;
+		z-index: 1;
+		cursor: grab;
+		border-radius: 5px;
+
+		&.selected,
+		&.jsplumb-dragged {
+			z-index: 8;
+			box-shadow: 0 0 0 2px #f1c933;
+		}
+	}
+
+	.jsplumb-connector {
+		cursor: pointer;
+
+		&.jsplumb-hover,
+		&.selected {
+			z-index: 8;
+		}
+	}
+
+	.jsplumb-overlay {
+		opacity: 0;
+		transition: opacity 80ms ease-in;
+		z-index: 7;
+		padding: 3px 5px;		
+		background-color: #fdbf2d;
+		pointer-events: none;
+
+		&.jsplumb-hover {
+			opacity: 1;
+		}
+	}
+
+	.jsplumb-endpoint {
+		z-index: 1;
+		cursor: pointer;
+		border-radius: 10px;
+
+		&.board-endpoint {
+			opacity: 0;
+		}
+
+		&.jsplumb-hover,
+		&.selected {
+			z-index: 9;
+			opacity: 1;
+		}
+
+		&.drag-active {
+			opacity: 0.6;
+		}
+
+		&.drop-hover {
+			opacity: 1;
+		}
+
+		&.drag-hover {
+			opacity: 0.6;
+		}
+
+		&.jsplumb-endpoint-connected {
+			opacity: 1;
+			background-color: #f1c933;
+		}
+	}	
 }

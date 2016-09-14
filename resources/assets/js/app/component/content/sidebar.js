@@ -45,7 +45,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 			}
 		}
 
-		action != "project" && emitor.trigger("sidebar", "activeTab", action);
+		emitor.trigger("sidebar", "activeTab", action);
 	}
 
 	return {
