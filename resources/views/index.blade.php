@@ -179,11 +179,12 @@
 							<div id="code-container" class="code-container"></div>
 						</div>
 					</div>
+					<div class="layer message-layer" data-offset="120"></div>
 				</div>
 			</div>
 		</div>
 		<div class="layers">
-			<div class="modal dialog-layer">
+			<div class="layer modal dialog-layer">
 				<div class="x-dialog login-dialog">
 					<i class="kenrobot ken-close x-dialog-close"></i>
 					<ul class="switch">
@@ -270,7 +271,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="message-layer"></div>
 		</div>
 	</body>
 </html>

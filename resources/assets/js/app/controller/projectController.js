@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userModel', 'app/model/projectModel', 'app/component/content/project', 'app/component/content/hardware', 'app/component/content/software'], function(_, util, emitor, userModel, projectModel, project, hardware, software) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userModel', 'app/model/projectModel', 'app/component/content/project', 'app/component/content/hardware', 'app/component/content/software', 'app/component/content/code'], function(_, util, emitor, userModel, projectModel, project, hardware, software, code) {
 	var currentProject;
 	var myProjects;
 
@@ -15,7 +15,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	}
 
 	function openProject(projectInfo) {
+		currentProject && (currentProject.project_data = getProjectData());
 		currentProject = projectInfo;
+		myProjects.length == 0 && project.addProject(projectInfo);
 		project.updateCurrentProject(projectInfo);
 
 		var projectData = projectInfo.project_data;
@@ -24,6 +26,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 
 		hardware.setData(projectData.hardware);
 		software.setData(projectData.software);
+		code.setData(projectData.code);
 	}
 
 	function onAppStart() {
@@ -35,6 +38,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		}).then(function() {
 			userModel.authCheck().done(function() {
 				loadMyProject().done(function() {
+					project.updateList(myProjects);
 					openProject(myProjects[0]);
 				}).fail(function() {
 					openProject(getDefaultProject());
@@ -46,17 +50,19 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	}
 
 	function onUserLogin() {
-		loadMyProject();
+		loadMyProject().done(function() {
+			project.updateList(myProjects, false);
+		});
 	}
 
 	function onProjectOpen(id, force) {
 		var info = getCurrentProject();
-		if(!force && id == info.id) {
+		if (!force && id == info.id) {
 			return;
 		}
 
 		var index = findProjectIndex(myProjects, id);
-		if(index < 0) {
+		if (index < 0) {
 			return;
 		}
 
@@ -72,10 +78,15 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 			//保存
 			var info = getCurrentProject();
 			projectInfo.id = info.id;
-			projectInfo.project_name = info.project_name;
 			projectInfo.project_data = JSON.stringify(getProjectData());
+
+			if (projectInfo.id == 0) {
+				projectInfo.project_name = info.project_name;
+				projectInfo.project_intro = info.project_intro;
+			}
 		} else {
 			//新建
+			projectInfo.project_data = "";
 		}
 		projectInfo.user_id = userModel.getUserId();
 
@@ -85,46 +96,63 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	}
 
 	function onProjectEdit(id) {
-		var index = findProjectIndex(myProjects, id);
-		if(index < 0) {
-			return;
+		var projectInfo;
+		if (id == 0) {
+			projectInfo = getCurrentProject();
+		} else {
+			var index = findProjectIndex(myProjects, id);
+			index >= 0 && (projectInfo = myProjects[index]);
 		}
-		var projectInfo = myProjects[index];
-		emitor.trigger('project', 'show', {
+
+		projectInfo && emitor.trigger('project', 'show', {
 			data: projectInfo,
 			type: 'edit'
 		});
 	}
 
 	function onProjectDelete(id) {
-		var index = findProjectIndex(myProjects, id);
-		if(index < 0) {
-			return;
-		}
-
-		var projectInfo = myProjects[index];
-		var doDelete = function() {
-			projectModel.remove(id).done(function(result) {
-				util.message(result.message);
-				result.status == 0 && onProjectDeleteSuccess(id);
+		var projectInfo;
+		if (id == 0) {
+			projectInfo = getCurrentProject();
+			projectInfo && emitor.trigger('common', 'show', {
+				type: 'warn',
+				content: '正在删除项目“' + projectInfo.project_name + '”。删除后不可恢复，确定要删除吗？',
+				onConfirm: function() {
+					util.message("删除成功");
+					onProjectDeleteSuccess(id);
+				},
 			});
-		};
-
-		emitor.trigger('common', 'show', {
-			type: 'warn',
-			content: '正在删除项目“' + projectInfo.project_name + '”。删除后不可恢复，确定要删除吗？',
-			onConfirm: doDelete,
-		});
+		} else {
+			var index = findProjectIndex(myProjects, id);
+			index >= 0 && (projectInfo = myProjects[index]);
+			projectInfo && emitor.trigger('common', 'show', {
+				type: 'warn',
+				content: '正在删除项目“' + projectInfo.project_name + '”。删除后不可恢复，确定要删除吗？',
+				onConfirm: function() {
+					projectModel.remove(id).done(function(result) {
+						util.message(result.message);
+						result.status == 0 && onProjectDeleteSuccess(id);
+					});
+				},
+			});
+		}
 	}
 
 	function onProjectCopy(id) {
-		var index = findProjectIndex(myProjects, id);
-		if(index < 0) {
+		var projectInfo;
+		if (id == 0) {
+			projectInfo = getCurrentProject();
+		} else {
+			var index = findProjectIndex(myProjects, id);
+			index >= 0 && (projectInfo = myProjects[index]);
+		}
+		if (!projectInfo) {
 			return;
 		}
-		var projectInfo = myProjects[index];
+
 		var copyProjectInfo = $.extend({}, projectInfo);
 		copyProjectInfo.id = 0;
+		copyProjectInfo.user_id = userModel.getUserId();
 		copyProjectInfo.project_name = copyProjectInfo.project_name + " - 副本";
 		copyProjectInfo.project_data = JSON.stringify(copyProjectInfo.project_data);
 		projectModel.save(copyProjectInfo).done(function(result) {
@@ -151,7 +179,6 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 				projectInfo = convertProject(projectInfo);
 				myProjects.push(projectInfo);
 			});
-			project.updateList(myProjects);
 			promise.resolve();
 		});
 
@@ -167,18 +194,17 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 
 			var projectInfo = convertProject(result.data);
 			if (saveType == "new") {
-				hardware.reset();
-				software.reset();
-
-				myProjects.push(projectInfo);
+				myProjects.unshift(projectInfo);
 				project.addProject(projectInfo);
 
 				util.message("新建成功");
-			} else if(saveType == "copy") {
-				myProjects.push(projectInfo);
+				openProject(projectInfo);
+			} else if (saveType == "copy") {
+				myProjects.unshift(projectInfo);
 				project.addProject(projectInfo);
 
 				util.message("复制成功");
+				openProject(projectInfo);
 			} else if (saveType == "save") {
 				var index = findProjectIndex(myProjects, projectInfo.id);
 				myProjects[index] = projectInfo;
@@ -200,13 +226,19 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		project.removeProject(id);
 
 		var info = getCurrentProject();
-		info.id == id && openProject(myProjects[0]);
+		if (info.id != id) {
+			return;
+		}
+
+		currentProject = null;
+		myProjects.length ? openProject(myProjects[0]) : openProject(getDefaultProject());
 	}
 
 	function getProjectData() {
 		return {
 			hardware: hardware.getData(),
 			software: software.getData(),
+			code: code.getData(),
 		};
 	}
 
@@ -221,6 +253,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 			project_intro: "项目简介",
 			public_type: 2,
 			project_data: {},
+			updated_at: new Date(),
 		};
 	}
 

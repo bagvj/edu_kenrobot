@@ -15,16 +15,18 @@ define(['vendor/jquery', 'app/util/emitor'], function(_, emitor) {
 
 	function authCheck(showLogin) {
 		var promise = $.Deferred();
+		var type = userInfo && "check" || "all";
 		$.ajax({
 			type: 'POST',
 			url: '/api/auth/check',
 			data: {
-				id: 0
+				id: 0,
+				type: type,
 			},
 			dataType: 'json',
 		}).done(function(result) {
 			if(result.status == 0) {
-				userInfo = result.user;
+				type == "all" && (userInfo = result.user);
 				promise.resolve();
 			} else {
 				userInfo = null;

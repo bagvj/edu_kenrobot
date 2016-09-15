@@ -4,7 +4,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 
 	function init() {
 		var region = $('.sidebar-region');
-		$('> ul > li', region).on('click', onActionClick);
+		$('.center > li', region).on('click', onTabClick);
+		$('.bottom > li', region).on('click', onBottomTabClick);
+
 		tabs = $('.sidebar-tabs');
 
 		emitor.on('app', 'start', onAppStart);
@@ -14,7 +16,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 		$('li[data-action="hardware"]', region).click();
 	}
 
-	function onActionClick(e) {
+	function onTabClick(e) {
 		var li = $(this);
 		util.toggleActive(li);
 
@@ -46,6 +48,19 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 		}
 
 		emitor.trigger("sidebar", "activeTab", action);
+	}
+
+	function onBottomTabClick(e) {
+		var li = $(this);
+		var action = li.data('action');
+		switch(action) {
+			case "share":
+				emitor.trigger("share", "show");
+				break;
+			case "help": 
+				emitor.trigger("help", "show");
+				break;
+		}
 	}
 
 	return {

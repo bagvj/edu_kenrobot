@@ -1,7 +1,9 @@
 define(function() {
 	function message(args) {
 		var duration = 400;
-		$("div.x-message").stop(true).fadeOut(duration / 2, function() {
+		var messageLayer = $(".message-layer");
+
+		$(".x-message", messageLayer).stop(true).fadeOut(duration / 2, function() {
 			$(this).remove();
 		});
 
@@ -10,15 +12,17 @@ define(function() {
 		} : args;
 		var type = args.type || "info";
 		var text = args.text;
-		var template = '<div class="x-message alert alert-' + type + ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + text + '</div>';
-		var messageDiv = $(template);
-		messageDiv.appendTo($(".message-layer")).css({
-			left: ($(window).width() - messageDiv.width()) / 2,
+		var template = '<div class="x-message ' + type + '">' + text + '<div class="x-message-close">&times;</div></div>';
+		var messageDiv = $(template).appendTo(messageLayer);
+		$('.x-message-close', messageDiv).on('click', function() {
+			messageDiv.remove();
+		});
+		messageDiv.css({
 			top: -messageDiv.height(),
 		}).animate({
-			top: 150,
+			top: messageLayer.data("offset") || 150,
 		}, duration, "swing").delay(2000).fadeOut(duration, function() {
-			$(this).remove();
+			messageDiv.remove();
 		});
 	}
 
@@ -41,11 +45,6 @@ define(function() {
 		var onClose = args.onClose;
 		var onClosed = args.onClosed;
 		var onShow = args.onShow;
-
-		var cls = dialogWin.data('cls');
-		dialogWin.removeClass(cls);
-		cls = args.cls;
-		cls && dialogWin.addClass(cls).data('cls', cls);
 
 		var content = args.content;
 		content && $('.x-dialog-content', dialogWin).html(content);
@@ -186,29 +185,44 @@ define(function() {
 		return result;
 	}
 
-	function repeat(func, times, delay) {
-		if(!func) {
-			return;
+	/**
+	 * 格式化日期
+	 * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、季度(q)可以用1-2个占位符
+	 * 年(y)可以用1-4个占位符，毫秒(S)只能用1个占位符(是1-3位的数字)、周(E)可以用1-3个占位符
+	 * eg:
+	 * formatDate(date, "yyyy-MM-dd hh:mm:ss.S")==> 2006-07-02 08:09:04.423      
+	 * formatDate(date, "yyyy-MM-dd E HH:mm:ss") ==> 2009-03-10 二 20:09:04      
+	 * formatDate(date, "yyyy-MM-dd EE hh:mm:ss") ==> 2009-03-10 周二 08:09:04      
+	 * formatDate(date, "yyyy-MM-dd EEE hh:mm:ss") ==> 2009-03-10 星期二 08:09:04      
+	 * formatDate(date, "yyyy-M-d h:m:s.S") ==> 2006-7-2 8:9:4.18      
+	 */
+	function formatDate(date, format) {
+		if (typeof date == "number") {
+			date = new Date(date);
 		}
-
-		delay = delay || 0;
-		if(delay == 0) {
-			for(; times > 0; times--)
-				func();
-		} else {
-			times--;
-			func();
-			if(times == 0) {
-				return;
+		var o = {
+			"M+": date.getMonth() + 1,
+			"d+": date.getDate(),
+			"h+": date.getHours() % 12 == 0 ? 12 : date.getHours() % 12,
+			"H+": date.getHours(),
+			"m+": date.getMinutes(),
+			"s+": date.getSeconds(),
+			"q+": Math.floor((date.getMonth() + 3) / 3),
+			"S": date.getMilliseconds()
+		};
+		if (/(y+)/.test(format)) {
+			format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+		}
+		if (/(E+)/.test(format)) {
+			var week = ["日", "一", "二", "三", "四", "五", "六"];
+			format = format.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "星期" : "周") : "") + week[date.getDay()]);
+		}
+		for (var k in o) {
+			if (new RegExp("(" + k + ")").test(format)) {
+				format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 			}
-			var timerId = setInterval(function() {
-				times--
-				func();
-				if(times == 0) {
-					clearInterval(timerId);
-				}
-			}, delay);
 		}
+		return format;
 	}
 
 	return {
@@ -220,6 +234,6 @@ define(function() {
 		aspectReset: aspectReset,
 		parseJson: parseJson,
 		numberToChinese: numberToChinese,
-		repeat: repeat,
+		formatDate: formatDate,
 	}
 });

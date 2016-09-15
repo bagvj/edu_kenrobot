@@ -25,6 +25,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectM
 			$('.upload', dialogWin).val("修改项目图片");
 			$('.name', dialogWin).val(projectInfo.project_name).focus();
 			$('.intro', dialogWin).val(projectInfo.project_intro);
+			$('.public[value="' + projectInfo.public_type + '"]', dialogWin).attr("checked", true);
 			$('.confirm', dialogWin).val("保存");
 		} else {
 			setImage();
@@ -60,6 +61,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectM
 		setImage();
 		$('.name', dialogWin).val('').focus();
 		$('.intro', dialogWin).val('');
+		$('.public:eq(0)', dialogWin).attr("checked", true);
 	}
 
 	function onUploadClick(e) {

@@ -76,8 +76,13 @@ class WebAuthController extends Controller
     /**
      * 验证登录
      */
-    public function check()
+    public function check(Request $request)
     {
+        $type = $request->input('type');
+        if($type == "check") {
+            return response()->json(['status' => Auth::check() ? 0 : -1]);
+        }
+
         if (Auth::check()) {
             $user = Auth::user();
             $userinfo = array_only($user->toArray(), ['id', 'name', 'avatar_url']);

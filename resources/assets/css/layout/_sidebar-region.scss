@@ -48,6 +48,12 @@
 		position: absolute;
 		bottom: 20px;
 		width: 100%;
+
+		li {
+			&:after {
+				display: none;
+			}
+		}
 	}
 
 	& > ul > li {

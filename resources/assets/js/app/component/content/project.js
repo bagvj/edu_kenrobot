@@ -2,8 +2,9 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	var region;
 	var projectList;
 	var boardList;
-	var projectTemplate = '<li data-id="{{id}}"><div class="project-title"><div class="name">{{name}}</div><div class="arrow"><ul class="project-menu"><li data-action="delete">删除项目</li><li data-action="edit">编辑项目</li><li data-action="copy">复制项目</li></ul></div></div><div class="project-image" style="background-image: url(\'/project/image/{{imageHash}}\');"></div><div class="project-intro">{{intro}}</div></li>';
+	var projectTemplate = '<li data-id="{{id}}"><div class="project-title"><div class="name">{{name}}</div><div class="arrow"><ul class="project-menu"><li data-action="edit">编辑项目</li><li data-action="copy">复制项目</li><li data-action="delete">删除项目</li></ul></div></div><div class="project-image" style="background-image: url(\'/project/image/{{imageHash}}\');"></div><div class="project-intro">{{intro}}</div><div class="project-footer"><div class="public" data-action="{{public_type}}">{{public}}</div><div>最后更新：</div><div class="time">{{time}}</div></div></li>';
 	var boardTemplate = '<option value="{{name}}">{{label}}</option>';
+	var publicTypes = ["仅自己可见", "好友公开", "完全公开"];
 
 	function init() {
 		region = $('.project-region');
@@ -19,10 +20,10 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		emitor.on('hardware', 'removeBoard', onRemoveBoard);
 	}
 
-	function updateList(projects) {
-		projectList.empty();
-		projects.reverse().forEach(function(projectInfo) {
-			addProject(projectInfo, false);
+	function updateList(projects, clear) {
+		clear !== false && projectList.empty();
+		projects.forEach(function(projectInfo) {
+			addProject(projectInfo, false, false);
 		});
 		liveItemEvent();
 	}
@@ -36,19 +37,21 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		boardList.empty();
 		boards.forEach(function(board) {
 			var option = boardTemplate.replace(/\{\{name\}\}/, board.name)
-									  .replace(/\{\{label\}\}/, board.label);
+				.replace(/\{\{label\}\}/, board.label);
 			boardList.append(option);
 		});
 	}
 
-	function addProject(projectInfo, liveEvent) {
-		liveEvent = liveEvent != false;
+	function addProject(projectInfo, prepend, liveEvent) {
 		var li = projectTemplate.replace(/\{\{id\}\}/, projectInfo.id)
-		                        .replace(/\{\{name\}\}/, projectInfo.project_name)
-		                        .replace(/\{\{imageHash\}\}/, projectInfo.imageHash || "default")
-		                        .replace(/\{\{intro\}\}/, projectInfo.project_intro);
-		projectList.prepend(li);
-		liveEvent && liveItemEvent();
+			.replace(/\{\{name\}\}/, projectInfo.project_name)
+			.replace(/\{\{imageHash\}\}/, projectInfo.imageHash || "default")
+			.replace(/\{\{intro\}\}/, projectInfo.project_intro)
+			.replace(/\{\{public\}\}/, publicTypes[projectInfo.public_type])
+			.replace(/\{\{public_type\}\}/, projectInfo.public_type)
+			.replace(/\{\{time\}\}/, util.formatDate(projectInfo.updated_at, "yyyy/MM/dd"));
+		prepend !== false && projectList.prepend(li) || projectList.append(li);
+		liveEvent !== false && liveItemEvent();
 	}
 
 	function updateProject(projectInfo) {
@@ -57,10 +60,15 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		var imageHash = projectInfo.imageHash || "default";
 		$('.project-image', li).css('background-image', "url('/project/image/" + imageHash + "')");
 		$('.project-intro', li).text(projectInfo.project_intro);
+		$('.public', li).text(publicTypes[projectInfo.public_type]).attr('data-action', projectInfo.public_type);
+		$('.time', li).text(util.formatDate(projectInfo.updated_at, "yyyy.MM.dd"));
+
+		projectList.find("> li.active").data('id') == projectInfo.id && updateCurrentProject(projectInfo);
 	}
 
 	function updateCurrentProject(projectInfo) {
 		$('.name', region).text(projectInfo.project_name);
+		projectList.find('> li').removeClass("active").filter('[data-id="' + projectInfo.id + '"]').addClass("active");
 	}
 
 	function removeProject(projectId) {
@@ -100,22 +108,24 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		var itemLi = li.parent().closest('li');
 		var id = itemLi.data('id');
 
-		switch(action) {
-			case "delete":
-				emitor.trigger('project', 'delete', id);
-				break;
-			case "edit":
-				emitor.trigger('project', 'edit', id);
-				break;
-			case "copy":
-				emitor.trigger('project', 'copy', id);
-				break;
-		}
+		userModel.authCheck(true).done(function() {
+			switch (action) {
+				case "delete":
+					emitor.trigger('project', 'delete', id);
+					break;
+				case "edit":
+					emitor.trigger('project', 'edit', id);
+					break;
+				case "copy":
+					emitor.trigger('project', 'copy', id);
+					break;
+			}
+		});
 	}
 
 	function onProjectClick(e) {
 		var li = $(this).closest('li');
-		emitor.trigger("project", "open", li.data('id'));
+		!li.hasClass("active") && emitor.trigger("project", "open", li.data('id'));
 	}
 
 	function onLiMouseOut(e) {

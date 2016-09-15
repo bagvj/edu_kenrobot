@@ -1,6 +1,7 @@
 define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'vendor/ace/ace', 'vendor/ace/theme-default', 'vendor/ace/mode-arduino', 'vendor/ace/snippets/text', 'vendor/ace/snippets/arduino', 'vendor/ace/ext-language_tools'], function(_, util, emitor) {
 	var editor;
 	var region;
+	var codeTemplate = '/************************************************************\n * Copyright(C), 2016-2038, KenRobot.com\n * FileName: {{name}}.ino\n * Author: {{author}}\n * Create: {{created_at}}\n * Modify: {{updated_at}}\n */\n{{global}}\nvoid setup()\n{\n{{setup}}\n}\n\nvoid loop()\n{\n{{loop}}\n}';
 
 	function init() {
 		editor = ace.edit("code-container");
@@ -82,11 +83,40 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'vendor/ace/ace', '
 		emitor.on('app', 'start', onAppStart);
 	}
 
+	function getData() {
+		return editor.getValue();
+	}
+
+	function setData(data) {
+		var source = data || getDefaultCode();
+		editor.setValue(source, -1);
+	}
+
 	function onAppStart() {
-		editor.setValue('/*\n  String Case changes\n Examples of how to change the case of a string\n created 27 July 2010\n modified 2 Apr 2012\n by Tom Igoe\n http://www.arduino.cc/en/Tutorial/StringCaseChanges\n This example code is in the public domain.\n */\nvoid setup() {\n  // Open serial communications and wait for port to open:\n  Serial.begin(9600);\n  while (!Serial) {\n    ; // wait for serial port to connect. Needed for native USB port only\n  }\n  // send an intro:\n  Serial.println("\\n\\nString  case changes:");\n  Serial.println();\n}\nvoid loop() {\n  // toUpperCase() changes all letters to upper case:\n  String stringOne = "<html><head><body>";\n  Serial.println(stringOne);\n  stringOne.toUpperCase();\n  Serial.println(stringOne);\n  // toLowerCase() changes all letters to lower case:\n  String stringTwo = "</BODY></HTML>";\n  Serial.println(stringTwo);\n  stringTwo.toLowerCase();\n  Serial.println(stringTwo);\n  // do nothing while true:\n  while (true);\n}', -1);
+
+	}
+
+	function gen(codeInfo) {
+		var date = new Date();
+		return codeTemplate.replace(/\{\{name\}\}/, codeInfo.name)
+			.replace(/\{\{author\}\}/, codeInfo.author)
+			.replace(/\{\{created_at\}\}/, util.formatDate(codeInfo.created_at || date, "yyyy/MM/dd"))
+			.replace(/\{\{updated_at\}\}/, util.formatDate(codeInfo.updated_at || date, "yyyy/MM/dd"))
+			.replace(/\{\{global\}\}/, codeInfo.global || "")
+			.replace(/\{\{setup\}\}/, codeInfo.setup || "    ")
+			.replace(/\{\{loop\}\}/, codeInfo.loop || "    ");
+	}
+
+	function getDefaultCode() {
+		return gen({
+			name: "我的项目",
+			author: "啃萝卜",
+		});
 	}
 
 	return {
 		init: init,
+		getData: getData,
+		setData: setData,
 	};
 });

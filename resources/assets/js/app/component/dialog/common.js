@@ -9,9 +9,18 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 
 	function onShow(args) {
 		args = args || {};
-		var cls = args.type || "info";
-		args.cls = cls;
 		args.selector = dialogWin;
+
+		var type = args.type || "info";
+		dialogWin.addClass(type);
+
+		var onClosed = args.onClosed;
+		args.onClosed = function() {
+			$('.x-dialog-context', dialogWin).empty();
+			dialogWin.removeClass(type);
+
+			onClosed && onClosed();
+		}
 
 		util.dialog(args);
 	}
