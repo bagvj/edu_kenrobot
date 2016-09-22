@@ -1,21 +1,4 @@
 define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
-	var throttle = function(type, name, obj) {
-		obj = obj || window;
-		var running = false;
-		var func = function() {
-			if (running) {
-				return;
-			}
-			running = true;
-			requestAnimationFrame(function() {
-				obj.dispatchEvent(new CustomEvent(name));
-				running = false;
-			});
-		};
-		obj.addEventListener(type, func);
-	};
-	throttle('resize', 'optimizedResize');
-
 	var config = {
 		color: '#F1C933',
 		colorHover: '#F19833',
@@ -23,14 +6,12 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 		font: '14px Microsoft YaHei',
 	};
 
-	var container = null;
-	var dragComponentDom = null;
-
-	var jsPlumbInstance = null;
-	var board = null;
-	var boardDom = null;
-	var connectionEvent = new CustomEvent('connectionEvent');
+	var container;
+	var dragComponentDom;
 	var schema;
+	var jsPlumbInstance;
+	var board;
+	var boardDom;
 
 	function init(_container) {
 		container = _container;
@@ -112,6 +93,7 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 
 		connectionListeners();
 
+		throttle(window, 'resize', 'optimizedResize');
 		window.addEventListener('optimizedResize', function() {
 			repaint();
 		}, false);
@@ -452,6 +434,7 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 		jsPlumbInstance.unbind('connection');
 		jsPlumbInstance.unbind('connectionDetached');
 
+		var connectionEvent = new CustomEvent('connectionEvent');
 		jsPlumbInstance.bind('connection', function(connection) {
 			connection.targetEndpoint.setType('connected');
 			connection.sourceEndpoint.setType('connected');
@@ -575,6 +558,21 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 			return connection.sourceId == componentDom.id || connection.targetId == componentDom.id;
 		});
 	}
+
+	function throttle(target, type, name) {
+		var running = false;
+		var func = function() {
+			if (running) {
+				return;
+			}
+			running = true;
+			requestAnimationFrame(function() {
+				target.dispatchEvent(new CustomEvent(name));
+				running = false;
+			});
+		};
+		target.addEventListener(type, func);
+	};
 
 	return {
 		init: init,

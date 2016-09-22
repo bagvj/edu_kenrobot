@@ -44,6 +44,17 @@
 			padding-right: 20px;
 			height: 96px;
 			margin-bottom: 20px;
+			position: relative;
+
+			&:after {
+				content: ' ';
+				height: 1px;
+				display: block;
+				position: relative;
+				background-color: #eceef1;
+				top: 116px;
+				left: 0;
+			}
 
 			.filters {
 				float: left;
@@ -84,7 +95,7 @@
 		.components-wrap {
 			left: 0;
 			right: 0;
-			top: 182px;
+			top: 190px;
 			bottom: 20px;
 			position: absolute;
 

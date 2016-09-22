@@ -54,64 +54,97 @@
 							</ul>
 						</div>
 						<div class="components-wrap no-scrollbar">
-							<ul class="components">
-								<li data-filter="sensor" data-label="LED">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED</div>
+							<ul class="components"></ul>
+						</div>
+					</div>
+					<div class="tab tab-software no-select">
+						<div class="filters-wrap">
+							<ul class="filters">
+								<li data-filter="module">模块</li>
+								<li data-filter="function">函数</li>
+								<li data-filter="var">变量</li>
+								<li data-filter="code">代码</li>
+								<li data-filter="math">数学函数</li>
+								<li data-filter="text">文本</li>
+								<li data-filter="control">控制</li>
+								<li data-filter="logic">逻辑运算</li>
+							</ul>
+						</div>
+						<div class="filter">
+							<span class="filter-name">全部</span>
+							<input class="advanced" type="button" value="高级" />
+						</div>
+						<div class="blocks-wrap no-scrollbar">
+							<ul class="blocks">
+								<li>
+									<!-- 定义函数 -->
+									<div class="block function block-statement-input">
+										<div class="statement-header">
+											<span>调用函数</span>
+											<input type="text" placeholder="名字" />
+											<div class="connector connector-top"></div>
+											<div class="connector connector-root"></div>
+										</div>
+										<div class="statement-extension">
+											<div class="statement-extension-content"></div>
+											<div class="statement-extension-end">
+												<div class="connector connector-bottom"></div>
+											</div>
+										</div>
+									</div>
 								</li>
-								<li data-filter="sensor" data-label="LED">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED</div>
+								<li>
+									<!-- 调用函数 -->
+									<div class="block function block-statement">
+										<div class="block-fixed">
+											<span>调用函数</span>
+											<div class="select-wrap">
+												<select>
+													<option>sin</option>
+													<option>cos</option>
+													<option>tan</option>
+												</select>
+											</div>
+											<div class="connector connector-top"></div>
+											<div class="connector connector-bottom"></div>
+										</div>
+									</div>
 								</li>
-								<li data-filter="sensor" data-label="LED">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED</div>
+								<li>
+									<!-- 定义函数(带返回) -->
+									<div class="block function block-statement-input">
+										<div class="statement-header">
+											<span>调用函数</span>
+											<input type="text" placeholder="名字" />
+											<div class="connector connector-top"></div>
+											<div class="connector connector-root"></div>
+										</div>
+										<div class="statement-extension">
+											<div class="statement-extension-content"></div>
+											<div class="statement-extension-end with-content">
+												<span>返回</span>
+												<div class="block-input connector connector-input"></div>
+												<div class="connector connector-bottom"></div>
+											</div>
+										</div>
+									</div>
 								</li>
-								<li data-filter="sensor" data-label="LED">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED</div>
-								</li>
-								<li data-filter="action" data-label="LED">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED 222</div>
-								</li>
-								<li data-filter="action" data-label="LED">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED 222</div>
-								</li>
-								<li data-filter="action" data-label="LED hhh">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED hhh</div>
-								</li>
-								<li data-filter="action" data-label="LED ggg">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED ggg</div>
-								</li>
-								<li data-filter="function" data-label="LED fff">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED fff</div>
-								</li>
-								<li data-filter="function" data-label="LED ddd">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED ddd</div>
-								</li>
-								<li data-filter="function" data-label="LED ccc">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED ccc</div>
-								</li>
-								<li data-filter="function" data-label="LED bbb">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED bbb</div>
-								</li>
-								<li data-filter="function" data-label="LED aaa">
-									<img class="image" draggable="true" src="assets/image/components/led.png" />
-									<div class="name">LED aaa</div>
+								<li>
+									<!-- 调用函数(带返回) -->
+									<div class="block function block-output">
+										<span>调用函数</span>
+										<div class="select-wrap">
+											<select>
+												<option>sin</option>
+												<option>cos</option>
+												<option>tan</option>
+											</select>
+										</div>
+										<div class="connector connector-output"></div>
+									</div>
 								</li>
 							</ul>
 						</div>
-					</div>
-					<div class="tab tab-software">
-						编程
 					</div>
 				</div>
 				<div class="wrap">
@@ -156,11 +189,8 @@
 								<div class="board absolute-center">
 								</div>
 							</div>
-							<div class="name-dialog">
-								<div class="wrap">
-									<span class="name-label">名字</span>
-									<input class="name" type="text" />
-								</div>
+							<div class="component-dialog">
+								<span class="name-label">名字</span><input class="name" type="text" />
 							</div>
 							<ul class="x-context-menu component-menu">
 								<li data-action="copy">复制</li>
@@ -173,7 +203,14 @@
 							</ul>
 						</div>
 						<div class="tab tab-software" data-action="software">
-							<div id="software-container" class="software-container"></div>
+							<div id="software-container" class="software-container">
+								
+							</div>
+							<ul class="x-context-menu block-menu">
+								<li data-action="copy">复制</li>
+								<li data-action="comment">注释</li>
+								<li data-action="delete">删除</li>
+							</ul>
 						</div>
 						<div class="tab tab-code" data-action="code">
 							<div id="code-container" class="code-container"></div>
@@ -183,7 +220,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="layers">
+		<div>
 			<div class="layer modal dialog-layer">
 				<div class="x-dialog login-dialog">
 					<i class="kenrobot ken-close x-dialog-close"></i>

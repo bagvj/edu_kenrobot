@@ -235,5 +235,6 @@ define(function() {
 		parseJson: parseJson,
 		numberToChinese: numberToChinese,
 		formatDate: formatDate,
+		
 	}
 });

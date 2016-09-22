@@ -1,117 +1,25 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'vendor/ace/ace', 'vendor/ace/theme-default', 'vendor/ace/mode-arduino', 'vendor/ace/snippets/text', 'vendor/ace/snippets/arduino', 'vendor/ace/ext-language_tools'], function(_, util, emitor) {
-	var editor;
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/codeModel'], function(_, util, emitor, codeModel) {
 	var region;
-	var codeTemplate = '/************************************************************\n * Copyright(C), 2016-2038, KenRobot.com\n * FileName: {{name}}.ino\n * Author: {{author}}\n * Create: {{created_at}}\n * Modify: {{updated_at}}\n */\n{{global}}\nvoid setup()\n{\n{{setup}}\n}\n\nvoid loop()\n{\n{{loop}}\n}';
+	var container;
 
 	function init() {
-		editor = ace.edit("code-container");
-		editor.setOptions({
-			enableSnippets: true,
-			enableBasicAutocompletion: true,
-			enableLiveAutocompletion: true,
-		});
-		editor.setReadOnly(true);
-		editor.setShowPrintMargin(false);
-		editor.$blockScrolling = Infinity;
-		editor.setTheme("ace/theme/default");
-		editor.session.setMode("ace/mode/arduino");
-
-		editor.commands.addCommands([{
-			name: "saveProject",
-			bindKey: {
-				win: "Ctrl-S",
-				mac: "Command-S"
-			},
-			exec: function() {}
-		}, {
-			name: "formatCode",
-			bindKey: {
-				win: "Ctrl-U",
-				mac: "Command-U"
-			},
-			exec: function() {}
-		}, {
-			name: "movelinesup",
-			bindKey: {
-				win: "Ctrl-Up",
-				mac: "Command-Up"
-			},
-			exec: function(e) {
-				e.moveLinesUp();
-			},
-			scrollIntoView: "cursor"
-		}, {
-			name: "movelinesdown",
-			bindKey: {
-				win: "Ctrl-Down",
-				mac: "Command-Down"
-			},
-			exec: function(e) {
-				e.moveLinesDown();
-			},
-			scrollIntoView: "cursor"
-		}, {
-			name: "unfind",
-			bindKey: {
-				win: "Ctrl-F",
-				mac: "Command-F"
-			},
-			exec: function() {},
-		}, {
-			name: "unreplace",
-			bindKey: {
-				win: "Ctrl-H",
-				mac: "Command-Option-F"
-			},
-			exec: function() {},
-		}, {
-			name: "showSettingsMenu",
-			bindKey: {
-				win: "Ctrl-,",
-				mac: "Command-,"
-			},
-			exec: function() {},
-		}, {
-			name: "centerselection",
-			bindKey: {
-				win: "Ctrl-L",
-				mac: "Command-L",
-			},
-			exec: function() {},
-		}]);
+		region = $('.content-tabs .tab-code');
+		container = $(".code-container", region);
+		codeModel.init(container[0]);
 
 		emitor.on('app', 'start', onAppStart);
 	}
 
 	function getData() {
-		return editor.getValue();
+		return codeModel.getData();
 	}
 
 	function setData(data) {
-		var source = data || getDefaultCode();
-		editor.setValue(source, -1);
+		codeModel.setData(data);
 	}
 
 	function onAppStart() {
 
-	}
-
-	function gen(codeInfo) {
-		var date = new Date();
-		return codeTemplate.replace(/\{\{name\}\}/, codeInfo.name)
-			.replace(/\{\{author\}\}/, codeInfo.author)
-			.replace(/\{\{created_at\}\}/, util.formatDate(codeInfo.created_at || date, "yyyy/MM/dd"))
-			.replace(/\{\{updated_at\}\}/, util.formatDate(codeInfo.updated_at || date, "yyyy/MM/dd"))
-			.replace(/\{\{global\}\}/, codeInfo.global || "")
-			.replace(/\{\{setup\}\}/, codeInfo.setup || "    ")
-			.replace(/\{\{loop\}\}/, codeInfo.loop || "    ");
-	}
-
-	function getDefaultCode() {
-		return gen({
-			name: "我的项目",
-			author: "啃萝卜",
-		});
 	}
 
 	return {

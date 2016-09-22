@@ -1,11 +1,191 @@
+$module-color: #ec6e68;
+$function-color: #f69023;
+$var-color: #eeca24;
+$code-color: #a3ce47;
+$math-color: #47c5ca;
+$text-color: #20b5f9;
+$control-color: #0b75d2;
+$logic-color: #d764ae;
+
 .sidebar-tabs {
 	.tab-software {
+		.filters-wrap {
+			padding-left: 20px;
+			padding-right: 20px;
+			height: 144px;
+			margin-bottom: 20px;
+			position: relative;
 
+			&:after {
+				content: ' ';
+				height: 1px;
+				display: block;
+				position: relative;
+				background-color: #eceef1;
+				top: 164px;
+				left: 0;
+			}
+
+			.filters {
+				float: left;
+
+				li {
+					border-radius: 5px;
+					width: 80px;
+					height: 36px;
+					font-size: 13px;
+					letter-spacing: 2px;
+					text-align: center;
+					line-height: 36px;
+					border-width: 1px;
+					border-style: solid;
+					margin-right: 10px;
+					margin-top: 12px;
+					cursor: pointer;
+					float: left;
+					transition: all 0.2s;
+
+					&:nth-child(3n) {
+						margin-right: 0;
+					}
+
+					&[data-filter="module"] {
+						color: $module-color;
+						border-color: $module-color;
+
+						&.active, &:hover {
+							background-color: $module-color;
+							color: white;
+						}
+					}
+
+					&[data-filter="function"] {
+						color: $function-color;
+						border-color: $function-color;
+
+						&.active, &:hover {
+							background-color: $function-color;
+							color: white;
+						}
+					}
+
+					&[data-filter="var"] {
+						color: $var-color;
+						border-color: $var-color;
+
+						&.active, &:hover {
+							background-color: $var-color;
+							color: white;
+						}
+					}
+
+					&[data-filter="code"] {
+						color: $code-color;
+						border-color: $code-color;
+
+						&.active, &:hover {
+							background-color: $code-color;
+							color: white;
+						}
+					}
+
+					&[data-filter="math"] {
+						color: $math-color;
+						border-color: $math-color;
+
+						&.active, &:hover {
+							background-color: $math-color;
+							color: white;
+						}
+					}
+
+					&[data-filter="text"] {
+						color: $text-color;
+						border-color: $text-color;
+
+						&.active, &:hover {
+							background-color: $text-color;
+							color: white;
+						}
+					}
+
+					&[data-filter="control"] {
+						color: $control-color;
+						border-color: $control-color;
+
+						&.active, &:hover {
+							background-color: $control-color;
+							color: white;
+						}
+					}
+
+					&[data-filter="logic"] {
+						color: $logic-color;
+						border-color: $logic-color;
+
+						&.active, &:hover {
+							background-color: $logic-color;
+							color: white;
+						}
+					}
+				}
+			}
+		}
+
+		.filter {
+			margin-left: 20px;
+			margin-right: 20px;
+			padding-top: 15px;
+
+			.filter-name {
+				color: #718ac0;
+				line-height: 28px;
+				height: 28px;
+				display: inline-block;
+				letter-spacing: 2px;
+			}
+
+			.advanced {
+				float: right;
+				font-size: 12px;
+				color: #718ac0;
+				letter-spacing: 2px;
+				height: 28px;
+				width: 54px;
+				border-radius: 5px;
+				background-color: #eceef1;
+				cursor: pointer;
+			}
+		}
+
+		.blocks-wrap {
+			left: 0;
+			right: 0;
+			top: 220px;
+			bottom: 20px;
+			position: absolute;
+			overflow-x: hidden;
+
+			.blocks {
+				li {
+					display: none;
+					padding: 5px 15px;
+
+					&.active {
+						display: block;
+					}
+				}
+
+				.block {
+					position: relative;
+				}
+			}
+		}
 	}
 }
 
 .content-tabs {
 	.tab-software {
-
+		
 	}
 }
