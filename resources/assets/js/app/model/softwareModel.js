@@ -40,6 +40,18 @@ define(['app/util/util', 'app/util/emitor', './block'], function(util, emitor, b
 		return block.createBlock(data);
 	}
 
+	function getBlockStructure(uid) {
+		return block.getBlockStructure(uid);
+	}
+
+	function setBlockEnable(uid, value) {
+		block.setBlockEnable(uid, value);
+	}
+
+	function copyBlock(uid, offsetX, offsetY) {
+		return block.copyBlock(uid, offsetX, offsetY);
+	}
+
 	return {
 		init: init,
 		getData: getData,
@@ -49,5 +61,8 @@ define(['app/util/util', 'app/util/emitor', './block'], function(util, emitor, b
 		createBlock: createBlock,
 		getBlock: getBlock,
 		removeBlock: removeBlock,
+		copyBlock: copyBlock,
+		getBlockStructure: getBlockStructure,
+		setBlockEnable: setBlockEnable,
 	}
 });

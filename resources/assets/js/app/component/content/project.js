@@ -16,6 +16,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		projectList = $('.sidebar-tabs .tab-project .list');
 		boardList = $('.boards', region).on('click', '.placeholder', onShowBoardSelect).on('click', 'ul > li', onBoardSelectClick);
 
+		emitor.on("app", 'click', onHideBoardSelect);
 		emitor.on('project', 'update', onProjectUpdate);
 		emitor.on('hardware', 'removeBoard', onRemoveBoard);
 	}
@@ -95,17 +96,19 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	}
 
 	function onShowBoardSelect(e) {
-		var parent = $(this).closest(".select");
-		parent.toggleClass("active");
+		boardList.toggleClass("active");
 		e.stopPropagation();
+	}
+
+	function onHideBoardSelect(e) {
+		boardList.removeClass("active");
 	}
 
 	function onBoardSelectClick(e) {
 		var li = $(this);
-		var parent = li.closest(".select");
-		parent.removeClass("active").find(".placeholder").html(li.html());
 		var name = li.data("value");
-		parent.data("value", name);
+		boardList.removeClass("active").find(".placeholder").html(li.html());
+		boardList.data("value", name);
 
 		name && emitor.trigger("hardware", "boardChange", name);
 	}

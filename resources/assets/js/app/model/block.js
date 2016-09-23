@@ -31,6 +31,7 @@ define(function() {
 		this.ioConnectors = [];
 
 		var dom = document.createElement('div');
+		dom.draggable = false;
 		dom.dataset.uid = this.uid;
 		dom.classList.add("block");
 		dom.classList.add("block-" + this.data.type);
@@ -285,8 +286,8 @@ define(function() {
 
 			dragBlockPreX = rect.left
 			dragBlockPreY = rect.top;
-			dragMouseX = e.pageX - rect.left + containerRect.left;
-			dragMouseY = e.pageY - rect.top + containerRect.top;
+			dragMouseX = e.pageX - rect.left + containerRect.left - container.scrollLeft;
+			dragMouseY = e.pageY - rect.top + containerRect.top - container.scrollTop;
 		} else {
 			var distanceX = e.pageX - preMouseMoveX;
 			var distanceY = e.pageY - preMouseMoveY;
@@ -307,7 +308,7 @@ define(function() {
 
 			if (!block.connectable) {
 				block = createBlock(block.data);
-				setBlockConnectable(block);
+				setBlockConnectable(block, true);
 
 				container.appendChild(block.dom);
 			}
@@ -354,13 +355,13 @@ define(function() {
 					statementDragEnd(block, dropConnectorDom);
 					break;
 				case "output":
-					// outputDragEnd(block, dropConnectorDom);
+					outputDragEnd(block, dropConnectorDom);
 					break;
 			}
 			var inGroup = !!closest(dropConnectorDom, "block-group");
-			setBlockEnable(block, inGroup);
+			_setBlockEnable(block, inGroup);
 		} else {
-			setBlockEnable(block, false);
+			_setBlockEnable(block, false);
 		}
 
 		activeConnectors = [];
@@ -428,13 +429,12 @@ define(function() {
 			blockConnector.connectedTo = null;
 			outputConnector.connectedTo = null;
 
-			if (oldBlock.data.returnType && (oldBlock.data.returnType.type === 'fromInput')) {
+			if (oldBlock.data.returnType && oldBlock.data.returnType.type === 'fromInput') {
 				// updateSoftVar(oldBlock);
 			}
 			container.appendChild(block.dom);
 		}
 
-		//store the available connectors
 		activeIOConnectors = [];
 		var ioConnector;
 		var tempBlock;
@@ -449,8 +449,25 @@ define(function() {
 		}
 	}
 
-	function outputDragEnd(block) {
+	function outputDragEnd(block, dropConnectorDom) {
+		var dropConnectorUid = dropConnectorDom.dataset.connectorUid;
+		var dragConnectorUid = getOutputConnector(block).uid;
 
+		dropConnectorDom.appendChild(block.dom);
+		block.dom.classList.add('nest-block');
+		block.dom.style = null;
+
+		ioConnectors[dropConnectorUid].connectedTo = dragConnectorUid;
+		ioConnectors[dragConnectorUid].connectedTo = dropConnectorUid;
+
+		var dropBlock = getBlockByConnector(dropConnectorUid, true);
+		var dragBlock = getBlockByConnector(dragConnectorUid, true);
+
+		if (dropBlock.data.returnType && dropBlock.data.returnType.type === 'fromInput') {
+			// if (!dragBlock.data.returnType.pointer) {
+			// 	updateSoftVar(dropBlock);
+			// }
+		}
 	}
 
 	function removeFromStatementInput(firstBlockToRemove) {
@@ -491,9 +508,10 @@ define(function() {
 		dragBlock.dom.style.transform = null;
 
 		if (isConnectorRoot(connectors[dropConnectorUid])) {
-			var dropDom = dropBlock.dom.querySelector('.group-content');
-			dropDom.appendChild(dragBlock.dom);
-			dropBlock.dom.parentNode.parentNode.classList.add('with-content');
+			var isGroup = dropBlock.data.type == "group";
+			var contentDom = isGroup ? dropBlock.dom.querySelector('.group-content') : dropBlock.dom.querySelector(".statement-extension-content");
+			contentDom.appendChild(dragBlock.dom);
+			isGroup && 　dropBlock.dom.parentNode.parentNode.classList.add('with-content');
 		} else {
 			insertAfter(dragBlock.dom, dropBlock.dom);
 		}
@@ -523,7 +541,7 @@ define(function() {
 			found = false;
 			dragConnectors.forEach(function(dragConnectorUid) {
 				dragConnector = connectors[dragConnectorUid];
-				if ((dragConnector.data.type === dropConnector.data.accept) && itsOver(dragConnector.dom, dropConnector.dom, 20)) {
+				if ((dragConnector.data.type === dropConnector.data.accept) && itsOver(dragConnector.dom, dropConnector.dom, 10)) {
 					found = true;
 					uid = dragConnectorUid;
 					return true;
@@ -540,7 +558,7 @@ define(function() {
 				block.data.type === 'group' && block.dom.parentNode.classList.remove('dragging');
 
 				dropConnector.dom.classList.remove('active');
-				dropConnector.dom.dataset.canConnectWith = null;
+				dropConnector.dom.dataset.canConnectWith = "";
 			}
 		});
 	}
@@ -628,14 +646,14 @@ define(function() {
 			case 'fromInput':
 				var elementData;
 				block.data.content.forEach(function(eleData) {
-					if(eleData.blockInputId == block.data.returnType.blockInputId) {
+					if (eleData.blockInputId == block.data.returnType.blockInputId) {
 						elementData = eleData;
 						return true;
 					}
 				});
 				var connector;
 				elementData && ioConnectors.forEach(function(c) {
-					if(c.blockUid == block.uid && c.data.name == elementData.name) {
+					if (c.blockUid == block.uid && c.data.name == elementData.name) {
 						conector = c;
 						return true;
 					}
@@ -728,12 +746,8 @@ define(function() {
 		return distance;
 	}
 
-	function setBlockConnectable(block) {
-		if (!block || block.connectable) {
-			return;
-		}
-
-		block.data.content && block.data.content.forEach(function(elementData) {
+	function setBlockConnectable(block, value) {
+		block.data.content.forEach(function(elementData) {
 			if (elementData.type != "block-input") {
 				return;
 			}
@@ -744,17 +758,13 @@ define(function() {
 					return;
 				}
 
-				setBlockConnectable(getBlockByConnector(connector.connectedTo));
+				setBlockConnectable(getBlockByConnector(connector.connectedTo), value);
 			});
 		});
 		block.connectable = true;
 	}
 
-	function setBlockEnable(block, value, includeConnected) {
-		if (block.enable == value) {
-			return;
-		}
-
+	function _setBlockEnable(block, value, includeConnected) {
 		includeConnected = includeConnected != false;
 		value ? block.dom.classList.remove("disabled") : block.dom.classList.add("disabled");
 		block.data.content && block.data.content.forEach(function(elementData) {
@@ -768,19 +778,30 @@ define(function() {
 					return;
 				}
 
-				setBlockEnable(getBlockByConnector(connector.connectedTo), value, false);
+				_setBlockEnable(getBlockByConnector(connector.connectedTo, true), value, false);
 			});
 		});
 		block.enable = value;
 
-		if(!includeConnected) {
+		var tempBlock;
+		var connectorUid;
+		if (block.connectors[2]) {
+			connectorUid = connectors[block.connectors[2]].connectedTo;
+			while (connectorUid) {
+				tempBlock = getBlockByConnector(connectorUid);
+				_setBlockEnable(tempBlock, value, false);
+				connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
+			}
+		}
+
+		if (!includeConnected || (block.data.type != "statement" && block.data.type != "statement-input")) {
 			return;
 		}
-		var tempBlock;
-		var connectorUid = connectors[block.connectors[1]].connectedTo;
+
+		connectorUid = connectors[block.connectors[1]].connectedTo;
 		while (connectorUid) {
 			tempBlock = getBlockByConnector(connectorUid);
-			setBlockEnable(tempBlock, value, false);
+			_setBlockEnable(tempBlock, value, false);
 			connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
 		}
 	}
@@ -862,7 +883,7 @@ define(function() {
 	function getOutputConnector(block) {
 		var uid;
 		block.ioConnectors.forEach(function(ioConnectorUid) {
-			if(ioConnectors[ioConnectorUid].data.type == "connector-output") {
+			if (ioConnectors[ioConnectorUid].data.type == "connector-output") {
 				uid = ioConnectorUid;
 				return true;
 			}
@@ -1005,7 +1026,7 @@ define(function() {
 
 	}
 
-	function commentBlock(uid) {
+	function enableBlock(uid) {
 
 	}
 
@@ -1076,12 +1097,112 @@ define(function() {
 		delete blocks[uid];
 	}
 
+	function getBlockStructure(uid) {
+		var block = getBlock(uid);
+
+		var result = {
+			name: block.data.name,
+			content: [],
+			children: [],
+			enable: block.enable,
+		};
+
+		var rootConnectorUid = block.connectors[2];
+		if (rootConnectorUid) {
+			var connectorUid = connectors[rootConnectorUid].connectedTo;
+			var tempBlock;
+			while (connectorUid) {
+				tempBlock = getBlockByConnector(connectorUid);
+				result.children.push(getBlockStructure(tempBlock.uid));
+				connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
+			}
+		}
+
+		var tempObject, value, selectedValue, attributeValue;
+		var tempDom;
+		block.data.content.forEach(function(elementData) {
+			tempObject = null;
+			// switch (elementData.type) {
+			// 	case 'varInput':
+			// 	case 'stringInput':
+			// 	case 'numberInput':
+			// 	case 'codeInput':
+			// 	case 'commentInput':
+			// 	case 'charInput':
+			// 		tempDom = block.dom.querySelector('[data-content-id="' + elementData.id + '"]');
+			// 		tempDom && tempDom.value && tempObject = {
+			// 			type: elementData.type,
+			// 			id: elementData.id,
+			// 			value: tempDom.value
+			// 		};
+			// 		break;
+			// 	case 'blockInput':
+			// 		//get the inputs blocks inside in 1 level
+			// 		var uuid,
+			// 			connectedBlock;
+			// 		uuid = block.getioConnectorUidByContentId(elementData.blockInputId);
+			// 		if ((ioConnectors[uuid].data.type === 'connector-input') && ioConnectors[uuid].connectedTo) {
+			// 			connectedBlock = utils.getBlockByConnector(ioConnectors[uuid].connectedTo, blocks, ioConnectors);
+			// 			tempObject = {
+			// 				type: elementData.type,
+			// 				blockInputId: elementData.blockInputId,
+			// 				value: connectedBlock.getBlocksStructure(fullStructure)
+			// 			};
+			// 		}
+
+			// 		break;
+			// 	case 'dynamicDropdown':
+			// 		attributeValue = block.dom.find('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').attr('data-value');
+			// 		selectedValue = block.dom.find('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').val();
+			// 		//only software Vars get value from val(), hardware, use attribute or val()
+			// 		var variableType = elementData.options;
+			// 		var itsSoftwareValue = Object.keys(softwareArrays).indexOf(variableType);
+
+			// 		if (itsSoftwareValue !== -1) {
+			// 			value = selectedValue;
+			// 		} else {
+			// 			value = attributeValue || selectedValue;
+			// 		}
+
+			// 		if (value) {
+			// 			tempObject = {
+			// 				type: elementData.type,
+			// 				id: elementData.id,
+			// 				value: value
+			// 			};
+			// 		}
+			// 		break;
+			// 	case 'staticDropdown':
+			// 		//value = block.dom.find('select[data-content-id="' + elementData.id + '"]').val();
+			// 		value = block.$contentContainer.find('> select[data-content-id="' + elementData.id + '"]').val();
+			// 		if (value) {
+			// 			tempObject = {
+			// 				type: elementData.type,
+			// 				id: elementData.id,
+			// 				value: value
+			// 			};
+			// 		}
+			// 		break;
+			// }
+
+			tempObject && result.content.push(tempObject);
+		});
+
+		return result;
+	}
+
+	function setBlockEnable(uid, value) {
+		var block = getBlock(uid);
+		_setBlockEnable(block, value, false);
+	}
+
 	return {
 		init: init,
 		getBlock: getBlock,
 		createBlock: createBlock,
 		copyBlock: copyBlock,
-		commentBlock: commentBlock,
 		removeBlock: removeBlock,
+		getBlockStructure: getBlockStructure,
+		setBlockEnable: setBlockEnable,
 	};
 });

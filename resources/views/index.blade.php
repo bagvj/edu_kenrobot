@@ -139,32 +139,31 @@
 						</div>
 						<div class="tab tab-software" data-action="software">
 							<div id="software-container" class="software-container no-scrollbar">
-								<!-- <div> -->
-									<div class="block-group-region block-global">
-										<div class="group-header"><span>全局变量、函数</span></div>
-										<div class="group-extension">
-											<div class="group-description">如果你有变量需要在setup和loop里面同时使用，要在这里定义哦<br />如果你需要定义函数，要在这里定义哦</div>
-											<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
-										</div>
+								<div class="block-group-region block-global">
+									<div class="group-header"><span>全局变量、函数</span></div>
+									<div class="group-extension">
+										<div class="group-description">如果你有变量需要在setup和loop里面同时使用，要在这里定义哦<br />如果你需要定义函数，要在这里定义哦</div>
+										<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
 									</div>
-									<div class="block-group-region block-setup">
-										<div class="group-header"><span>Setup</span></div>
-										<div class="group-extension">
-											<div class="group-description">什么事情需要程序开始时只做一遍，放在这里面吧</div>
-											<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
-										</div>
+								</div>
+								<div class="block-group-region block-setup">
+									<div class="group-header"><span>Setup</span></div>
+									<div class="group-extension">
+										<div class="group-description">什么事情需要程序开始时只做一遍，放在这里面吧</div>
+										<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
 									</div>
-									<div class="block-group-region block-loop active">
-										<div class="group-header"><span>Loop</span></div>
-										<div class="group-extension">
-											<div class="group-description">这里就是程序一直在做的事情，记得是无循环哦</div>
-											<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
-										</div>
+								</div>
+								<div class="block-group-region block-loop active">
+									<div class="group-header"><span>Loop</span></div>
+									<div class="group-extension">
+										<div class="group-description">这里就是程序一直在做的事情，记得是无循环哦</div>
+										<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
 									</div>
-								<!-- </div> -->
+								</div>
 								<ul class="x-context-menu block-menu">
 									<li data-action="copy">复制</li>
 									<li data-action="comment">注释</li>
+									<li data-action="uncomment">取消注释</li>
 									<li data-action="delete">删除</li>
 								</ul>
 							</div>

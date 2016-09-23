@@ -269,6 +269,7 @@ $focus-color: #f1cb33;
 					width: 400px;
 					left: -20px;
 					top: -60px;
+					background-color: transparent;
 				}
 			}
 
@@ -312,6 +313,26 @@ $focus-color: #f1cb33;
 						left: 0;
 						top: 0;
 					}
+				}
+			}
+		}
+
+		.block-menu {
+			li[data-action="comment"] {
+				display: block;
+			}
+
+			li[data-action="uncomment"] {
+				display: none;
+			}
+
+			&.disabled {
+				li[data-action="comment"] {
+					display: none;
+				}
+
+				li[data-action="uncomment"] {
+					display: block;
 				}
 			}
 		}

@@ -15,7 +15,7 @@ $control-deep-color: #0363b7;
 $logic-color: #d764ae;
 $logic-deep-color: #c04995;
 
-$connector-color: #f1cb33;
+$connector-color: #ffe971;
 $focus-color: #f1cb33;
 $disabled-image: url(../image/block.svg);
 $disabled-color: gray;
@@ -33,6 +33,11 @@ $disabled-deep-color: #dadada;
 	margin: 2px;
 	display: table;
 	user-select: none;
+
+	.block-output {
+		margin: 0 2px;
+		position: relative;
+	}
 
 	&.block-statement {
 		padding-left: 14px;
@@ -86,6 +91,7 @@ $disabled-deep-color: #dadada;
 				width: 150px;
 				border-radius: 5px;
 				padding-left: 14px;
+				position: relative;
 
 				&.with-content {
 					width: auto;
@@ -153,6 +159,7 @@ $disabled-deep-color: #dadada;
 		font-size: 14px;
 		height: 24px;
 		box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+		user-select: none;
 
 		@include placeholder {
 			color: white;
@@ -200,6 +207,7 @@ $disabled-deep-color: #dadada;
 		margin: 7px 10px;
 		border-radius: 5px;
 		box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+		user-select: none;
 
 		@include placeholder {
 			color: white;
@@ -214,7 +222,6 @@ $disabled-deep-color: #dadada;
 			left: 0;
 			height: 4px;
 			width: 100%;
-			max-width: 200px;
 
 			&.active {
 				background-color: $connector-color;
@@ -226,7 +233,6 @@ $disabled-deep-color: #dadada;
 			left: 0;
 			height: 4px;
 			width: 100%;
-			max-width: 200px;
 
 			&.active {
 				background-color: $connector-color;
@@ -248,13 +254,16 @@ $disabled-deep-color: #dadada;
 			}
 		}
 
-		// &.connector-output {
-		// 	&.active {
-		// 		&:after {
-					
-		// 		}
-		// 	}
-		// }
+		&.connector-root {
+			width: calc(100% - 14px);
+			height: 4px;
+			top: 36px;
+			left: 14px;
+
+			&.active {
+				background-color: $connector-color;
+			}
+		}
 	}
 
 	.block-input {
@@ -284,18 +293,6 @@ $disabled-deep-color: #dadada;
 	&.module {
 		background-color: $module-color;
 
-		input, select, textarea {
-			background-color: $module-deep-color;
-		}
-
-		.block-input {
-			background-color: $module-deep-color;
-
-			&:before {
-				background-color: $module-deep-color;
-			}
-		}
-
 		&.block-statement-input {
 			background-color: transparent;
 
@@ -303,18 +300,66 @@ $disabled-deep-color: #dadada;
 				background-color: $module-color;
 			}
 
-			.statement-header {
+			& > .statement-header {
 				background-color: $module-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $module-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $module-deep-color;
+					&:before {
+						background-color: $module-deep-color;
+					}
+				}
 			}
 
-			.statement-extension-end {
+			& > .statement-extension > .statement-extension-end {
 				background-color: $module-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $module-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $module-deep-color;
+					&:before {
+						background-color: $module-deep-color;
+					}
+				}
+			}
+		}
+
+		&.block-statement {
+			& > .statement-content {
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $module-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $module-deep-color;
+					&:before {
+						background-color: $module-deep-color;
+					}
+				}
 			}
 		}
 
 		&.block-output {
 			&:before {
 				background-color: $module-color;
+			}
+
+			& > input, & > .select-wrap > select, & > textarea {
+				background-color: $module-deep-color;
+			}
+
+			& > .block-input {
+				background-color: $module-deep-color;
+				&:before {
+					background-color: $module-deep-color;
+				}
 			}
 		}
 	}
@@ -322,17 +367,6 @@ $disabled-deep-color: #dadada;
 	&.function {
 		background-color: $function-color;
 
-		input, select, textarea {
-			background-color: $function-deep-color;
-		}
-
-		.block-input {
-			background-color: $function-deep-color;
-			&:before {
-				background-color: $function-deep-color;
-			}
-		}
-
 		&.block-statement-input {
 			background-color: transparent;
 
@@ -340,18 +374,66 @@ $disabled-deep-color: #dadada;
 				background-color: $function-color;
 			}
 
-			.statement-header {
+			& > .statement-header {
 				background-color: $function-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $function-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $function-deep-color;
+					&:before {
+						background-color: $function-deep-color;
+					}
+				}
 			}
 
-			.statement-extension-end {
+			& > .statement-extension > .statement-extension-end {
 				background-color: $function-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $function-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $function-deep-color;
+					&:before {
+						background-color: $function-deep-color;
+					}
+				}
+			}
+		}
+
+		&.block-statement {
+			& > .statement-content {
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $function-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $function-deep-color;
+					&:before {
+						background-color: $function-deep-color;
+					}
+				}
 			}
 		}
 
 		&.block-output {
 			&:before {
 				background-color: $function-color;
+			}
+
+			& > input, & > .select-wrap > select, & > textarea {
+				background-color: $function-deep-color;
+			}
+
+			& > .block-input {
+				background-color: $function-deep-color;
+				&:before {
+					background-color: $function-deep-color;
+				}
 			}
 		}
 	}
@@ -359,18 +441,6 @@ $disabled-deep-color: #dadada;
 	&.var {
 		background-color: $var-color;
 
-		input, select, textarea {
-			background-color: $var-deep-color;
-		}
-
-		.block-input {
-			background-color: $var-deep-color;
-
-			&:before {
-				background-color: $var-deep-color;
-			}
-		}
-
 		&.block-statement-input {
 			background-color: transparent;
 
@@ -378,18 +448,66 @@ $disabled-deep-color: #dadada;
 				background-color: $var-color;
 			}
 
-			.statement-header {
+			& > .statement-header {
 				background-color: $var-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $var-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $var-deep-color;
+					&:before {
+						background-color: $var-deep-color;
+					}
+				}
 			}
 
-			.statement-extension-end {
+			& > .statement-extension > .statement-extension-end {
 				background-color: $var-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $var-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $var-deep-color;
+					&:before {
+						background-color: $var-deep-color;
+					}
+				}
+			}
+		}
+
+		&.block-statement {
+			& > .statement-content {
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $var-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $var-deep-color;
+					&:before {
+						background-color: $var-deep-color;
+					}
+				}
 			}
 		}
 
 		&.block-output {
 			&:before {
 				background-color: $var-color;
+			}
+
+			& > input, & > .select-wrap > select, & > textarea {
+				background-color: $var-deep-color;
+			}
+
+			& > .block-input {
+				background-color: $var-deep-color;
+				&:before {
+					background-color: $var-deep-color;
+				}
 			}
 		}
 	}
@@ -397,18 +515,6 @@ $disabled-deep-color: #dadada;
 	&.code {
 		background-color: $code-color;
 
-		input, select, textarea {
-			background-color: $code-deep-color;
-		}
-
-		.block-input {
-			background-color: $code-deep-color;
-
-			&:before {
-				background-color: $code-deep-color;
-			}
-		}
-
 		&.block-statement-input {
 			background-color: transparent;
 
@@ -416,18 +522,66 @@ $disabled-deep-color: #dadada;
 				background-color: $code-color;
 			}
 
-			.statement-header {
+			& > .statement-header {
 				background-color: $code-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $code-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $code-deep-color;
+					&:before {
+						background-color: $code-deep-color;
+					}
+				}
 			}
 
-			.statement-extension-end {
+			& > .statement-extension > .statement-extension-end {
 				background-color: $code-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $code-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $code-deep-color;
+					&:before {
+						background-color: $code-deep-color;
+					}
+				}
+			}
+		}
+
+		&.block-statement {
+			& > .statement-content {
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $code-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $code-deep-color;
+					&:before {
+						background-color: $code-deep-color;
+					}
+				}
 			}
 		}
 
 		&.block-output {
 			&:before {
 				background-color: $code-color;
+			}
+
+			& > input, & > .select-wrap > select, & > textarea {
+				background-color: $code-deep-color;
+			}
+
+			& > .block-input {
+				background-color: $code-deep-color;
+				&:before {
+					background-color: $code-deep-color;
+				}
 			}
 		}
 	}
@@ -435,18 +589,6 @@ $disabled-deep-color: #dadada;
 	&.math {
 		background-color: $math-color;
 
-		input, select, textarea {
-			background-color: $math-deep-color;
-		}
-
-		.block-input {
-			background-color: $math-deep-color;
-
-			&:before {
-				background-color: $math-deep-color;
-			}
-		}
-
 		&.block-statement-input {
 			background-color: transparent;
 
@@ -454,18 +596,66 @@ $disabled-deep-color: #dadada;
 				background-color: $math-color;
 			}
 
-			.statement-header {
+			& > .statement-header {
 				background-color: $math-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $math-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $math-deep-color;
+					&:before {
+						background-color: $math-deep-color;
+					}
+				}
 			}
 
-			.statement-extension-end {
+			& > .statement-extension > .statement-extension-end {
 				background-color: $math-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $math-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $math-deep-color;
+					&:before {
+						background-color: $math-deep-color;
+					}
+				}
+			}
+		}
+
+		&.block-statement {
+			& > .statement-content {
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $math-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $math-deep-color;
+					&:before {
+						background-color: $math-deep-color;
+					}
+				}
 			}
 		}
 
 		&.block-output {
 			&:before {
 				background-color: $math-color;
+			}
+
+			& > input, & > .select-wrap > select, & > textarea {
+				background-color: $math-deep-color;
+			}
+
+			& > .block-input {
+				background-color: $math-deep-color;
+				&:before {
+					background-color: $math-deep-color;
+				}
 			}
 		}
 	}
@@ -473,18 +663,6 @@ $disabled-deep-color: #dadada;
 	&.text {
 		background-color: $text-color;
 
-		input, select, textarea {
-			background-color: $text-deep-color;
-		}
-
-		.block-input {
-			background-color: $text-deep-color;
-
-			&:before {
-				background-color: $text-deep-color;
-			}
-		}
-
 		&.block-statement-input {
 			background-color: transparent;
 
@@ -492,18 +670,66 @@ $disabled-deep-color: #dadada;
 				background-color: $text-color;
 			}
 
-			.statement-header {
+			& > .statement-header {
 				background-color: $text-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $text-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $text-deep-color;
+					&:before {
+						background-color: $text-deep-color;
+					}
+				}
 			}
 
-			.statement-extension-end {
+			& > .statement-extension > .statement-extension-end {
 				background-color: $text-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $text-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $text-deep-color;
+					&:before {
+						background-color: $text-deep-color;
+					}
+				}
+			}
+		}
+
+		&.block-statement {
+			& > .statement-content {
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $text-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $text-deep-color;
+					&:before {
+						background-color: $text-deep-color;
+					}
+				}
 			}
 		}
 
 		&.block-output {
 			&:before {
 				background-color: $text-color;
+			}
+
+			& > input, & > .select-wrap > select, & > textarea {
+				background-color: $text-deep-color;
+			}
+
+			& > .block-input {
+				background-color: $text-deep-color;
+				&:before {
+					background-color: $text-deep-color;
+				}
 			}
 		}
 	}
@@ -511,18 +737,6 @@ $disabled-deep-color: #dadada;
 	&.control {
 		background-color: $control-color;
 
-		input, select, textarea {
-			background-color: $control-deep-color;
-		}
-
-		.block-input {
-			background-color: $control-deep-color;
-
-			&:before {
-				background-color: $control-deep-color;
-			}
-		}
-
 		&.block-statement-input {
 			background-color: transparent;
 
@@ -530,18 +744,66 @@ $disabled-deep-color: #dadada;
 				background-color: $control-color;
 			}
 
-			.statement-header {
+			& > .statement-header {
 				background-color: $control-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $control-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $control-deep-color;
+					&:before {
+						background-color: $control-deep-color;
+					}
+				}
 			}
 
-			.statement-extension-end {
+			& > .statement-extension > .statement-extension-end {
 				background-color: $control-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $control-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $control-deep-color;
+					&:before {
+						background-color: $control-deep-color;
+					}
+				}
+			}
+		}
+
+		&.block-statement {
+			& > .statement-content {
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $control-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $control-deep-color;
+					&:before {
+						background-color: $control-deep-color;
+					}
+				}
 			}
 		}
 
 		&.block-output {
 			&:before {
 				background-color: $control-color;
+			}
+
+			& > input, & > .select-wrap > select, & > textarea {
+				background-color: $control-deep-color;
+			}
+
+			& > .block-input {
+				background-color: $control-deep-color;
+				&:before {
+					background-color: $control-deep-color;
+				}
 			}
 		}
 	}
@@ -549,18 +811,6 @@ $disabled-deep-color: #dadada;
 	&.logic {
 		background-color: $logic-color;
 
-		input, select, textarea {
-			background-color: $logic-deep-color;
-		}
-
-		.block-input {
-			background-color: $logic-deep-color;
-
-			&:before {
-				background-color: $logic-deep-color;
-			}
-		}
-
 		&.block-statement-input {
 			background-color: transparent;
 
@@ -568,12 +818,49 @@ $disabled-deep-color: #dadada;
 				background-color: $logic-color;
 			}
 
-			.statement-header {
+			& > .statement-header {
 				background-color: $logic-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $logic-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $logic-deep-color;
+					&:before {
+						background-color: $logic-deep-color;
+					}
+				}
 			}
 
-			.statement-extension-end {
+			& > .statement-extension > .statement-extension-end {
 				background-color: $logic-color;
+
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $logic-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $logic-deep-color;
+					&:before {
+						background-color: $logic-deep-color;
+					}
+				}
+			}
+		}
+
+		&.block-statement {
+			& > .statement-content {
+				& > input, & > .select-wrap > select, & > textarea {
+					background-color: $logic-deep-color;
+				}
+
+				& > .block-input {
+					background-color: $logic-deep-color;
+					&:before {
+						background-color: $logic-deep-color;
+					}
+				}
 			}
 		}
 
@@ -581,26 +868,22 @@ $disabled-deep-color: #dadada;
 			&:before {
 				background-color: $logic-color;
 			}
+
+			& > input, & > .select-wrap > select, & > textarea {
+				background-color: $logic-deep-color;
+			}
+
+			& > .block-input {
+				background-color: $logic-deep-color;
+				&:before {
+					background-color: $logic-deep-color;
+				}
+			}
 		}
 	}
 
 	&.disabled {
 		color: $disabled-color;
-
-		span {
-			color: $disabled-color;
-		}
-
-		input, select, textarea {
-			color: $disabled-color;
-			background-color: white;
-		}
-
-		input, textarea {
-			@include placeholder {
-				color: $disabled-color;
-			}
-		}
 
 		.select-wrap {
 			&:after {
@@ -610,7 +893,6 @@ $disabled-deep-color: #dadada;
 
 		.block-input {
 			background-color: $disabled-deep-color;
-
 			&:before {
 				background-color: $disabled-deep-color;
 			}
@@ -624,20 +906,97 @@ $disabled-deep-color: #dadada;
 				background-image: $disabled-image;
 			}
 
-			.statement-header {
+			& > .statement-header {
 				background-color: white;
 				background-image: $disabled-image;
+
+				& > span {
+					color: $disabled-color;
+				}
+
+				& > .select-wrap > select {
+					color: $disabled-color;
+					background-color: white;
+				}
+
+				& > input, & > textarea {
+					color: $disabled-color;
+					background-color: white;
+
+					@include placeholder {
+						color: $disabled-color;
+					}
+				}
+
+				& > .block-input {
+					background-color: $disabled-deep-color;
+					&:before {
+						background-color: $disabled-deep-color;
+					}
+				}
 			}
 
-			.statement-extension-end {
+			& > .statement-extension .statement-extension-end {
 				background-color: white;
 				background-image: $disabled-image;
+
+				& > span {
+					color: $disabled-color;
+				}
+
+				& > .select-wrap > select {
+					color: $disabled-color;
+					background-color: white;
+				}
+
+				& > input, & > textarea {
+					color: $disabled-color;
+					background-color: white;
+
+					@include placeholder {
+						color: $disabled-color;
+					}
+				}
+
+				& > .block-input {
+					background-color: $disabled-deep-color;
+					&:before {
+						background-color: $disabled-deep-color;
+					}
+				}
 			}
 		}
 
 		&.block-statement {
 			background-color: white;
 			background-image: $disabled-image;
+
+			& > .statement-content {
+				& > span {
+					color: $disabled-color;
+				}
+
+				& > .select-wrap > select {
+					color: $disabled-color;
+					background-color: white;
+				}
+
+				& > input, & > textarea {
+					color: $disabled-color;
+					background-color: white;
+
+					@include placeholder {
+						color: $disabled-color;
+					}
+				}
+
+				& > .block-input {
+					background-color: $disabled-deep-color;
+					&:before {
+						background-color: $disabled-deep-color;
+					}
+				}
+			}
 		}
 
 		&.block-output {
@@ -647,6 +1006,31 @@ $disabled-deep-color: #dadada;
 			&:before {
 				background-color: white;
 				background-image: $disabled-image;
+			}
+
+			& > span {
+				color: $disabled-color;
+			}
+
+			& > .select-wrap > select {
+				color: $disabled-color;
+				background-color: white;
+			}
+
+			& > input, & > textarea {
+				color: $disabled-color;
+				background-color: white;
+
+				@include placeholder {
+					color: $disabled-color;
+				}
+			}
+
+			& > .block-input {
+				background-color: $disabled-deep-color;
+				&:before {
+					background-color: $disabled-deep-color;
+				}
 			}
 		}
 	}

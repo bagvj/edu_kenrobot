@@ -76,6 +76,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		var target = $(e.target).closest(".block");
 		if (target.length && !target.hasClass("block-group")) {
 			contextMenuTarget = target;
+
+			target.hasClass("disabled") ? blockContextMenu.addClass("disabled") : blockContextMenu.removeClass("disabled");
+
 			var offset = container.offset();
 			var top = e.pageY - offset.top;
 			var height = blockContextMenu.height();
@@ -100,11 +103,15 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		var action = li.data('action');
 		switch(action) {
 			case "copy":
+				var offset = 10;
 				var copyBlock = softwareModel.copyBlock(blockDom.dataset.uid, offset, offset);
 				container.appendChild(copyBlock.dom);
 				break;
 			case "comment":
-				softwareModel.commentBlock(blockDom.dataset.uid);
+				softwareModel.setBlockEnable(blockDom.dataset.uid, false);
+				break;
+			case "uncomment":
+				softwareModel.setBlockEnable(blockDom.dataset.uid, true);
 				break;
 			case "delete":
 				softwareModel.removeBlock(blockDom.dataset.uid);
@@ -162,8 +169,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		group.toggleClass("active");
 
 		var blockDom = $(".group-extension > .block");
-		var block = softwareModel.getBlock(blockDom.data("uid"));
-		block.connectable = group.hasClass("active");
+		softwareModel.setBlockConnectable(blockDom.data("uid"), group.hasClass("active"));
 	}
 
 	return {

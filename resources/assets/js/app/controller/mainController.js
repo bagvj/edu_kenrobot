@@ -23,6 +23,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 
 	function onWindowClick(e) {
 		hideContextMenu();
+		emitor.trigger("app", "click", e);
 	}
 
 	function onWindowResize(e) {

@@ -480,6 +480,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 				blocks: [{
 					type: "group",
 					name: "group",
+					content: [],
 					connectors: [{
 						type: "connector-empty"
 					}, {
