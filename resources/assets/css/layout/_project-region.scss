@@ -16,6 +16,7 @@
 		line-height: 42px;
 		letter-spacing: 1.75px;
 		color: white;
+		float: left;
 	}
 
 	.new {
@@ -27,7 +28,81 @@
 		border: 1px solid #c4d1dd;
 		width: 280px;
 		height: 42px;
-		padding: 6px;
+		float: left;
+		position: relative;
+
+		.placeholder {
+			display: block;
+			cursor: pointer;
+			padding: 8px 30px 8px 20px;
+			height: 42px;
+			position: relative;
+
+			&:after {
+				content: ' ';
+				width: 0;
+				height: 0;
+				border: 8px solid transparent;
+				border-top-color: #c4d1dd;
+				position: absolute;
+				top: 15px;
+				right: 12px;
+			}
+		}
+
+		.board-name {
+			height: 24px;
+			line-height: 24px;
+			font-size: 12px;
+			color: #75828e;
+			letter-spacing: 1.5px;
+			float: left;
+		}
+
+		.board {
+			margin-right: 20px;
+			width: 42px;
+			height: 24px;
+			background-size: contain;
+			background-position: center;
+			background-repeat: no-repeat;
+			float: left;
+		}
+
+		& > ul {
+			z-index: 100;
+			display: none;
+			position: absolute;
+			top: 42px;
+			width: 100%;
+			background-color: white;
+
+			li {
+				height: 42px;
+				display: block;
+				cursor: pointer;
+				padding: 8px 30px 8px 20px;
+				transition: background-color 0.2s;
+
+				&:hover {
+					background-color: #ccc;
+				}
+			}
+		}
+
+		&.active {
+			.placeholder {
+				&:after {
+					border-top-color: transparent;
+					border-bottom-color: #c4d1dd;
+					top: 6px;
+				}
+			}
+
+			& > ul {
+				display: block;
+			}
+		}
 	}
 
 	.save {

@@ -84,7 +84,10 @@
 						<div class="project-region">
 							<div class="name">项目名字</div>
 							<input class="new" type="button" value="新建项目" />
-							<select class="boards"></select>
+							<div class="select boards">
+								<div class="placeholder"></div>
+								<ul></ul>
+							</div>
 							<input class="save" type="button" value="保存" />
 							<input class="upload" type="button" value="上传" />
 						</div>

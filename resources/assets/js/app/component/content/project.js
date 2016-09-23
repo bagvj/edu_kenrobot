@@ -3,7 +3,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	var projectList;
 	var boardList;
 	var projectTemplate = '<li data-id="{{id}}"><div class="project-title"><div class="name">{{name}}</div><div class="arrow"><ul class="project-menu"><li data-action="edit">编辑项目</li><li data-action="copy">复制项目</li><li data-action="delete">删除项目</li></ul></div></div><div class="project-image" style="background-image: url(\'/project/image/{{imageHash}}\');"></div><div class="project-intro">{{intro}}</div><div class="project-footer"><div class="public" data-action="{{public_type}}">{{public}}</div><div>最后更新：</div><div class="time">{{time}}</div></div></li>';
-	var boardTemplate = '<option value="{{name}}">{{label}}</option>';
+	var boardTemplate = '<li data-value="{{name}}"><div class="board {{name}}"></div><div class="board-name">{{label}}</div></li>';
 	var publicTypes = ["仅自己可见", "好友公开", "完全公开"];
 
 	function init() {
@@ -14,7 +14,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		$('.upload', region).on('click', onUploadClick);
 
 		projectList = $('.sidebar-tabs .tab-project .list');
-		boardList = $('.boards', region).on('change', onBoardChange);
+		boardList = $('.boards', region).on('click', '.placeholder', onShowBoardSelect).on('click', 'ul > li', onBoardSelectClick);
 
 		emitor.on('project', 'update', onProjectUpdate);
 		emitor.on('hardware', 'removeBoard', onRemoveBoard);
@@ -29,17 +29,18 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	}
 
 	function setBoard(name) {
-		boardList.val(name);
-		onBoardChange();
+		boardList.find('> ul > li[data-value="' + name + '"]').click();
 	}
 
 	function updateBoards(boards) {
-		boardList.empty();
+		// boardList.empty();
+		var ul = boardList.find("> ul").empty();
 		boards.forEach(function(board) {
-			var option = boardTemplate.replace(/\{\{name\}\}/, board.name)
+			var li = boardTemplate.replace(/\{\{name\}\}/g, board.name)
 				.replace(/\{\{label\}\}/, board.label);
-			boardList.append(option);
+			ul.append(li);
 		});
+		ul.find("> li").eq(0).click();
 	}
 
 	function addProject(projectInfo, prepend, liveEvent) {
@@ -93,13 +94,24 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		});
 	}
 
-	function onBoardChange(e) {
-		var name = boardList.val();
+	function onShowBoardSelect(e) {
+		var parent = $(this).closest(".select");
+		parent.toggleClass("active");
+		e.stopPropagation();
+	}
+
+	function onBoardSelectClick(e) {
+		var li = $(this);
+		var parent = li.closest(".select");
+		parent.removeClass("active").find(".placeholder").html(li.html());
+		var name = li.data("value");
+		parent.data("value", name);
+
 		name && emitor.trigger("hardware", "boardChange", name);
 	}
 
 	function onRemoveBoard() {
-		boardList.val("");
+		// boardList.val("");
 	}
 
 	function onProjectMenuClick(e) {
