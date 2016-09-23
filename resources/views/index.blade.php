@@ -15,7 +15,7 @@
 		<script src="assets/js/require.js" data-main="assets/js/index"></script>
 	</head>
 	<body>
-		<div class="main">
+		<div class="main no-select">
 			<div class="sidebar-region">
 				<div class="top">
 					<a class="logo" href="http://www.kenrobot.com">
@@ -57,7 +57,7 @@
 							<ul class="components"></ul>
 						</div>
 					</div>
-					<div class="tab tab-software no-select">
+					<div class="tab tab-software">
 						<div class="filters-wrap">
 							<ul class="filters">
 								<li data-filter="module">模块</li>
@@ -75,75 +75,7 @@
 							<input class="advanced" type="button" value="高级" />
 						</div>
 						<div class="blocks-wrap no-scrollbar">
-							<ul class="blocks">
-								<li>
-									<!-- 定义函数 -->
-									<div class="block function block-statement-input">
-										<div class="statement-header">
-											<span>调用函数</span>
-											<input type="text" placeholder="名字" />
-											<div class="connector connector-top"></div>
-											<div class="connector connector-root"></div>
-										</div>
-										<div class="statement-extension">
-											<div class="statement-extension-content"></div>
-											<div class="statement-extension-end">
-												<div class="connector connector-bottom"></div>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<!-- 调用函数 -->
-									<div class="block function block-statement">
-										<div class="block-fixed">
-											<span>调用函数</span>
-											<div class="select-wrap">
-												<select>
-													<option>sin</option>
-													<option>cos</option>
-													<option>tan</option>
-												</select>
-											</div>
-											<div class="connector connector-top"></div>
-											<div class="connector connector-bottom"></div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<!-- 定义函数(带返回) -->
-									<div class="block function block-statement-input">
-										<div class="statement-header">
-											<span>调用函数</span>
-											<input type="text" placeholder="名字" />
-											<div class="connector connector-top"></div>
-											<div class="connector connector-root"></div>
-										</div>
-										<div class="statement-extension">
-											<div class="statement-extension-content"></div>
-											<div class="statement-extension-end with-content">
-												<span>返回</span>
-												<div class="block-input connector connector-input"></div>
-												<div class="connector connector-bottom"></div>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<!-- 调用函数(带返回) -->
-									<div class="block function block-output">
-										<span>调用函数</span>
-										<div class="select-wrap">
-											<select>
-												<option>sin</option>
-												<option>cos</option>
-												<option>tan</option>
-											</select>
-										</div>
-										<div class="connector connector-output"></div>
-									</div>
-								</li>
-							</ul>
+							<ul class="blocks"></ul>
 						</div>
 					</div>
 				</div>
@@ -185,32 +117,54 @@
 					</div>
 					<div class="content-tabs">
 						<div class="tab tab-hardware" data-action="hardware">
-							<div id="hardware-container" class="hardware-container no-select" droppable="true">
+							<div id="hardware-container" class="hardware-container" droppable="true">
 								<div class="board absolute-center">
 								</div>
+								<div class="component-dialog">
+									<span class="name-label">名字</span><input class="name" type="text" />
+								</div>
+								<ul class="x-context-menu component-menu">
+									<li data-action="copy">复制</li>
+									<li data-action="disconnect">断开</li>
+									<li data-action="delete">删除</li>
+								</ul>
+								<ul class="x-context-menu board-menu">
+									<li data-action="disconnect">断开</li>
+									<li data-action="delete">删除</li>
+								</ul>
 							</div>
-							<div class="component-dialog">
-								<span class="name-label">名字</span><input class="name" type="text" />
-							</div>
-							<ul class="x-context-menu component-menu">
-								<li data-action="copy">复制</li>
-								<li data-action="disconnect">断开</li>
-								<li data-action="delete">删除</li>
-							</ul>
-							<ul class="x-context-menu board-menu">
-								<li data-action="disconnect">断开</li>
-								<li data-action="delete">删除</li>
-							</ul>
 						</div>
 						<div class="tab tab-software" data-action="software">
-							<div id="software-container" class="software-container">
-								
+							<div id="software-container" class="software-container no-scrollbar">
+								<div>
+									<div class="block-group-region block-global">
+										<div class="group-header"><span>全局变量、函数</span></div>
+										<div class="group-extension">
+											<div class="group-description">如果你有变量需要在setup和loop里面同时使用，要在这里定义哦<br />如果你需要定义函数，要在这里定义哦</div>
+											<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
+										</div>
+									</div>
+									<div class="block-group-region block-setup">
+										<div class="group-header"><span>Setup</span></div>
+										<div class="group-extension">
+											<div class="group-description">什么事情需要程序开始时只做一遍，放在这里面吧</div>
+											<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
+										</div>
+									</div>
+									<div class="block-group-region block-loop active">
+										<div class="group-header"><span>Loop</span></div>
+										<div class="group-extension">
+											<div class="group-description">这里就是程序一直在做的事情，记得是无循环哦</div>
+											<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
+										</div>
+									</div>
+								</div>
+								<ul class="x-context-menu block-menu">
+									<li data-action="copy">复制</li>
+									<li data-action="comment">注释</li>
+									<li data-action="delete">删除</li>
+								</ul>
 							</div>
-							<ul class="x-context-menu block-menu">
-								<li data-action="copy">复制</li>
-								<li data-action="comment">注释</li>
-								<li data-action="delete">删除</li>
-							</ul>
 						</div>
 						<div class="tab tab-code" data-action="code">
 							<div id="code-container" class="code-container"></div>
@@ -220,7 +174,7 @@
 				</div>
 			</div>
 		</div>
-		<div>
+		<div class="no-select">
 			<div class="layer modal dialog-layer">
 				<div class="x-dialog login-dialog">
 					<i class="kenrobot ken-close x-dialog-close"></i>

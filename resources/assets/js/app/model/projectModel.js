@@ -478,6 +478,18 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 			},
 			software: {
 				blocks: [{
+					type: "group",
+					name: "group",
+					connectors: [{
+						type: "connector-empty"
+					}, {
+						type: "connector-empty"
+					}, {
+						type: "connector-root",
+						accept: "connector-top"
+					}],
+					code: "{STATEMENTS}",
+				}, {
 					type: "output",
 					name: "hts221Temperature",
 					connectors: [{

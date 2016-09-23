@@ -138,12 +138,14 @@
 
 .content-tabs {
 	.tab-hardware {
+		padding: 0 40px 40px 40px;
+		
 		.hardware-container {
 			height: 100%;
 			position: relative;
 		}
 
-		.name-dialog {
+		.component-dialog {
 			position: absolute;
 			display: none;
 		}

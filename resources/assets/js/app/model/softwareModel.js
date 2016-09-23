@@ -2,11 +2,17 @@ define(['app/util/util', 'app/util/emitor', './block'], function(util, emitor, b
 	var schema;
 
 	function init(container) {
-
+		block.init(container);
 	}
 
 	function loadSchema(_schema) {
-		schema = _schema;
+		schema = {
+			blocks: {},
+		};
+
+		_schema.blocks.forEach(function(blockData) {
+			schema.blocks[blockData.name] = blockData;
+		});
 	}
 
 	function getSchema() {
@@ -30,6 +36,7 @@ define(['app/util/util', 'app/util/emitor', './block'], function(util, emitor, b
 	}
 
 	function createBlock(data) {
+		data = typeof data == "string" ? schema.blocks[data] : data;
 		return block.createBlock(data);
 	}
 

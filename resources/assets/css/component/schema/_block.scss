@@ -30,6 +30,7 @@ $disabled-deep-color: #dadada;
 	white-space: nowrap;
 	border-radius: 3px;
 	height: 40px;
+	margin: 2px;
 	display: table;
 	user-select: none;
 
@@ -74,7 +75,12 @@ $disabled-deep-color: #dadada;
 				margin-bottom: 40px;
 				margin-left: 14px;
 				border-radius: 3px;
+
+				& > .block {
+					position: relative;
+				}
 			}
+
 			.statement-extension-end {
 				height: 20px;
 				width: 150px;
@@ -126,6 +132,11 @@ $disabled-deep-color: #dadada;
 	}
 
 	&.block-group {
+		.group-content {
+			& > .block {
+				position: relative;
+			}
+		}
 	}
 
 	span {
@@ -264,6 +275,10 @@ $disabled-deep-color: #dadada;
 			left: -10px;
 			top: 14px;
 		}
+	}
+
+	&.dragging {
+		z-index: 9;
 	}
 
 	&.module {

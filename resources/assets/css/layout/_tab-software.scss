@@ -7,6 +7,8 @@ $text-color: #20b5f9;
 $control-color: #0b75d2;
 $logic-color: #d764ae;
 
+$focus-color: #f1cb33;
+
 .sidebar-tabs {
 	.tab-software {
 		.filters-wrap {
@@ -186,6 +188,131 @@ $logic-color: #d764ae;
 
 .content-tabs {
 	.tab-software {
-		
+		padding: 0 40px 40px 40px;
+
+		.software-container {
+			height: 100%;
+		}
+
+		.block-group-region {
+			background-color: white;
+			margin-bottom: 20px;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+			.group-header {
+				span {
+					height: 40px;
+					font-size: 16px;
+					line-height: 40px;
+					padding-left: 40px;
+					color: #718ac0;
+					position: relative;
+					cursor: pointer;
+					display: inline-block;
+
+					&:before {
+						content: ' ';
+						width: 0;
+						height: 0;
+						border: 8px solid transparent;
+						border-left-color: #718ac0;
+						position: absolute;
+						left: 12px;
+						top: 12px;
+					}
+				}
+			}
+
+			.group-extension {
+				padding-left: 20px;
+				padding-bottom: 50px;
+				display: none;
+				position: relative;
+
+				.group-description {
+					font-size: 13px;
+					color: #a9b6d2;
+					line-height: 18px;
+					margin-bottom: 18px;
+					cursor: default;
+				}
+
+				.group-placeholder {
+					padding: 12px;
+					color: #a9b6d2;
+					border: 2px dashed #a9b6d2;
+					font-size: 13px;
+					line-height: 18px;
+					display: inline-block;
+					cursor: default;
+				}
+
+				&.dragging {
+					.group-placeholder {
+						border: 2px solid $focus-color;
+					}
+				}
+			}
+
+			.block-group {
+				position: relative;
+				height: 0;
+				width: 100%;
+				cursor: default;
+
+				& > .connector-root {
+					height: 70px;
+					width: 400px;
+					left: -20px;
+					top: -60px;
+				}
+			}
+
+			&.active {
+				.group-header {
+					span {
+						&:before {
+							border-left-color: transparent;
+							border-top-color: #718ac0;
+							top: 16px;
+						}
+					}
+				}
+
+				.group-extension {
+					display: block;
+				}
+			}
+
+			&.with-content {
+				.group-extension {
+					padding-top: 20px;
+					padding-bottom: 20px;
+
+					.group-description {
+						display: none;
+					}
+
+					.group-placeholder {
+						display: none;
+					}
+				}
+
+				.block-group {
+					position: relative;
+					height: auto;
+					width: 100%;
+
+					& > .connector-root {
+						height: 5px;
+						left: 0;
+						top: 0;
+					}
+				}
+			}
+		}
 	}
 }

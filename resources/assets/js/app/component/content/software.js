@@ -4,6 +4,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 	var filterList;
 	var blockList;
 	var filterWrap;
+	var contextMenuTarget;
+	var blockContextMenu;
 
 	function init() {
 		var sidebarTab = $('.sidebar-tabs .tab-software');
@@ -16,15 +18,29 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 
 		region = $('.content-tabs .tab-software');
 		container = $(".software-container", region);
+		$('.block-group-region .group-header > span', region).on('click', onGroupHeaderClick);
+
 		softwareModel.init(container[0]);
 
+		blockContextMenu = $('.block-menu', region);
+		$('> li', blockContextMenu).on('click', onBlockContextMenu);
+
 		emitor.on('app', 'start', onAppStart);
+		emitor.on('app', 'contextMenu', onContextMenu);
 	}
 
 	function loadSchema(schema) {
 		softwareModel.loadSchema(schema);
 
 		updateBlocks(schema.blocks);
+
+		var globalBlock = softwareModel.createBlock("group");
+		var setupBlock = softwareModel.createBlock("group");
+		var loopBlock = softwareModel.createBlock("group");
+
+		$('.block-global .group-extension', region).append(globalBlock.dom);
+		$('.block-setup .group-extension', region).append(setupBlock.dom);
+		$('.block-loop .group-extension', region).append(loopBlock.dom);
 	}
 
 	function getData() {
@@ -42,6 +58,10 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 	function updateBlocks(blocks) {
 		blockList.empty();
 		blocks.forEach(function(blockData) {
+			if(blockData.type == "group" || blockData.tags.indexOf("module") >= 0) {
+				return;
+			}
+
 			var block = softwareModel.createBlock(blockData);
 			var li = $('<li>').data("filter", blockData.tags.concat());
 			blockList.append(li.append(block.dom));
@@ -50,6 +70,46 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 
 	function onAppStart() {
 
+	}
+
+	function onContextMenu(e) {		
+		var target = $(e.target).closest(".block");
+		if (target.length && !target.hasClass("block-group")) {
+			contextMenuTarget = target;
+			var offset = container.offset();
+			var top = e.pageY - offset.top;
+			var height = blockContextMenu.height();
+			if (top + height > $(window).innerHeight()) {
+				top = top - height;
+			}
+			blockContextMenu.css({
+				display: 'block',
+				left: 100 * (e.pageX - offset.left) / container.width() + "%",
+				top: 100 * top / container.height() + "%",
+			});
+		}
+	}
+
+	function onBlockContextMenu(e) {
+		if(!contextMenuTarget) {
+			return;
+		}
+
+		var blockDom = contextMenuTarget[0];
+		var li = $(this);
+		var action = li.data('action');
+		switch(action) {
+			case "copy":
+				var copyBlock = softwareModel.copyBlock(blockDom.dataset.uid, offset, offset);
+				container.appendChild(copyBlock.dom);
+				break;
+			case "comment":
+				softwareModel.commentBlock(blockDom.dataset.uid);
+				break;
+			case "delete":
+				softwareModel.removeBlock(blockDom.dataset.uid);
+				break;
+		}
 	}
 
 	function onFilterClick(e) {
@@ -95,6 +155,15 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 			var a = filters.indexOf("advanced") >= 0;
 			((isAdvanced && a) || (!isAdvanced && !a)) ? blockLi.addClass("active") : blockLi.removeClass("active");
 		});
+	}
+
+	function onGroupHeaderClick(e) {
+		var group = $(this).parent().parent();
+		group.toggleClass("active");
+
+		var blockDom = $(".group-extension > .block");
+		var block = softwareModel.getBlock(blockDom.data("uid"));
+		block.connectable = group.hasClass("active");
 	}
 
 	return {

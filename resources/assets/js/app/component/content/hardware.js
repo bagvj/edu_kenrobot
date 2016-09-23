@@ -76,9 +76,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 
 	function onContextMenu(e) {		
 		var target = $(e.target);
-		if (target.hasClass('component') && target.parents(region.selector).length) {
+		if (target.hasClass('component') && target.parents(container.selector).length) {
 			contextMenuTarget = target;
-			var offset = region.offset();
+			var offset = container.offset();
 			var top = e.pageY - offset.top;
 			var height = componentContextMenu.height();
 			if (top + height > $(window).innerHeight()) {
@@ -86,15 +86,15 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 			}
 			componentContextMenu.css({
 				display: 'block',
-				left: 100 * (e.pageX - offset.left) / region.width() + "%",
-				top: 100 * top / region.height() + "%",
+				left: 100 * (e.pageX - offset.left) / container.width() + "%",
+				top: 100 * top / container.height() + "%",
 			});
-		} else if ((target.hasClass('board') || target.closest('.board').length) && target.parents(region.selector).length) {
-			var offset = region.offset();
+		} else if ((target.hasClass('board') || target.closest('.board').length) && target.parents(container.selector).length) {
+			var offset = container.offset();
 			boardContextMenu.css({
 				display: 'block',
-				left: 100 * (e.pageX - offset.left) / region.width() + "%",
-				top: 100 * (e.pageY - offset.top) / region.height() + "%",
+				left: 100 * (e.pageX - offset.left) / container.width() + "%",
+				top: 100 * (e.pageY - offset.top) / container.height() + "%",
 			});
 		}
 	}
