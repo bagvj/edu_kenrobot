@@ -241,20 +241,20 @@ $disabled-deep-color: #dadada;
 					height: 14px;
 					position: absolute;
 					left: -10px;
-					top: 12px;
+					top: 14px;
 					background-color: $connector-color;
 					border-radius: 50%;
 				}
 			}
 		}
 
-		&.connector-output {
-			&.active {
-				&:after {
+		// &.connector-output {
+		// 	&.active {
+		// 		&:after {
 					
-				}
-			}
-		}
+		// 		}
+		// 	}
+		// }
 	}
 
 	.block-input {

@@ -136,7 +136,7 @@
 						</div>
 						<div class="tab tab-software" data-action="software">
 							<div id="software-container" class="software-container no-scrollbar">
-								<div>
+								<!-- <div> -->
 									<div class="block-group-region block-global">
 										<div class="group-header"><span>全局变量、函数</span></div>
 										<div class="group-extension">
@@ -158,7 +158,7 @@
 											<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
 										</div>
 									</div>
-								</div>
+								<!-- </div> -->
 								<ul class="x-context-menu block-menu">
 									<li data-action="copy">复制</li>
 									<li data-action="comment">注释</li>
