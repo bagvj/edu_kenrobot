@@ -174,7 +174,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		group.toggleClass("active");
 
 		var blockDom = $(".group-extension > .block");
-		var block = softwareModel.getBlock(blockDom.dataset.uid);
+		var block = softwareModel.getBlock(blockDom.data("uid"));
 		block.setConnectable(group.hasClass("active"));
 	}
 
