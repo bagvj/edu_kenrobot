@@ -27,6 +27,8 @@ define(function() {
 		this.data = blockData;
 		this.uid = genUid();
 		this.connectable = false;
+		this.enable = true;
+		this.free = false;
 		this.connectors = [];
 		this.ioConnectors = [];
 
@@ -75,7 +77,39 @@ define(function() {
 	}
 
 	Block.prototype.getCode = function() {
+		return getBlockCode(this);
+	}
 
+	Block.prototype.copy = function() {
+		return copyBlock(this);
+	}
+
+	Block.prototype.remove = function() {
+		removeBlock(this);
+	}
+
+	Block.prototype.getStructure = function() {
+		return getBlockStructure(this);
+	}
+
+	Block.prototype.isEnable = function() {
+		return this.enable;
+	}
+
+	Block.prototype.setEnable = function(value) {
+		setBlockEnable(this, value, false);
+	}
+
+	Block.prototype.isConnectable = function() {
+		return this.connectable;
+	}
+
+	Block.prototype.setConnectable = function(value) {
+		setBlockConnectable(this, value);
+	}
+
+	Block.prototype.isFree = function() {
+		return this.free;
 	}
 
 	function buildContent(block) {
@@ -359,9 +393,9 @@ define(function() {
 					break;
 			}
 			var inGroup = !!closest(dropConnectorDom, "block-group");
-			_setBlockEnable(block, inGroup);
+			setBlockEnable(block, inGroup);
 		} else {
-			_setBlockEnable(block, false);
+			setBlockEnable(block, false);
 		}
 
 		activeConnectors = [];
@@ -764,7 +798,7 @@ define(function() {
 		block.connectable = true;
 	}
 
-	function _setBlockEnable(block, value, includeConnected) {
+	function setBlockEnable(block, value, includeConnected) {
 		includeConnected = includeConnected != false;
 		value ? block.dom.classList.remove("disabled") : block.dom.classList.add("disabled");
 		block.data.content && block.data.content.forEach(function(elementData) {
@@ -778,7 +812,7 @@ define(function() {
 					return;
 				}
 
-				_setBlockEnable(getBlockByConnector(connector.connectedTo, true), value, false);
+				setBlockEnable(getBlockByConnector(connector.connectedTo, true), value, false);
 			});
 		});
 		block.enable = value;
@@ -789,7 +823,7 @@ define(function() {
 			connectorUid = connectors[block.connectors[2]].connectedTo;
 			while (connectorUid) {
 				tempBlock = getBlockByConnector(connectorUid);
-				_setBlockEnable(tempBlock, value, false);
+				setBlockEnable(tempBlock, value, false);
 				connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
 			}
 		}
@@ -801,7 +835,7 @@ define(function() {
 		connectorUid = connectors[block.connectors[1]].connectedTo;
 		while (connectorUid) {
 			tempBlock = getBlockByConnector(connectorUid);
-			_setBlockEnable(tempBlock, value, false);
+			setBlockEnable(tempBlock, value, false);
 			connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
 		}
 	}
@@ -1022,20 +1056,11 @@ define(function() {
 		return new Block(data);
 	}
 
-	function copyBlock(uid, offsetX, offsetY) {
+	function copyBlock(block, offsetX, offsetY) {
 
 	}
 
-	function enableBlock(uid) {
-
-	}
-
-	function removeBlock(uid, redraw) {
-		var block = getBlock(uid);
-		if (!block) {
-			return;
-		}
-
+	function removeBlock(block, redraw) {
 		block.dom.removeEventListener("mousedown", onBlockMouseDown);
 		if (mouseDownBlockDom && mouseDownBlockDom.dataset.uid == uid) {
 			document.removeEventListener('mouseup', onBlockMouseUpBeforeMove);
@@ -1052,7 +1077,7 @@ define(function() {
 				while (childConnector) {
 					tempBlock = getBlockByConnector(childConnector);
 					childConnector = connectors[tempBlock.connectors[1]].connectedTo;
-					removeBlock(tempBlock.uid);
+					removeBlock(tempBlock);
 				}
 			case "statement":
 				var topConnector = connectors[block.connectors[0]].connectedTo;
@@ -1073,10 +1098,11 @@ define(function() {
 					connectors[bottomConnector].connectedTo = null;
 				}
 
-				//remove the inputs blocks inside in 1 level
+				var tempConnector;
 				block.ioConnectors.forEach(function(connectorUid) {
-					if ((ioConnectors[connectorUid].data.type === 'connector-input') && ioConnectors[connectorUid].connectedTo) {
-						removeBlock(ioConnectors[ioConnectors[connectorUid].connectedTo].blockUid);
+					tempConnector = ioConnectors[connectorUid];
+					if ((tempConnector.data.type === 'connector-input') && tempConnector.connectedTo) {
+						removeBlock(getBlockByConnector(tempConnector.connectedTo, true));
 					}
 				});
 				break;
@@ -1097,9 +1123,11 @@ define(function() {
 		delete blocks[uid];
 	}
 
-	function getBlockStructure(uid) {
-		var block = getBlock(uid);
+	function getBlockCode(block) {
 
+	}
+
+	function getBlockStructure(block) {
 		var result = {
 			name: block.data.name,
 			content: [],
@@ -1191,18 +1219,9 @@ define(function() {
 		return result;
 	}
 
-	function setBlockEnable(uid, value) {
-		var block = getBlock(uid);
-		_setBlockEnable(block, value, false);
-	}
-
 	return {
 		init: init,
 		getBlock: getBlock,
 		createBlock: createBlock,
-		copyBlock: copyBlock,
-		removeBlock: removeBlock,
-		getBlockStructure: getBlockStructure,
-		setBlockEnable: setBlockEnable,
 	};
 });

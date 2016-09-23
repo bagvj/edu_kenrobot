@@ -76,8 +76,11 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		var target = $(e.target).closest(".block");
 		if (target.length && !target.hasClass("block-group")) {
 			contextMenuTarget = target;
+			var blockDom = contextMenuTarget[0];
+			var block = softwareModel.getBlock(blockDom.dataset.uid);
 
-			target.hasClass("disabled") ? blockContextMenu.addClass("disabled") : blockContextMenu.removeClass("disabled");
+			block.isEnable() ? blockContextMenu.addClass("comment") : blockContextMenu.removeClass("comment");
+			(!block.isEnable() && !block.isFree()) ? blockContextMenu.addClass("uncomment") : blockContextMenu.removeClass("uncomment");
 
 			var offset = container.offset();
 			var top = e.pageY - offset.top;
@@ -99,22 +102,24 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		}
 
 		var blockDom = contextMenuTarget[0];
+		var block = softwareModel.getBlock(blockDom.dataset.uid);
+
 		var li = $(this);
 		var action = li.data('action');
 		switch(action) {
 			case "copy":
 				var offset = 10;
-				var copyBlock = softwareModel.copyBlock(blockDom.dataset.uid, offset, offset);
+				var copyBlock = block.copy();
 				container.appendChild(copyBlock.dom);
 				break;
 			case "comment":
-				softwareModel.setBlockEnable(blockDom.dataset.uid, false);
+				block.setEnable(false);
 				break;
 			case "uncomment":
-				softwareModel.setBlockEnable(blockDom.dataset.uid, true);
+				block.setEnable(true);
 				break;
 			case "delete":
-				softwareModel.removeBlock(blockDom.dataset.uid);
+				block.remove();
 				break;
 		}
 	}
@@ -169,7 +174,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		group.toggleClass("active");
 
 		var blockDom = $(".group-extension > .block");
-		softwareModel.setBlockConnectable(blockDom.data("uid"), group.hasClass("active"));
+		var block = softwareModel.getBlock(blockDom.dataset.uid);
+		block.setConnectable(group.hasClass("active"));
 	}
 
 	return {

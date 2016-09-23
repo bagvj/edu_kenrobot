@@ -319,18 +319,20 @@ $focus-color: #f1cb33;
 
 		.block-menu {
 			li[data-action="comment"] {
-				display: block;
+				display: none;
 			}
 
 			li[data-action="uncomment"] {
 				display: none;
 			}
 
-			&.disabled {
+			&.comment {
 				li[data-action="comment"] {
-					display: none;
+					display: block;
 				}
+			}
 
+			&.uncomment{
 				li[data-action="uncomment"] {
 					display: block;
 				}
