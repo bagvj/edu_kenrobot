@@ -84,7 +84,7 @@
 						<div class="project-region">
 							<div class="name">项目名字</div>
 							<input class="new" type="button" value="新建项目" />
-							<div class="select boards">
+							<div class="x-select boards">
 								<div class="placeholder"></div>
 								<ul></ul>
 							</div>
@@ -123,19 +123,19 @@
 							<div id="hardware-container" class="hardware-container" droppable="true">
 								<div class="board absolute-center">
 								</div>
-								<div class="component-dialog">
-									<span class="name-label">名字</span><input class="name" type="text" />
-								</div>
-								<ul class="x-context-menu component-menu">
-									<li data-action="copy">复制</li>
-									<li data-action="disconnect">断开</li>
-									<li data-action="delete">删除</li>
-								</ul>
-								<ul class="x-context-menu board-menu">
-									<li data-action="disconnect">断开</li>
-									<li data-action="delete">删除</li>
-								</ul>
 							</div>
+							<div class="component-dialog">
+								<span class="name-label">名字</span><input class="name" type="text" />
+							</div>
+							<ul class="x-context-menu component-menu">
+								<li data-action="copy">复制</li>
+								<li data-action="disconnect">断开</li>
+								<li data-action="delete">删除</li>
+							</ul>
+							<ul class="x-context-menu board-menu">
+								<li data-action="disconnect">断开</li>
+								<li data-action="delete">删除</li>
+							</ul>
 						</div>
 						<div class="tab tab-software" data-action="software">
 							<div id="software-container" class="software-container no-scrollbar">
@@ -153,20 +153,20 @@
 										<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
 									</div>
 								</div>
-								<div class="block-group-region block-loop active">
+								<div class="block-group-region block-loop">
 									<div class="group-header"><span>Loop</span></div>
 									<div class="group-extension">
 										<div class="group-description">这里就是程序一直在做的事情，记得是无循环哦</div>
 										<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
 									</div>
 								</div>
-								<ul class="x-context-menu block-menu">
-									<li data-action="copy">复制</li>
-									<li data-action="comment">注释</li>
-									<li data-action="uncomment">取消注释</li>
-									<li data-action="delete">删除</li>
-								</ul>
 							</div>
+							<ul class="x-context-menu block-menu">
+								<li data-action="copy">复制</li>
+								<li data-action="comment">注释</li>
+								<li data-action="uncomment">取消注释</li>
+								<li data-action="delete">删除</li>
+							</ul>
 						</div>
 						<div class="tab tab-code" data-action="code">
 							<div id="code-container" class="code-container"></div>
@@ -264,6 +264,7 @@
 					</div>
 				</div>
 			</div>
+			<div class="layer block-drag-layer"></div>
 		</div>
 	</body>
 </html>

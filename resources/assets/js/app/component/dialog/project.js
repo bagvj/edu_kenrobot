@@ -19,7 +19,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectM
 		
 		dialogType = args.type || "new";
 		
-		if(dialogType == "edit") {
+		if(dialogType == "edit" || dialogType == "save") {
 			projectInfo = args.data;
 			setImage("/project/image/" + (projectInfo.imageHash || "default"));
 			$('.upload', dialogWin).val("修改项目图片");
@@ -51,7 +51,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectM
 			project_intro: $('.intro', dialogWin).val(),
 			public_type: $('.public:checked', dialogWin).val(),
 		}
-		emitor.trigger("project", "save", data, dialogType);
+		emitor.trigger("project", "save", data, dialogType, dialogType == "save");
 	}
 
 	function onDialogClosed() {

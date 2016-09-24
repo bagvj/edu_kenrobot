@@ -4,12 +4,12 @@ define(function() {
 	var ioConnectors = {};
 	var activeConnectors = [];
 	var activeIOConnectors = [];
+	var schema;
 
 	var mouseDownBlockDom;
 	var dragBlock;
 	var container;
-	var containerOffsetX;
-	var connectorOffsetY;
+	var dragContainer;
 
 	var startPreMouseMove;
 	var preMouseMoveX;
@@ -28,7 +28,6 @@ define(function() {
 		this.uid = genUid();
 		this.connectable = false;
 		this.enable = true;
-		this.free = false;
 		this.connectors = [];
 		this.ioConnectors = [];
 
@@ -109,7 +108,19 @@ define(function() {
 	}
 
 	Block.prototype.isFree = function() {
-		return this.free;
+		return !closest(this.dom, "block-group");
+	}
+
+	Block.prototype.hasChildren = function() {
+		return blockHasChildren(this);
+	}
+
+	Block.prototype.getOffset = function() {
+		return getBlockOffset(this);
+	}
+
+	Block.prototype.setOffset = function(x, y) {
+		setBlockOffset(this, x, y);
 	}
 
 	function buildContent(block) {
@@ -316,12 +327,12 @@ define(function() {
 			preMouseMoveY = e.pageY;
 
 			var rect = mouseDownBlockDom.getBoundingClientRect();
-			var containerRect = container.getBoundingClientRect();
+			var containerRect = dragContainer.getBoundingClientRect();
 
 			dragBlockPreX = rect.left
 			dragBlockPreY = rect.top;
-			dragMouseX = e.pageX - rect.left + containerRect.left - container.scrollLeft;
-			dragMouseY = e.pageY - rect.top + containerRect.top - container.scrollTop;
+			dragMouseX = e.pageX - rect.left + containerRect.left - dragContainer.scrollLeft;
+			dragMouseY = e.pageY - rect.top + containerRect.top - dragContainer.scrollTop;
 		} else {
 			var distanceX = e.pageX - preMouseMoveX;
 			var distanceY = e.pageY - preMouseMoveY;
@@ -341,12 +352,12 @@ define(function() {
 			block = getBlock(mouseDownBlockDom.dataset.uid);
 
 			if (!block.connectable) {
-				block = createBlock(block.data);
+				block = createBlock(block.data.name);
 				setBlockConnectable(block, true);
 
-				container.appendChild(block.dom);
+				dragContainer.appendChild(block.dom);
 			}
-			block.dom.classList.add("dragging");
+			setBlockDragging(block, true);
 
 			switch (block.data.type) {
 				case "statement":
@@ -363,7 +374,7 @@ define(function() {
 		}
 
 		block = block || dragBlock;
-		var instance = moveBlock(block, e.clientX, e.clientY);
+		var instance = dragBlockMove(block, e.clientX, e.clientY);
 		switch (block.data.type) {
 			case "statement":
 			case "statement-input":
@@ -381,7 +392,7 @@ define(function() {
 		document.removeEventListener('mouseup', onBlockMouseUp);
 
 		var block = dragBlock;
-		var dropConnectorDom = container.querySelector(".connector.active");
+		var dropConnectorDom = container.querySelector(".connector.active") || dragContainer.querySelector(".connector.active");
 		if (dropConnectorDom) {
 			switch (block.data.type) {
 				case "statement":
@@ -397,6 +408,7 @@ define(function() {
 		} else {
 			setBlockEnable(block, false);
 		}
+		setBlockDragging(block, false);
 
 		activeConnectors = [];
 		activeIOConnectors = [];
@@ -404,10 +416,10 @@ define(function() {
 		dragBlockPreX = 0;
 		dragBlockPreY = 0;
 
-		container.querySelectorAll(".dragging").forEach(function(blockDom) {
-			blockDom.classList.remove("dragging");
-		});
 		container.querySelectorAll(".block .connector.active").forEach(function(connectorDom) {
+			connectorDom.classList.remove("active");
+		});
+		dragContainer.querySelectorAll(".block .connector.active").forEach(function(connectorDom) {
 			connectorDom.classList.remove("active");
 		});
 	}
@@ -454,19 +466,15 @@ define(function() {
 	function outputDragStart(block) {
 		var outputConnector = getOutputConnector(block);
 		if (outputConnector.connectedTo) {
-			block.dom.classList.remove('nest-block');
-
 			var blockConnector = ioConnectors[outputConnector.connectedTo];
 			var oldBlock = blocks[blockConnector.blockUid];
 
-			//remove the logical conexions
 			blockConnector.connectedTo = null;
 			outputConnector.connectedTo = null;
 
-			if (oldBlock.data.returnType && oldBlock.data.returnType.type === 'fromInput') {
-				// updateSoftVar(oldBlock);
-			}
-			container.appendChild(block.dom);
+			oldBlock.data.returnType && oldBlock.data.returnType.type === 'fromInput' && updateBlockVar(oldBlock);
+
+			dragContainer.appendChild(block.dom);
 		}
 
 		activeIOConnectors = [];
@@ -488,7 +496,6 @@ define(function() {
 		var dragConnectorUid = getOutputConnector(block).uid;
 
 		dropConnectorDom.appendChild(block.dom);
-		block.dom.classList.add('nest-block');
 		block.dom.style = null;
 
 		ioConnectors[dropConnectorUid].connectedTo = dragConnectorUid;
@@ -496,68 +503,33 @@ define(function() {
 
 		var dropBlock = getBlockByConnector(dropConnectorUid, true);
 		var dragBlock = getBlockByConnector(dragConnectorUid, true);
-
-		if (dropBlock.data.returnType && dropBlock.data.returnType.type === 'fromInput') {
-			// if (!dragBlock.data.returnType.pointer) {
-			// 	updateSoftVar(dropBlock);
-			// }
-		}
-	}
-
-	function removeFromStatementInput(firstBlockToRemove) {
-		var totalBlocksToRemove = [firstBlockToRemove.dom];
-		var childConnectorUid = connectors[firstBlockToRemove.connectors[1]].connectedTo,
-			blockToRemove,
-			top = firstBlockToRemove.dom.offsetHeight;
-
-		firstBlockToRemove.dom.classList.remove('inside-block');
-		while (childConnectorUid) {
-			blockToRemove = blocks[connectors[childConnectorUid].blockUid];
-			totalBlocksToRemove.push(blockToRemove.dom);
-			blockToRemove.dom.classList.remove('inside-block');
-			blockToRemove.dom.style.transform = 'translate(' + 0 + 'px,' + top + 'px)';
-			top += blockToRemove.dom.offsetHeight;
-			childConnectorUid = connectors[blockToRemove.connectors[1]].connectedTo;
-		}
-
-		totalBlocksToRemove.forEach(function(blockDom) {
-			container.appendChild(blockDom);
-		});
-	};
-
-	function insertAfter(newDom, targetDom) {
-		var parentEl = targetDom.parentNode;
-		if (parentEl.lastChild == targetDom) {
-			parentEl.appendChild(newDom);
-		} else {
-			parentEl.insertBefore(newDom, targetDom.nextSibling);
-		}
+		dropBlock.data.returnType && dropBlock.data.returnType.type == 'fromInput' && dragBlock.data.returnType.pointer && updateBlockVar(dropBlock);
 	}
 
 	function connectorRootDragEnd(dragBlock, dropConnectorDom) {
 		var dropConnectorUid = dropConnectorDom.dataset.connectorUid;
 		var dropBlock = getBlockByConnector(dropConnectorUid);
 
-		dragBlock.dom.classList.add('inside-block');
 		dragBlock.dom.style.transform = null;
 
 		if (isConnectorRoot(connectors[dropConnectorUid])) {
 			var isGroup = dropBlock.data.type == "group";
-			var contentDom = isGroup ? dropBlock.dom.querySelector('.group-content') : dropBlock.dom.querySelector(".statement-extension-content");
-			contentDom.appendChild(dragBlock.dom);
-			isGroup && 　dropBlock.dom.parentNode.parentNode.classList.add('with-content');
+			var childContainerDom = isGroup ? dropBlock.dom.querySelector('.group-content') : dropBlock.dom.querySelector(".statement-extension-content");
+			childContainerDom.appendChild(dragBlock.dom);
+			isGroup && dropBlock.dom.parentNode.parentNode.classList.add('with-content');
 		} else {
 			insertAfter(dragBlock.dom, dropBlock.dom);
 		}
 
 		var connectedUid = connectors[dragBlock.connectors[1]].connectedTo;
+		var tempBlock = dragBlock;
 		var branchBlock;
 		while (connectedUid) {
 			branchBlock = blocks[connectors[connectedUid].blockUid];
-			insertAfter(branchBlock.dom, dragBlock.dom);
-			branchBlock.dom.classList.add('inside-bloq');
+			insertAfter(branchBlock.dom, tempBlock.dom);
 			branchBlock.dom.style = null;
 			connectedUid = connectors[branchBlock.connectors[1]].connectedTo;
+			tempBlock = branchBlock;
 		}
 
 		redrawTree(dropBlock);
@@ -638,6 +610,350 @@ define(function() {
 		connectors[dragConnectorUid].connectedTo = dropConnectorUid;
 	};
 
+	function dragBlockMove(block, clientX, clientY) {
+		var rect = block.dom.getBoundingClientRect();
+		var distance = Math.round(Math.sqrt(Math.pow(dragBlockPreY - rect.top, 2) + Math.pow(dragBlockPreX - rect.left, 2)));
+		if (distance > 10) {
+			dragBlockPreX = rect.left;
+			dragBlockPreY = rect.top;
+		}
+
+		var offset = 30;
+
+		var x = clientX - dragMouseX;
+		var y = clientY - dragMouseY;
+		if(x < 0) {
+			x = 0;
+		} else if(x + offset >= dragContainer.offsetWidth) {
+			x = dragContainer.offsetWidth - offset;
+		}
+
+		if(y < 0) {
+			y = 0;
+		} else if(y + offset >= dragContainer.offsetHeight) {
+			y = dragContainer.offsetHeight - offset;
+		}
+		setBlockOffset(block, x, y);
+		block.data.type == "statement-input" && redrawTree(block);
+
+		return distance;
+	}
+
+	function setBlockConnectable(block, value) {
+		visitBlock(block, true, function(b) {
+			b.connectable = value;
+		});
+	}
+
+	function setBlockEnable(block, value) {
+		visitBlock(block, true, function(b) {
+			value ? b.dom.classList.remove("disabled") : b.dom.classList.add("disabled");
+			b.enable = value;
+		});
+	}
+
+	function setBlockDragging(block, value) {
+		visitBlock(block, true, function(b) {
+			value ? b.dom.classList.add("dragging") : b.dom.classList.remove("dragging");
+		});
+	}
+
+	function visitBlock(block, includeConnected, callback) {
+		callback(block);
+		includeConnected = includeConnected != false;
+
+		var connector;
+		block.ioConnectors.forEach(function(connectorUid) {
+			connector = ioConnectors[connectorUid];
+			if (connector.data.type != "connector-input" || !connector.connectedTo) {
+				return;
+			}
+
+			visitBlock(getBlockByConnector(connector.connectedTo, true), false, callback);
+		});
+
+		var tempBlock;
+		var connectorUid;
+		if (block.connectors[2]) {
+			connectorUid = connectors[block.connectors[2]].connectedTo;
+			while (connectorUid) {
+				tempBlock = getBlockByConnector(connectorUid);
+				visitBlock(tempBlock, false, callback);
+				connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
+			}
+		}
+
+		if (!includeConnected || (block.data.type != "statement" && block.data.type != "statement-input")) {
+			return;
+		}
+
+		connectorUid = connectors[block.connectors[1]].connectedTo;
+		while (connectorUid) {
+			tempBlock = getBlockByConnector(connectorUid);
+			visitBlock(tempBlock, false, callback);
+			connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
+		}
+	}
+
+	function blockHasChildren(block) {
+		if(block.data.type != "statement-input" && block.data.type != "group") {
+			return false;
+		}
+
+		return !!connectors[block.connectors[2]].connectedTo;
+	}
+
+	function copyBlock(block) {
+		var newBlock = buildBlock(getBlockStructure(block));
+		setBlockConnectable(newBlock, true);
+		setBlockEnable(newBlock, false);
+
+		return newBlock;
+	}
+
+	function removeBlock(block, redraw) {
+		block.dom.removeEventListener("mousedown", onBlockMouseDown);
+		if (mouseDownBlockDom && mouseDownBlockDom.dataset.uid == uid) {
+			document.removeEventListener('mouseup', onBlockMouseUpBeforeMove);
+			document.removeEventListener('mousemove', onBlockPreMouseMove);
+			document.removeEventListener('mousemove', onBlockMouseMove);
+			document.removeEventListener('mouseup', onBlockMouseUp);
+		}
+
+		switch (block.data.type) {
+			case "statement-input":
+			case "group":
+				var tempBlock;
+				var childConnector = connectors[block.connectors[2]].connectedTo;
+				while (childConnector) {
+					tempBlock = getBlockByConnector(childConnector);
+					childConnector = connectors[tempBlock.connectors[1]].connectedTo;
+					removeBlock(tempBlock);
+				}
+			case "statement":
+				var topConnector = connectors[block.connectors[0]].connectedTo;
+				var bottomConnector = connectors[block.connectors[1]].connectedTo;
+
+				if (topConnector && bottomConnector) {
+					connectors[topConnector].connectedTo = bottomConnector;
+					connectors[bottomConnector].connectedTo = topConnector;
+					redraw && redrawTree(getBlockByConnector(topConnector));
+				} else if (topConnector) {
+					connectors[topConnector].connectedTo = null;
+					var previousBlock = blocks[connectors[topConnector].blockUid];
+					if (previousBlock.data.type === 'group') {
+						previousBlock.dom.parentNode.parentNode.classList.remove('with-content');
+					}
+					redraw && redrawTree(getBlockByConnector(topConnector));
+				} else if (bottomConnector) {
+					connectors[bottomConnector].connectedTo = null;
+				}
+
+				var tempConnector;
+				block.ioConnectors.forEach(function(connectorUid) {
+					tempConnector = ioConnectors[connectorUid];
+					if ((tempConnector.data.type === 'connector-input') && tempConnector.connectedTo) {
+						removeBlock(getBlockByConnector(tempConnector.connectedTo, true));
+					}
+				});
+				break;
+			case "output":
+				var outputConnector = ioConnectors[block.ioConnectors[0]].connectedTo;
+				outputConnector && (ioConnectors[outputConnector].connectedTo = null);
+				break;
+		}
+
+		block.dom.remove();
+		block.connectors.forEach(function(connectorUid) {
+			delete connectors[connectorUid];
+		});
+		block.ioConnectors.forEach(function(connectorUid) {
+			delete ioConnectors[connectorUid];
+		});
+
+		delete blocks[block.uid];
+	}
+
+	function getBlockOffset(block) {
+		var match = translateRegExp.exec(block.dom.style.transform);
+		var offset = {
+			left: 0,
+			top: 0
+		};
+
+		if (match) {
+			offset.top = parseInt(match[4]);
+			offset.left = parseInt(match[1]);
+		}
+
+		return offset;
+	}
+
+	function setBlockOffset(block, x, y) {
+		block.dom.style.transform = "translate(" + x + "px, " + y + "px)";
+	}
+
+	function getBlockCode(block) {
+
+	}
+
+	function getBlockStructure(block) {
+		var structure = {
+			name: block.data.name,
+			content: [],
+			children: [],
+			enable: block.enable,
+		};
+
+		var rootConnectorUid = block.connectors[2];
+		if (rootConnectorUid) {
+			var connectorUid = connectors[rootConnectorUid].connectedTo;
+			var tempBlock;
+			while (connectorUid) {
+				tempBlock = getBlockByConnector(connectorUid);
+				structure.children.push(getBlockStructure(tempBlock));
+				connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
+			}
+		}
+
+		var tempObject, value, selectedValue, attributeValue;
+		var tempDom;
+		block.data.content.forEach(function(elementData) {
+			tempObject = null;
+			// switch (elementData.type) {
+			// 	case 'varInput':
+			// 	case 'stringInput':
+			// 	case 'numberInput':
+			// 	case 'codeInput':
+			// 	case 'commentInput':
+			// 	case 'charInput':
+			// 		tempDom = block.dom.querySelector('[data-content-id="' + elementData.id + '"]');
+			// 		tempDom && tempDom.value && tempObject = {
+			// 			type: elementData.type,
+			// 			id: elementData.id,
+			// 			value: tempDom.value
+			// 		};
+			// 		break;
+			// 	case 'blockInput':
+			// 		//get the inputs blocks inside in 1 level
+			// 		var uuid,
+			// 			connectedBlock;
+			// 		uuid = block.getioConnectorUidByContentId(elementData.blockInputId);
+			// 		if ((ioConnectors[uuid].data.type === 'connector-input') && ioConnectors[uuid].connectedTo) {
+			// 			connectedBlock = utils.getBlockByConnector(ioConnectors[uuid].connectedTo, blocks, ioConnectors);
+			// 			tempObject = {
+			// 				type: elementData.type,
+			// 				blockInputId: elementData.blockInputId,
+			// 				value: connectedBlock.getBlocksStructure(fullStructure)
+			// 			};
+			// 		}
+
+			// 		break;
+			// 	case 'dynamicDropdown':
+			// 		attributeValue = block.dom.find('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').attr('data-value');
+			// 		selectedValue = block.dom.find('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').val();
+			// 		//only software Vars get value from val(), hardware, use attribute or val()
+			// 		var variableType = elementData.options;
+			// 		var itsSoftwareValue = Object.keys(softwareArrays).indexOf(variableType);
+
+			// 		if (itsSoftwareValue !== -1) {
+			// 			value = selectedValue;
+			// 		} else {
+			// 			value = attributeValue || selectedValue;
+			// 		}
+
+			// 		if (value) {
+			// 			tempObject = {
+			// 				type: elementData.type,
+			// 				id: elementData.id,
+			// 				value: value
+			// 			};
+			// 		}
+			// 		break;
+			// 	case 'staticDropdown':
+			// 		//value = block.dom.find('select[data-content-id="' + elementData.id + '"]').val();
+			// 		value = block.$contentContainer.find('> select[data-content-id="' + elementData.id + '"]').val();
+			// 		if (value) {
+			// 			tempObject = {
+			// 				type: elementData.type,
+			// 				id: elementData.id,
+			// 				value: value
+			// 			};
+			// 		}
+			// 		break;
+			// }
+
+			tempObject && structure.content.push(tempObject);
+		});
+
+		return structure;
+	}
+
+	function fillBlockData(blockData, structure) {
+		structure.content.forEach(function(elementData) {
+			switch (elementData.type) {
+				case 'static-select':
+				case 'dynamic-select':
+				case 'number-input':
+				case 'string-input':
+				case 'char-input':
+				case 'var-input':
+				case 'code-input':
+				case 'comment-input':
+					blockData.content.forEach(function(eleData) {
+						if (elementData.id == eleData.id) {
+							eleData.value = elementData.value;
+							return true;
+						}
+					});
+					break;
+			}
+		});
+
+		return blockData;
+	};
+
+	function redrawTree(block) {
+		var rootBlock = getBlockByConnector(getFirstTopConnectorUid(block.uid));
+		var bottomUid = connectors[rootBlock.connectors[1]].connectedTo;
+		var transformProperties = translateRegExp.exec(rootBlock.dom.style.transform);
+		var top = 0;
+		var left = 0;
+		var marginOffset = 2;
+		if (transformProperties) {
+			top = parseInt(transformProperties[4]);
+			left = parseInt(transformProperties[1]);
+		}
+		top += rootBlock.dom.offsetHeight + marginOffset;
+
+		var branchBlock;
+		while (bottomUid) {
+			branchBlock = getBlockByConnector(bottomUid);
+			setBlockOffset(branchBlock, left, top);
+			top += branchBlock.dom.offsetHeight + marginOffset;
+			bottomUid = connectors[branchBlock.connectors[1]].connectedTo;
+		}
+	}
+
+	function removeFromStatementInput(block) {
+		var totalBlocksToRemove = [block.dom];
+		var childConnectorUid = connectors[block.connectors[1]].connectedTo;
+		var blockToRemove;
+		var top = block.dom.offsetHeight;
+
+		while (childConnectorUid) {
+			blockToRemove = blocks[connectors[childConnectorUid].blockUid];
+			totalBlocksToRemove.push(blockToRemove.dom);
+			setBlockOffset(blockToRemove, 0, top);
+			top += blockToRemove.dom.offsetHeight;
+			childConnectorUid = connectors[blockToRemove.connectors[1]].connectedTo;
+		}
+
+		totalBlocksToRemove.forEach(function(blockDom) {
+			dragContainer.appendChild(blockDom);
+		});
+	};
+
 	function placeNestBlock(dropConnectorUid, dragConnectorUid) {
 		var dropBlock = getBlockByConnector(dropConnectorUid);
 		switch (dropBlock.data.type) {
@@ -647,6 +963,10 @@ define(function() {
 				break;
 		}
 	};
+
+	function updateBlockVar(block) {
+
+	}
 
 	function isConnectorRoot(connector) {
 		return connector.data.type == 'connector-root';
@@ -753,6 +1073,27 @@ define(function() {
 		return '';
 	};
 
+	function getIOConnectorUid(block, contentId) {
+		var uid;
+		block.ioConnectors.forEach(function(connectorUid) {
+			if (ioConnectors[connectorUid].contentId == contentId) {
+				uid = connectorUid;
+				return true;
+			}
+		});
+
+		return uid;
+	};
+
+	function insertAfter(newDom, targetDom) {
+		var parentEl = targetDom.parentNode;
+		if (parentEl.lastChild == targetDom) {
+			parentEl.appendChild(newDom);
+		} else {
+			parentEl.insertBefore(newDom, targetDom.nextSibling);
+		}
+	}
+
 	function closest(dom, cls) {
 		var tempDom = dom;
 		while (tempDom && tempDom.tagName != "BODY" && !tempDom.classList.contains(cls)) {
@@ -760,106 +1101,6 @@ define(function() {
 		}
 
 		return tempDom.tagName == "BODY" ? null : tempDom;
-	}
-
-	function moveBlock(block, clientX, clientY) {
-		var rect = block.dom.getBoundingClientRect();
-		var distance = Math.round(Math.sqrt(Math.pow(dragBlockPreY - rect.top, 2) + Math.pow(dragBlockPreX - rect.left, 2)));
-
-		var x = clientX - dragMouseX;
-		var y = clientY - dragMouseY;
-		block.dom.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-		if (distance > 10) {
-			dragBlockPreX = rect.left;
-			dragBlockPreY = rect.top;
-		}
-		if (block.data.type == "statement-input") {
-			redrawTree(block);
-		}
-
-		return distance;
-	}
-
-	function setBlockConnectable(block, value) {
-		block.data.content.forEach(function(elementData) {
-			if (elementData.type != "block-input") {
-				return;
-			}
-
-			block.ioConnectors.forEach(function(connectorUid) {
-				var connector = ioConnectors[connectorUid];
-				if (connector.data.type != "connector-input" || !connector.connectedTo) {
-					return;
-				}
-
-				setBlockConnectable(getBlockByConnector(connector.connectedTo), value);
-			});
-		});
-		block.connectable = true;
-	}
-
-	function setBlockEnable(block, value, includeConnected) {
-		includeConnected = includeConnected != false;
-		value ? block.dom.classList.remove("disabled") : block.dom.classList.add("disabled");
-		block.data.content && block.data.content.forEach(function(elementData) {
-			if (elementData.type != "block-input") {
-				return;
-			}
-
-			block.ioConnectors.forEach(function(connectorUid) {
-				var connector = ioConnectors[connectorUid];
-				if (connector.data.type != "connector-input" || !connector.connectedTo) {
-					return;
-				}
-
-				setBlockEnable(getBlockByConnector(connector.connectedTo, true), value, false);
-			});
-		});
-		block.enable = value;
-
-		var tempBlock;
-		var connectorUid;
-		if (block.connectors[2]) {
-			connectorUid = connectors[block.connectors[2]].connectedTo;
-			while (connectorUid) {
-				tempBlock = getBlockByConnector(connectorUid);
-				setBlockEnable(tempBlock, value, false);
-				connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
-			}
-		}
-
-		if (!includeConnected || (block.data.type != "statement" && block.data.type != "statement-input")) {
-			return;
-		}
-
-		connectorUid = connectors[block.connectors[1]].connectedTo;
-		while (connectorUid) {
-			tempBlock = getBlockByConnector(connectorUid);
-			setBlockEnable(tempBlock, value, false);
-			connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
-		}
-	}
-
-	function redrawTree(block) {
-		var rootBlock = getBlockByConnector(getFirstTopConnectorUid(block.uid));
-		var bottomUid = connectors[rootBlock.connectors[1]].connectedTo;
-		var transformProperties = translateRegExp.exec(rootBlock.dom.style.transform);
-		var top = 0;
-		var left = 0;
-		var marginOffset = 2;
-		if (transformProperties) {
-			top = parseInt(transformProperties[4]);
-			left = parseInt(transformProperties[1]);
-		}
-		top += rootBlock.dom.offsetHeight + marginOffset;
-
-		var branchBlock;
-		while (bottomUid) {
-			branchBlock = getBlockByConnector(bottomUid);
-			branchBlock.dom.style.transform = 'translate(' + left + 'px,' + top + 'px)';
-			top += branchBlock.dom.offsetHeight + marginOffset;
-			bottomUid = connectors[branchBlock.connectors[1]].connectedTo;
-		}
 	}
 
 	function getTreeExtreme(uid, connectorPosition) {
@@ -882,36 +1123,32 @@ define(function() {
 	};
 
 	function connectorIsInBranch(connectorUid, uid) {
-		return false;
-		// var isInBlock = false;
-		// var i = 0;
-		// //miro si es uno de mis conectores
-		// while (!isInBlock && (i < blocks[uid].connectors.length)) {
-		// 	if (blocks[uid].connectors[i] === connectorUid) {
-		// 		isInBlock = true;
-		// 	} else {
-		// 		i++;
-		// 	}
-		// }
-		// i = 0;
-		// while (!isInBlock && (i < blocks[uid].ioConnectors.length)) {
-		// 	if (blocks[uid].ioConnectors[i] === connectorUid) {
-		// 		isInBlock = true;
-		// 	} else {
-		// 		i++;
-		// 	}
-		// }
+		var isInBranch = false;
+		var i = 0;
+		while (!isInBranch && (i < blocks[uid].connectors.length)) {
+			if (blocks[uid].connectors[i] === connectorUid) {
+				isInBranch = true;
+			} else {
+				i++;
+			}
+		}
+		i = 0;
+		while (!isInBranch && (i < blocks[uid].ioConnectors.length)) {
+			if (blocks[uid].ioConnectors[i] === connectorUid) {
+				isInBranch = true;
+			} else {
+				i++;
+			}
+		}
 
-		// //type: connector-bottom
-		// if (!isInBlock && blocks[uid].connectors[2] && connectors[blocks[uid].connectors[2]].connectedTo) {
-		// 	isInBlock = connectorIsInBranch(connectorUid, connectors[connectors[blocks[uid].connectors[2]].connectedTo].blockUid);
-		// }
+		if (!isInBranch && blocks[uid].connectors[2] && connectors[blocks[uid].connectors[2]].connectedTo) {
+			isInBranch = connectorIsInBranch(connectorUid, connectors[connectors[blocks[uid].connectors[2]].connectedTo].blockUid);
+		}
 
-		// //type: connector-root
-		// if (!isInBlock && blocks[uid].connectors[1] && connectors[blocks[uid].connectors[1]].connectedTo) {
-		// 	isInBlock = connectorIsInBranch(connectorUid, connectors[connectors[blocks[uid].connectors[1]].connectedTo].blockUid);
-		// }
-		// return isInBlock;
+		if (!isInBranch && blocks[uid].connectors[1] && connectors[blocks[uid].connectors[1]].connectedTo) {
+			isInBranch = connectorIsInBranch(connectorUid, connectors[connectors[blocks[uid].connectors[1]].connectedTo].blockUid);
+		}
+		return isInBranch;
 	};
 
 	function getOutputConnector(block) {
@@ -1044,184 +1281,92 @@ define(function() {
 		return uid;
 	};
 
-	function init(_container) {
+	function clone(data) {
+		return JSON.parse(JSON.stringify(data));
+	}
+
+	function init(_container, _dragContainer) {
 		container = _container;
+		dragContainer = _dragContainer;
+	}
+
+	function loadSchema(_schema) {
+		schema = _schema;
+	}
+
+	function getSchema() {
+		return schema;
 	}
 
 	function getBlock(uid) {
 		return blocks[uid];
 	}
 
-	function createBlock(data) {
-		return new Block(data);
+	function createBlock(name) {
+		var blockData = clone(schema[name]);
+		return new Block(blockData);
 	}
 
-	function copyBlock(block, offsetX, offsetY) {
+	function buildBlock(structure) {
+		var blockData = clone(schema[structure.name]);
+		blockData = fillBlockData(blockData, structure);
+		var block = new Block(blockData);
 
-	}
+		structure.content && structure.content.forEach(function(elementData) {
+			if (elementData.type != 'block-input') {
+				return;
+			}
 
-	function removeBlock(block, redraw) {
-		block.dom.removeEventListener("mousedown", onBlockMouseDown);
-		if (mouseDownBlockDom && mouseDownBlockDom.dataset.uid == uid) {
-			document.removeEventListener('mouseup', onBlockMouseUpBeforeMove);
-			document.removeEventListener('mousemove', onBlockPreMouseMove);
-			document.removeEventListener('mousemove', onBlockMouseMove);
-			document.removeEventListener('mouseup', onBlockMouseUp);
-		}
+			var connectorUid = getIOConnectorUid(block, elementData.blockInputId);
+			var dropContainerDom = block.dom.querySelector('[data-connector-id="' + connectorUid + '"]');
+			var outputBlock = buildBlock(elementData.value);
 
-		switch (block.data.type) {
-			case "statement-input":
-			case "group":
-				var tempBlock;
-				var childConnector = connectors[block.connectors[2]].connectedTo;
-				while (childConnector) {
-					tempBlock = getBlockByConnector(childConnector);
-					childConnector = connectors[tempBlock.connectors[1]].connectedTo;
-					removeBlock(tempBlock);
-				}
-			case "statement":
-				var topConnector = connectors[block.connectors[0]].connectedTo;
-				var bottomConnector = connectors[block.connectors[1]].connectedTo;
+			ioConnectors[connectorUid].connectedTo = outputBlock.ioConnectors[0];
+			ioConnectors[outputBlock.ioConnectors[0]].connectedTo = connectorUid;
 
-				if (topConnector && bottomConnector) {
-					connectors[topConnector].connectedTo = bottomConnector;
-					connectors[bottomConnector].connectedTo = topConnector;
-					redraw && redrawTree(getBlockByConnector(topConnector));
-				} else if (topConnector) {
-					connectors[topConnector].connectedTo = null;
-					var previousBlock = blocks[connectors[topConnector].blockUid];
-					if (previousBlock.data.type === 'group') {
-						previousBlock.dom.parentNode.parentNode.classList.remove('with-content');
-					}
-					redraw && redrawTree(getBlockByConnector(topConnector));
-				} else if (bottomConnector) {
-					connectors[bottomConnector].connectedTo = null;
-				}
-
-				var tempConnector;
-				block.ioConnectors.forEach(function(connectorUid) {
-					tempConnector = ioConnectors[connectorUid];
-					if ((tempConnector.data.type === 'connector-input') && tempConnector.connectedTo) {
-						removeBlock(getBlockByConnector(tempConnector.connectedTo, true));
-					}
-				});
-				break;
-			case "output":
-				var outputConnector = ioConnectors[block.ioConnectors[0]].connectedTo;
-				outputConnector && (ioConnectors[outputConnector].connectedTo = null);
-				break;
-		}
-
-		block.dom.remove();
-		block.connectors.forEach(function(connectorUid) {
-			delete connectors[connectorUid];
-		});
-		block.ioConnectors.forEach(function(connectorUid) {
-			delete ioConnectors[connectorUid];
+			dropContainerDom.append(outputBlock.dom);
 		});
 
-		delete blocks[uid];
+		structure.children && structure.children.length && block.dom.classList.add('with-content');
+
+
+		var dropContainerDom = block.data.type == "group" ? block.dom.querySelector('.group-content') : block.dom.querySelector(".statement-extension-content");
+		var lastBottomConnector = block.connectors[2];
+		structure.children && structure.children.forEach(function(childStructure) {
+			var childBlock = buildBlock(childStructure);
+
+			connectors[lastBottomConnector].connectedTo = childBlock.connectors[0];
+			connectors[childBlock.connectors[0]].connectedTo = lastBottomConnector;
+			lastBottomConnector = childBlock.connectors[1];
+
+			dropContainerDom.appendChild(childBlock.dom);
+		});
+
+		setBlockEnable(block, structure.enable || false);
+		block.data.createDynamicContent && updateBlockVar(block);
+
+		return block;
 	}
 
-	function getBlockCode(block) {
-
-	}
-
-	function getBlockStructure(block) {
-		var result = {
-			name: block.data.name,
-			content: [],
-			children: [],
-			enable: block.enable,
-		};
-
-		var rootConnectorUid = block.connectors[2];
-		if (rootConnectorUid) {
-			var connectorUid = connectors[rootConnectorUid].connectedTo;
-			var tempBlock;
-			while (connectorUid) {
-				tempBlock = getBlockByConnector(connectorUid);
-				result.children.push(getBlockStructure(tempBlock.uid));
-				connectorUid = connectors[tempBlock.connectors[1]].connectedTo;
+	function resetBlocks() {
+		var block;
+		for(var uid in blocks) {
+			block = blocks[uid];
+			if(block.connectable || block.data.type == "group") {
+				removeBlock(block);
 			}
 		}
-
-		var tempObject, value, selectedValue, attributeValue;
-		var tempDom;
-		block.data.content.forEach(function(elementData) {
-			tempObject = null;
-			// switch (elementData.type) {
-			// 	case 'varInput':
-			// 	case 'stringInput':
-			// 	case 'numberInput':
-			// 	case 'codeInput':
-			// 	case 'commentInput':
-			// 	case 'charInput':
-			// 		tempDom = block.dom.querySelector('[data-content-id="' + elementData.id + '"]');
-			// 		tempDom && tempDom.value && tempObject = {
-			// 			type: elementData.type,
-			// 			id: elementData.id,
-			// 			value: tempDom.value
-			// 		};
-			// 		break;
-			// 	case 'blockInput':
-			// 		//get the inputs blocks inside in 1 level
-			// 		var uuid,
-			// 			connectedBlock;
-			// 		uuid = block.getioConnectorUidByContentId(elementData.blockInputId);
-			// 		if ((ioConnectors[uuid].data.type === 'connector-input') && ioConnectors[uuid].connectedTo) {
-			// 			connectedBlock = utils.getBlockByConnector(ioConnectors[uuid].connectedTo, blocks, ioConnectors);
-			// 			tempObject = {
-			// 				type: elementData.type,
-			// 				blockInputId: elementData.blockInputId,
-			// 				value: connectedBlock.getBlocksStructure(fullStructure)
-			// 			};
-			// 		}
-
-			// 		break;
-			// 	case 'dynamicDropdown':
-			// 		attributeValue = block.dom.find('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').attr('data-value');
-			// 		selectedValue = block.dom.find('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').val();
-			// 		//only software Vars get value from val(), hardware, use attribute or val()
-			// 		var variableType = elementData.options;
-			// 		var itsSoftwareValue = Object.keys(softwareArrays).indexOf(variableType);
-
-			// 		if (itsSoftwareValue !== -1) {
-			// 			value = selectedValue;
-			// 		} else {
-			// 			value = attributeValue || selectedValue;
-			// 		}
-
-			// 		if (value) {
-			// 			tempObject = {
-			// 				type: elementData.type,
-			// 				id: elementData.id,
-			// 				value: value
-			// 			};
-			// 		}
-			// 		break;
-			// 	case 'staticDropdown':
-			// 		//value = block.dom.find('select[data-content-id="' + elementData.id + '"]').val();
-			// 		value = block.$contentContainer.find('> select[data-content-id="' + elementData.id + '"]').val();
-			// 		if (value) {
-			// 			tempObject = {
-			// 				type: elementData.type,
-			// 				id: elementData.id,
-			// 				value: value
-			// 			};
-			// 		}
-			// 		break;
-			// }
-
-			tempObject && result.content.push(tempObject);
-		});
-
-		return result;
 	}
 
 	return {
 		init: init,
+
+		loadSchema: loadSchema,
+		getSchema: getSchema,
+
 		getBlock: getBlock,
 		createBlock: createBlock,
+		buildBlock: buildBlock,
+		resetBlocks: resetBlocks,
 	};
 });

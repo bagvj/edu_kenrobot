@@ -15,13 +15,15 @@ $control-deep-color: #0363b7;
 $logic-color: #d764ae;
 $logic-deep-color: #c04995;
 
-$connector-color: #ffe971;
-$focus-color: #f1cb33;
+$connector-color: rgba(0, 0, 0, 0.5);
+$placeholder-color: rgba(255, 255, 255, 0.5);
+
 $disabled-image: url(../image/block.svg);
 $disabled-color: gray;
 $disabled-deep-color: #dadada;
 
 .block {
+	pointer-events: auto;
 	position: absolute;
 	cursor: pointer;
 	color: white;
@@ -47,10 +49,6 @@ $disabled-deep-color: #dadada;
 			display: inline-flex;
 			align-items: center;
 		}
-
-		// &:focus {
-		// 	box-shadow: 0 0 0 2px $focus-color inset;
-		// }
 	}
 
 	&.block-statement-input {
@@ -117,24 +115,6 @@ $disabled-deep-color: #dadada;
 			width: 14px;
 			position: absolute;
 		}
-
-		// &:focus {
-		// 	box-shadow: 0 0 0 2px $focus-color inset;
-
-		// 	&:before {
-		// 		box-shadow: 0 0 0 2px $focus-color inset;
-		// 	}
-
-		// 	&:after {
-		// 		content: ' ';
-		// 		left: -10px;
-		// 		top: 14px;
-		// 		border-radius: 50%;
-		// 		height: 14px;
-		// 		width: 14px;
-		// 		position: absolute;
-		// 	}
-		// }
 	}
 
 	&.block-group {
@@ -162,7 +142,7 @@ $disabled-deep-color: #dadada;
 		user-select: none;
 
 		@include placeholder {
-			color: white;
+			color: $placeholder-color;
 		}
 	}
 
@@ -210,7 +190,7 @@ $disabled-deep-color: #dadada;
 		user-select: none;
 
 		@include placeholder {
-			color: white;
+			color: $placeholder-color;
 		}
 	}
 
@@ -288,6 +268,7 @@ $disabled-deep-color: #dadada;
 
 	&.dragging {
 		z-index: 9;
+		opacity: 0.8;
 	}
 
 	&.module {
@@ -1006,6 +987,7 @@ $disabled-deep-color: #dadada;
 			&:before {
 				background-color: white;
 				background-image: $disabled-image;
+				background-position: 4px 0;
 			}
 
 			& > span {

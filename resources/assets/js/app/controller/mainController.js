@@ -16,6 +16,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 		e.preventDefault();
 		
 		hideContextMenu();
+		hideSelectMenu();
+		
 		emitor.trigger("app", "contextMenu", e);
 
 		return false;
@@ -23,15 +25,20 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, 
 
 	function onWindowClick(e) {
 		hideContextMenu();
-		emitor.trigger("app", "click", e);
+		hideSelectMenu();
 	}
 
 	function onWindowResize(e) {
-		emitor.delayTrigger('app', 'resize');
+		hideContextMenu();
+		hideSelectMenu();
+	}
+
+	function hideSelectMenu() {
+		$('.x-select').removeClass("active");
 	}
 
 	function hideContextMenu() {
-		$('.x-context-menu').hide();
+		$('.x-context-menu').removeClass("active");
 	}
 
 	return {

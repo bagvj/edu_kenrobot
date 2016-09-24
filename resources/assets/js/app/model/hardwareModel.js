@@ -121,6 +121,7 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 	}
 
 	function setData(data) {
+		data = data || {};
 		data.board && addBoard(data.board);
 
 		var components = data.components;

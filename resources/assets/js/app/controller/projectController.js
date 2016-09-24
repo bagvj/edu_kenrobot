@@ -69,7 +69,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		openProject(myProjects[index]);
 	}
 
-	function onProjectSave(projectInfo, saveType) {
+	function onProjectSave(projectInfo, saveType, newSave) {
 		projectInfo = projectInfo || {};
 		if (saveType == "edit") {
 			//编辑
@@ -77,13 +77,16 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		} else if (saveType == "save") {
 			//保存
 			var info = getCurrentProject();
+			if(!newSave && info.id == 0) {
+				emitor.trigger('project', 'show', {
+					data: info,
+					type: 'save'
+				});
+				return;
+			}
+			
 			projectInfo.id = info.id;
 			projectInfo.project_data = JSON.stringify(getProjectData());
-
-			if (projectInfo.id == 0) {
-				projectInfo.project_name = info.project_name;
-				projectInfo.project_intro = info.project_intro;
-			}
 		} else {
 			//新建
 			projectInfo.project_data = "";
@@ -91,7 +94,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		projectInfo.user_id = userModel.getUserId();
 
 		projectModel.save(projectInfo).done(function(result) {
-			result.status == 0 ? onProjectSaveSuccess(result.data.project_id, saveType) : util.message(result.message);
+			result.status == 0 ? onProjectSaveSuccess(result.data.project_id, saveType, newSave) : util.message(result.message);
 		});
 	}
 
@@ -185,7 +188,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		return promise;
 	}
 
-	function onProjectSaveSuccess(id, saveType) {
+	function onProjectSaveSuccess(id, saveType, newSave) {
 		projectModel.get(id).done(function(result) {
 			if (result.status != 0) {
 				util.message(result.message);
@@ -206,9 +209,13 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 				util.message("复制成功");
 				openProject(projectInfo);
 			} else if (saveType == "save") {
-				var index = findProjectIndex(myProjects, projectInfo.id);
-				myProjects[index] = projectInfo;
-
+				if(newSave) {
+					myProjects.unshift(projectInfo);
+					
+				} else {
+					var index = findProjectIndex(myProjects, projectInfo.id);
+					myProjects[index] = projectInfo;
+				}
 				util.message("保存成功");
 			} else {
 				var index = findProjectIndex(myProjects, projectInfo.id);

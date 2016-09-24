@@ -78,23 +78,22 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		var target = $(e.target);
 		if (target.hasClass('component') && target.parents(container.selector).length) {
 			contextMenuTarget = target;
-			var offset = container.offset();
+			var offset = region.offset();
 			var top = e.pageY - offset.top;
 			var height = componentContextMenu.height();
-			if (top + height > $(window).innerHeight()) {
+
+			if (e.pageY + height > $(window).innerHeight()) {
 				top = top - height;
 			}
-			componentContextMenu.css({
-				display: 'block',
-				left: 100 * (e.pageX - offset.left) / container.width() + "%",
-				top: 100 * top / container.height() + "%",
+			componentContextMenu.addClass("active").css({
+				left: e.pageX - offset.left,
+				top: top,
 			});
 		} else if ((target.hasClass('board') || target.closest('.board').length) && target.parents(container.selector).length) {
-			var offset = container.offset();
-			boardContextMenu.css({
-				display: 'block',
-				left: 100 * (e.pageX - offset.left) / container.width() + "%",
-				top: 100 * (e.pageY - offset.top) / container.height() + "%",
+			var offset = region.offset();
+			boardContextMenu.addClass("active").css({
+				left: e.pageX - offset.left,
+				top: e.pageY - offset.top,
 			});
 		}
 	}

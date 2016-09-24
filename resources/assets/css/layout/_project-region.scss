@@ -28,14 +28,9 @@
 		width: 280px;
 		height: 42px;
 		float: left;
-		position: relative;
 
 		.placeholder {
-			display: block;
-			cursor: pointer;
 			padding: 8px 30px 8px 20px;
-			height: 42px;
-			position: relative;
 			border: 1px solid #c4d1dd;
 
 			&:after {
@@ -47,10 +42,6 @@
 				position: absolute;
 				top: 15px;
 				right: 12px;
-
-				&:hover {
-					color: #758281;
-				}
 			}
 		}
 
@@ -74,17 +65,10 @@
 		}
 
 		& > ul {
-			z-index: 100;
-			display: none;
-			position: absolute;
-			top: 42px;
-			width: 100%;
 			background-color: #f7f9f9;
 
 			li {
 				height: 42px;
-				display: block;
-				cursor: pointer;
 				padding: 8px 30px 8px 20px;
 				transition: background-color 0.2s;
 
@@ -109,8 +93,6 @@
 				border-left: 1px solid #c4d1dd;
 				border-right: 1px solid #c4d1dd;
 				border-bottom: 1px solid #c4d1dd;
-
-				display: block;
 			}
 		}
 	}
