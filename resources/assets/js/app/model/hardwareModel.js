@@ -352,9 +352,7 @@ define(['vendor/jsPlumb'], function() {
 	function removeComponent(componentDom) {
 		var uid = componentDom.dataset.uid;
 		var componentData = getComponentData(uid);
-		delete usedNames[componentData.varName];
-		delete components[uid];
-
+		
 		componentDom.removeEventListener('mousedown', onComponentMouseDown);
 
 		getConnections(componentDom).forEach(function(connection) {
@@ -362,6 +360,13 @@ define(['vendor/jsPlumb'], function() {
 		});
 		jsPlumbInstance.detachAllConnections(componentDom);
 		jsPlumbInstance.remove(componentDom);
+
+		delete usedNames[componentData.varName];
+		delete components[uid];
+
+		onContainerEvent("remove-component", {
+			uid: uid,
+		});
 	};
 
 	function selectComponent(componentDom) {
@@ -387,6 +392,8 @@ define(['vendor/jsPlumb'], function() {
 			componentDom.removeEventListener('mousedown', onComponentMouseDown);
 			jsPlumb.remove(componentDom);
 		});
+
+		onContainerEvent("remove-all-components");
 	};
 
 	function removeSelectedConnection() {
@@ -432,12 +439,9 @@ define(['vendor/jsPlumb'], function() {
 		}).addClass('selected');
 
 		getConnections(componentDom).forEach(selectConnection);
-
-		containerEvent.data = {
+		onContainerEvent("select-component", {
 			uid: componentDom.dataset.uid
-		};
-		containerEvent.action = 'component-select';
-		container.dispatchEvent(containerEvent);
+		});
 	}
 
 	function onDomMouseUp(e) {
@@ -488,7 +492,7 @@ define(['vendor/jsPlumb'], function() {
 				var componentUid = connection.source.dataset.uid;
 				var componentData = components[componentUid];
 				var sourcePin = connection.sourceEndpoint.getParameter('pin');
-				componentData && (delete componentData.pins[sourcePin]);
+				delete componentData.pins[sourcePin];
 			}
 		});
 
@@ -583,6 +587,12 @@ define(['vendor/jsPlumb'], function() {
 		}
 
 		return varName;
+	}
+
+	function onContainerEvent(action, data) {
+		containerEvent.action = action;
+		containerEvent.data = data;
+		container.dispatchEvent(containerEvent);
 	}
 
 	return {

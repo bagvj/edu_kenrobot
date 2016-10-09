@@ -460,12 +460,12 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}]
 				}, {
 					uid: "4b8594a2-b7ff-44fe-a8b0-319640722b30",
-					name: "serialPort",
+					name: "serial",
 					label: "串口模块",
 					type: "serial",
 					category: "function",
 					board: "Arduino",
-					src: "/assets/image/components/serialPort.png",
+					src: "/assets/image/components/serial.png",
 					width: 115,
 					height: 71,
 					pins: [{
@@ -2271,7 +2271,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						type: "simple",
 						value: "char"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "serial"
 				}, {
 					type: "statement",
 					name: "serialSend-v1",
@@ -2307,7 +2308,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						}]
 					}],
 					code: "Serial.{LN}({DATA});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "serial"
 				}, {
 					type: "output",
 					name: "components",

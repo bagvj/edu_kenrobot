@@ -245,8 +245,14 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	}
 
 	function onContainerEvent(e) {
-		if(e.originalEvent.action == "component-select") {
+		var action = e.originalEvent.action;
+		if(action == "select-component") {
 			showComponentDialog(e.originalEvent.data.uid);
+		} else if(action == "remove-component") {
+			var uid = e.originalEvent.data.uid;
+			uid == componentDialog.data("uid") && hideComponentDialog();
+		} else if(action == "remove-all-components") {
+			hideComponentDialog();
 		}
 	}
 
