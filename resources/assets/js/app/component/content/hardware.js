@@ -1,9 +1,10 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardwareModel'], function(_, util, emitor, hardwareModel) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardwareModel'], function($1, util, emitor, hardwareModel) {
 	var region;
 	var filterList;
 	var componentList;
 	var search;
 	var container;
+	var componentDialog;
 	var componentContextMenu;
 	var boardContextMenu;
 	var contextMenuTarget;
@@ -14,13 +15,16 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		search = $('.search', sidebarTab);
 		filterList = $('.filters', sidebarTab);
 		componentList = $('.components', sidebarTab);
-		
+
 		search.on('keyup', onSearchKeyup).on('change', onSearchChange).on('blur', onSearchBlur);
 		$('> li', filterList).on('click', onFilterClick);
 
 		region = $('.content-tabs .tab-hardware');
-		container = $('.hardware-container', region).on("dragover", onContainerDragOver).on("drop", onContainerDrop);
+		container = $('.hardware-container', region).on("dragover", onContainerDragOver).on("drop", onContainerDrop).on('containerEvent', onContainerEvent);
 		hardwareModel.init(container[0]);
+
+		componentDialog = $('.component-dialog', region);
+		$('.name', componentDialog).on('blur', onComponentNameBlur);
 
 		boardContextMenu = $('.board-menu', region);
 		$('> li', boardContextMenu).on('click', onBoardContextMenu);
@@ -46,6 +50,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	function setData(hardwareData) {
 		hardwareData = hardwareData || {};
 		hardwareModel.setData(hardwareData);
+
+		hideComponentDialog();
 	}
 
 	function reset() {
@@ -56,9 +62,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		componentList.empty();
 		components.forEach(function(component) {
 			var li = componentTemplate.replace(/\{\{name\}\}/g, component.name)
-			                		  .replace(/\{\{label\}\}/g, component.label)
-			                          .replace(/\{\{filter\}\}/, component.category)
-			                          .replace(/\{\{src\}\}/, component.src);
+				.replace(/\{\{label\}\}/g, component.label)
+				.replace(/\{\{filter\}\}/, component.category)
+				.replace(/\{\{src\}\}/, component.src);
 			componentList.append(li);
 		});
 		$('> li .image', componentList).on('dragstart', onComponentDragStart).on('dragend', onComponentDragEnd);
@@ -67,14 +73,14 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	}
 
 	function onAppStart() {
-		
+
 	}
 
 	function onResize() {
 		hardwareModel.repaint();
 	}
 
-	function onContextMenu(e) {		
+	function onContextMenu(e) {
 		var target = $(e.target);
 		if (target.hasClass('component') && target.parents(container.selector).length) {
 			contextMenuTarget = target;
@@ -101,7 +107,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	function onBoardContextMenu(e) {
 		var li = $(this);
 		var action = li.data('action');
-		switch(action) {
+		switch (action) {
 			case "disconnect":
 				hardwareModel.disconnectAllComponents();
 				break;
@@ -113,19 +119,23 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	}
 
 	function onComponentContextMenu(e) {
-		if(!contextMenuTarget) {
+		if (!contextMenuTarget) {
 			return;
 		}
 
 		var componentDom = contextMenuTarget[0];
 		var li = $(this);
 		var action = li.data('action');
-		switch(action) {
+		switch (action) {
 			case "copy":
 				var offset = 10;
 				var x = 100 * (componentDom.offsetLeft + offset) / container.width();
 				var y = 100 * (componentDom.offsetTop + offset) / container.height();
-				var copyComponentDom = hardwareModel.addComponent(componentDom.dataset.name, x, y);
+				var copyComponentDom = hardwareModel.addComponent({
+					name: componentDom.dataset.name,
+					x: x,
+					y: y
+				});
 				hardwareModel.selectComponent(copyComponentDom);
 				break;
 			case "disconnect":
@@ -153,7 +163,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 
 	function doComponentSearch() {
 		var key = search.val().toLowerCase();
-		if(!key) {
+		if (!key) {
 			return;
 		}
 
@@ -205,7 +215,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	function onContainerDrop(e) {
 		var scope = e.originalEvent.dataTransfer.getData("scope");
 		var name = e.originalEvent.dataTransfer.getData("name");
-		if(!scope || scope != "component" || !name) {
+		if (!scope || scope != "component" || !name) {
 			return;
 		}
 
@@ -214,8 +224,37 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		var x = 100 * (e.offsetX - 0.5 * component.width) / container.width();
 		var y = 100 * (e.offsetY - 0.5 * component.height) / container.height();
 
-		hardwareModel.addComponent(name, x, y);
+		var componentDom = hardwareModel.addComponent({
+			name: name,
+			x: x,
+			y: y
+		});
+		hardwareModel.selectComponent(componentDom);
+		showComponentDialog(componentDom.dataset.uid);
+
 		return false;
+	}
+
+	function hideComponentDialog() {
+		componentDialog.removeClass("active").data("uid", "").find(".name").val("");
+	}
+
+	function showComponentDialog(uid) {
+		var componentData = hardwareModel.getComponentData(uid);
+		componentDialog.addClass("active").data("uid", uid).find(".name").val(componentData.varName);
+	}
+
+	function onContainerEvent(e) {
+		if(e.originalEvent.action == "component-select") {
+			showComponentDialog(e.originalEvent.data.uid);
+		}
+	}
+
+	function onComponentNameBlur(e) {
+		var uid = componentDialog.data("uid");
+		var name = componentDialog.find(".name").val();
+		var componentData = hardwareModel.getComponentData(uid);
+		componentData.varName = name;
 	}
 
 	return {

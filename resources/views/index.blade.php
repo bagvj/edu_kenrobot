@@ -125,7 +125,8 @@
 								</div>
 							</div>
 							<div class="component-dialog">
-								<span class="name-label">名字</span><input class="name" type="text" />
+								<span class="name-label">名字</span>
+								<input class="name" type="text" spellcheck="false" />
 							</div>
 							<ul class="x-context-menu component-menu">
 								<li data-action="copy">复制</li>

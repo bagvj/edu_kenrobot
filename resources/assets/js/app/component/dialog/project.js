@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectModel'], function(_, util, emitor, projectModel) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectModel'], function($1, util, emitor, projectModel) {
 	var dialogWin;
 	var image;
 	var imageHash;

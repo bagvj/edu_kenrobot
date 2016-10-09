@@ -1,4 +1,4 @@
-define(['app/util/util', 'app/util/emitor', 'vendor/ace/ace', 'vendor/ace/theme-default', 'vendor/ace/mode-arduino', 'vendor/ace/snippets/text', 'vendor/ace/snippets/arduino', 'vendor/ace/ext-language_tools'], function(util, emitor) {
+define(['app/util/util', 'app/util/emitor', 'vendor/beautify', 'vendor/ace/ace', 'vendor/ace/theme-default', 'vendor/ace/mode-arduino', 'vendor/ace/snippets/text', 'vendor/ace/snippets/arduino', 'vendor/ace/ext-language_tools'], function(util, emitor, beautify) {
 	var editor;
 	var codeTemplate = '/**\n * Copyright(C), 2016-2038, KenRobot.com\n * FileName: {{name}}.ino\n * Author: {{author}}\n * Create: {{created_at}}\n * Modify: {{updated_at}}\n */\n{{global}}\nvoid setup()\n{\n{{setup}}\n}\n\nvoid loop()\n{\n{{loop}}\n}';
 	
@@ -85,31 +85,29 @@ define(['app/util/util', 'app/util/emitor', 'vendor/ace/ace', 'vendor/ace/theme-
 	}
 
 	function setData(data) {
-		var source = data || getDefaultCode();
-		editor.setValue(source, -1);
+		data ? editor.setValue(data, -1) : genCode();
 	}
 
-	function gen(codeInfo) {
+	function genCode(codeInfo) {
+		codeInfo = codeInfo || {};
 		var date = new Date();
-		return codeTemplate.replace(/\{\{name\}\}/, codeInfo.name)
-			.replace(/\{\{author\}\}/, codeInfo.author)
+		var code = codeTemplate.replace(/\{\{name\}\}/, codeInfo.name || "我的项目")
+			.replace(/\{\{author\}\}/, codeInfo.author || "啃萝卜")
 			.replace(/\{\{created_at\}\}/, util.formatDate(codeInfo.created_at || date, "yyyy/MM/dd"))
 			.replace(/\{\{updated_at\}\}/, util.formatDate(codeInfo.updated_at || date, "yyyy/MM/dd"))
-			.replace(/\{\{global\}\}/, codeInfo.global || "")
+			.replace(/\{\{global\}\}/, codeInfo.global ? "\n" + codeInfo.global + "\n" : "")
 			.replace(/\{\{setup\}\}/, codeInfo.setup || "    ")
 			.replace(/\{\{loop\}\}/, codeInfo.loop || "    ");
-	}
 
-	function getDefaultCode() {
-		return gen({
-			name: "我的项目",
-			author: "啃萝卜",
-		});
+		code = beautify.js_beautify(code);
+		editor.setValue(code, -1);
 	}
 
 	return {
 		init: init,
 		getData: getData,
 		setData: setData,
+
+		genCode: genCode,
 	}
 });

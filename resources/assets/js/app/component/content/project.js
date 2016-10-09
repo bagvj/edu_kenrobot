@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userModel'], function(_, emitor, util, userModel) {
+define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userModel'], function($1, emitor, util, userModel) {
 	var region;
 	var projectList;
 	var boardList;
@@ -33,7 +33,6 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	}
 
 	function updateBoards(boards) {
-		// boardList.empty();
 		var ul = boardList.find("> ul").empty();
 		boards.forEach(function(board) {
 			var li = boardTemplate.replace(/\{\{name\}\}/g, board.name)

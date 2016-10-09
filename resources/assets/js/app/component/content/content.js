@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', './sidebar', './login', './project', './hardware', './software', './code'], function(_, util, emitor, sidebar, login, project, hardware, software, code) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', './sidebar', './login', './project', './hardware', './software', './code'], function($1, util, emitor, sidebar, login, project, hardware, software, code) {
 	var region;
 
 	function init() {

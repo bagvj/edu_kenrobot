@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function(_, util, emitor) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util, emitor) {
 	var dialogWin;
 
 	function init() {

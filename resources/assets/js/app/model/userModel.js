@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/emitor'], function(_, emitor) {
+define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 	var userInfo;
 
 	function getUserId() {

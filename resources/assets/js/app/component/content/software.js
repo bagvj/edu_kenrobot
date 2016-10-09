@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/softwareModel'], function(_, util, emitor, softwareModel) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/softwareModel'], function($1, util, emitor, softwareModel) {
 	var region;
 	var container;
 	var dragContainer;
@@ -7,6 +7,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 	var filterWrap;
 	var contextMenuTarget;
 	var blockContextMenu;
+	var modules;
 
 	function init() {
 		var sidebarTab = $('.sidebar-tabs .tab-software');
@@ -35,7 +36,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 	function loadSchema(schema) {
 		softwareModel.loadSchema(schema);
 
-		updateBlocks(schema.blocks);
+		createBlocks(schema.blocks);
 	}
 
 	function getData() {
@@ -58,21 +59,35 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		$('.block-loop', region).addClass("active").addClass(loopBlock.hasChildren() ? "with-content" : "").find(".group-extension").append(loopBlock.dom);
 	}
 
+	function getCode() {
+		return softwareModel.getCode();
+	}
+
 	function reset() {
 
 	}
 
-	function updateBlocks(blocks) {
+	function createBlocks(blocks) {
 		blockList.empty();
 		blocks.forEach(function(blockData) {
-			if(blockData.type == "group" || blockData.tags.indexOf("module") >= 0) {
+			if(blockData.type == "group") {
 				return;
 			}
 
 			var block = softwareModel.createBlock(blockData.name);
 			var li = $('<li>').data("filter", blockData.tags.concat());
+			blockData.tags.indexOf("module") >= 0 && li.data("module", blockData.module);
 			blockList.append(li.append(block.dom));
 		});
+	}
+
+	function updateBlocks(hardwareData) {
+		modules = [];
+		hardwareData.components.forEach(function(componentData) {
+			modules.indexOf(componentData.name) < 0 && modules.push(componentData.name)
+		});
+		
+		filterList.find("li.active").click();
 	}
 
 	function onAppStart() {
@@ -81,6 +96,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 
 	function onActiveTab(name) {
 		name == "software" ? dragContainer.addClass("active") : dragContainer.removeClass("active");
+		name == "software" && emitor.trigger("software", "update-block");
 	}
 
 	function onContextMenu(e) {		
@@ -158,7 +174,17 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		blockList.children().each(function(index, child) {
 			var blockLi = $(child);
 			var filters = blockLi.data("filter");
-			(filters.indexOf(filter) >= 0 && filters.indexOf("advanced") < 0) ? blockLi.addClass("active"): blockLi.removeClass('active');
+			if(filters.indexOf(filter) < 0 || filters.indexOf("advanced") >= 0) {
+				blockLi.removeClass('active');
+				return;
+			}
+
+			if(filter == "module" && modules.indexOf(blockLi.data("module")) < 0) {
+				blockLi.removeClass("active");
+				return;
+			}
+
+			blockLi.addClass("active");
 		});
 	}
 
@@ -168,6 +194,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 			return;
 		}
 
+		var filter = li.data('filter');
 		var advanced = $(".advanced", filterWrap);
 		var isAdvanced;
 		if (advanced.data("action") == "advanced") {
@@ -178,7 +205,6 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 			isAdvanced = true;
 		}
 
-		var filter = li.data('filter');
 		blockList.children().each(function(index, child) {
 			var blockLi = $(child);
 			var filters = blockLi.data('filter');
@@ -188,7 +214,17 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 			}
 
 			var a = filters.indexOf("advanced") >= 0;
-			((isAdvanced && a) || (!isAdvanced && !a)) ? blockLi.addClass("active") : blockLi.removeClass("active");
+			if((isAdvanced && !a) || (!isAdvanced && a)) {
+				blockLi.removeClass("active");
+				return;
+			}
+
+			if(filter == "module" && modules.indexOf(blockLi.data("module")) < 0) {
+				blockLi.removeClass("active");
+				return;
+			}
+
+			blockLi.addClass("active");
 		});
 	}
 
@@ -207,5 +243,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		getData: getData,
 		setData: setData,
 		reset: reset,
+
+		getCode: getCode,
+		updateBlocks: updateBlocks,
 	};
 });

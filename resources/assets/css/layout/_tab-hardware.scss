@@ -147,7 +147,6 @@
 
 		.component-dialog {
 			position: absolute;
-			display: none;
 		}
 	}
 }
@@ -231,4 +230,42 @@
 			background-color: #f1c933;
 		}
 	}	
+}
+
+.component-dialog {
+	border-radius: 5px;
+	width: 220px;
+	border: 1px solid #f69c4d;
+	background-color: #fdbf2d;
+	margin-left: auto;
+	margin-right: auto;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: none;
+
+	.name-label {
+		letter-spacing: 2px;
+		color: white;
+		font-size: 14px;
+		line-height: 42px;
+		margin-left: 11px;
+		margin-right: 5px;
+	}
+
+	.name {
+		margin-top: 7px;
+		margin-bottom: 7px;
+		height: 28px;
+		line-height: 28px;
+		background-color: white;
+		width: 160px;
+		color: #718ac0;
+		letter-spacing: 1px;
+		padding: 4px 10px;
+	}
+
+	&.active {
+		display: block;
+	}
 }

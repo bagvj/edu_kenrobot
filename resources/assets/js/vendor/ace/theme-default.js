@@ -28,7 +28,6 @@ background: rgb(102, 82, 0)\
 }\
 .ace-default .ace_marker-layer .ace_bracket {\
 margin: -1px 0 0 -1px;\
-border: 1px solid #49483E\
 }\
 .ace-default .ace_marker-layer .ace_active-line {\
 background: transparent;\
@@ -104,8 +103,12 @@ color: #a9b6d2;\
 .ace-default .ace_operator {\
   color: rgba(18, 42, 64, 0.8);\
 }\
-.ace-default .ace_indent-guide {\
-background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWPQ0FD0ZXBzd/wPAAjVAoxeSgNeAAAAAElFTkSuQmCC) right repeat-y\
+.ace-default .ace_br1 {\
+  border-top-left-radius: 0;\
+}\
+.ace-default .ace_br12 {\
+  border-bottom-right-radius: 0;\
+  border-bottom-left-radius: 0;\
 }\
 .ace_gutter-cell {\
 	padding-left: 19px;\

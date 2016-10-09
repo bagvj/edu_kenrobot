@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userModel'], function(_, emitor, util, userModel) {
+define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userModel'], function($1, emitor, util, userModel) {
 	var region;
 
 	function init() {

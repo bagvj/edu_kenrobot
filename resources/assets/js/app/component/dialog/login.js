@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userModel'], function(_, util, emitor, userModel) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userModel'], function($1, util, emitor, userModel) {
 	var dialogWin;
 
 	var loginCheckTimer;

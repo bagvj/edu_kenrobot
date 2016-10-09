@@ -1,4 +1,4 @@
-define(['vendor/jquery', './userModel'], function(_, userModel) {
+define(['vendor/jquery', './userModel'], function($1, userModel) {
 
 	function get(key, type) {
 		type = type || "id";
@@ -57,7 +57,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "13",
 						tags: ["digital"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad02",
 						width: 9,
@@ -66,7 +66,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "12",
 						tags: ["digital"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad03",
 						width: 9,
@@ -75,7 +75,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "11",
 						tags: ["digital", "analog-out"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad04",
 						width: 9,
@@ -84,7 +84,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "10",
 						tags: ["digital", "analog-out"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad05",
 						width: 9,
@@ -93,7 +93,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "9",
 						tags: ["digital", "analog-out"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad06",
 						width: 9,
@@ -102,7 +102,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "8",
 						tags: ["digital"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad07",
 						width: 9,
@@ -111,7 +111,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "7",
 						tags: ["digital"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad08",
 						width: 9,
@@ -120,7 +120,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "6",
 						tags: ["digital", "analog-out"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad09",
 						width: 9,
@@ -129,7 +129,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "5",
 						tags: ["digital", "analog-out"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad10",
 						width: 9,
@@ -138,7 +138,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "4",
 						tags: ["digital"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad11",
 						width: 9,
@@ -147,7 +147,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "3",
 						tags: ["digital", "analog-out"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad12",
 						width: 9,
@@ -156,7 +156,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "2",
 						tags: ["digital"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad13",
 						width: 9,
@@ -165,7 +165,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "1",
 						tags: ["digital"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad13",
 						width: 9,
@@ -174,7 +174,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.098,
 						name: "0",
 						tags: ["digital"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa00",
 						width: 9,
@@ -183,7 +183,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.92,
 						name: "A0",
 						tags: ["analog-in"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa01",
 						width: 9,
@@ -192,7 +192,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.92,
 						name: "A1",
 						tags: ["analog-in"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa02",
 						width: 9,
@@ -201,7 +201,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.92,
 						name: "A2",
 						tags: ["analog-in"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa03",
 						width: 9,
@@ -210,7 +210,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.92,
 						name: "A3",
 						tags: ["analog-in"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa04",
 						width: 9,
@@ -219,7 +219,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.92,
 						name: "A4",
 						tags: ["analog-in"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa05",
 						width: 9,
@@ -228,7 +228,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.92,
 						name: "A5",
 						tags: ["analog-in"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						width: 31,
 						height: 62,
@@ -237,8 +237,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "Serial",
 						tags: ["serial"],
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ac05",
-						overlay: [0.5, 1.5],
-					}],
+						overlay: [0.5, 1.5]
+					}]
 				}, {
 					label: "RoSys开发板",
 					name: "NEO328",
@@ -251,7 +251,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.851,
 						name: "2",
 						tags: ["digital"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "55798942-05de-4d9c-82e8-ddced2259aec",
 						width: 32,
@@ -260,7 +260,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.851,
 						name: "3",
 						tags: ["digital"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "c297515b-2a2d-4b5c-96a8-e740d83a75ce",
 						width: 32,
@@ -269,7 +269,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.851,
 						name: "8",
 						tags: ["digital"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "86624d9f-0ddb-4356-8664-0afc9223e12e",
 						width: 32,
@@ -278,7 +278,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.851,
 						name: "9",
 						tags: ["digital"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "e29d477e-8923-40c2-8922-af988a78811f",
 						width: 32,
@@ -287,7 +287,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.851,
 						name: "10",
 						tags: ["digital"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "08001087-da26-451b-b124-5c100d928201",
 						width: 32,
@@ -296,7 +296,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.851,
 						name: "11",
 						tags: ["digital"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						width: 32,
 						height: 20,
@@ -305,7 +305,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "A0",
 						tags: ["analog"],
 						uid: "7186a1cf-2fab-4c5a-8d1e-19836d4a561d",
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "7c10ef7d-a65e-497d-868a-b9c2e43bea81",
 						width: 32,
@@ -314,7 +314,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.149,
 						name: "A1",
 						tags: ["analog"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "15ad5a73-f510-44bc-b4ac-5886a8211d38",
 						width: 32,
@@ -323,7 +323,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.149,
 						name: "A2",
 						tags: ["analog"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "129d8693-115f-40c4-a6c1-4315bd020254",
 						width: 32,
@@ -332,7 +332,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.149,
 						name: "A3",
 						tags: ["analog"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "d679b1cd-91d4-4aed-8f6f-6ad31d041518",
 						width: 32,
@@ -341,7 +341,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.149,
 						name: "A6",
 						tags: ["analog"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "15c50e12-8705-4d47-803d-5c50b7512981",
 						width: 32,
@@ -350,7 +350,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.149,
 						name: "A7",
 						tags: ["analog"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "ed9cbaec-e3fb-4acb-87d9-c4825bb5594c",
 						width: 40,
@@ -359,7 +359,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.851,
 						name: "USART",
 						tags: ["serial"],
-						overlay: [0.5, -0.5],
+						overlay: [0.5, -0.5]
 					}, {
 						uid: "e6f796e0-d283-41d3-a996-7316acb2c4cc",
 						width: 40,
@@ -368,36 +368,36 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						y: 0.149,
 						name: "IIC",
 						tags: ["iic"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "cc94cecf-1424-4352-8309-474a814981f5",
 						width: 40,
 						height: 20,
-						x: 0.970,
-						y: 0.720,
+						x: 0.97,
+						y: 0.72,
 						name: "IIC",
 						tags: ["iic"],
 						overlay: [0.5, 1.5],
-						rotate: true,
+						rotate: true
 					}, {
 						uid: "0ae7f137-66e0-437a-998f-c71a2ec62c3b",
 						width: 20,
 						height: 54,
-						x: 0.970,
+						x: 0.97,
 						y: 0.336,
 						name: "MA",
 						tags: ["motor"],
-						overlay: [0.5, 1.5],
+						overlay: [0.5, 1.5]
 					}, {
 						uid: "ee0399c9-2700-4456-96e1-47803c1ff60a",
 						width: 20,
 						height: 54,
-						x: 0.970,
-						y: 0.540,
+						x: 0.97,
+						y: 0.54,
 						name: "MB",
 						tags: ["motor"],
-						overlay: [0.5, 1.5],
-					}],
+						overlay: [0.5, 1.5]
+					}]
 				}],
 				components: [{
 					uid: "aa1a2f4c-2934-414a-823f-9961fbf23c55",
@@ -412,8 +412,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 					pins: [{
 						name: "s",
 						anchor: [0.5, 1],
-						tags: ["digital"],
-					}],
+						tags: ["digital"]
+					}]
 				}, {
 					uid: "a8466d12-ed5e-4cc8-bffe-1031c3bb10e1",
 					name: "rgb",
@@ -427,16 +427,16 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 					pins: [{
 						name: "r",
 						anchor: [0.25, 1],
-						tags: ["analog-out"],
+						tags: ["analog-out"]
 					}, {
 						name: "g",
 						anchor: [0.5, 1],
-						tags: ["analog-out"],
+						tags: ["analog-out"]
 					}, {
 						name: "b",
 						anchor: [0.75, 1],
-						tags: ["analog-out"],
-					}],
+						tags: ["analog-out"]
+					}]
 				}, {
 					uid: "abf7ad9a-2bd9-40f4-bf83-0af03e8f4d5a",
 					name: "lcd",
@@ -451,13 +451,13 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "sda",
 						anchor: [0.33, 0],
 						tags: ["analog-in"],
-						spec: "A4",
+						spec: "A4"
 					}, {
 						name: "scl",
 						anchor: [0.67, 0],
 						tags: ["analog-in"],
-						spec: "A5",
-					}],
+						spec: "A5"
+					}]
 				}, {
 					uid: "4b8594a2-b7ff-44fe-a8b0-319640722b30",
 					name: "serialPort",
@@ -472,9 +472,9 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "s",
 						anchor: [1, 0.5],
 						tags: ["serial"],
-						spec: "Serial",
-					}],
-				}],
+						spec: "Serial"
+					}]
+				}]
 			},
 			software: {
 				blocks: [{
@@ -490,6 +490,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						accept: "connector-top"
 					}],
 					code: "{STATEMENTS}",
+					tags: []
 				}, {
 					type: "output",
 					name: "hts221Temperature",
@@ -503,7 +504,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 					}, {
 						id: "SENSOR",
 						type: "dynamic-select",
-						options: "hts221"
+						options: "hts221s"
 					}, {
 						type: "text",
 						value: "的温度"
@@ -513,7 +514,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "float"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "hts221"
 				}, {
 					type: "output",
 					name: "hts221Humidity",
@@ -527,7 +529,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 					}, {
 						id: "SENSOR",
 						type: "dynamic-select",
-						options: "hts221"
+						options: "hts221s"
 					}, {
 						type: "text",
 						value: "的湿度"
@@ -537,7 +539,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "float"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "hts221"
 				}, {
 					type: "output",
 					name: "encoderRead",
@@ -561,7 +564,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "int"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "encoder"
 				}, {
 					type: "statement",
 					name: "encoderWrite",
@@ -587,7 +591,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						id: "VALUE"
 					}],
 					code: "{SENSOR}.write({VALUE});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "encoder"
 				}, {
 					type: "output",
 					name: "ultrasoundDistance",
@@ -611,7 +616,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "long"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "ultrasound"
 				}, {
 					type: "output",
 					name: "ultrasoundDistanceAvg",
@@ -635,7 +641,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "long"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "ultrasound"
 				}, {
 					type: "statement",
 					name: "ultrasoundPing",
@@ -658,7 +665,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "Ping"
 					}],
 					code: "{SENSOR}.Ping();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ultrasound"
 				}, {
 					type: "output",
 					name: "ultrasoundGetDistance",
@@ -682,7 +690,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "long"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "ultrasound"
 				}, {
 					type: "statement",
 					name: "motorRun",
@@ -708,7 +717,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "number-input"
 					}],
 					code: "{MOTOR}.run({SPEED});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "motor"
 				}, {
 					type: "statement",
 					name: "motorStop",
@@ -731,7 +741,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "停止转动"
 					}],
 					code: "{MOTOR}.stop();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "motor"
 				}, {
 					type: "statement",
 					name: "buzzer",
@@ -789,7 +800,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "毫秒"
 					}],
 					code: "tone({BUZZER},{NOTE},{SECONDS});\ndelay({SECONDS});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "buzzer"
 				}, {
 					type: "statement",
 					name: "buzzerClose",
@@ -809,7 +821,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						options: "buzzers"
 					}],
 					code: "noTone({BUZZER});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "buzzer"
 				}, {
 					type: "statement",
 					name: "continuousServoStart",
@@ -842,7 +855,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						}]
 					}],
 					code: "{SERVO}.write({DIRECTION});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "continuousServo"
 				}, {
 					type: "statement",
 					name: "continuousServoStop",
@@ -865,7 +879,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "转动"
 					}],
 					code: "{SERVO}.write(90);",
-					tags: ["module"]
+					tags: ["module"],
+					module: "continuousServo"
 				}, {
 					type: "statement",
 					name: "lcdTurnOnOff",
@@ -895,7 +910,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "的背光"
 					}],
 					code: "{LCD}.{STATE}();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "lcd"
 				}, {
 					type: "statement",
 					name: "lcdWrite",
@@ -922,7 +938,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						placeholder: "Hi!"
 					}],
 					code: "{LCD}.print(\"{TEXT}\");",
-					tags: ["module"]
+					tags: ["module"],
+					module: "lcd"
 				}, {
 					type: "statement",
 					name: "lcdWritePosition",
@@ -963,7 +980,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						placeholder: "Hi!"
 					}],
 					code: "{LCD}.setCursor({COLUMN},{ROW});{LCD}.print(\"{TEXT}\");",
-					tags: ["module"]
+					tags: ["module"],
+					module: "lcd"
 				}, {
 					type: "statement",
 					name: "lcdClear",
@@ -983,7 +1001,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						options: "lcds"
 					}],
 					code: "{LCD}.clear();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "lcd"
 				}, {
 					type: "statement",
 					name: "led",
@@ -1013,7 +1032,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						options: "leds"
 					}],
 					code: "digitalWrite({LED},{STATE});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "led"
 				}, {
 					type: "statement",
 					name: "rgbLedSimple",
@@ -1067,7 +1087,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						}]
 					}],
 					code: "{LED}.setRGBcolor({COLOR});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "rgb"
 				}, {
 					type: "statement",
 					name: "rgbLed",
@@ -1108,7 +1129,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: 0
 					}],
 					code: "{LED}.setRGBcolor({RED},{GREEN},{BLUE});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "rgb"
 				}, {
 					type: "statement",
 					name: "rgbLedFade",
@@ -1149,7 +1171,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: 0
 					}],
 					code: "{LED}.crossFade({RED},{GREEN},{BLUE});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "rgb"
 				}, {
 					type: "output",
 					name: "SEN006Read",
@@ -1182,7 +1205,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "int"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "SEN006"
 				}, {
 					type: "output",
 					name: "SEN006ReadX",
@@ -1206,7 +1230,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "int"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "SEN006"
 				}, {
 					type: "output",
 					name: "SEN006ReadY",
@@ -1230,7 +1255,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "int"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "SEN006"
 				}, {
 					type: "output",
 					name: "SEN006Angle",
@@ -1254,7 +1280,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "float"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "SEN006"
 				}, {
 					type: "output",
 					name: "SEN006OffCenter",
@@ -1278,7 +1305,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "float"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "SEN006"
 				}, {
 					type: "output",
 					name: "SEN017ReadSensors",
@@ -1302,7 +1330,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "int"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "SEN017"
 				}, {
 					type: "output",
 					name: "SEN017ReadSensor",
@@ -1335,7 +1364,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "int"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "SEN017"
 				}, {
 					type: "statement",
 					name: "ACT002Show",
@@ -1358,7 +1388,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "显示"
 					}],
 					code: "{LED}.show();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT002"
 				}, {
 					type: "output",
 					name: "ACT002GetNumber",
@@ -1382,7 +1413,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "int"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT002"
 				}, {
 					type: "statement",
 					name: "ACT002SetNumber",
@@ -1415,7 +1447,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "4d9a6bee-e01d-4314-93c2-7d7f27b03812"
 					}],
 					code: "{LED}.setNumber({NUMBER});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT002"
 				}, {
 					type: "statement",
 					name: "ACT002SetColor",
@@ -1474,7 +1507,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "cb442ce5-3a46-4aa4-a456-38ae732d0fc9"
 					}],
 					code: "{LED}.setColor({RED}, {GREEN}, {BLUE});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT002"
 				}, {
 					type: "statement",
 					name: "ACT002SetColor2",
@@ -1520,7 +1554,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "5645ecae-9edc-4bbd-9b4a-29abd88832d8"
 					}],
 					code: "{LED}.setColor({INDEX}, {VALUE});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT002"
 				}, {
 					type: "statement",
 					name: "ACT005Tone",
@@ -1569,7 +1604,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "毫秒"
 					}],
 					code: "{BUZZER}.tone({FREQUENCY}, {DURATION});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT005"
 				}, {
 					type: "statement",
 					name: "ACT005Didi",
@@ -1592,7 +1628,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "发出嘀嘀声"
 					}],
 					code: "{BUZZER}.Didi();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT005"
 				}, {
 					type: "statement",
 					name: "ACT005NoTone",
@@ -1612,7 +1649,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						options: "ACT005s"
 					}],
 					code: "{BUZZER}.noTone();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT005"
 				}, {
 					type: "statement",
 					name: "ACT008Init",
@@ -1635,7 +1673,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "初始化"
 					}],
 					code: "{SEGMENT}.init();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT008"
 				}, {
 					type: "statement",
 					name: "ACT008Display",
@@ -1668,7 +1707,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "8e242abc-8d0b-4947-a29f-a2028bd6b64c"
 					}],
 					code: "{SEGMENT}.display({DATA});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT008"
 				}, {
 					type: "statement",
 					name: "ACT008SetBrightness",
@@ -1701,7 +1741,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "c5d8e6f0-28c9-47af-b939-b515bd0e1dd4"
 					}],
 					code: "{SEGMENT}.setBrightness({BRIGHTNESS});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT008"
 				}, {
 					type: "statement",
 					name: "ACT008ClearDisplay",
@@ -1724,7 +1765,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "显示"
 					}],
 					code: "{SEGMENT}.clearDisplay();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT008"
 				}, {
 					type: "output",
 					name: "ACT009GetDeviceCount",
@@ -1748,7 +1790,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "short"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "ACT009Display",
@@ -1794,7 +1837,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "c9ee8ac8-96b7-49b0-b907-11be6f352a70"
 					}],
 					code: "{LCD}.display({ADDR}, {DATA});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "ACT009Shutdown",
@@ -1840,7 +1884,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "fd3a61fa-83b0-4bfc-a5cf-159dd2096109"
 					}],
 					code: "{LCD}.shutdown({ADDR}, {STATUS});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "ACT009SetScanLimit",
@@ -1886,7 +1931,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "079428c7-bbb6-47bd-bf23-b9ef1e547493"
 					}],
 					code: "{LCD}.setScanLimit({ADDR}, {LIMIT});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "ACT009SetIndensity",
@@ -1932,7 +1978,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "3404b249-a24b-4afb-a0aa-b122c9eb63e0"
 					}],
 					code: "{LCD}.setIntensity({ADDR}, {INDTENSITY});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "ACT009ClearDisplay",
@@ -1965,7 +2012,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "063e64db-6ce0-4818-bdfa-90ee400da4c1"
 					}],
 					code: "{LCD}.clearDisplay({ADDR});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "clockRTCInit",
@@ -1985,7 +2033,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						options: "clocks"
 					}],
 					code: "{RTC}.adjust(DateTime(__DATE__, __TIME__));",
-					tags: ["module"]
+					tags: ["module"],
+					module: "clock"
 				}, {
 					type: "output",
 					name: "clockRTC",
@@ -2019,7 +2068,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "String"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "clock"
 				}, {
 					type: "output",
 					name: "clockRTCAdvanced",
@@ -2065,7 +2115,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "int"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "clock"
 				}, {
 					type: "statement",
 					name: "oscillator",
@@ -2106,7 +2157,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: 2000
 					}],
 					code: "{OSCILLATOR}.SetO({PHASE});{OSCILLATOR}.SetA({AMPLITUDE});{OSCILLATOR}.SetT({SPEED});{OSCILLATOR}.refresh();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "oscillator"
 				}, {
 					type: "statement",
 					name: "oscillatorStart",
@@ -2126,7 +2178,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						options: "oscillators"
 					}],
 					code: "{OSCILLATOR}.Play();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "oscillator"
 				}, {
 					type: "statement",
 					name: "oscillatorStop",
@@ -2146,7 +2199,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						options: "oscillators"
 					}],
 					code: "{OSCILLATOR}.Stop();",
-					tags: ["module"]
+					tags: ["module"],
+					module: "oscillator"
 				}, {
 					type: "output",
 					name: "readSensor",
@@ -2168,7 +2222,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						idDropdown: "SENSOR",
 						options: "sensors"
 					},
-					tags: ["module"]
+					tags: ["module"],
+					module: "sensor"
 				}, {
 					type: "statement",
 					name: "servoNormal",
@@ -2198,7 +2253,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "度"
 					}],
 					code: "{SERVO}.write({POSITION});",
-					tags: ["module"]
+					tags: ["module"],
+					module: "servo"
 				}, {
 					type: "output",
 					name: "serialReceive",
@@ -2254,7 +2310,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 					tags: ["module"]
 				}, {
 					type: "output",
-					name: "hwVariable",
+					name: "components",
 					connectors: [{
 						type: "connector-output",
 						accept: "connector-input"
@@ -2265,15 +2321,16 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 					}, {
 						id: "COMPONENT",
 						type: "dynamic-select",
-						options: "varComponents"
+						options: "components"
 					}],
 					code: "{COMPONENT}",
 					returnType: {
 						type: "fromDynamicDropdown",
 						idDropdown: "COMPONENT",
-						options: "varComponents"
+						options: "components"
 					},
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "component"
 				}, {
 					type: "statement",
 					name: "buzzerAdvanced",
@@ -2328,7 +2385,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "毫秒"
 					}],
 					code: "tone({BUZZER},{NOTE},{SECONDS});\ndelay({SECONDS});",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "motorRunAdvanced",
@@ -2361,7 +2419,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "a3ea169d-374d-4c22-886a-28111090a21d"
 					}],
 					code: "{MOTOR}.run({SPEED});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "motor"
 				}, {
 					type: "statement",
 					name: "continuousServoStartAdvanced-v1",
@@ -2400,7 +2459,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "5b0354c0-8e85-4755-9e03-95525f1057a9"
 					}],
 					code: "{SERVO}.write({DIRECTION});",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "continuousServoStopAdvanced",
@@ -2429,7 +2489,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "转动"
 					}],
 					code: "{SERVO}.write(90);",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "lcdTurnOnOffAdvanced",
@@ -2465,7 +2526,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "的背光"
 					}],
 					code: "{LCD}.{STATE}();",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "lcdWriteAdvanced",
@@ -2504,7 +2566,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "0ff787be-1b73-4c85-84e0-f38651e4a29d"
 					}],
 					code: "{LCD}.print({TEXT});",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "ledAdvanced",
@@ -2540,7 +2603,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "9050f447-06fe-4956-bd2b-a440ce757f52"
 					}],
 					code: "digitalWrite({LED},{STATE});",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "encoderWriteAdvanced",
@@ -2579,7 +2643,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "f76dc724-1666-4d74-9d58-0733fbe78071"
 					}],
 					code: "{ENCODER}.write({VALUE});",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "rgbLedAdvanced",
@@ -2638,7 +2703,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "09b65f04-37b9-4a60-b9a6-e063eef8334e"
 					}],
 					code: "{LED}.setRGBcolor({RED},{GREEN},{BLUE});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "rgb"
 				}, {
 					type: "statement",
 					name: "SEN006SetPin",
@@ -2684,7 +2750,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "942dca2e-54fc-4a0b-809e-1810e9de9695"
 					}],
 					code: "{JOYSTICK}.setpin({X}, {Y});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "SEN006"
 				}, {
 					type: "statement",
 					name: "SEN006CalCenterValue",
@@ -2730,7 +2797,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "80843961-c4f8-44db-94b3-a565eb0f3357"
 					}],
 					code: "{JOYSTICK}.CalCenterValue({X_OFFSET}, {Y_OFFSET});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "SEN006"
 				}, {
 					type: "statement",
 					name: "SEN017SetPin",
@@ -2802,7 +2870,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "62113218-19d6-4b3d-b7ec-e08a0463ab68"
 					}],
 					code: "{LINE}.setpin({D1}, {D2}, {D3}, {D4});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "SEN017"
 				}, {
 					type: "statement",
 					name: "ACT002SetPinAdvanced",
@@ -2835,7 +2904,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "23a19473-9337-444a-9fc1-5c5037b1a928"
 					}],
 					code: "{LED}.setpin({PIN});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT002"
 				}, {
 					type: "statement",
 					name: "ACT002SetColorAdvanced",
@@ -2907,7 +2977,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "f198ff94-ab2b-4462-9a74-8737cf810219"
 					}],
 					code: "{LED}.setColor({INDEX}, {RED}, {GREEN}, {BLUE});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT002"
 				}, {
 					type: "statement",
 					name: "ACT002SetColorAt",
@@ -2979,7 +3050,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "8a570b92-eb58-4e9e-91bd-689c4309b154"
 					}],
 					code: "{LED}.setColorAt({INDEX}, {RED}, {GREEN}, {BLUE});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT002"
 				}, {
 					type: "output",
 					name: "ACT002GetColorAt",
@@ -3012,7 +3084,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "cRGB"
 					},
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT002"
 				}, {
 					type: "statement",
 					name: "ACT005SetPin",
@@ -3045,7 +3118,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "c243ecff-5b4c-4e98-acbe-f7c97a05e734"
 					}],
 					code: "{BUZZER}.setpin({PIN});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT005"
 				}, {
 					type: "statement",
 					name: "ACT005ToneAdvanced",
@@ -3107,7 +3181,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "毫秒"
 					}],
 					code: "{BUZZER}.tone({PIN}, {FREQUENCY}, {DURATION});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT005"
 				}, {
 					type: "statement",
 					name: "ACT005DidiAdvanced",
@@ -3140,7 +3215,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "c0fea7ec-d21f-43b8-a034-aba9019e32c3"
 					}],
 					code: "{BUZZER}.Didi({PIN});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT005"
 				}, {
 					type: "statement",
 					name: "ACT005NoToneAdvanced",
@@ -3173,7 +3249,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "aef18e3d-2146-463e-9210-ca2bce54dd0e"
 					}],
 					code: "{BUZZER}.noTone({PIN});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT005"
 				}, {
 					type: "statement",
 					name: "ACT008Display2",
@@ -3219,7 +3296,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "7d29b5ab-03ba-4d2b-a5c2-fa439b8ee758"
 					}],
 					code: "{SEGMENT}.display({ADDR}, {DATA});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT008"
 				}, {
 					type: "statement",
 					name: "ACT008Display3",
@@ -3278,7 +3356,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "0cdfe9c3-4c3d-4460-932b-b61cfbecfbc5"
 					}],
 					code: "{SEGMENT}.display({ADDR}, {DATA}, {POINT});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT008"
 				}, {
 					type: "statement",
 					name: "ACT008SetPin",
@@ -3324,7 +3403,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "7cf72655-3199-461e-833d-9fc0bfdd4f79"
 					}],
 					code: "{SEGMENT}.setpin({DATA}, {CLK});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT008"
 				}, {
 					type: "statement",
 					name: "ACT008Write",
@@ -3357,7 +3437,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "dcc2313c-1906-4094-ad29-c567c32cef7a"
 					}],
 					code: "{SEGMENT}.write({DATA});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT008"
 				}, {
 					type: "statement",
 					name: "ACT008Write2",
@@ -3403,7 +3484,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "6c7d142b-d19c-49ac-9fe9-3320b8fcc69e"
 					}],
 					code: "{SEGMENT}.write({ADDR}, {DATA});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT008"
 				}, {
 					type: "output",
 					name: "ACT008Coding",
@@ -3439,7 +3521,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "int"
 					},
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT008"
 				}, {
 					type: "statement",
 					name: "ACT008Coding2",
@@ -3475,7 +3558,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "为数码管段码数组"
 					}],
 					code: "{SEGMENT}.coding({DATA});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT008"
 				}, {
 					type: "statement",
 					name: "ACT008Set",
@@ -3534,7 +3618,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "8bf83db2-323c-42cc-a6dd-ae63effae27b"
 					}],
 					code: "{SEGMENT}.set({BRIGHTNESS}, {DATA_ADDR}, {DISPLAY_ADDR});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT008"
 				}, {
 					type: "statement",
 					name: "ACT009SetPin",
@@ -3606,7 +3691,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "3cb3d2c2-93c8-4815-9b1f-54eecfcab023"
 					}],
 					code: "{LCD}.setpin({DATA}, {CLK}, {CS}, {NUM});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "ACT009SetLed",
@@ -3678,7 +3764,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "fbfc5e58-ab7b-40e6-b225-ab240ed7696f"
 					}],
 					code: "{LCD}.setLed({ADDR}, {ROW}, {COL}, {STATE});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "ACT009SetRow",
@@ -3737,7 +3824,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "2699a77f-dfa2-4412-9c83-757e88af0fda"
 					}],
 					code: "{LCD}.setRow({ADDR}, {ROW}, {VALUE});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "ACT009SetColumn",
@@ -3796,7 +3884,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "a3328dd9-8ff3-4f3a-9c0e-4ac811ad3da7"
 					}],
 					code: "{LCD}.setColumn({ADDR}, {COL}, {VALUE});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "ACT009DisplayRotation",
@@ -3842,7 +3931,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "2df43577-798f-48c5-bc58-08a812cb250a"
 					}],
 					code: "{LCD}.displayRotation({ADDR}, {DATA});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "ACT009DisplayMinRotation",
@@ -3888,7 +3978,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "2f0d9241-5093-4578-90e4-a509b957c659"
 					}],
 					code: "{LCD}.displayMinRotation({ADDR}, {DATA});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "ACT009"
 				}, {
 					type: "statement",
 					name: "oscillatorAdvanced",
@@ -3953,7 +4044,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "8a83d1fa-74d9-4993-afd1-0c14796e169a"
 					}],
 					code: "{OSCILLATOR}.SetO({PHASE});\n{OSCILLATOR}.SetA({AMPLITUDE});\n{OSCILLATOR}.SetT({SPEED});\n{OSCILLATOR}.refresh();",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "oscillatorStartAdvanced",
@@ -3979,7 +4071,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "b0e8f5b3-a867-424d-ba93-22ff7406bd26"
 					}],
 					code: "{OSCILLATOR}.start()",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "oscillatorStopAdvanced",
@@ -4005,7 +4098,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "b489257c-fc38-493b-93b2-b3311db488b4"
 					}],
 					code: "{OSCILLATOR}.stop()",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "output",
 					name: "digitalReadAdvanced",
@@ -4035,7 +4129,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "float"
 					},
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "output",
 					name: "analogReadAdvanced",
@@ -4065,7 +4160,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "float"
 					},
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "analogWrite",
@@ -4104,7 +4200,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "786457fd-727b-4a52-ac76-ac47a96c097a"
 					}],
 					code: "'{PIN}'.indexOf('A') !== -1 ? 'analogWrite({PIN},{DATA});'.replace(/\"/g, '') : 'analogWrite({PIN},{DATA});'",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "digitalWrite",
@@ -4143,7 +4240,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "c68c77de-ef1c-4f54-88a3-a8566d882b7b"
 					}],
 					code: "digitalWrite({PIN},{DATA});",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "servoNormalAdvanced",
@@ -4185,7 +4283,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "度"
 					}],
 					code: "{SERVO}.write({POSITION});",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement",
 					name: "lcdWritePositionAdvanced",
@@ -4250,7 +4349,8 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						name: "5b8ac541-9ef8-48fa-b798-04ef13c0ef83"
 					}],
 					code: "{LCD}.setCursor({COLUMN},{ROW});{LCD}.print({TEXT});",
-					tags: ["module", "advanced"]
+					tags: ["module"],
+					module: "advanced"
 				}, {
 					type: "statement-input",
 					name: "voidFunction",
@@ -4277,7 +4377,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "simple",
 						value: "void"
 					},
-					code: "void {FUNCNAME} (){{STATEMENTS}}",
+					code: "void {FUNCNAME}(){{STATEMENTS}}",
 					tags: ["function"]
 				}, {
 					type: "statement",
@@ -4344,7 +4444,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						type: "from-input",
 						blockInputId: "RETURN"
 					},
-					code: "{RETURN.connectionType} {FUNCNAME} () {{STATEMENTS}return {RETURN};}",
+					code: "{RETURN.connectionType} {FUNCNAME}() {{STATEMENTS}return {RETURN};}",
 					tags: ["function"]
 				}, {
 					type: "output",
@@ -5821,7 +5921,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 						value: "否则，那么"
 					}],
 					code: "else {{STATEMENTS}}",
-					tags: ["control", "advanced"]
+					tags: ["control"]
 				}, {
 					type: "statement-input",
 					name: "switch",
@@ -6538,7 +6638,7 @@ define(['vendor/jquery', './userModel'], function(_, userModel) {
 					},
 					tags: ["logic"]
 				}]
-			},
+			}
 		};
 
 		var promise = $.Deferred();

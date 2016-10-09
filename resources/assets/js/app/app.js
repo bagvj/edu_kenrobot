@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'vendor/director', 'app/config', 'app/util/emitor', './controller/controller', './component/component'], function(_, _, config, emitor, controller, component) {
+define(['vendor/jquery', 'vendor/director', 'app/config', 'app/util/emitor', './controller/controller', './component/component'], function($1, $2, config, emitor, controller, component) {
 	
 	function init() {
 		printJoinUs();

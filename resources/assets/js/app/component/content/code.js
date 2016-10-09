@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/codeModel'], function(_, util, emitor, codeModel) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/codeModel'], function($1, util, emitor, codeModel) {
 	var region;
 	var container;
 
@@ -8,6 +8,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/codeMode
 		codeModel.init(container[0]);
 
 		emitor.on('app', 'start', onAppStart);
+		emitor.on('sidebar', 'activeTab', onActiveTab);
 	}
 
 	function getData() {
@@ -18,13 +19,22 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/codeMode
 		codeModel.setData(data);
 	}
 
+	function genCode(codeInfo) {
+		codeModel.genCode(codeInfo);
+	}
+
 	function onAppStart() {
 
+	}
+
+	function onActiveTab(name) {
+		name == "code" && emitor.trigger("code", "refresh");
 	}
 
 	return {
 		init: init,
 		getData: getData,
 		setData: setData,
+		genCode: genCode,
 	};
 });

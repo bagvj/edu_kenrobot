@@ -2,6 +2,12 @@ define(function() {
 	var blocks = {};
 	var connectors = {};
 	var ioConnectors = {};
+	var blockVars = {
+		voidFunctions: [],
+		returnFunctions: [],
+		softwareVars: [],
+	};
+
 	var activeConnectors = [];
 	var activeIOConnectors = [];
 	var schema;
@@ -18,6 +24,7 @@ define(function() {
 	var dragBlockPreY;
 	var dragMouseX;
 	var dragMouseY;
+	var delayTimer;
 
 	var translateRegExp = /translate\(((-)*(\d|\.)*)px, ((-)*(\d|\.)*)px\)/;
 	var reservedWords = 'setup,loop,if,else,for,switch,case,while,do,break,continue,return,goto,define,include,HIGH,LOW,INPUT,OUTPUT,INPUT_PULLUP,true,false,interger, constants,floating,point,void,bool,char,unsigned,byte,int,word,long,float,double,string,String,array,static, volatile,const,sizeof,pinMode,digitalWrite,digitalRead,analogReference,analogRead,analogWrite,tone,noTone,shiftOut,shitIn,pulseIn,millis,micros,delay,delayMicroseconds,min,max,abs,constrain,map,pow,sqrt,sin,cos,tan,randomSeed,random,lowByte,highByte,bitRead,bitWrite,bitSet,bitClear,bit,attachInterrupt,detachInterrupt,interrupts,noInterrupts';
@@ -73,6 +80,18 @@ define(function() {
 		}
 
 		blocks[this.uid] = this;
+
+		if(this.data.createDynamicContent) {
+			var inputDom = this.dom.querySelector("input.var-input");
+			if(inputDom) {
+				var varName = validName(inputDom.value);
+				if(varName) {
+					updateBlockVar(this, varName)
+				} else {
+					removeBlockVar(this);
+				}
+			}
+		}
 	}
 
 	Block.prototype.getCode = function() {
@@ -108,7 +127,7 @@ define(function() {
 	}
 
 	Block.prototype.isFree = function() {
-		return !closest(this.dom, "block-group");
+		return !this.dom.closest(".block-group");
 	}
 
 	Block.prototype.hasChildren = function() {
@@ -211,6 +230,10 @@ define(function() {
 					selectDom.appendChild(optionDom);
 				});
 				elementData.value && (selectDom.value = elementData.value);
+				selectDom.addEventListener("change", function() {
+					block.data.returnType && block.data.returnType.type == "fromDropdown" && updateBlockVar(block);
+					onBlockUpdate();
+				});
 
 				break;
 			case "dynamic-select":
@@ -220,7 +243,20 @@ define(function() {
 				elementDom.appendChild(selectDom);
 
 				selectDom.dataset.contentId = elementData.id;
-
+				selectDom.dataset.options = elementData.options;
+				var options = blockVars[elementData.options];
+				options && updateSelectDom(selectDom, options);
+				selectDom.addEventListener("change", function(e) {
+					if (block.data.type == "output") {
+						var outputConnector = getOutputConnector(block);
+						if (outputConnector.connectedTo) {
+							var blockConnector = ioConnectors[outputConnector.connectedTo];
+							var oldBlock = blocks[blockConnector.blockUid];
+							oldBlock.data.returnType && oldBlock.data.returnType.type == "fromInput" && updateBlockVar(oldBlock);
+						}
+					}
+					onBlockUpdate();
+				});
 				break;
 			case "text":
 				elementDom = document.createElement("span");
@@ -234,27 +270,28 @@ define(function() {
 				break;
 			case "var-input":
 				elementDom = createInputElement(elementData);
+				elementDom.classList.add("var-input");
+				elementDom.addEventListener("keyup", function() {
+					delayDo(function() {
+						var name = validName(elementDom.value);
+						name ? updateBlockVar(block, name) : removeBlockVar(block);
+					}, 1000);
+				});
 				break;
 			case "number-input":
 				elementDom = createInputElement(elementData);
 				break;
 			case "string-input":
 				elementDom = createInputElement(elementData);
-				elementDom.dataset.contentType = elementData.type;
-
 				break;
 			case "char-input":
 				elementDom = createInputElement(elementData);
-				elementDom.dataset.contentType = elementData.type;
-
 				break;
 			case "code-input":
 				elementDom = createTextareaElement(elementData);
-
 				break;
 			case "comment-input":
 				elementDom = createTextareaElement(elementData);
-
 				break;
 			default:
 				elementDom = document.createElement("div");
@@ -271,6 +308,7 @@ define(function() {
 		inputDom.value = elementData.value || "";
 		inputDom.placeholder = elementData.placeholder || "";
 		inputDom.dataset.contentId = elementData.id;
+		inputDom.addEventListener("change", onBlockUpdate);
 
 		return inputDom;
 	}
@@ -285,6 +323,7 @@ define(function() {
 		textareaDom.placeholder = elementData.placeholder || "";
 		textareaDom.dataset.contentId = elementData.id;
 		textareaDom.dataset.contentType = elementData.type;
+		textareaDom.addEventListener("change", onBlockUpdate);
 
 		return textareaDom;
 	}
@@ -299,6 +338,22 @@ define(function() {
 		block.connectors.push(connectorUid);
 
 		return connectorDom;
+	}
+
+	function updateSelectDom(selectDom, options) {
+		selectDom.innerHTML = '';
+		options.forEach(function(optionData) {
+			var optionDom = document.createElement("option");
+			optionDom.value = optionData.name;
+			optionDom.dataset.varId = optionData.id;
+			optionDom.dataset.reference = optionData.uid;
+			optionDom.innerHTML = optionData.name;
+			selectDom.appendChild(optionDom);
+		});
+	}
+
+	function onBlockUpdate() {
+
 	}
 
 	function onBlockMouseDown(e) {
@@ -403,7 +458,7 @@ define(function() {
 					outputDragEnd(block, dropConnectorDom);
 					break;
 			}
-			var inGroup = !!closest(dropConnectorDom, "block-group");
+			var inGroup = !!dropConnectorDom.closest(".block-group");
 			setBlockEnable(block, inGroup);
 		} else {
 			setBlockEnable(block, false);
@@ -622,15 +677,15 @@ define(function() {
 
 		var x = clientX - dragMouseX;
 		var y = clientY - dragMouseY;
-		if(x < 0) {
+		if (x < 0) {
 			x = 0;
-		} else if(x + offset >= dragContainer.offsetWidth) {
+		} else if (x + offset >= dragContainer.offsetWidth) {
 			x = dragContainer.offsetWidth - offset;
 		}
 
-		if(y < 0) {
+		if (y < 0) {
 			y = 0;
-		} else if(y + offset >= dragContainer.offsetHeight) {
+		} else if (y + offset >= dragContainer.offsetHeight) {
 			y = dragContainer.offsetHeight - offset;
 		}
 		setBlockOffset(block, x, y);
@@ -696,7 +751,7 @@ define(function() {
 	}
 
 	function blockHasChildren(block) {
-		if(block.data.type != "statement-input" && block.data.type != "group") {
+		if (block.data.type != "statement-input" && block.data.type != "group") {
 			return false;
 		}
 
@@ -771,6 +826,14 @@ define(function() {
 			delete ioConnectors[connectorUid];
 		});
 
+		if (block.data.createDynamicContent) {
+			removeBlockVar(block);
+		} else {
+			for (var key in blockVars) {
+				updateBlockVarType(key);
+			}
+		}
+
 		delete blocks[block.uid];
 	}
 
@@ -794,7 +857,115 @@ define(function() {
 	}
 
 	function getBlockCode(block) {
+		var code = block.data.code;
+		var childBlock;
+		var childConnectorId;
+		var value = '';
+		var type = '';
+		var connectionType = '';
+		var elementTags = [];
+		var childrenTags = [];
+		block.data.content.forEach(function(elementData) {
+			elementData.id && elementTags.push(elementData.id);
+			elementData.blockInputId && childrenTags.push(elementData.blockInputId);
+		});
 
+		elementTags.forEach(function(elem) {
+			var element;
+			block.contentDom.childNodes.forEach(function(childDom) {
+				if (childDom.dataset.contentId && childDom.dataset.contentId == elem) {
+					element = childDom;
+					return true;
+				}
+			});
+			!element && (element = block.contentDom.querySelector('[data-content-id="' + elem + '"]'));
+			value = element.value || '';
+
+			// for (var j = 0; j < block.componentsArray.sensors.length; j++) {
+			// 	if (value === block.componentsArray.sensors[j].name) {
+			// 		type = block.componentsArray.sensors[j].type;
+			// 		if (type === 'analog') {
+			// 			value = 'analogRead(' + block.componentsArray.sensors[j].pin.s + ')';
+			// 		} else if (type === 'digital') {
+			// 			value = 'digitalRead(' + block.componentsArray.sensors[j].pin.s + ')';
+			// 		} else if (type === 'LineFollower') { // patch. When the new Web2Board is launched with float * as return, remove block
+			// 			value = '(float *)' + block.componentsArray.sensors[j].name + '.read()';
+			// 		} else {
+			// 			value = block.componentsArray.sensors[j].name + '.read()';
+			// 		}
+			// 		code = code.replace(new RegExp('{' + elem + '.type}', 'g'), value);
+			// 	}
+			// }
+			if (element.dataset.contentType == 'string-input') {
+				value = validString(value);
+			} else if (element.dataset.contentType == 'char-input') {
+				value = validChar(value);
+			} else if (element.dataset.contentType == 'comment-input') {
+				value = validComment(value);
+			}
+			var valueWithoutAsterisk = value.replace(' *', '');
+			code = code.replace(new RegExp('{' + elem + '}.withoutAsterisk', 'g'), valueWithoutAsterisk);
+			code = code.replace(new RegExp('{' + elem + '}', 'g'), value);
+		});
+
+		var blockInputConnectors = getBlockInputConnectors(block);
+		if (childrenTags.length > 0) {
+			// search for child blocks:
+			for (var k = 0; k < blockInputConnectors.length; k++) {
+				value = '';
+				connectionType = '';
+				type = '';
+				if (ioConnectors[blockInputConnectors[k]]) {
+					childConnectorId = ioConnectors[blockInputConnectors[k]].connectedTo;
+					if (childConnectorId) {
+						childBlock = getBlockByConnector(childConnectorId, true);
+						value = getBlockCode(childBlock);
+						type = childBlock.data.returnType;
+					}
+					if (type.type === 'fromDynamicDropdown') {
+						connectionType = getFromDynamicDropdownType(childBlock || block, type.idDropdown, type.options);
+					} else if (type.type === 'fromDropdown') {
+						connectionType = getTypeFromBlock(childBlock || block);
+					} else {
+						connectionType = type.value;
+						if (connectionType === 'string') {
+							connectionType = 'String';
+						}
+					}
+				}
+
+				connectionType = connectionType || '';
+				code = code.replace(new RegExp('{' + childrenTags[k] + '.connectionType}', 'g'), connectionType);
+				code = code.replace(new RegExp('{' + childrenTags[k] + '}', 'g'), value);
+			}
+		}
+
+		var children = [];
+		if (block.connectors[2]) {
+			value = '';
+			childConnectorId = connectors[block.connectors[2]].connectedTo;
+			if (childConnectorId) {
+				childBlock = getBlockByConnector(childConnectorId);
+				var branchConnectors = getBranchsConnectorsNoChildren(childBlock.uid);
+
+				branchConnectors.forEach(function(branchConnector) {
+					if (isInsideConnectorRoot(blocks[connectors[branchConnector].blockUid])) {
+						var blockId = connectors[branchConnector].blockUid;
+						if (blockId !== children[children.length - 1]) {
+							children.push(blockId);
+						}
+					}
+				});
+			}
+			children.forEach(function(uid) {
+				value += getBlockCode(blocks[uid]);
+			});
+			code = code.replace(new RegExp('{STATEMENTS}', 'g'), value);
+		}
+		if (!block.enable) {
+			code = '';
+		}
+		return code;
 	}
 
 	function getBlockStructure(block) {
@@ -820,68 +991,66 @@ define(function() {
 		var tempDom;
 		block.data.content.forEach(function(elementData) {
 			tempObject = null;
-			// switch (elementData.type) {
-			// 	case 'varInput':
-			// 	case 'stringInput':
-			// 	case 'numberInput':
-			// 	case 'codeInput':
-			// 	case 'commentInput':
-			// 	case 'charInput':
-			// 		tempDom = block.dom.querySelector('[data-content-id="' + elementData.id + '"]');
-			// 		tempDom && tempDom.value && tempObject = {
-			// 			type: elementData.type,
-			// 			id: elementData.id,
-			// 			value: tempDom.value
-			// 		};
-			// 		break;
-			// 	case 'blockInput':
-			// 		//get the inputs blocks inside in 1 level
-			// 		var uuid,
-			// 			connectedBlock;
-			// 		uuid = block.getioConnectorUidByContentId(elementData.blockInputId);
-			// 		if ((ioConnectors[uuid].data.type === 'connector-input') && ioConnectors[uuid].connectedTo) {
-			// 			connectedBlock = utils.getBlockByConnector(ioConnectors[uuid].connectedTo, blocks, ioConnectors);
-			// 			tempObject = {
-			// 				type: elementData.type,
-			// 				blockInputId: elementData.blockInputId,
-			// 				value: connectedBlock.getBlocksStructure(fullStructure)
-			// 			};
-			// 		}
+			switch (elementData.type) {
+				case 'var-input':
+				case 'string-input':
+				case 'number-input':
+				case 'code-input':
+				case 'comment-input':
+				case 'char-input':
+					tempDom = block.dom.querySelector('[data-content-id="' + elementData.id + '"]');
+					if (tempDom && tempDom.value) {
+						tempObject = {
+							type: elementData.type,
+							id: elementData.id,
+							value: tempDom.value
+						};
+					}
+					break;
+				case 'block-input':
+					var connectedBlock;
+					var uid = getIOConnectorUid(block, elementData.blockInputId);
+					if ((ioConnectors[uid].data.type === 'connector-input') && ioConnectors[uid].connectedTo) {
+						connectedBlock = getBlockByConnector(ioConnectors[uid].connectedTo, true);
+						tempObject = {
+							type: elementData.type,
+							blockInputId: elementData.blockInputId,
+							value: getBlockStructure(connectedBlock)
+						};
+					}
+					break;
+				case 'dynamic-select':
+					// attributeValue = block.contentDom.querySelector('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').attr('data-value');
+					// selectedValue = block.contentDom.querySelector('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').val();
+					// //only software Vars get value from val(), hardware, use attribute or val()
+					// var variableType = elementData.options;
+					// var itsSoftwareValue = Object.keys(softwareArrays).indexOf(variableType);
 
-			// 		break;
-			// 	case 'dynamicDropdown':
-			// 		attributeValue = block.dom.find('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').attr('data-value');
-			// 		selectedValue = block.dom.find('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').val();
-			// 		//only software Vars get value from val(), hardware, use attribute or val()
-			// 		var variableType = elementData.options;
-			// 		var itsSoftwareValue = Object.keys(softwareArrays).indexOf(variableType);
+					// if (itsSoftwareValue !== -1) {
+					// 	value = selectedValue;
+					// } else {
+					// 	value = attributeValue || selectedValue;
+					// }
 
-			// 		if (itsSoftwareValue !== -1) {
-			// 			value = selectedValue;
-			// 		} else {
-			// 			value = attributeValue || selectedValue;
-			// 		}
-
-			// 		if (value) {
-			// 			tempObject = {
-			// 				type: elementData.type,
-			// 				id: elementData.id,
-			// 				value: value
-			// 			};
-			// 		}
-			// 		break;
-			// 	case 'staticDropdown':
-			// 		//value = block.dom.find('select[data-content-id="' + elementData.id + '"]').val();
-			// 		value = block.$contentContainer.find('> select[data-content-id="' + elementData.id + '"]').val();
-			// 		if (value) {
-			// 			tempObject = {
-			// 				type: elementData.type,
-			// 				id: elementData.id,
-			// 				value: value
-			// 			};
-			// 		}
-			// 		break;
-			// }
+					// if (value) {
+					// 	tempObject = {
+					// 		type: elementData.type,
+					// 		id: elementData.id,
+					// 		value: value
+					// 	};
+					// }
+					break;
+				case 'static-select':
+					tempDom = block.contentDom.querySelector('select[data-content-id="' + elementData.id + '"]');
+					if (tempDom && tempDom.value) {
+						tempObject = {
+							type: elementData.type,
+							id: elementData.id,
+							value: tempDom.value
+						};
+					}
+					break;
+			}
 
 			tempObject && structure.content.push(tempObject);
 		});
@@ -964,8 +1133,80 @@ define(function() {
 		}
 	};
 
-	function updateBlockVar(block) {
+	function updateBlockVar(block, name, type, args) {
+		var varName = block.data.createDynamicContent;
+		if (!varName) {
+			return;
+		}
 
+		var vars = blockVars[varName];
+		var blockVar;
+		vars && vars.forEach(function(_blockVar) {
+			if (_blockVar.blockUid == block.uid) {
+				blockVar = _blockVar;
+				return true;
+			}
+		});
+		type = type || getTypeFromBlock(block);
+		if (block.data.type == "statement-input" && block.data.arguments) {
+			args = args || getArgsFromBlock(block);
+		} else {
+			args = "";
+		}
+		if (blockVar) {
+			blockVar.name = name || blockVar.name;
+			blockVar.type = type;
+			blockVar.args = args;
+			if (blockVar.name) {
+				document.querySelectorAll('option[data-var-id="' + blockVar.id + '"]').forEach(function(optionDom) {
+					optionDom.value = blockVar.name;
+					optionDom.innerHTML = blockVar.name;
+				});
+			} else {
+				removeBlockVar(block);
+			}
+		} else if (name) {
+			blockVar = {
+				name: name,
+				id: genUid(),
+				blockUid: block.uid,
+				type: type,
+				args: args,
+			};
+			vars.push(blockVar);
+			document.querySelectorAll('select[data-options="' + varName + '"]').forEach(function(selectDom) {
+				var optionDom = document.createElement("option");
+				optionDom.dataset.varId = blockVar.id;
+				optionDom.value = blockVar.name;
+				optionDom.innerHTML = blockVar.name;
+				selectDom.appendChild(optionDom);
+			});
+		}
+
+		updateBlockVarType(varName);
+	}
+
+	function updateBlockVarType(varName) {
+		var vars = blockVars[varName];
+		vars && vars.forEach(function(blockVar) {
+			blockVar.type = getTypeFromBlock(blocks[blockVar.blockUid]);
+		});
+	}
+
+	function removeBlockVar(block) {
+		var varName = block.data.createDynamicContent;
+		var vars = blockVars[varName];
+		vars.forEach(function(blockVar, index) {
+			if (blockVar.blockUid == block.uid) {
+				document.querySelectorAll('option[data-var-id="' + blockVar.id + '"]').forEach(function(optionDom) {
+					optionDom.remove();
+				});
+				vars.splice(index, 1);
+				return true;
+			}
+		});
+
+		updateBlockVarType(varName);
 	}
 
 	function isConnectorRoot(connector) {
@@ -1025,6 +1266,40 @@ define(function() {
 		return result;
 	};
 
+	function getArgsFromBlock(block) {
+		var result = "";
+		// while (!block.data.arguments) {
+		// 	block = getParent(block, blocks, ioConnectors);
+		// }
+		// var contentData = _.find(block.data.content[0], {
+		// 	blockInputId: block.data.arguments.blockInputId
+		// });
+		// var connector = _.find(ioConnectors, {
+		// 	blockUid: block.uuid,
+		// 	data: {
+		// 		name: contentData.name
+		// 	}
+		// });
+		// if (connector && connector.connectedTo) {
+		// 	var childBlock = getBlockByConnector(connector.connectedTo, blocks, ioConnectors);
+		// 	var code = childBlock.getCode();
+		// 	result = {
+		// 		code: code,
+		// 		block: childBlock.uuid,
+		// 		funcName: '',
+		// 		size: occurrencesInString(code, ',', false) + 1
+		// 	};
+		// } else {
+		// 	result = {
+		// 		code: '',
+		// 		block: '',
+		// 		funcName: '',
+		// 		size: 0
+		// 	};
+		// }
+		return result;
+	};
+
 	function getTypeFromDynamicDropdown(block, typeObject, softwareArrays) {
 		// var attributeValue = block.$block.find('select[data-content-id="' + typeObject.idDropdown + '"][data-dropdowncontent="' + typeObject.options + '"]').attr('data-value');
 		// var selectedValue = block.$block.find('select[data-content-id="' + typeObject.idDropdown + '"][data-dropdowncontent="' + typeObject.options + '"]').val();
@@ -1043,7 +1318,7 @@ define(function() {
 
 	};
 
-	function getFromDynamicDropdownType(block, idDropdown, options, softwareArrays, componentsArray) {
+	function getFromDynamicDropdownType(block, idDropdown, options) {
 		// var attributeValue = block.$block.find('select[data-content-id="' + idDropdown + '"][data-dropdowncontent="' + options + '"]').attr('data-value');
 		// var selectedValue = block.$block.find('select[data-content-id="' + idDropdown + '"][data-dropdowncontent="' + options + '"]').val();
 		// var varName = attributeValue || selectedValue;
@@ -1073,6 +1348,28 @@ define(function() {
 		return '';
 	};
 
+	function getBlockInputConnectors(block) {
+		var result = [];
+		block.ioConnectors.forEach(function(uid) {
+			if (ioConnectors[uid] && ioConnectors[uid].data.type == 'connector-input') {
+				result.push(uid);
+			}
+		});
+		return result;
+	};
+
+	function getBranchsConnectorsNoChildren(blockUid) {
+		var block = blocks[blockUid];
+		var result = block.connectors.concat();
+
+		var bottomUid = connectors[block.connectors[1]].connectedTo;
+		if (bottomUid) {
+			var blockBranchUid = connectors[bottomUid].blockUid;
+			result = result.concat(getBranchsConnectorsNoChildren(blockBranchUid));
+		}
+		return result;
+	};
+
 	function getIOConnectorUid(block, contentId) {
 		var uid;
 		block.ioConnectors.forEach(function(connectorUid) {
@@ -1092,15 +1389,6 @@ define(function() {
 		} else {
 			parentEl.insertBefore(newDom, targetDom.nextSibling);
 		}
-	}
-
-	function closest(dom, cls) {
-		var tempDom = dom;
-		while (tempDom && tempDom.tagName != "BODY" && !tempDom.classList.contains(cls)) {
-			tempDom = tempDom.parentNode;
-		}
-
-		return tempDom.tagName == "BODY" ? null : tempDom;
 	}
 
 	function getTreeExtreme(uid, connectorPosition) {
@@ -1285,6 +1573,11 @@ define(function() {
 		return JSON.parse(JSON.stringify(data));
 	}
 
+	function delayDo(callback, ms) {
+		delayTimer && clearTimeout(delayTimer);
+		delayTimer = setTimeout(callback, ms);
+	}
+
 	function init(_container, _dragContainer) {
 		container = _container;
 		dragContainer = _dragContainer;
@@ -1318,13 +1611,13 @@ define(function() {
 			}
 
 			var connectorUid = getIOConnectorUid(block, elementData.blockInputId);
-			var dropContainerDom = block.dom.querySelector('[data-connector-id="' + connectorUid + '"]');
+			var dropContainerDom = block.dom.querySelector('[data-connector-uid="' + connectorUid + '"]');
 			var outputBlock = buildBlock(elementData.value);
 
 			ioConnectors[connectorUid].connectedTo = outputBlock.ioConnectors[0];
 			ioConnectors[outputBlock.ioConnectors[0]].connectedTo = connectorUid;
 
-			dropContainerDom.append(outputBlock.dom);
+			dropContainerDom.appendChild(outputBlock.dom);
 		});
 
 		structure.children && structure.children.length && block.dom.classList.add('with-content');
@@ -1350,12 +1643,14 @@ define(function() {
 
 	function resetBlocks() {
 		var block;
-		for(var uid in blocks) {
+		for (var uid in blocks) {
 			block = blocks[uid];
-			if(block.connectable || block.data.type == "group") {
+			if (block.connectable || block.data.type == "group") {
 				removeBlock(block);
 			}
 		}
+
+
 	}
 
 	return {

@@ -1,5 +1,6 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userModel', 'app/model/projectModel', 'app/component/content/project', 'app/component/content/hardware', 'app/component/content/software', 'app/component/content/code'], function(_, util, emitor, userModel, projectModel, project, hardware, software, code) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userModel', 'app/model/projectModel', 'app/component/content/project', 'app/component/content/hardware', 'app/component/content/software', 'app/component/content/code'], function($1, util, emitor, userModel, projectModel, project, hardware, software, code) {
 	var currentProject;
+	var tempProject;
 	var myProjects;
 
 	function init() {
@@ -12,9 +13,12 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		emitor.on('project', 'edit', onProjectEdit);
 		emitor.on('project', 'delete', onProjectDelete);
 		emitor.on('project', 'copy', onProjectCopy);
+		emitor.on('code', 'refresh', onCodeRefresh);
+		emitor.on('software', 'update-block', onSoftwareBlockUpdate);
 	}
 
 	function openProject(projectInfo) {
+		tempProject = projectInfo.id == 0 ? projectInfo : null;
 		currentProject && (currentProject.project_data = getProjectData());
 		currentProject = projectInfo;
 		myProjects.length == 0 && project.addProject(projectInfo);
@@ -58,6 +62,11 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	function onProjectOpen(id, force) {
 		var info = getCurrentProject();
 		if (!force && id == info.id) {
+			return;
+		}
+
+		if(id == 0) {
+			tempProject && openProject(tempProject);
 			return;
 		}
 
@@ -239,6 +248,19 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 
 		currentProject = null;
 		myProjects.length ? openProject(myProjects[0]) : openProject(getDefaultProject());
+	}
+
+	function onCodeRefresh() {
+		var projectInfo = getCurrentProject();
+		var codeInfo = software.getCode();
+		codeInfo.name = projectInfo.project_name;
+		codeInfo.author = userModel.getUserName();
+		code.genCode(codeInfo);
+	}
+
+	function onSoftwareBlockUpdate() {
+		var hardwareData = hardware.getData();
+		software.updateBlocks(hardwareData);
 	}
 
 	function getProjectData() {

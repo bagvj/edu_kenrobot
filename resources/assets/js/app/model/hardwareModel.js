@@ -1,4 +1,5 @@
-define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
+define(['vendor/jsPlumb'], function() {
+
 	var config = {
 		color: '#F1C933',
 		colorHover: '#F19833',
@@ -10,12 +11,15 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 	var dragComponentDom;
 	var schema;
 	var jsPlumbInstance;
-	var board;
+	var boardData;
 	var boardDom;
+	var containerEvent = new CustomEvent('containerEvent');
+	var components = {};
+	var usedNames = {};
 
 	function init(_container) {
 		container = _container;
-		boardDom = container.getElementsByClassName("board")[0];
+		boardDom = container.querySelector(".board");
 
 		jsPlumbInstance = jsPlumb.getInstance();
 		jsPlumbInstance.setContainer(container);
@@ -115,8 +119,8 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 			schema.boards[board.name] = board;
 		});
 
-		_schema.components.forEach(function(component) {
-			schema.components[component.name] = component;
+		_schema.components.forEach(function(componentData) {
+			schema.components[componentData.name] = componentData;
 		});
 	}
 
@@ -124,9 +128,8 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 		data = data || {};
 		data.board && addBoard(data.board);
 
-		var components = data.components;
-		components && components.forEach(function(component) {
-			addComponent(component.name, component.x, component.y, component.endpoints);
+		data.components && data.components.forEach(function(componentData) {
+			addComponent(componentData);
 		});
 
 		var connections = data.connections;
@@ -145,26 +148,24 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 		repaint();
 	}
 
+	function getComponentData(uid) {
+		return components[uid];
+	}
+
 	function getData() {
 		var data = {};
-		data.board = board && board.name || null;
+		data.board = boardData && boardData.name || null;
 
 		data.components = [];
-		var componentList = container.querySelectorAll('.component');
-		componentList.forEach(function(componentDom) {
-			var endpoints = jsPlumbInstance.getEndpoints(componentDom);
-			if (!endpoints || !endpoints.length) {
-				return
-			}
-
+		container.querySelectorAll('.component').forEach(function(componentDom) {
 			var connections = getConnections(componentDom);
 			if (!connections || !connections.length) {
 				return
 			}
 
-			var endpointsRef = {};
-			endpoints.forEach(function(endpoint) {
-				endpointsRef[endpoint.getParameter('pinComponent')] = {
+			var endpoints = {};
+			jsPlumbInstance.getEndpoints(componentDom).forEach(function(endpoint) {
+				endpoints[endpoint.getParameter('pin')] = {
 					uid: endpoint.getUuid(),
 					type: endpoint.scope
 				};
@@ -175,8 +176,7 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 				uid: componentDom.dataset.uid,
 				x: Math.round(1000 * componentDom.offsetLeft / container.offsetWidth) / 10,
 				y: Math.round(1000 * componentDom.offsetTop / container.offsetHeight) / 10,
-				endpoints: endpointsRef,
-				connected: connections.length > 0,
+				endpoints: endpoints,
 			});
 		});
 
@@ -204,13 +204,13 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 	function addBoard(name) {
 		removeBoard();
 
-		board = schema.boards[name];
-		if(!board) {
+		boardData = schema.boards[name];
+		if(!boardData) {
 			return;
 		}
 
-		boardDom.classList.add(board.name);
-		board.pins.forEach(function(pin) {
+		boardDom.classList.add(boardData.name);
+		boardData.pins.forEach(function(pin) {
 			var epBoard = jsPlumbInstance.addEndpoint(boardDom, {
 				anchor: [pin.x, pin.y, 0, -1, 0, 0],
 				endpoint: ['Rectangle', {
@@ -228,7 +228,7 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 					}]
 				],
 				parameters: {
-					pinBoard: pin.name
+					pin: pin.name
 				},
 				cssClass: 'board-endpoint pin-' + pin.name,
 				isTarget: true,
@@ -244,28 +244,38 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 
 	function removeBoard() {
 		removeAllComponents();
-		board && boardDom.classList.remove(board.name);
+		boardData && boardDom.classList.remove(boardData.name);
 		jsPlumbInstance.removeAllEndpoints(boardDom);
-		board = null;
+		boardData = null;
+
+		components = {};
+		usedNames = {};
 	};
 
-	function addComponent(name, x, y, _endpoints) {
-		var component = schema.components[name];
-		if(!component) {
+	function addComponent(componentData) {
+		var componentConfig = schema.components[componentData.name];
+		if(!componentConfig) {
 			return;
 		}
+
+		componentData.uid = componentData.uid || jsPlumbUtil.uuid();
+		componentData.pins = componentData.pins || {};
+		componentData.varName = componentData.varName || genVarName(componentData.name);
+		usedNames[componentData.varName] = true;
+
+		components[componentData.uid] = componentData;
 
 		var componentDom = document.createElement('img');
 		container.appendChild(componentDom);
 
-		componentDom.dataset.name = component.name;
-		componentDom.dataset.uid = component.uid;
+		componentDom.dataset.name = componentData.name;
+		componentDom.dataset.uid = componentData.uid;
 		componentDom.classList.add('component');
-		componentDom.style.left = x + '%';
-		componentDom.style.top = y + '%';
-		componentDom.src = component.src;
-		componentDom.style.width = component.width + 'px';
-		componentDom.style.height = component.height + 'px';
+		componentDom.style.left = componentData.x + '%';
+		componentDom.style.top = componentData.y + '%';
+		componentDom.src = componentConfig.src;
+		componentDom.style.width = componentConfig.width + 'px';
+		componentDom.style.height = componentConfig.height + 'px';
 		componentDom.draggable = true;
 		componentDom.addEventListener('mousedown', onComponentMouseDown);
 
@@ -273,10 +283,10 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 			endpoint.classList.remove('selected');
 		});
 
-		var endpoints = _endpoints || {};
-		component.pins.forEach(function(pin) {
+		var endpoints = componentData.endpoints || {};
+		componentConfig.pins.forEach(function(pin) {
 			var type = pin.tags.join(" ");
-			!_endpoints && (endpoints[pin.name] = {
+			!componentData.endpoints && (endpoints[pin.name] = {
 				type: type,
 				uid: jsPlumbUtil.uuid()
 			});
@@ -285,7 +295,7 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 				anchor: pin.anchor,
 				uuid: endpoints[pin.name].uid,
 				parameters: {
-					pinComponent: pin.name,
+					pin: pin.name,
 					type: type,
 				},
 				endpoint: ['Dot', {
@@ -340,6 +350,11 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 	};
 
 	function removeComponent(componentDom) {
+		var uid = componentDom.dataset.uid;
+		var componentData = getComponentData(uid);
+		delete usedNames[componentData.varName];
+		delete components[uid];
+
 		componentDom.removeEventListener('mousedown', onComponentMouseDown);
 
 		getConnections(componentDom).forEach(function(connection) {
@@ -368,8 +383,7 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 
 	function removeAllComponents() {
 		jsPlumbInstance.deleteEveryEndpoint();
-		var components = container.querySelectorAll('.component');
-		components.forEach(function(componentDom) {
+		container.querySelectorAll('.component').forEach(function(componentDom) {
 			componentDom.removeEventListener('mousedown', onComponentMouseDown);
 			jsPlumb.remove(componentDom);
 		});
@@ -398,7 +412,7 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 		});
 	}
 
-	function onComponentMouseDown() {
+	function onComponentMouseDown(e) {
 		var componentDom = this;
 		dragComponentDom = componentDom;
 
@@ -418,9 +432,15 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 		}).addClass('selected');
 
 		getConnections(componentDom).forEach(selectConnection);
+
+		containerEvent.data = {
+			uid: componentDom.dataset.uid
+		};
+		containerEvent.action = 'component-select';
+		container.dispatchEvent(containerEvent);
 	}
 
-	function onDomMouseUp() {
+	function onDomMouseUp(e) {
 		if (!dragComponentDom) {
 			return;
 		}
@@ -435,8 +455,12 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 		jsPlumbInstance.unbind('connection');
 		jsPlumbInstance.unbind('connectionDetached');
 
-		var connectionEvent = new CustomEvent('connectionEvent');
 		jsPlumbInstance.bind('connection', function(connection) {
+			connection.connection.bind('click', function(c) {
+				unselectAllConnections();
+				selectConnection(c);
+			});
+
 			connection.targetEndpoint.setType('connected');
 			connection.sourceEndpoint.setType('connected');
 
@@ -444,54 +468,27 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 				sourceUid: connection.sourceEndpoint.getUuid(),
 				targetUid: connection.targetEndpoint.getUuid()
 			});
-			var pinAssignation = {};
-			pinAssignation[connection.sourceEndpoint.getParameter('pinComponent')] = connection.targetEndpoint.getParameter('pinBoard');
 
-			var componentData = {
-				uid: connection.source.dataset.uid,
-				connections: [connection.connection],
-				pin: pinAssignation
-			};
-
-			connection.connection.bind('click', function(c) {
-				unselectAllConnections();
-				selectConnection(c);
-			});
-
-			connectionEvent.componentData = componentData;
-			connectionEvent.protoBoLaAction = 'attach';
-			connectionEvent.protoBoLaActionParent = connection.connection.hasType('undoredo') || connection.connection.hasType('removing') || connection.connection.getData().undoredo;
-
-			if (connection.target.classList.contains('board')) {
-				container.dispatchEvent(connectionEvent);
+			if(connection.target.classList.contains('board')) {
+				var componentUid = connection.source.dataset.uid;
+				var componentData = components[componentUid];
+				var sourcePin = connection.sourceEndpoint.getParameter('pin');
+				var targetPin = connection.targetEndpoint.getParameter('pin');
+				componentData.pins[sourcePin] = targetPin;
 			}
 		});
 
 		jsPlumbInstance.bind('connectionDetached', function(connection) {
+			unselectConnection(connection.connection);
+			connection.connection.unbind('click');
 			connection.targetEndpoint.removeType('connected');
 			connection.sourceEndpoint.removeType('connected');
 
-			var pinAssignation = {};
-			pinAssignation[connection.sourceEndpoint.getParameter('pinComponent')] = undefined;
-
-			var componentData = {
-				uid: connection.source.dataset.uid,
-				id: connection.source.dataset.id,
-				category: connection.source.dataset.category,
-				pin: pinAssignation,
-				connections: [connection.connection]
-			};
-
-			unselectConnection(connection.connection);
-
-			connection.connection.unbind('click');
-
-			connectionEvent.componentData = componentData;
-			connectionEvent.protoBoLaAction = 'detach';
-			connectionEvent.protoBoLaActionParent = connection.connection.hasType('undoredo') || connection.connection.hasType('removing') || connection.connection.getData().undoredo;
-
-			if (connection.target.classList.contains('board')) {
-				container.dispatchEvent(connectionEvent);
+			if(connection.target.classList.contains('board')) {
+				var componentUid = connection.source.dataset.uid;
+				var componentData = components[componentUid];
+				var sourcePin = connection.sourceEndpoint.getParameter('pin');
+				componentData && (delete componentData.pins[sourcePin]);
 			}
 		});
 
@@ -575,6 +572,19 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 		target.addEventListener(type, func);
 	};
 
+	function genVarName(name) {
+		var varName = null;
+		var tempName;
+		var i = 0;
+		while(!varName) {
+			tempName = name + "_" + i;
+			!usedNames[tempName] && (varName = tempName);
+			i++;
+		}
+
+		return varName;
+	}
+
 	return {
 		init: init,
 
@@ -585,6 +595,7 @@ define(['vendor/jquery', 'vendor/jsPlumb'], function(_, _) {
 
 		getData: getData,
 		setData: setData,
+		getComponentData: getComponentData,
 
 		addBoard: addBoard,
 		removeBoard: removeBoard,

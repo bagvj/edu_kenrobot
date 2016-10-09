@@ -22,6 +22,14 @@ define(['app/util/util', 'app/util/emitor', './block'], function(util, emitor, b
 		return schema;
 	}
 
+	function getCode() {
+		return {
+			global: getGroupBlock("global").getCode(),
+			setup: getGroupBlock("setup").getCode(),
+			loop: getGroupBlock("loop").getCode()
+		};
+	}
+
 	function getData() {
 		var globalBlock = getGroupBlock("global");
 		var setupBlock = getGroupBlock("setup");
@@ -77,6 +85,7 @@ define(['app/util/util', 'app/util/emitor', './block'], function(util, emitor, b
 
 		getData: getData,
 		setData: setData,
+		getCode: getCode,
 
 		loadSchema: loadSchema,
 		getSchema: getSchema,
