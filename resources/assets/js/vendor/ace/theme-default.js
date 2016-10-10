@@ -2,100 +2,98 @@ ace.define("ace/theme/default",["require","exports","module","ace/lib/dom"], fun
 
 exports.isdefault = true;
 exports.cssClass = "ace-default";
-exports.cssText = ".ace-default .ace_gutter {\
-background: transparent;\
-color: #979797;\
+exports.cssText = "\
+.ace-default .ace_gutter {\
+  background: transparent;\
+  color: #979797;\
 }\
 .ace-default .ace_print-margin {\
-width: 1px;\
-background: #555651\
+  width: 1px;\
+  background: #555651;\
 }\
 .ace-default {\
-background-color: transparent;\
-color: rgba(18, 42, 64, 0.8);\
+  background-color: transparent;\
+  color: rgba(18, 42, 64, 0.8);\
 }\
 .ace-default .ace_cursor {\
-color: transparent;\
+  color: transparent;\
 }\
 .ace-default .ace_marker-layer .ace_selection {\
-background-color: rgba(72, 138, 192, 0.4)\
+  background-color: rgba(225, 231, 246, 0.5);\
 }\
 .ace-default.ace_multiselect .ace_selection.ace_start {\
-box-shadow: 0 0 3px 0px #534F59;\
+  box-shadow: 0 0 3px 0px #534F59;\
 }\
 .ace-default .ace_marker-layer .ace_step {\
-background: rgb(102, 82, 0)\
+  background: rgb(102, 82, 0);\
 }\
 .ace-default .ace_marker-layer .ace_bracket {\
-margin: -1px 0 0 -1px;\
+  margin: -1px 0 0 -1px;\
 }\
 .ace-default .ace_marker-layer .ace_active-line {\
-background: transparent;\
+  background: transparent;\
 }\
 .ace-default .ace_gutter-active-line {\
-background-color: transparent;\
-}\
-.ace-default .ace_marker-layer .ace_selected-word {\
-border: 1px solid #49483E\
+  background-color: transparent;\
 }\
 .ace-default .ace_invisible {\
-color: #52524d\
+  color: #52524d;\
 }\
 .ace-default .ace_entity.ace_name.ace_tag,\
 .ace-default .ace_keyword,\
 .ace-default .ace_meta.ace_tag,\
 .ace-default .ace_storage {\
-color: #f66f6f;\
+  color: #f66f6f;\
 }\
 .ace-default .ace_punctuation,\
 .ace-default .ace_punctuation.ace_tag {\
-color: white;\
+  color: white;\
 }\
 .ace-default .ace_constant.ace_character,\
 .ace-default .ace_constant.ace_language {\
-color: #AE81FF\
+  color: #AE81FF;\
 }\
 .ace-default .ace_constant.ace_other {\
-color: #12a9df;\
+  color: #12a9df;\
 }\
 .ace-default .ace_constant.ace_numeric{\
-color: #ef3c97;\
+  color: #ef3c97;\
 }\
 .ace-default .ace_invalid {\
-color: #F8F8F0;\
-background-color: #F92672\
+  color: #F8F8F0;\
+  background-color: #F92672;\
 }\
 .ace-default .ace_invalid.ace_deprecated {\
-color: #F8F8F0;\
-background-color: #AE81FF\
+  color: #F8F8F0;\
+  background-color: #AE81FF;\
 }\
 .ace-default .ace_support.ace_constant,\
 .ace-default .ace_support.ace_function {\
-color: #ffa24d\
+  color: #ffa24d;\
 }\
 .ace-default .ace_fold {\
-background-color: #A6E22E;\
-border-color: #F8F8F2\
+  background-color: #A6E22E;\
+  border-color: #F8F8F2;\
 }\
 .ace-default .ace_storage.ace_type,\
 .ace-default .ace_support.ace_class,\
 .ace-default .ace_support.ace_type {\
-color: #6f9fc5;\
+  color: #6f9fc5;\
 }\
 .ace-default .ace_entity.ace_name.ace_function,\
 .ace-default .ace_entity.ace_other,\
 .ace-default .ace_entity.ace_other.ace_attribute-name,\
 .ace-default .ace_variable {\
-color: #A6E22E\
+  color: #A6E22E;\
 }\
 .ace-default .ace_variable.ace_parameter {\
-color: #FD971F\
+  color: #FD971F;\
 }\
 .ace-default .ace_string {\
-color: #ffaa26;\
+  color: #ffaa26;\
 }\
 .ace-default .ace_comment {\
-color: #a9b6d2;\
+  color: #a9b6d2;\
 }\
 .ace-default .ace_identifier {\
   color: #0088ff;\
@@ -110,55 +108,17 @@ color: #a9b6d2;\
   border-bottom-right-radius: 0;\
   border-bottom-left-radius: 0;\
 }\
-.ace_gutter-cell {\
+.ace-default .ace_br15 {\
+  border-radius: 0;\
+}\
+.ace-default .ace_gutter-cell {\
 	padding-left: 19px;\
   border-right: 1px solid #a9b6d2;\
   color: #718ac0;\
   letter-spacing: 2px;\
 }\
-.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line {\
-    background-color: transparent;\
-}\
-.ace_editor.ace_autocomplete .ace_line.ace_selected {\
-    color: white;\
-}\
-.ace_editor.ace_autocomplete {\
-	border: none;\
-}\
-.ace_editor.ace_autocomplete .ace_completion-highlight {\
-    color: #12a9df;\
-    text-shadow: none;\
-}\
-.ace_editor.ace_autocomplete .ace_selected .ace_completion-highlight {\
-  color: #42d3fb;\
-}\
-.ace_editor.ace_autocomplete .ace_line-hover {\
-    border: none;\
-    margin-top: 0;\
-    background: #f2f2f2;\
-}\
-.ace_rightAlignedText {\
-    display: none;\
-}\
-.ace_scrollbar.ace_scrollbar-v::-webkit-scrollbar-track {\
-  -webkit-box-shadow: none;\
-  background-color: #DFE1E5;\
-}\
-.ace_scrollbar.ace_scrollbar-v::-webkit-scrollbar {\
-  background-color: #DFE1E5;\
-}\
-.ace_scrollbar.ace_scrollbar-v::-webkit-scrollbar-thumb {\
-  background-color: #c1c1c1;\
-}\
-.ace_scrollbar.ace_scrollbar-h::-webkit-scrollbar-track {\
-  -webkit-box-shadow: none;\
-  background-color: #DFE1E5;\
-}\
-.ace_scrollbar.ace_scrollbar-h::-webkit-scrollbar {\
-  background-color: #DFE1E5;\
-}\
-.ace_scrollbar.ace_scrollbar-h::-webkit-scrollbar-thumb {\
-  background-color: #c1c1c1;\
+.ace-default .ace_content {\
+  padding-left: 15px;\
 }\
 ";
 

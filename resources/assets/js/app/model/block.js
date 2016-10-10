@@ -420,7 +420,7 @@ define(function() {
 			block = getBlock(mouseDownBlockDom.dataset.uid);
 
 			if (!block.connectable) {
-				block = createBlock(block.data.name);
+				block = copyBlock(block);
 				setBlockConnectable(block, true);
 
 				dragContainer.appendChild(block.dom);
@@ -1638,13 +1638,18 @@ define(function() {
 	}
 
 	function resetBlocks() {
-		var block;
 		for (var uid in blocks) {
-			block = blocks[uid];
+			var block = blocks[uid];
 			if (block.connectable || block.data.type == "group") {
 				removeBlock(block);
 			}
 		}
+
+		blockVars = {
+			voidFunctions: [],
+			returnFunctions: [],
+			vars: [],
+		};
 	}
 
 	function updateDynamicBlocks(groups) {
@@ -1657,10 +1662,9 @@ define(function() {
 
 		for (var type in groups) {
 			var options = groups[type];
-			var optionsName = type + "s";
-			blockVars[optionsName] = options;
+			blockVars[type] = options;
 
-			document.querySelectorAll('select[data-options="' + optionsName + '"]').forEach(function(selectDom) {
+			document.querySelectorAll('select[data-options="' + type + '"]').forEach(function(selectDom) {
 				updateDynamicBlock(selectDom, options);
 			});
 		}

@@ -46,6 +46,8 @@ define(['app/util/util', 'app/util/emitor', './block'], function(util, emitor, b
 		data = data || {};
 		block.resetBlocks();
 
+		emitor.trigger("software", "update-block");
+
 		groupBlocks = {};
 
 		var globalBlock = block.buildBlock(ensureGroupStructure(data.global));
