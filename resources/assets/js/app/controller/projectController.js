@@ -18,7 +18,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	}
 
 	function openProject(projectInfo) {
-		tempProject = projectInfo.id == 0 ? projectInfo : null;
+		projectInfo.id == 0 && (tempProject = projectInfo);
 		currentProject && (currentProject.project_data = getProjectData());
 		currentProject = projectInfo;
 		myProjects.length == 0 && project.addProject(projectInfo);
@@ -31,6 +31,31 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		hardware.setData(projectData.hardware);
 		software.setData(projectData.software);
 		code.setData(projectData.code);
+	}
+
+	function loadMyProject() {
+		var promise = $.Deferred();
+
+		projectModel.getAll().done(function(result) {
+			if (result.status != 0) {
+				util.message(result.message);
+				promise.reject();
+				return;
+			}
+
+			if (result.data.length == 0) {
+				promise.reject();
+				return;
+			}
+
+			result.data.forEach(function(projectInfo) {
+				projectInfo = convertProject(projectInfo);
+				myProjects.push(projectInfo);
+			});
+			promise.resolve();
+		});
+
+		return promise;
 	}
 
 	function onAppStart() {
@@ -82,7 +107,12 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		projectInfo = projectInfo || {};
 		if (saveType == "edit") {
 			//编辑
-
+			if(projectInfo.id == 0) {
+				saveType = "save";
+				newSave = true;
+				
+				projectInfo.project_data = JSON.stringify(getProjectData());
+			}
 		} else if (saveType == "save") {
 			//保存
 			var info = getCurrentProject();
@@ -153,11 +183,12 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	function onProjectCopy(id) {
 		var projectInfo;
 		if (id == 0) {
-			projectInfo = getCurrentProject();
-		} else {
-			var index = findProjectIndex(myProjects, id);
-			index >= 0 && (projectInfo = myProjects[index]);
+			util.message("请先保存项目");
+			return;
 		}
+
+		var index = findProjectIndex(myProjects, id);
+		index >= 0 && (projectInfo = myProjects[index]);
 		if (!projectInfo) {
 			return;
 		}
@@ -170,31 +201,6 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		projectModel.save(copyProjectInfo).done(function(result) {
 			result.status == 0 ? onProjectSaveSuccess(result.data.project_id, "copy") : util.message(result.message);
 		});
-	}
-
-	function loadMyProject() {
-		var promise = $.Deferred();
-
-		projectModel.getAll().done(function(result) {
-			if (result.status != 0) {
-				util.message(result.message);
-				promise.reject();
-				return;
-			}
-
-			if (result.data.length == 0) {
-				promise.reject();
-				return;
-			}
-
-			result.data.forEach(function(projectInfo) {
-				projectInfo = convertProject(projectInfo);
-				myProjects.push(projectInfo);
-			});
-			promise.resolve();
-		});
-
-		return promise;
 	}
 
 	function onProjectSaveSuccess(id, saveType, newSave) {
@@ -220,7 +226,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 			} else if (saveType == "save") {
 				if(newSave) {
 					myProjects.unshift(projectInfo);
-					
+					project.updateProject(projectInfo, true);
+					currentProject = projectInfo;
+					tempProject = null;
 				} else {
 					var index = findProjectIndex(myProjects, projectInfo.id);
 					myProjects[index] = projectInfo;
@@ -259,8 +267,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	}
 
 	function onSoftwareBlockUpdate() {
-		var hardwareData = hardware.getData();
-		software.updateBlocks(hardwareData);
+		var hardwareBlockData = hardware.getBlockData();
+		software.updateBlocks(hardwareBlockData);
 	}
 
 	function getProjectData() {

@@ -258,6 +258,11 @@ define(['vendor/jsPlumb'], function() {
 			return;
 		}
 
+		var x = componentData.x;
+		var y = componentData.y;
+		delete componentData.x;
+		delete componentData.y;
+
 		componentData.uid = componentData.uid || jsPlumbUtil.uuid();
 		componentData.pins = componentData.pins || {};
 		componentData.varName = componentData.varName || genVarName(componentData.name);
@@ -271,8 +276,8 @@ define(['vendor/jsPlumb'], function() {
 		componentDom.dataset.name = componentData.name;
 		componentDom.dataset.uid = componentData.uid;
 		componentDom.classList.add('component');
-		componentDom.style.left = componentData.x + '%';
-		componentDom.style.top = componentData.y + '%';
+		componentDom.style.left = x + '%';
+		componentDom.style.top = y + '%';
 		componentDom.src = componentConfig.src;
 		componentDom.style.width = componentConfig.width + 'px';
 		componentDom.style.height = componentConfig.height + 'px';

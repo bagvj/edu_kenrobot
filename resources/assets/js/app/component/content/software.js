@@ -82,7 +82,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 	}
 
 	function updateBlocks(hardwareData) {
-		modules = [];
+		modules = ["default"];
 		hardwareData.components.forEach(function(componentData) {
 			modules.indexOf(componentData.name) < 0 && modules.push(componentData.name)
 		});

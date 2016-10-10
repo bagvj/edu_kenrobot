@@ -54,6 +54,16 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		hideComponentDialog();
 	}
 
+	function getBlockData() {
+		var data = {};
+		var hardwareData = getData();
+		data.components = hardwareData.components.map(function(componentData) {
+			return hardwareModel.getComponentData(componentData.uid);
+		});
+
+		return data;
+	}
+
 	function reset() {
 
 	}
@@ -268,6 +278,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		loadSchema: loadSchema,
 		getData: getData,
 		setData: setData,
+
+		getBlockData: getBlockData,
+
 		reset: reset,
 	};
 });

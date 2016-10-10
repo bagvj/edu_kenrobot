@@ -493,6 +493,29 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					tags: []
 				}, {
 					type: "output",
+					name: "returnSensor",
+					connectors: [{
+						type: "connector-output",
+						accept: "connector-input"
+					}],
+					content: [{
+						type: "text",
+						value: "返回"
+					}, {
+						id: "SENSOR",
+						type: "dynamic-select",
+						options: "sensors"
+					}],
+					code: "{SENSOR.type}",
+					returnType: {
+						type: "fromDynamicSelect",
+						id: "SENSOR",
+						options: "sensors"
+					},
+					tags: ["module"],
+					module: "sensor"
+				}, {
+					type: "output",
 					name: "hts221Temperature",
 					connectors: [{
 						type: "connector-output",
@@ -2202,29 +2225,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					tags: ["module"],
 					module: "oscillator"
 				}, {
-					type: "output",
-					name: "readSensor",
-					connectors: [{
-						type: "connector-output",
-						accept: "connector-input"
-					}],
-					content: [{
-						type: "text",
-						value: "返回"
-					}, {
-						id: "SENSOR",
-						type: "dynamic-select",
-						options: "sensors"
-					}],
-					code: "{SENSOR.type}",
-					returnType: {
-						type: "fromDynamicDropdown",
-						idDropdown: "SENSOR",
-						options: "sensors"
-					},
-					tags: ["module"],
-					module: "sensor"
-				}, {
 					type: "statement",
 					name: "servoNormal",
 					connectors: [{
@@ -2312,7 +2312,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					module: "serial"
 				}, {
 					type: "output",
-					name: "components",
+					name: "returnComponent",
 					connectors: [{
 						type: "connector-output",
 						accept: "connector-input"
@@ -2327,8 +2327,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					code: "{COMPONENT}",
 					returnType: {
-						type: "fromDynamicDropdown",
-						idDropdown: "COMPONENT",
+						type: "fromDynamicSelect",
+						id: "COMPONENT",
 						options: "components"
 					},
 					tags: ["module", "advanced"],
@@ -2387,8 +2387,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "毫秒"
 					}],
 					code: "tone({BUZZER},{NOTE},{SECONDS});\ndelay({SECONDS});",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement",
 					name: "motorRunAdvanced",
@@ -2461,8 +2460,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "5b0354c0-8e85-4755-9e03-95525f1057a9"
 					}],
 					code: "{SERVO}.write({DIRECTION});",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement",
 					name: "continuousServoStopAdvanced",
@@ -2491,8 +2489,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "转动"
 					}],
 					code: "{SERVO}.write(90);",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement",
 					name: "lcdTurnOnOffAdvanced",
@@ -2528,8 +2525,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "的背光"
 					}],
 					code: "{LCD}.{STATE}();",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement",
 					name: "lcdWriteAdvanced",
@@ -2568,8 +2564,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "0ff787be-1b73-4c85-84e0-f38651e4a29d"
 					}],
 					code: "{LCD}.print({TEXT});",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement",
 					name: "ledAdvanced",
@@ -2605,8 +2600,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "9050f447-06fe-4956-bd2b-a440ce757f52"
 					}],
 					code: "digitalWrite({LED},{STATE});",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement",
 					name: "encoderWriteAdvanced",
@@ -2645,8 +2639,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "f76dc724-1666-4d74-9d58-0733fbe78071"
 					}],
 					code: "{ENCODER}.write({VALUE});",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement",
 					name: "rgbLedAdvanced",
@@ -4046,8 +4039,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "8a83d1fa-74d9-4993-afd1-0c14796e169a"
 					}],
 					code: "{OSCILLATOR}.SetO({PHASE});\n{OSCILLATOR}.SetA({AMPLITUDE});\n{OSCILLATOR}.SetT({SPEED});\n{OSCILLATOR}.refresh();",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement",
 					name: "oscillatorStartAdvanced",
@@ -4073,8 +4065,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "b0e8f5b3-a867-424d-ba93-22ff7406bd26"
 					}],
 					code: "{OSCILLATOR}.start()",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement",
 					name: "oscillatorStopAdvanced",
@@ -4100,8 +4091,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "b489257c-fc38-493b-93b2-b3311db488b4"
 					}],
 					code: "{OSCILLATOR}.stop()",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "output",
 					name: "digitalReadAdvanced",
@@ -4131,8 +4121,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						type: "simple",
 						value: "float"
 					},
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"],
+					module: "default"
 				}, {
 					type: "output",
 					name: "analogReadAdvanced",
@@ -4162,8 +4152,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						type: "simple",
 						value: "float"
 					},
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"],
+					module: "default"
 				}, {
 					type: "statement",
 					name: "analogWrite",
@@ -4202,8 +4192,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "786457fd-727b-4a52-ac76-ac47a96c097a"
 					}],
 					code: "'{PIN}'.indexOf('A') !== -1 ? 'analogWrite({PIN},{DATA});'.replace(/\"/g, '') : 'analogWrite({PIN},{DATA});'",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"],
+					module: "default"
 				}, {
 					type: "statement",
 					name: "digitalWrite",
@@ -4242,8 +4232,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "c68c77de-ef1c-4f54-88a3-a8566d882b7b"
 					}],
 					code: "digitalWrite({PIN},{DATA});",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"],
+					module: "default"
 				}, {
 					type: "statement",
 					name: "servoNormalAdvanced",
@@ -4285,8 +4275,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "度"
 					}],
 					code: "{SERVO}.write({POSITION});",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement",
 					name: "lcdWritePositionAdvanced",
@@ -4351,8 +4340,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "5b8ac541-9ef8-48fa-b798-04ef13c0ef83"
 					}],
 					code: "{LCD}.setCursor({COLUMN},{ROW});{LCD}.print({TEXT});",
-					tags: ["module"],
-					module: "advanced"
+					tags: ["module", "advanced"]
 				}, {
 					type: "statement-input",
 					name: "voidFunction",
@@ -4400,10 +4388,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						options: "voidFunctions"
 					}],
 					code: "{FUNCTION}();",
-					dynamicDropdown: {
-						idDropdown: "FUNCTION",
-						options: "voidFunctions"
-					},
 					tags: ["function"]
 				}, {
 					type: "statement-input",
@@ -4465,8 +4449,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					code: "{FUNCTION}()",
 					returnType: {
-						type: "fromDynamicDropdown",
-						idDropdown: "FUNCTION",
+						type: "fromDynamicSelect",
+						id: "FUNCTION",
 						options: "returnFunctions"
 					},
 					tags: ["function"]
@@ -4547,10 +4531,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "fe804f29-2a6b-4e0e-a02b-8c2ae96e4472"
 					}],
 					code: "{FUNCTION}({ARGS});",
-					dynamicDropdown: {
-						idDropdown: "FUNCTION",
-						options: "voidFunctions"
-					},
 					tags: ["function", "advanced"]
 				}, {
 					type: "statement-input",
@@ -4642,8 +4622,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					code: "{FUNCTION}({ARGS})",
 					returnType: {
-						type: "fromDynamicDropdown",
-						idDropdown: "FUNCTION",
+						type: "fromDynamicSelect",
+						id: "FUNCTION",
 						options: "returnFunctions"
 					},
 					tags: ["function", "advanced"]
@@ -4681,12 +4661,12 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						type: "var-input",
 						value: ""
 					}],
-					createDynamicContent: "softwareVars",
+					createDynamicContent: "vars",
 					code: "{TYPE} {VARNAME}",
 					returnType: {
 						type: "fromDropdown",
-						idDropdown: "TYPE",
-						options: "softwareVars"
+						id: "TYPE",
+						options: "vars"
 					},
 					tags: ["function", "advanced"]
 				}, {
@@ -4720,7 +4700,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						acceptType: "all",
 						name: "99234802-2fbc-4866-b413-f1af75abfdf6"
 					}],
-					createDynamicContent: "softwareVars",
+					createDynamicContent: "vars",
 					code: "{ARG1},{ARG2}",
 					returnType: {
 						type: "simple",
@@ -4788,7 +4768,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						type: "from-input",
 						blockInputId: "VALUE"
 					},
-					createDynamicContent: "softwareVars",
+					createDynamicContent: "vars",
 					code: "{VALUE.connectionType} {NAME} = {VALUE};",
 					tags: ["var"]
 				}, {
@@ -4804,13 +4784,13 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "VAR",
 						type: "dynamic-select",
-						options: "softwareVars"
+						options: "vars"
 					}],
 					code: "{VAR}",
 					returnType: {
-						type: "fromDynamicDropdown",
-						idDropdown: "VAR",
-						options: "softwareVars"
+						type: "fromDynamicSelect",
+						id: "VAR",
+						options: "vars"
 					},
 					tags: ["var"]
 				}, {
@@ -4826,9 +4806,9 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						type: "connector-input",
 						accept: "connector-output",
 						acceptType: {
-							type: "fromDynamicDropdown",
-							idDropdown: "NAME",
-							options: "softwareVars"
+							type: "fromDynamicSelect",
+							id: "NAME",
+							options: "vars"
 						},
 						name: "464bec0a-cfec-4ccf-a376-ba30ca1387ff"
 					}],
@@ -4838,7 +4818,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "NAME",
 						type: "dynamic-select",
-						options: "softwareVars"
+						options: "vars"
 					}, {
 						type: "text",
 						value: "="
@@ -4846,9 +4826,9 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						blockInputId: "VALUE",
 						type: "block-input",
 						acceptType: {
-							type: "fromDynamicDropdown",
-							idDropdown: "NAME",
-							options: "softwareVars"
+							type: "fromDynamicSelect",
+							id: "NAME",
+							options: "vars"
 						},
 						name: "464bec0a-cfec-4ccf-a376-ba30ca1387ff"
 					}],
@@ -4867,7 +4847,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "VAR",
 						type: "dynamic-select",
-						options: "softwareVars"
+						options: "vars"
 					}, {
 						type: "text",
 						value: "["
@@ -4881,10 +4861,10 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					code: "{VAR}[{POSITION}]",
 					returnType: {
-						type: "fromDynamicDropdown",
-						idDropdown: "VAR",
+						type: "fromDynamicSelect",
+						id: "VAR",
 						pointer: "true",
-						options: "softwareVars"
+						options: "vars"
 					},
 					tags: ["var"]
 				}, {
@@ -4900,10 +4880,10 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						type: "connector-input",
 						accept: "connector-output",
 						acceptType: {
-							type: "fromDynamicDropdown",
-							idDropdown: "NAME",
+							type: "fromDynamicSelect",
+							id: "NAME",
 							pointer: "true",
-							options: "softwareVars"
+							options: "vars"
 						},
 						name: "e6031a11-ad01-470b-ae8d-ffb05b1f5384"
 					}],
@@ -4913,7 +4893,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "NAME",
 						type: "dynamic-select",
-						options: "softwareVars"
+						options: "vars"
 					}, {
 						type: "text",
 						value: "["
@@ -4931,10 +4911,10 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						blockInputId: "VALUE",
 						type: "block-input",
 						acceptType: {
-							type: "fromDynamicDropdown",
-							idDropdown: "NAME",
+							type: "fromDynamicSelect",
+							id: "NAME",
 							pointer: "true",
-							options: "softwareVars"
+							options: "vars"
 						},
 						name: "e6031a11-ad01-470b-ae8d-ffb05b1f5384"
 					}],
@@ -4958,7 +4938,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "VAR",
 						type: "dynamic-select",
-						options: "softwareVars"
+						options: "vars"
 					}, {
 						type: "text",
 						value: "["
@@ -4973,10 +4953,10 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					code: "{VAR}[{POSITION}]",
 					returnType: {
-						type: "fromDynamicDropdown",
-						idDropdown: "VAR",
+						type: "fromDynamicSelect",
+						id: "VAR",
 						pointer: "true",
-						options: "softwareVars"
+						options: "vars"
 					},
 					tags: ["var", "advanced"]
 				}, {
@@ -5005,7 +4985,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "NAME",
 						type: "dynamic-select",
-						options: "softwareVars"
+						options: "vars"
 					}, {
 						type: "text",
 						value: "["
@@ -5083,9 +5063,9 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					returnType: {
 						type: "fromDropdown",
-						idDropdown: "TYPE"
+						id: "TYPE"
 					},
-					createDynamicContent: "softwareVars",
+					createDynamicContent: "vars",
 					code: "{TYPE} {NAME} = {VALUE};",
 					tags: ["var", "advanced"]
 				}, {
@@ -5406,9 +5386,9 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					code: "({TYPE})malloc({VALUE}*sizeof({TYPE.withoutAsterisk}))",
 					returnType: {
-						type: "fromDropdown",
-						idDropdown: "TYPE",
-						options: "softwareVars"
+						type: "fromSelect",
+						id: "TYPE",
+						options: "vars"
 					},
 					tags: ["math", "advanced"]
 				}, {
@@ -5529,8 +5509,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					code: "({TYPE}) {NUMBER}",
 					returnType: {
-						type: "fromDropdown",
-						idDropdown: "TYPE"
+						type: "fromSelect",
+						id: "TYPE"
 					},
 					tags: ["math", "advanced"]
 				}, {
@@ -5709,8 +5689,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					code: "({TYPE})malloc({VALUE}*sizeof({TYPE.withoutAsterisk}))",
 					returnType: {
 						type: "fromDropdown",
-						idDropdown: "TYPE",
-						options: "softwareVars"
+						id: "TYPE",
+						options: "vars"
 					},
 					tags: ["text", "advanced"]
 				}, {
@@ -5943,7 +5923,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "VAR",
 						type: "dynamic-select",
-						options: "softwareVars"
+						options: "vars"
 					}, {
 						type: "text",
 						value: "的值为"
@@ -6014,7 +5994,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "VAR",
 						type: "dynamic-select",
-						options: "softwareVars"
+						options: "vars"
 					}, {
 						type: "text",
 						value: "从"

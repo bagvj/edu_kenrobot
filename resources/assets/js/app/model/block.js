@@ -5,7 +5,7 @@ define(function() {
 	var blockVars = {
 		voidFunctions: [],
 		returnFunctions: [],
-		softwareVars: [],
+		vars: [],
 	};
 
 	var activeConnectors = [];
@@ -231,7 +231,7 @@ define(function() {
 				});
 				elementData.value && (selectDom.value = elementData.value);
 				selectDom.addEventListener("change", function() {
-					block.data.returnType && block.data.returnType.type == "fromDropdown" && updateBlockVar(block);
+					block.data.returnType && block.data.returnType.type == "fromSelect" && updateBlockVar(block);
 					onBlockUpdate();
 				});
 
@@ -346,7 +346,6 @@ define(function() {
 			var optionDom = document.createElement("option");
 			optionDom.value = optionData.name;
 			optionDom.dataset.varId = optionData.id;
-			optionDom.dataset.reference = optionData.uid;
 			optionDom.innerHTML = optionData.name;
 			selectDom.appendChild(optionDom);
 		});
@@ -861,8 +860,6 @@ define(function() {
 		var childBlock;
 		var childConnectorId;
 		var value = '';
-		var type = '';
-		var connectionType = '';
 		var elementTags = [];
 		var childrenTags = [];
 		block.data.content.forEach(function(elementData) {
@@ -913,21 +910,21 @@ define(function() {
 			// search for child blocks:
 			for (var k = 0; k < blockInputConnectors.length; k++) {
 				value = '';
-				connectionType = '';
-				type = '';
+				var connectionType = '';
+				var returnType = '';
 				if (ioConnectors[blockInputConnectors[k]]) {
 					childConnectorId = ioConnectors[blockInputConnectors[k]].connectedTo;
 					if (childConnectorId) {
 						childBlock = getBlockByConnector(childConnectorId, true);
 						value = getBlockCode(childBlock);
-						type = childBlock.data.returnType;
+						returnType = childBlock.data.returnType;
 					}
-					if (type.type === 'fromDynamicDropdown') {
-						connectionType = getFromDynamicDropdownType(childBlock || block, type.idDropdown, type.options);
-					} else if (type.type === 'fromDropdown') {
+					if (returnType.type === 'fromDynamicSelect') {
+						connectionType = getFromDynamicSelectType(childBlock || block, returnType.id, returnType.options);
+					} else if (returnType.type === 'fromSelect') {
 						connectionType = getTypeFromBlock(childBlock || block);
 					} else {
-						connectionType = type.value;
+						connectionType = returnType.value;
 						if (connectionType === 'string') {
 							connectionType = 'String';
 						}
@@ -1227,7 +1224,7 @@ define(function() {
 	function sameConnectionType(dragBlock, dropBlock, dropConnectorAcceptType) {
 		var dragConnectorType = getTypeFromBlock(dragBlock);
 		if (typeof(dropConnectorAcceptType) === 'object') {
-			dropConnectorAcceptType = getTypeFromDynamicDropdown(dropBlock, dropConnectorAcceptType);
+			dropConnectorAcceptType = getTypeFromDynamicSelect(dropBlock, dropConnectorAcceptType);
 		}
 		return (dragConnectorType === 'all') || (dropConnectorAcceptType === 'all') || (dragConnectorType === dropConnectorAcceptType);
 	};
@@ -1256,11 +1253,11 @@ define(function() {
 
 				result = (connector && connector.connectedTo) ? getTypeFromBlock(getBlockByConnector(connector.connectedTo, true)) : '';
 				break;
-			case 'fromDynamicDropdown':
-				result = getFromDynamicDropdownType(block, block.data.returnType.idDropdown, block.data.returnType.options);
+			case 'fromDynamicSelect':
+				result = getFromDynamicSelectType(block, block.data.returnType.id, block.data.returnType.options);
 				break;
-			case 'fromDropdown':
-				result = block.dom.querySelector('[data-content-id="' + block.data.returnType.idDropdown + '"]').value;
+			case 'fromSelect':
+				result = block.dom.querySelector('[data-content-id="' + block.data.returnType.id + '"]').value;
 				break;
 		}
 		return result;
@@ -1300,7 +1297,7 @@ define(function() {
 		return result;
 	};
 
-	function getTypeFromDynamicDropdown(block, typeObject, softwareArrays) {
+	function getTypeFromDynamicSelect(block, typeObject, softwareArrays) {
 		// var attributeValue = block.$block.find('select[data-content-id="' + typeObject.idDropdown + '"][data-dropdowncontent="' + typeObject.options + '"]').attr('data-value');
 		// var selectedValue = block.$block.find('select[data-content-id="' + typeObject.idDropdown + '"][data-dropdowncontent="' + typeObject.options + '"]').val();
 		// var selectedVarNameOnDropdown = attributeValue || selectedValue;
@@ -1318,9 +1315,9 @@ define(function() {
 
 	};
 
-	function getFromDynamicDropdownType(block, idDropdown, options) {
-		// var attributeValue = block.$block.find('select[data-content-id="' + idDropdown + '"][data-dropdowncontent="' + options + '"]').attr('data-value');
-		// var selectedValue = block.$block.find('select[data-content-id="' + idDropdown + '"][data-dropdowncontent="' + options + '"]').val();
+	function getFromDynamicSelectType(block, id, options) {
+		// var attributeValue = block.$block.find('select[data-content-id="' + id + '"][data-dropdowncontent="' + options + '"]').attr('data-value');
+		// var selectedValue = block.$block.find('select[data-content-id="' + id + '"][data-dropdowncontent="' + options + '"]').val();
 		// var varName = attributeValue || selectedValue;
 
 		// var softVar = _.find(softwareArrays[options], {

@@ -54,8 +54,12 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		liveEvent !== false && liveItemEvent();
 	}
 
-	function updateProject(projectInfo) {
-		var li = $('li[data-id=' + projectInfo.id + ']', projectList);
+	function updateProject(projectInfo, newProject) {
+		var id = newProject ? 0 : projectInfo.id;
+
+		var li = $('li[data-id=' + id + ']', projectList);
+		newProject && li.data("id", projectInfo.id).attr("data-id", projectInfo.id);
+
 		$('.name', li).text(projectInfo.project_name);
 		var imageHash = projectInfo.imageHash || "default";
 		$('.project-image', li).css('background-image', "url('/project/image/" + imageHash + "')");
