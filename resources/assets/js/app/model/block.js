@@ -81,11 +81,11 @@ define(function() {
 
 		blocks[this.uid] = this;
 
-		if(this.data.createDynamicContent) {
+		if (this.data.createDynamicContent) {
 			var inputDom = this.dom.querySelector("input.var-input");
-			if(inputDom) {
+			if (inputDom) {
 				var varName = validName(inputDom.value);
-				if(varName) {
+				if (varName) {
 					updateBlockVar(this, varName)
 				} else {
 					removeBlockVar(this);
@@ -246,6 +246,17 @@ define(function() {
 				selectDom.dataset.options = elementData.options;
 				var options = blockVars[elementData.options];
 				options && updateSelectDom(selectDom, options);
+
+				if(options && elementData.value) {
+					var optionData = options.find(function(_optionData) {
+						return _optionData.name == elementData.value;
+					});
+
+					selectDom.value = elementData.value;
+					selectDom.dataset.value = elementData.value;
+					selectDom.dataset.reference = optionData.id;
+				}
+
 				selectDom.addEventListener("change", function(e) {
 					if (block.data.type == "output") {
 						var outputConnector = getOutputConnector(block);
@@ -255,6 +266,9 @@ define(function() {
 							oldBlock.data.returnType && oldBlock.data.returnType.type == "fromInput" && updateBlockVar(oldBlock);
 						}
 					}
+
+					selectDom.dataset.value = selectDom.value;
+					selectDom.dataset.reference = selectDom.selectedOptions[0].dataset.reference;
 					onBlockUpdate();
 				});
 				break;
@@ -345,7 +359,7 @@ define(function() {
 		options.forEach(function(optionData) {
 			var optionDom = document.createElement("option");
 			optionDom.value = optionData.name;
-			optionDom.dataset.varId = optionData.id;
+			optionDom.dataset.reference = optionData.id;
 			optionDom.innerHTML = optionData.name;
 			selectDom.appendChild(optionDom);
 		});
@@ -984,10 +998,8 @@ define(function() {
 			}
 		}
 
-		var tempObject, value, selectedValue, attributeValue;
 		var tempDom;
 		block.data.content.forEach(function(elementData) {
-			tempObject = null;
 			switch (elementData.type) {
 				case 'var-input':
 				case 'string-input':
@@ -997,11 +1009,11 @@ define(function() {
 				case 'char-input':
 					tempDom = block.dom.querySelector('[data-content-id="' + elementData.id + '"]');
 					if (tempDom && tempDom.value) {
-						tempObject = {
-							type: elementData.type,
+						structure.content.push({
 							id: elementData.id,
+							type: elementData.type,
 							value: tempDom.value
-						};
+						});
 					}
 					break;
 				case 'block-input':
@@ -1009,47 +1021,34 @@ define(function() {
 					var uid = getIOConnectorUid(block, elementData.blockInputId);
 					if ((ioConnectors[uid].data.type === 'connector-input') && ioConnectors[uid].connectedTo) {
 						connectedBlock = getBlockByConnector(ioConnectors[uid].connectedTo, true);
-						tempObject = {
+						structure.content.push({
 							type: elementData.type,
 							blockInputId: elementData.blockInputId,
 							value: getBlockStructure(connectedBlock)
-						};
+						});
 					}
 					break;
 				case 'dynamic-select':
-					// attributeValue = block.contentDom.querySelector('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').attr('data-value');
-					// selectedValue = block.contentDom.querySelector('select[data-content-id="' + elementData.id + '"][data-dropdowncontent="' + elementData.options + '"]').val();
-					// //only software Vars get value from val(), hardware, use attribute or val()
-					// var variableType = elementData.options;
-					// var itsSoftwareValue = Object.keys(softwareArrays).indexOf(variableType);
-
-					// if (itsSoftwareValue !== -1) {
-					// 	value = selectedValue;
-					// } else {
-					// 	value = attributeValue || selectedValue;
-					// }
-
-					// if (value) {
-					// 	tempObject = {
-					// 		type: elementData.type,
-					// 		id: elementData.id,
-					// 		value: value
-					// 	};
-					// }
+					tempDom = block.contentDom.querySelector('select[data-content-id="' + elementData.id + '"][data-options="' + elementData.options + '"]');
+					if (tempDom) {
+						structure.content.push({
+							id: elementData.id,
+							type: elementData.type,
+							value: tempDom.dataset.value || tempDom.value,
+						});
+					}
 					break;
 				case 'static-select':
 					tempDom = block.contentDom.querySelector('select[data-content-id="' + elementData.id + '"]');
 					if (tempDom && tempDom.value) {
-						tempObject = {
-							type: elementData.type,
+						structure.content.push({
 							id: elementData.id,
+							type: elementData.type,
 							value: tempDom.value
-						};
+						});
 					}
 					break;
 			}
-
-			tempObject && structure.content.push(tempObject);
 		});
 
 		return structure;
@@ -1155,7 +1154,7 @@ define(function() {
 			blockVar.type = type;
 			blockVar.args = args;
 			if (blockVar.name) {
-				document.querySelectorAll('option[data-var-id="' + blockVar.id + '"]').forEach(function(optionDom) {
+				document.querySelectorAll('option[data-reference="' + blockVar.id + '"]').forEach(function(optionDom) {
 					optionDom.value = blockVar.name;
 					optionDom.innerHTML = blockVar.name;
 				});
@@ -1173,7 +1172,7 @@ define(function() {
 			vars.push(blockVar);
 			document.querySelectorAll('select[data-options="' + varName + '"]').forEach(function(selectDom) {
 				var optionDom = document.createElement("option");
-				optionDom.dataset.varId = blockVar.id;
+				optionDom.dataset.reference = blockVar.id;
 				optionDom.value = blockVar.name;
 				optionDom.innerHTML = blockVar.name;
 				selectDom.appendChild(optionDom);
@@ -1195,7 +1194,7 @@ define(function() {
 		var vars = blockVars[varName];
 		vars.forEach(function(blockVar, index) {
 			if (blockVar.blockUid == block.uid) {
-				document.querySelectorAll('option[data-var-id="' + blockVar.id + '"]').forEach(function(optionDom) {
+				document.querySelectorAll('option[data-reference="' + blockVar.id + '"]').forEach(function(optionDom) {
 					optionDom.remove();
 				});
 				vars.splice(index, 1);
@@ -1646,8 +1645,44 @@ define(function() {
 				removeBlock(block);
 			}
 		}
+	}
 
+	function updateDynamicBlocks(groups) {
+		var oldBlockVars = blockVars;
+		blockVars = {
+			voidFunctions: oldBlockVars.voidFunctions,
+			returnFunctions: oldBlockVars.returnFunctions,
+			vars: oldBlockVars.vars,
+		};
 
+		for (var type in groups) {
+			var options = groups[type];
+			var optionsName = type + "s";
+			blockVars[optionsName] = options;
+
+			document.querySelectorAll('select[data-options="' + optionsName + '"]').forEach(function(selectDom) {
+				updateDynamicBlock(selectDom, options);
+			});
+		}
+	}
+
+	function updateDynamicBlock(selectDom, options) {
+		var value = selectDom.value;
+		var reference = selectDom.dataset.reference;
+
+		updateSelectDom(selectDom, options);
+
+		if (value && reference) {
+			var optionData = options.find(function(_optionData) {
+				return _optionData.id == reference;
+			});
+
+			if (optionData) {
+				selectDom.value = optionData.name;
+				selectDom.dataset.value = optionData.name;
+				selectDom.dataset.reference = optionData.id;
+			}
+		}
 	}
 
 	return {
@@ -1660,5 +1695,7 @@ define(function() {
 		createBlock: createBlock,
 		buildBlock: buildBlock,
 		resetBlocks: resetBlocks,
+
+		updateDynamicBlocks: updateDynamicBlocks,
 	};
 });

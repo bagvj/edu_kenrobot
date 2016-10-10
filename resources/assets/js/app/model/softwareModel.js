@@ -70,6 +70,10 @@ define(['app/util/util', 'app/util/emitor', './block'], function(util, emitor, b
 		return groupBlocks[name];
 	}
 
+	function updateDynamicBlocks(groups) {
+		block.updateDynamicBlocks(groups);
+	}
+
 	function ensureGroupStructure(structure, name) {
 		structure = structure || {};
 		structure.name = structure.name || "group";
@@ -94,5 +98,7 @@ define(['app/util/util', 'app/util/emitor', './block'], function(util, emitor, b
 		getBlock: getBlock,
 
 		getGroupBlock: getGroupBlock,
+
+		updateDynamicBlocks: updateDynamicBlocks,
 	}
 });

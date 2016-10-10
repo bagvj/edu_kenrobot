@@ -83,11 +83,24 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 
 	function updateBlocks(hardwareData) {
 		modules = ["default"];
+
+		var groups = {};
+		var group;
+
 		hardwareData.components.forEach(function(componentData) {
-			modules.indexOf(componentData.name) < 0 && modules.push(componentData.name)
+			modules.indexOf(componentData.name) < 0 && modules.push(componentData.name);
+			group = groups[componentData.name] || (groups[componentData.name] = []);
+			group.push({
+				id: componentData.uid,
+				name: componentData.varName,
+			});
 		});
+
+		softwareModel.updateDynamicBlocks(groups);
 		
-		filterList.find("li.active").click();
+		var li = filterList.find("li.active");
+		li.length == 0 && (li = filterList.find("li:eq(0)"));
+		li.click();
 	}
 
 	function onAppStart() {
