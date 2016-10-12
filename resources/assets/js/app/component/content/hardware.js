@@ -8,7 +8,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	var componentContextMenu;
 	var boardContextMenu;
 	var contextMenuTarget;
-	var componentTemplate = '<li data-filter="{{filter}}" data-label="{{label}}" data-name="{{name}}"><img class="image" draggable="true" src="{{src}}" /><div class="name">{{label}}</div></li>'
+	var componentTemplate = '<li data-filter="{{filter}}" data-label="{{label}}" data-name="{{name}}"><div class="image-wrap"><img class="image" draggable="true" src="{{src}}" /></div><div class="name">{{label}}</div></li>'
 
 	function init() {
 		var sidebarTab = $('.sidebar-tabs .tab-hardware');
@@ -205,7 +205,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	}
 
 	function onComponentDragStart(e) {
-		var li = $(this).parent();
+		var li = $(this).closest('li');
 		e.originalEvent.dataTransfer.effectAllowed = 'move';
 		e.originalEvent.dataTransfer.setData("name", li.data("name"));
 		e.originalEvent.dataTransfer.setData("scope", "component");

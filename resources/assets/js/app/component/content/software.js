@@ -85,7 +85,12 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 				varCode += tempCode;
 			}
 			if(code.setup) {
-				setupCode += code.setup.replace(nameReg, componentData.varName);
+				tempCode = code.setup.replace(nameReg, componentData.varName);
+				var pins = componentData.pins;
+				for(var name in pins) {
+					tempCode = tempCode.replace(new RegExp('{' + name + '}', 'g'), pins[name]);
+				}
+				setupCode += tempCode;
 			}
 		});
 		includeCode = includeCode.sort().reduce(function(result, line) {

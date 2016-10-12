@@ -595,6 +595,87 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						var: 'Encoder {NAME}({sa}, {sb});',
 						setup: '{NAME}.begin();'
 					}
+				}, {
+					uid: "e1bde3b1-11f6-48c2-ad56-a8f0220d6e7a",
+					name: "infraredSensor",
+					label: "光电对管",
+					type: "infraredSensor",
+					category: "sensor",
+					board: "Arduino",
+					src: "/assets/image/components/infraredSensor.png",
+					width: 90,
+					height: 77,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						var: 'int {NAME} = {s};',
+						setup: 'pinMode({NAME}, INPUT);'
+					}
+				}, {
+					uid: "2d6073e7-ecee-4699-8ccb-f1bb52c4655a",
+					name: "lightSensor",
+					label: "光敏传感器",
+					type: "lightSensor",
+					category: "sensor",
+					board: "Arduino",
+					src: "/assets/image/components/lightSensor.png",
+					width: 90,
+					height: 65,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 0],
+						tags: ["analog-in"],
+					}],
+					code: {
+						var: 'int {NAME} = {s};',
+						setup: 'pinMode({NAME}, INPUT);'
+					}
+				}, {
+					uid: "a44f6a20-c35a-46dc-b495-9bcb0618c7ec",
+					name: "servo",
+					label: "舵机",
+					type: "servo",
+					category: "action",
+					board: "Arduino",
+					src: "/assets/image/components/servo.png",
+					width: 125,
+					height: 106,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						include: "#include <Servo.h>",
+						var: 'Servo {NAME};',
+						setup: '{NAME}.attach({s});'
+					}
+				}, {
+					uid: "f4ef6a5f-b646-47ab-b7f3-f0dcdc6651dd",
+					name: "ultrasound",
+					label: "超声波",
+					type: "ultrasound",
+					category: "action",
+					board: "Arduino",
+					src: "/assets/image/components/ultrasound.png",
+					width: 120,
+					height: 79,
+					pins: [{
+						name: "tri",
+						anchor: [0.333, 1],
+						tags: ["digital"],
+					}, {
+						name: "ech",
+						anchor: [0.667, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						include: "#include <SR04.h>",
+						var: 'SR04 {NAME}({ech}, {tri});',
+					}
 				}]
 			},
 			software: {
