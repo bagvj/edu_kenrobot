@@ -421,7 +421,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 				}, {
 					uid: "a8466d12-ed5e-4cc8-bffe-1031c3bb10e1",
 					name: "rgb",
-					label: "RGB LED",
+					label: "三色LED",
 					type: "rgb",
 					category: "sensor",
 					board: "Arduino",
@@ -467,9 +467,9 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						spec: "A5"
 					}],
 					code: {
-						include: '#include <Wire.h>\n#include <BitbloqLiquidCrystal.h>',
-						var: 'LiquidCrystal {NAME}(0);',
-						setup: '{NAME}.begin(16, 2);{NAME}.clear();'
+						include: '#include <LiquidCrystal_I2C.h>',
+						var: 'LiquidCrystal_I2C {NAME}(0x27, 16, 2);',
+						setup: '{NAME}.begin();{NAME}.clear();'
 					}
 				}, {
 					uid: "4b8594a2-b7ff-44fe-a8b0-319640722b30",
@@ -489,6 +489,111 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					code: {
 						setup: 'Serial.begin(9600);'
+					}
+				}, {
+					uid: "bd3ddead-5062-4ab3-9b3d-2ba85e938d0e",
+					name: "button",
+					label: "按键",
+					type: "button",
+					category: "sensor",
+					board: "Arduino",
+					src: "/assets/image/components/button.png",
+					width: 90,
+					height: 73,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						var: 'int {NAME} = {s};',
+						setup: 'pinMode({NAME}, INPUT);'
+					}
+				}, {
+					uid: "9b26a7f3-facc-4f80-83ad-8a29f909c1d7",
+					name: "buzzer",
+					label: "蜂鸣器",
+					type: "buzzer",
+					category: "action",
+					board: "Arduino",
+					src: "/assets/image/components/buzzer.png",
+					width: 85,
+					height: 80,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						var: 'int {NAME} = {s};',
+						setup: 'pinMode({NAME}, OUTPUT);'
+					}
+				}, {
+					uid: "18d12ce2-d24f-4bb6-ba1f-7ab3c50215df",
+					name: "pot",
+					label: "电位器",
+					type: "pot",
+					category: "sensor",
+					board: "Arduino",
+					src: "/assets/image/components/pot.png",
+					width: 74,
+					height: 101,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 0],
+						tags: ["analog-in"],
+					}],
+					code: {
+						var: 'int {NAME} = {s};',
+						setup: 'pinMode({NAME}, INPUT);'
+					}
+				}, {
+					uid: "957b4564-ba2d-436b-9386-6c80a910fc59",
+					name: "hts221",
+					label: "温湿度传感器",
+					type: "hts221",
+					category: "sensor",
+					board: "Arduino",
+					src: "/assets/image/components/hts221.png",
+					width: 107,
+					height: 113,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 0],
+						tags: ["digital"],
+					}],
+					code: {
+						include: "#include <DHT.h>",
+						var: 'DHT {NAME}({s}, DHT22);',
+						setup: '{NAME}.begin();'
+					}
+				}, {
+					uid: "b75731dd-555f-4ba6-b275-e4fefb3d9c64",
+					name: "encoder",
+					label: "旋转编码器",
+					type: "encoder",
+					category: "action",
+					board: "Arduino",
+					src: "/assets/image/components/encoder.png",
+					width: 74,
+					height: 84,
+					pins: [{
+						name: "k",
+						anchor: [0.25, 1],
+						tags: ["digital"],
+					}, {
+						name: "sa",
+						anchor: [0.5, 1],
+						tags: ["digital"],
+					}, {
+						name: "sb",
+						anchor: [0.75, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						include: "#include <Encoder.h>",
+						var: 'Encoder {NAME}({sa}, {sb});',
+						setup: '{NAME}.begin();'
 					}
 				}]
 			},

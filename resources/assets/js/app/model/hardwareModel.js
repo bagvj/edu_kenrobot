@@ -301,6 +301,8 @@ define(['vendor/jsPlumb'], function() {
 				uid: jsPlumbUtil.uuid()
 			});
 
+			componentData.pins[pin.name] = componentData.pins[pin.name] || "";
+
 			var epComponent = jsPlumbInstance.addEndpoint(componentDom, {
 				anchor: pin.anchor,
 				uuid: endpoints[pin.name].uid,

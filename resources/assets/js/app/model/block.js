@@ -422,6 +422,7 @@ define(function() {
 			if (!block.connectable) {
 				block = copyBlock(block);
 				setBlockConnectable(block, true);
+				setBlockEnable(block, true);
 
 				dragContainer.appendChild(block.dom);
 			}
