@@ -30,6 +30,19 @@ define(function() {
 	var reservedWords = 'setup,loop,if,else,for,switch,case,while,do,break,continue,return,goto,define,include,HIGH,LOW,INPUT,OUTPUT,INPUT_PULLUP,true,false,interger, constants,floating,point,void,bool,char,unsigned,byte,int,word,long,float,double,string,String,array,static, volatile,const,sizeof,pinMode,digitalWrite,digitalRead,analogReference,analogRead,analogWrite,tone,noTone,shiftOut,shitIn,pulseIn,millis,micros,delay,delayMicroseconds,min,max,abs,constrain,map,pow,sqrt,sin,cos,tan,randomSeed,random,lowByte,highByte,bitRead,bitWrite,bitSet,bitClear,bit,attachInterrupt,detachInterrupt,interrupts,noInterrupts';
 	reservedWords = reservedWords.split(',');
 
+	var isMobile = navigator.userAgent.match(/Android|iPhone|iPad/i) ? true : false;
+	var mouseEvents = {
+		down: 'mousedown',
+		move: 'mousemove',
+		up: 'mouseup',
+	};
+	var touchEvents = {
+		down: 'touchstart',
+		move: 'touchmove',
+		up: 'touchend',
+	}
+	var dragEvents = isMobile ? touchEvents : mouseEvents;
+
 	function Block(blockData) {
 		this.data = blockData;
 		this.uid = genUid();
@@ -55,7 +68,7 @@ define(function() {
 
 				buildContent(this);
 				buildConnectors(this);
-				this.dom.addEventListener('mousedown', onBlockMouseDown);
+				this.dom.addEventListener(dragEvents.down, onBlockMouseDown);
 				break;
 			case "statement":
 				this.dom.innerHTML = '<div class="statement-content"></div>';
@@ -63,14 +76,14 @@ define(function() {
 
 				buildContent(this);
 				buildConnectors(this);
-				this.dom.addEventListener('mousedown', onBlockMouseDown);
+				this.dom.addEventListener(dragEvents.down, onBlockMouseDown);
 				break;
 			case "output":
 				this.contentDom = this.dom;
 
 				buildContent(this);
 				buildConnectors(this);
-				this.dom.addEventListener('mousedown', onBlockMouseDown);
+				this.dom.addEventListener(dragEvents.down, onBlockMouseDown);
 				break;
 			case "group":
 				this.dom.innerHTML = '<div class="group-content"></div>';
@@ -378,17 +391,18 @@ define(function() {
 		e.stopPropagation();
 		mouseDownBlockDom = e.currentTarget;
 		startPreMouseMove = true;
-		document.addEventListener('mouseup', onBlockMouseUpBeforeMove);
-		document.addEventListener('mousemove', onBlockPreMouseMove);
+		document.addEventListener(dragEvents.up, onBlockMouseUpBeforeMove);
+		document.addEventListener(dragEvents.move, onBlockPreMouseMove);
 	}
 
 	function onBlockMouseUpBeforeMove(e) {
 		mouseDownBlockDom = null;
-		document.removeEventListener('mouseup', onBlockMouseUpBeforeMove);
-		document.removeEventListener('mousemove', onBlockPreMouseMove);
+		document.removeEventListener(dragEvents.up, onBlockMouseUpBeforeMove);
+		document.removeEventListener(dragEvents.move, onBlockPreMouseMove);
 	}
 
 	function onBlockPreMouseMove(e) {
+		e = isMobile ? e.changedTouches[0] : e;
 		if (startPreMouseMove) {
 			startPreMouseMove = false;
 			preMouseMoveX = e.pageX;
@@ -406,17 +420,18 @@ define(function() {
 			var distanceY = e.pageY - preMouseMoveY;
 
 			if ((Math.abs(distanceX) >= 5) || (Math.abs(distanceY) >= 5)) {
-				document.removeEventListener('mousemove', onBlockPreMouseMove);
-				document.addEventListener('mousemove', onBlockMouseMove);
+				document.removeEventListener(dragEvents.move, onBlockPreMouseMove);
+				document.addEventListener(dragEvents.move, onBlockMouseMove);
 			}
 		}
 	}
 
 	function onBlockMouseMove(e) {
+		e = isMobile ? e.changedTouches[0] : e;
 		var block;
 		if (mouseDownBlockDom) {
-			document.removeEventListener('mouseup', onBlockMouseUpBeforeMove);
-			document.addEventListener('mouseup', onBlockMouseUp);
+			document.removeEventListener(dragEvents.up, onBlockMouseUpBeforeMove);
+			document.addEventListener(dragEvents.up, onBlockMouseUp);
 			block = getBlock(mouseDownBlockDom.dataset.uid);
 
 			if (!block.connectable) {
@@ -457,8 +472,8 @@ define(function() {
 	}
 
 	function onBlockMouseUp(e) {
-		document.removeEventListener('mousemove', onBlockMouseMove);
-		document.removeEventListener('mouseup', onBlockMouseUp);
+		document.removeEventListener(dragEvents.move, onBlockMouseMove);
+		document.removeEventListener(dragEvents.up, onBlockMouseUp);
 
 		var block = dragBlock;
 		var dropConnectorDom = container.querySelector(".connector.active") || dragContainer.querySelector(".connector.active");
@@ -781,12 +796,12 @@ define(function() {
 	}
 
 	function removeBlock(block, redraw) {
-		block.dom.removeEventListener("mousedown", onBlockMouseDown);
+		block.dom.removeEventListener(dragEvents.down, onBlockMouseDown);
 		if (mouseDownBlockDom && mouseDownBlockDom.dataset.uid == uid) {
-			document.removeEventListener('mouseup', onBlockMouseUpBeforeMove);
-			document.removeEventListener('mousemove', onBlockPreMouseMove);
-			document.removeEventListener('mousemove', onBlockMouseMove);
-			document.removeEventListener('mouseup', onBlockMouseUp);
+			document.removeEventListener(dragEvents.move, onBlockPreMouseMove);
+			document.removeEventListener(dragEvents.move, onBlockMouseMove);
+			document.removeEventListener(dragEvents.up, onBlockMouseUpBeforeMove);
+			document.removeEventListener(dragEvents.up, onBlockMouseUp);
 		}
 
 		switch (block.data.type) {

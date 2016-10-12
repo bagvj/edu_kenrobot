@@ -405,7 +405,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "LED",
 					type: "led",
 					category: "sensor",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/led.png",
 					width: 55,
 					height: 83,
@@ -424,7 +424,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "三色LED",
 					type: "rgb",
 					category: "sensor",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/rgb.png",
 					width: 67,
 					height: 79,
@@ -451,7 +451,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "液晶模块",
 					type: "lcd",
 					category: "action",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/lcd.png",
 					width: 170,
 					height: 93,
@@ -477,7 +477,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "串口模块",
 					type: "serial",
 					category: "function",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/serial.png",
 					width: 115,
 					height: 71,
@@ -496,7 +496,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "按键",
 					type: "button",
 					category: "sensor",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/button.png",
 					width: 90,
 					height: 73,
@@ -515,7 +515,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "蜂鸣器",
 					type: "buzzer",
 					category: "action",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/buzzer.png",
 					width: 85,
 					height: 80,
@@ -534,7 +534,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "电位器",
 					type: "pot",
 					category: "sensor",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/pot.png",
 					width: 74,
 					height: 101,
@@ -553,7 +553,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "温湿度传感器",
 					type: "hts221",
 					category: "sensor",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/hts221.png",
 					width: 107,
 					height: 113,
@@ -573,7 +573,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "旋转编码器",
 					type: "encoder",
 					category: "action",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/encoder.png",
 					width: 74,
 					height: 84,
@@ -601,7 +601,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "光电对管",
 					type: "infraredSensor",
 					category: "sensor",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/infraredSensor.png",
 					width: 90,
 					height: 77,
@@ -620,7 +620,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "光敏传感器",
 					type: "lightSensor",
 					category: "sensor",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/lightSensor.png",
 					width: 90,
 					height: 65,
@@ -634,13 +634,71 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						setup: 'pinMode({NAME}, INPUT);'
 					}
 				}, {
+					uid: "57307666-b6a0-4e64-b447-90732b71c4d7",
+					name: "soundSensor",
+					label: "声音传感器",
+					type: "soundSensor",
+					category: "sensor",
+					boards: ["Arduino"],
+					src: "/assets/image/components/soundSensor.png",
+					width: 100,
+					height: 102,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						var: 'int {NAME} = {s};',
+						setup: 'pinMode({NAME}, INPUT);'
+					}
+				}, {
+					uid: "49c65abb-dda7-49ae-ad7e-e9aebf512869",
+					name: "limitSwitch",
+					label: "碰撞传感器",
+					type: "limitSwitch",
+					category: "sensor",
+					boards: ["Arduino"],
+					src: "/assets/image/components/limitSwitch.png",
+					width: 100,
+					height: 102,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						var: 'int {NAME} = {s};',
+						setup: 'pinMode({NAME}, INPUT);'
+					}
+				}, {
 					uid: "a44f6a20-c35a-46dc-b495-9bcb0618c7ec",
 					name: "servo",
 					label: "舵机",
 					type: "servo",
 					category: "action",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/servo.png",
+					width: 125,
+					height: 106,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						include: "#include <Servo.h>",
+						var: 'Servo {NAME};',
+						setup: '{NAME}.attach({s});'
+					}
+				}, {
+					uid: "1b286953-9e06-496d-baaf-c831c0f61d87",
+					name: "continuousServo",
+					label: "全角度舵机",
+					type: "continuousServo",
+					category: "action",
+					boards: ["Arduino"],
+					src: "/assets/image/components/continuousServo.png",
 					width: 125,
 					height: 106,
 					pins: [{
@@ -659,7 +717,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					label: "超声波",
 					type: "ultrasound",
 					category: "action",
-					board: "Arduino",
+					boards: ["Arduino"],
 					src: "/assets/image/components/ultrasound.png",
 					width: 120,
 					height: 79,
@@ -675,6 +733,31 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					code: {
 						include: "#include <SR04.h>",
 						var: 'SR04 {NAME}({ech}, {tri});',
+					}
+				}, {
+					uid: "563eeca3-ddf2-454d-8bed-7918652da3a6",
+					name: "rtc",
+					label: "时钟模块",
+					type: "rtc",
+					category: "function",
+					boards: ["Arduino"],
+					src: "/assets/image/components/rtc.png",
+					width: 128,
+					height: 93,
+					pins: [{
+						name: "sda",
+						anchor: [0.333, 0],
+						tags: ["analog-in"],
+						spec: 'A4'
+					}, {
+						name: "scl",
+						anchor: [0.667, 0],
+						tags: ["analog-in"],
+						spec: 'A5'
+					}],
+					code: {
+						include: "#include <Time.h>",
+						var: 'tmElements_t {NAME};',
 					}
 				}]
 			},
@@ -2241,7 +2324,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					module: "ACT009"
 				}, {
 					type: "statement",
-					name: "clockRTCInit",
+					name: "rtcInit",
 					connectors: [{
 						type: "connector-top",
 						accept: "connector-bottom"
@@ -2255,14 +2338,14 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "RTC",
 						type: "dynamic-select",
-						options: "clocks"
+						options: "rtcs"
 					}],
 					code: "{RTC}.adjust(DateTime(__DATE__, __TIME__));",
 					tags: ["module"],
-					module: "clock"
+					module: "rtc"
 				}, {
 					type: "output",
-					name: "clockRTC",
+					name: "rtcGet",
 					connectors: [{
 						type: "connector-output",
 						accept: "connector-input"
@@ -2273,7 +2356,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "RTC",
 						type: "dynamic-select",
-						options: "clocks"
+						options: "rtcs"
 					}, {
 						type: "text",
 						value: "的"
@@ -2294,10 +2377,10 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "String"
 					},
 					tags: ["module"],
-					module: "clock"
+					module: "rtc"
 				}, {
 					type: "output",
-					name: "clockRTCAdvanced",
+					name: "rtcGet-v2",
 					connectors: [{
 						type: "connector-output",
 						accept: "connector-input"
@@ -2308,7 +2391,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						id: "RTC",
 						type: "dynamic-select",
-						options: "clocks"
+						options: "rtcs"
 					}, {
 						type: "text",
 						value: "的"
@@ -2341,7 +2424,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "int"
 					},
 					tags: ["module"],
-					module: "clock"
+					module: "rtc"
 				}, {
 					type: "statement",
 					name: "oscillator",

@@ -244,6 +244,8 @@ define(['vendor/jsPlumb'], function() {
 			epBoard.unbind('click');
 			epBoard.bind('click', onBoardEndpointClick);
 		});
+
+		return boardData;
 	};
 
 	function removeBoard() {

@@ -225,6 +225,10 @@ define(function() {
 		return format;
 	}
 
+	function isMobile() {
+		return navigator.userAgent.match(/Android|iPhone|iPad|iPod/i) ? true : false;
+	}
+
 	return {
 		message: message,
 		showMessage: showMessage,
@@ -235,6 +239,6 @@ define(function() {
 		parseJson: parseJson,
 		numberToChinese: numberToChinese,
 		formatDate: formatDate,
-		
+		isMobile: isMobile,
 	}
 });

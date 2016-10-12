@@ -3,12 +3,27 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	var filterList;
 	var componentList;
 	var search;
+	var boardData;
+
 	var container;
 	var componentDialog;
 	var componentContextMenu;
 	var boardContextMenu;
 	var contextMenuTarget;
 	var componentTemplate = '<li data-filter="{{filter}}" data-label="{{label}}" data-name="{{name}}"><div class="image-wrap"><img class="image" draggable="true" src="{{src}}" /></div><div class="name">{{label}}</div></li>'
+
+	var mouseEvents = {
+		down: 'mousedown',
+		move: 'mousemove',
+		up: 'mouseup',
+	};
+	var touchEvents = {
+		down: 'touchstart',
+		move: 'touchmove',
+		up: 'touchend',
+	}
+	var isTouch = 'ontouchstart' in window;
+	var dragEvents = isTouch ? mouseEvents : touchEvents;
 
 	function init() {
 		var sidebarTab = $('.sidebar-tabs .tab-hardware');
@@ -158,7 +173,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	}
 
 	function onBoardChange(name) {
-		hardwareModel.addBoard(name);
+		boardData = hardwareModel.addBoard(name);
+		console.log("onBoardChange");
 	}
 
 	function onFilterClick(e) {
@@ -179,11 +195,10 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 
 		var filter = filterList.find("> li.active").data("filter");
 		var list = filter == "all" ? componentList.find("> li") : componentList.find('> li[data-filter="' + filter + '"]');
-		list.each(function(i, item) {
-			item = $(item);
-			var label = item.data('label').toLowerCase();
-			label.indexOf(key) >= 0 ? item.addClass("active") : item.removeClass("active");
-		});
+		list.removeClass("active").filter(function(i, item) {
+			var li = $(item);
+			return li.data('label').toLowerCase().indexOf(key) >= 0 || li.data('name').toLowerCase().indexOf(key) >= 0;
+		}).addClass("active");
 	}
 
 	function doComponentFilter() {
