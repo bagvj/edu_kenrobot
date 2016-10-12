@@ -59,8 +59,45 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		$('.block-loop', region).addClass("active").addClass(loopBlock.hasChildren() ? "with-content" : "").find(".group-extension").append(loopBlock.dom);
 	}
 
-	function getCode() {
-		return softwareModel.getCode();
+	function getCode(hardwareData) {
+		var codeInfo = softwareModel.getCode();
+
+		var includeCode = [];
+		var varCode = '';
+		var setupCode = '';
+		var tempCode;
+		var code;
+
+		var nameReg = new RegExp('{NAME}', 'g');
+		hardwareData.components.sort(function(a, b) {
+			return a.name.localeCompare(b.name);
+		}).forEach(function(componentData) {
+			code = componentData.code;
+			if(code.include) {
+				includeCode = includeCode.concat(code.include.split('\n'));
+			}
+			if(code.var) {
+				tempCode = code.var.replace(nameReg, componentData.varName);
+				var pins = componentData.pins;
+				for(var name in pins) {
+					tempCode = tempCode.replace(new RegExp('{' + name + '}', 'g'), pins[name]);
+				}
+				varCode += tempCode;
+			}
+			if(code.setup) {
+				setupCode += code.setup.replace(nameReg, componentData.varName);
+			}
+		});
+		includeCode = includeCode.sort().reduce(function(result, line) {
+			(result.length == 0 || result[result.length - 1] != line) && result.push(line);
+			return result;
+		}, []).join('\n');
+
+		codeInfo.include = includeCode;
+		codeInfo.global = varCode + codeInfo.global;
+		codeInfo.setup = setupCode + codeInfo.setup;
+
+		return codeInfo;
 	}
 
 	function reset() {

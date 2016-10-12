@@ -1184,8 +1184,10 @@ define(function() {
 
 	function updateBlockVarType(varName) {
 		var vars = blockVars[varName];
+		var block;
 		vars && vars.forEach(function(blockVar) {
-			blockVar.type = getTypeFromBlock(blocks[blockVar.blockUid]);
+			block = getBlock(blockVar.blockUid);
+			blockVar.type = block ? getTypeFromBlock(block) : "";
 		});
 	}
 

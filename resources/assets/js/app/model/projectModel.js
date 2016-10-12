@@ -413,7 +413,11 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "s",
 						anchor: [0.5, 1],
 						tags: ["digital"]
-					}]
+					}],
+					code: {
+						var: 'int {NAME} = {s};',
+						setup: 'pinMode({NAME}, OUTPUT);'
+					}
 				}, {
 					uid: "a8466d12-ed5e-4cc8-bffe-1031c3bb10e1",
 					name: "rgb",
@@ -436,7 +440,11 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "b",
 						anchor: [0.75, 1],
 						tags: ["analog-out"]
-					}]
+					}],
+					code: {
+						include: '#include <RGBLed.h>',
+						var: 'RGBLed {NAME}({r}, {g}, {b});',
+					}
 				}, {
 					uid: "abf7ad9a-2bd9-40f4-bf83-0af03e8f4d5a",
 					name: "lcd",
@@ -457,7 +465,12 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						anchor: [0.67, 0],
 						tags: ["analog-in"],
 						spec: "A5"
-					}]
+					}],
+					code: {
+						include: '#include <Wire.h>\n#include <BitbloqLiquidCrystal.h>',
+						var: 'LiquidCrystal {NAME}(0);',
+						setup: '{NAME}.begin(16, 2);{NAME}.clear();'
+					}
 				}, {
 					uid: "4b8594a2-b7ff-44fe-a8b0-319640722b30",
 					name: "serial",
@@ -473,7 +486,10 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						anchor: [1, 0.5],
 						tags: ["serial"],
 						spec: "Serial"
-					}]
+					}],
+					code: {
+						setup: 'Serial.begin(9600);'
+					}
 				}]
 			},
 			software: {

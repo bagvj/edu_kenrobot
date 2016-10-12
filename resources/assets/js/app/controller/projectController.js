@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userModel', 'app/model/projectModel', 'app/component/content/project', 'app/component/content/hardware', 'app/component/content/software', 'app/component/content/code'], function($1, util, emitor, userModel, projectModel, project, hardware, software, code) {
+define(['vendor/jquery', 'app/config', 'app/util/util', 'app/util/emitor', 'app/model/userModel', 'app/model/projectModel', 'app/model/uploadModel', 'app/component/content/project', 'app/component/content/hardware', 'app/component/content/software', 'app/component/content/code'], function($1, appConfig, util, emitor, userModel, projectModel, uploadModel, project, hardware, software, code) {
 	var currentProject;
 	var tempProject;
 	var myProjects;
@@ -12,6 +12,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		emitor.on('project', 'save', onProjectSave);
 		emitor.on('project', 'edit', onProjectEdit);
 		emitor.on('project', 'delete', onProjectDelete);
+		emitor.on('project', 'upload', onProjectUpload);
 		emitor.on('project', 'copy', onProjectCopy);
 		emitor.on('code', 'refresh', onCodeRefresh);
 		emitor.on('software', 'update-block', onSoftwareBlockUpdate);
@@ -59,6 +60,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	}
 
 	function onAppStart() {
+		uploadModel.init(appConfig.chromeExt);
+
 		projectModel.getSchema().done(function(result) {
 			var schema = result.data;
 			hardware.loadSchema(schema.hardware);
@@ -258,9 +261,64 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		myProjects.length ? openProject(myProjects[0]) : openProject(getDefaultProject());
 	}
 
-	function onCodeRefresh() {
+	function onProjectUpload() {
+		onCodeRefresh();
+		
 		var projectInfo = getCurrentProject();
-		var codeInfo = software.getCode();
+		if(projectInfo.id == 0) {
+			emitor.trigger('project', 'show', {
+				data: projectInfo,
+				type: 'save'
+			});
+			return;
+		}
+
+		projectInfo.project_data = JSON.stringify(getProjectData());
+		projectInfo.user_id = userModel.getUserId();
+
+		projectModel.save(projectInfo).done(function(result) {
+			if(result.status != 0) {
+				util.message(result.message);
+				return;
+			}
+
+			projectModel.build(projectInfo.id).done(function(res) {
+				if(res.status != 0) {
+					util.message(res.message);
+					return;
+				}
+
+				uploadModel.check(true).done(function() {
+					uploadModel.upload(res.url).done(function() {
+						util.message("上传成功");
+					}).fail(onProjectUploadFail);
+				});
+			});
+		});
+	}
+
+	function onProjectUploadFail(code) {
+		switch(code) {
+			case 1:
+				util.message("找不到串口");
+				break;
+			case 2:
+				util.message("找不到Arduino");
+				break;
+			case 3:
+				util.message("连接失败");
+				break;
+			case 4:
+				util.message("上传失败");
+				break;
+		}
+	}
+
+	function onCodeRefresh() {
+		var hardwareBlockData = hardware.getBlockData();
+		var codeInfo = software.getCode(hardwareBlockData);
+	
+		var projectInfo = getCurrentProject();
 		codeInfo.name = projectInfo.project_name;
 		codeInfo.author = userModel.getUserName();
 		code.genCode(codeInfo);
@@ -284,13 +342,15 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	}
 
 	function getDefaultProject() {
+		var now = new Date();
 		return {
 			id: 0,
 			project_name: "我的项目",
 			project_intro: "项目简介",
 			public_type: 2,
 			project_data: {},
-			updated_at: new Date(),
+			created_at: now,
+			updated_at: now,
 		};
 	}
 

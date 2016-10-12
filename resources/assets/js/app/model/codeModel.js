@@ -1,6 +1,6 @@
 define(['app/util/util', 'app/util/emitor', 'vendor/beautify', 'vendor/ace/ace', 'vendor/ace/theme-default', 'vendor/ace/mode-arduino', 'vendor/ace/snippets/text', 'vendor/ace/snippets/arduino', 'vendor/ace/ext-language_tools'], function(util, emitor, beautify) {
 	var editor;
-	var codeTemplate = '/**\n * Copyright(C), 2016-2038, KenRobot.com\n * FileName: {{name}}.ino\n * Author: {{author}}\n * Create: {{created_at}}\n * Modify: {{updated_at}}\n */\n{{global}}\nvoid setup()\n{\n{{setup}}\n}\n\nvoid loop()\n{\n{{loop}}\n}';
+	var codeTemplate = '/**\n * Copyright(C), 2016-2038, KenRobot.com\n * FileName: {{name}}.ino\n * Author: {{author}}\n * Create: {{created_at}}\n * Modify: {{updated_at}}\n */\nINCLUDE_CODE{{global}}\nvoid setup()\n{\n{{setup}}\n}\n\nvoid loop()\n{\n{{loop}}\n}';
 	
 	function init(container) {
 		editor = ace.edit(container);
@@ -99,7 +99,7 @@ define(['app/util/util', 'app/util/emitor', 'vendor/beautify', 'vendor/ace/ace',
 			.replace(/\{\{setup\}\}/, codeInfo.setup || "    ")
 			.replace(/\{\{loop\}\}/, codeInfo.loop || "    ");
 
-		code = beautify.js_beautify(code);
+		code = beautify.js_beautify(code).replace(/INCLUDE_CODE/, codeInfo.include ? "\n" + codeInfo.include + "\n" : "");
 		editor.setValue(code, -1);
 	}
 

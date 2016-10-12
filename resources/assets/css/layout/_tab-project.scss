@@ -135,6 +135,17 @@
 				overflow: hidden;
 				background-size: cover;
 				cursor: pointer;
+				position: relative;
+
+				&:after {
+					top: 0;
+					left: 0;
+					content: '';
+					height: 100%;
+					width: 100%;
+					border: 1px solid #ccc;
+					position: absolute;
+				}
 			}
 
 			.project-intro {

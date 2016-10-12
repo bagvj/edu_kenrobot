@@ -21,7 +21,7 @@ define(['vendor/jquery', 'vendor/director', 'app/config', 'app/util/emitor', './
 
 	function printJoinUs() {
 		try{
-			config.debug || console.log(config.greet);
+			!config.debug && console.log(config.greet);
 		} catch(e) {}
 	}
 

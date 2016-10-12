@@ -93,7 +93,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 
 	function onUploadClick(e) {
 		userModel.authCheck(true).done(function() {
-			emitor.trigger('upload', 'show');
+			emitor.trigger('project', 'upload');
 		});
 	}
 

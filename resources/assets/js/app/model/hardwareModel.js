@@ -129,7 +129,7 @@ define(['vendor/jsPlumb'], function() {
 		data.board && addBoard(data.board);
 
 		data.components && data.components.forEach(function(componentData) {
-			addComponent(componentData);
+			addComponent(componentData, false);
 		});
 
 		var connections = data.connections;
@@ -157,8 +157,12 @@ define(['vendor/jsPlumb'], function() {
 		data.board = boardData && boardData.name || null;
 
 		data.components = [];
+
+		var allConnections = jsPlumbInstance.getAllConnections();
 		container.querySelectorAll('.component').forEach(function(componentDom) {
-			var connections = getConnections(componentDom);
+			var connections = allConnections.filter(function(connection) {
+				return connection.sourceId == componentDom.id || connection.targetId == componentDom.id;
+			});
 			if (!connections || !connections.length) {
 				return
 			}
@@ -180,7 +184,7 @@ define(['vendor/jsPlumb'], function() {
 			});
 		});
 
-		data.connections = jsPlumbInstance.getAllConnections().map(function(connection) {
+		data.connections = allConnections.map(function(connection) {
 			var connectionParams = connection.getParameters();
 			return {
 				sourceUid: connectionParams.sourceUid,
@@ -252,7 +256,7 @@ define(['vendor/jsPlumb'], function() {
 		usedNames = {};
 	};
 
-	function addComponent(componentData) {
+	function addComponent(componentData, redraw) {
 		var componentConfig = schema.components[componentData.name];
 		if(!componentConfig) {
 			return;
@@ -266,6 +270,7 @@ define(['vendor/jsPlumb'], function() {
 		componentData.uid = componentData.uid || jsPlumbUtil.uuid();
 		componentData.pins = componentData.pins || {};
 		componentData.varName = componentData.varName || genVarName(componentData.name);
+		componentData.code = clone(componentConfig.code);
 		usedNames[componentData.varName] = true;
 
 		components[componentData.uid] = componentData;
@@ -349,7 +354,8 @@ define(['vendor/jsPlumb'], function() {
 			containment: true
 		});
 
-		repaint();
+		delete componentData.endpoints;
+		redraw != false && repaint();
 
 		return componentDom;
 	};
@@ -598,6 +604,10 @@ define(['vendor/jsPlumb'], function() {
 		containerEvent.action = action;
 		containerEvent.data = data;
 		container.dispatchEvent(containerEvent);
+	}
+
+	function clone(data) {
+		return JSON.parse(JSON.stringify(data));
 	}
 
 	return {
