@@ -5,6 +5,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 		$(window).on('click', onWindowClick);
 		$(window).on('resize', onWindowResize);
 
+		screen.orientation.lock("portrait-primary");
+
 		emitor.on('app', 'start', onAppStart);
 	}
 

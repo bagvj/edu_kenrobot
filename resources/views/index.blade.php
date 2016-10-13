@@ -2,7 +2,10 @@
 <html>
 	<head>
 		<meta charset='utf-8'>
+		<meta name="viewport" content="user-scalable=no">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="Cache-Control" content="no-cache" />
+		<meta name="screen-orientation" content="portrait">
 		<title>啃萝卜智能硬件平台</title>
 		<meta name="keywords" content="arduino 开发 IDE 开发平台 教程" />
 		<meta name="description" content="啃萝卜智能硬件平台" />
