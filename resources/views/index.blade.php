@@ -261,6 +261,17 @@
 						<input class="x-dialog-btn cancel" type="button" value="取消" /><input class="x-dialog-btn confirm" type="button" value="确定" />
 					</div>
 				</div>
+				<div class="x-dialog port-dialog">
+					<div class="x-dialog-title"><i class="kenrobot ken-setting"></i>端口选择</div>
+					<div class="port-label">端口:</div>
+					<div class="x-select port-list">
+						<div class="placeholder"></div>
+						<ul></ul>
+					</div>
+					<div class="x-dialog-btns">
+						<input class="x-dialog-btn cancel" type="button" value="取消" /><input class="x-dialog-btn confirm" type="button" value="确定" />
+					</div>
+				</div>
 			</div>
 			<div class="layer drag-layer block-drag-layer"></div>
 			<div class="layer drag-layer component-drag-layer"></div>

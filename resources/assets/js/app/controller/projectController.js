@@ -93,7 +93,7 @@ define(['vendor/jquery', 'app/config', 'app/util/util', 'app/util/emitor', 'app/
 			return;
 		}
 
-		if(id == 0) {
+		if (id == 0) {
 			tempProject && openProject(tempProject);
 			return;
 		}
@@ -110,23 +110,23 @@ define(['vendor/jquery', 'app/config', 'app/util/util', 'app/util/emitor', 'app/
 		projectInfo = projectInfo || {};
 		if (saveType == "edit") {
 			//编辑
-			if(projectInfo.id == 0) {
+			if (projectInfo.id == 0) {
 				saveType = "save";
 				newSave = true;
-				
+
 				projectInfo.project_data = JSON.stringify(getProjectData());
 			}
 		} else if (saveType == "save") {
 			//保存
 			var info = getCurrentProject();
-			if(!newSave && info.id == 0) {
+			if (!newSave && info.id == 0) {
 				emitor.trigger('project', 'show', {
 					data: info,
 					type: 'save'
 				});
 				return;
 			}
-			
+
 			projectInfo.id = info.id;
 			projectInfo.project_data = JSON.stringify(getProjectData());
 		} else {
@@ -227,7 +227,7 @@ define(['vendor/jquery', 'app/config', 'app/util/util', 'app/util/emitor', 'app/
 				util.message("复制成功");
 				openProject(projectInfo);
 			} else if (saveType == "save") {
-				if(newSave) {
+				if (newSave) {
 					myProjects.unshift(projectInfo);
 					project.updateProject(projectInfo, true);
 					currentProject = projectInfo;
@@ -263,9 +263,9 @@ define(['vendor/jquery', 'app/config', 'app/util/util', 'app/util/emitor', 'app/
 
 	function onProjectUpload() {
 		onCodeRefresh();
-		
+
 		var projectInfo = getCurrentProject();
-		if(projectInfo.id == 0) {
+		if (projectInfo.id == 0) {
 			emitor.trigger('project', 'show', {
 				data: projectInfo,
 				type: 'save'
@@ -277,13 +277,13 @@ define(['vendor/jquery', 'app/config', 'app/util/util', 'app/util/emitor', 'app/
 		projectInfo.user_id = userModel.getUserId();
 
 		projectModel.save(projectInfo).done(function(result) {
-			if(result.status != 0) {
+			if (result.status != 0) {
 				util.message(result.message);
 				return;
 			}
 
 			projectModel.build(projectInfo.id).done(function(res) {
-				if(res.status != 0) {
+				if (res.status != 0) {
 					util.message(res.message);
 					return;
 				}
@@ -291,14 +291,22 @@ define(['vendor/jquery', 'app/config', 'app/util/util', 'app/util/emitor', 'app/
 				uploadModel.check(true).done(function() {
 					uploadModel.upload(res.url).done(function() {
 						util.message("上传成功");
-					}).fail(onProjectUploadFail);
+					}).fail(function(code, args) {
+						onProjectUploadFail(code, args).done(function(portPath) {
+							uploadModel.upload(res.url, portPath).done(function() {
+								util.message("上传成功");
+							}).fail(onProjectUploadFail);
+						});
+					});
 				});
 			});
 		});
 	}
 
-	function onProjectUploadFail(code) {
-		switch(code) {
+	function onProjectUploadFail(code, args) {
+		var promise = $.Deferred();
+
+		switch (code) {
 			case 1:
 				util.message("找不到串口");
 				break;
@@ -306,18 +314,29 @@ define(['vendor/jquery', 'app/config', 'app/util/util', 'app/util/emitor', 'app/
 				util.message("找不到Arduino");
 				break;
 			case 3:
-				util.message("连接失败");
+				var ports = args;
+				emitor.trigger("port", "show", {
+					ports: ports,
+					callback: function(portPath) {
+						promise.resolve(portPath);
+					}
+				});
 				break;
 			case 4:
+				util.message("连接失败");
+				break;
+			case 5:
 				util.message("上传失败");
 				break;
 		}
+
+		return promise;
 	}
 
 	function onCodeRefresh() {
 		var hardwareBlockData = hardware.getBlockData();
 		var codeInfo = software.getCode(hardwareBlockData);
-	
+
 		var projectInfo = getCurrentProject();
 		codeInfo.name = projectInfo.project_name;
 		codeInfo.author = userModel.getUserName();

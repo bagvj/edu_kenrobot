@@ -41,12 +41,16 @@ define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 
 		var onGetPortsDone = function(ports) {
 			if (!portPath) {
-				ports = filterArduinoPorts(ports, nameReg);
-				if (ports.length == 0) {
+				var arduinoPorts = filterArduinoPorts(ports, nameReg);
+				var count = arduinoPorts.length;
+				if (count == 0) {
 					promise.reject(2);
-					return
-				};
-				portPath = ports[0].path;
+					return;
+				} else if(count > 1) {
+					promise.reject(3, ports);
+					return;
+				}
+				portPath = arduinoPorts[0].path;
 			}
 			connect(portPath, bitRate).done(function(connectionId) {
 				url = host + url + "/hex";
@@ -54,10 +58,10 @@ define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 				doUpload(connectionId, url, portPath, delay).done(function() {
 					promise.resolve();
 				}).fail(function() {
-					promise.reject(4);
+					promise.reject(5);
 				});
 			}).fail(function() {
-				promise.reject(3);
+				promise.reject(4);
 			});
 		};
 
