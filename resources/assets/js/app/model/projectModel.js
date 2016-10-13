@@ -164,7 +164,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.9,
 						y: 0.098,
 						name: "1",
-						tags: ["digital"],
+						tags: ["digital", "serial-tx"],
 						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad13",
@@ -173,7 +173,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.935,
 						y: 0.098,
 						name: "0",
-						tags: ["digital"],
+						tags: ["digital", "serial-rx"],
 						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa00",
@@ -486,6 +486,54 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						anchor: [1, 0.5],
 						tags: ["serial"],
 						spec: "Serial"
+					}],
+					code: {
+						setup: 'Serial.begin(9600);'
+					}
+				}, {
+					uid: "d4a3cc37-804e-4a07-b567-aa5ca519bc61",
+					name: "bluetooth",
+					label: "蓝牙模块",
+					type: "serial",
+					category: "function",
+					boards: ["Arduino"],
+					src: "/assets/image/components/bluetooth.png",
+					width: 100,
+					height: 100,
+					pins: [{
+						name: "rxd",
+						anchor: [0.33, 1],
+						tags: ["serial-rx"],
+						// spec: "0"
+					}, {
+						name: "txd",
+						anchor: [0.67, 1],
+						tags: ["serial-tx"],
+						// spec: "1"
+					}],
+					code: {
+						setup: 'Serial.begin(9600);'
+					}
+				}, {
+					uid: "c0dc58aa-2032-4c54-9fc8-3235b7e46bc1",
+					name: "wifi",
+					label: "wifi模块",
+					type: "serial",
+					category: "function",
+					boards: ["Arduino"],
+					src: "/assets/image/components/wifi.png",
+					width: 100,
+					height: 84,
+					pins: [{
+						name: "rxd",
+						anchor: [0.33, 1],
+						tags: ["serial-rx"],
+						// spec: "0"
+					}, {
+						name: "txd",
+						anchor: [0.67, 1],
+						tags: ["serial-tx"],
+						// spec: "1"
 					}],
 					code: {
 						setup: 'Serial.begin(9600);'

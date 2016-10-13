@@ -131,8 +131,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		var groupName;
 
 		hardwareData.components.forEach(function(componentData) {
-			modules.indexOf(componentData.name) < 0 && modules.push(componentData.name);
-			groupName = componentData.name + "s";
+			modules.indexOf(componentData.type) < 0 && modules.push(componentData.type);
+			groupName = componentData.type + "s";
 			group = groups[groupName] || (groups[groupName] = []);
 			group.push({
 				id: componentData.uid,

@@ -273,6 +273,7 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 		componentData.pins = componentData.pins || {};
 		componentData.varName = componentData.varName || genVarName(componentData.name);
 		componentData.code = clone(componentConfig.code);
+		componentData.type = componentConfig.type;
 		usedNames[componentData.varName] = true;
 
 		components[componentData.uid] = componentData;
