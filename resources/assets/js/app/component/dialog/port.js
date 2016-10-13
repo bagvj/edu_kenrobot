@@ -38,8 +38,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 	}
 
 	function reset() {
-		$('.placeholder', dialogWin).empty();
-		$('> ul', dialogWin).empty();
+		$('.placeholder', portList).empty();
+		$('> ul', portList).empty();
 	}
 
 	function onShowPortSelect(e) {
