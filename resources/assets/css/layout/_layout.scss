@@ -19,6 +19,16 @@
 		top: 0;
 		bottom: 0;
 	}
+
+	@media screen and (max-width: 1024px) {
+		.content-region {
+			left: 60px;
+		}
+
+		.sidebar-region {
+			width: 60px;
+		}
+	}
 }
 
 .dialog-layer {

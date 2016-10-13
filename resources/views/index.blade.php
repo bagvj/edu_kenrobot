@@ -2,8 +2,6 @@
 <html>
 	<head>
 		<meta charset='utf-8'>
-		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> -->
-		<!-- <meta name="viewport" content="width=device-width"> -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>啃萝卜智能硬件平台</title>
 		<meta name="keywords" content="arduino 开发 IDE 开发平台 教程" />
@@ -19,21 +17,19 @@
 		<div class="main no-select">
 			<div class="sidebar-region">
 				<div class="top">
-					<a class="logo" href="http://www.kenrobot.com">
-						<i class="kenrobot ken-kenrobot-logo"></i>
-					</a>
+					<a class="logo" href="http://www.kenrobot.com"></a>
 					<div class="name">教育版</div>
 					<div class="url">edu.kenrobot.com</div>
 				</div>
 				<ul class="center">
-					<li data-action="project">项目</li>
-					<li data-action="hardware">硬件</li>
-					<li data-action="software">编程</li>
-					<li data-action="code">源码</li>
+					<li data-action="project"><span class="name">项目</span><i class="icon kenrobot ken-project"></i></li>
+					<li data-action="hardware"><span class="name">硬件</span><i class="icon kenrobot ken-icon-hardware"></i></li>
+					<li data-action="software"><span class="name">编程</span><i class="icon kenrobot ken-software"></i></li>
+					<li data-action="code"><span class="name">源码</span><i class="icon kenrobot ken-icon-code"></i></li>
 				</ul>
 				<ul class="bottom">
-					<li data-action="share">分享</li>
-					<li data-action="help">帮助</li>
+					<li data-action="share"><span class="name">分享</span><i class="icon kenrobot ken-share"></i></li>
+					<li data-action="help"><span class="name">帮助</span><i class="icon kenrobot ken-help"></i></li>
 				</ul>
 			</div>
 			<div class="content-region">

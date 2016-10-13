@@ -191,6 +191,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 
 	function onComponentMouseDown(e) {
 		e.stopPropagation();
+		e.returnValue = false;
+
 		mouseDownComponentDom = e.currentTarget;
 		startPreMouseMove = true;
 		document.addEventListener(dragEvents.up, onComponentMouseUpBeforeMove);
@@ -310,7 +312,6 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 
 	function onBoardChange(name) {
 		boardData = hardwareModel.addBoard(name);
-		console.log("onBoardChange");
 	}
 
 	function onFilterClick(e) {
