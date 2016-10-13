@@ -893,7 +893,7 @@ define(function() {
 
 		elementTags.forEach(function(elem) {
 			var element;
-			block.contentDom.childNodes.forEach(function(childDom) {
+			[].forEach.call(block.contentDom.childNodes, function(childDom) {
 				if (childDom.dataset.contentId && childDom.dataset.contentId == elem) {
 					element = childDom;
 					return true;

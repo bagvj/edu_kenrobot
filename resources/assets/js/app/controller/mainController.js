@@ -1,9 +1,8 @@
 define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util, emitor) {
+	var mainWrap;
 
 	function init() {
-		$(window).on('contextmenu', onContextMenu);
-		$(window).on('click', onWindowClick);
-		$(window).on('resize', onWindowResize);
+		$(window).on('contextmenu', onContextMenu).on('click', onWindowClick).on('resize', onWindowResize);
 
 		emitor.on('app', 'start', onAppStart);
 	}
@@ -14,10 +13,10 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 
 	function onContextMenu(e) {
 		e.preventDefault();
-		
+
 		hideContextMenu();
 		hideSelectMenu();
-		
+
 		emitor.trigger("app", "contextMenu", e);
 
 		return false;
