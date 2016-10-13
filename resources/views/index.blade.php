@@ -22,14 +22,14 @@
 					<div class="url">edu.kenrobot.com</div>
 				</div>
 				<ul class="center">
-					<li data-action="project"><span class="name">项目</span><i class="icon kenrobot ken-project"></i></li>
-					<li data-action="hardware"><span class="name">硬件</span><i class="icon kenrobot ken-icon-hardware"></i></li>
-					<li data-action="software"><span class="name">编程</span><i class="icon kenrobot ken-software"></i></li>
-					<li data-action="code"><span class="name">源码</span><i class="icon kenrobot ken-icon-code"></i></li>
+					<li data-action="project"><i class="icon kenrobot ken-edu-project"></i><span class="name">项目</span></li>
+					<li data-action="hardware"><i class="icon kenrobot ken-edu-hardware"></i><span class="name">硬件</span></li>
+					<li data-action="software"><i class="icon kenrobot ken-edu-block"></i><span class="name">编程</span></li>
+					<li data-action="code"><i class="icon kenrobot ken-edu-code"></i><span class="name">源码</span></li>
 				</ul>
 				<ul class="bottom">
-					<li data-action="share"><span class="name">分享</span><i class="icon kenrobot ken-share"></i></li>
-					<li data-action="help"><span class="name">帮助</span><i class="icon kenrobot ken-share"></i></li>
+					<li data-action="share"><i class="icon kenrobot ken-edu-share"></i><span class="name">分享</span></li>
+					<li data-action="help"><i class="icon kenrobot ken-edu-help"></i><span class="name">帮助</span></li>
 				</ul>
 			</div>
 			<div class="content-region">

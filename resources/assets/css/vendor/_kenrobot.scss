@@ -18,11 +18,13 @@
 
 .ken-stop:before { content: "\e624"; }
 .ken-search:before { content: "\e630"; }
+.ken-edu-share:before { content: "\e64f"; }
 .ken-hd:before { content: "\e63e"; }
 .ken-fullscreen:before { content: "\e64a"; }
 .ken-weibo:before { content: "\e635"; }
 .ken-pause:before { content: "\e62b"; }
 .ken-qzone:before { content: "\e636"; }
+.ken-edu-code:before { content: "\e64d"; }
 .ken-setting2:before { content: "\e628"; }
 .ken-switch-on2:before { content: "\e626"; }
 .ken-switch-off2:before { content: "\e627"; }
@@ -76,6 +78,7 @@
 .ken-scratch:before { content: "\e625"; }
 .ken-message:before { content: "\e63c"; }
 .ken-note:before { content: "\e62f"; }
+.ken-edu-help:before { content: "\e64e"; }
 .ken-serial:before { content: "\e62a"; }
 .ken-play1:before { content: "\e63d"; }
 .ken-stop1:before { content: "\e63f"; }
@@ -90,3 +93,6 @@
 .ken-kenrobot-face:before { content: "\e648"; }
 .ken-share1:before { content: "\e64b"; }
 .ken-exit-fullscreen:before { content: "\e638"; }
+.ken-edu-hardware:before { content: "\e63b"; }
+.ken-edu-block:before { content: "\e649"; }
+.ken-edu-project:before { content: "\e64c"; }
