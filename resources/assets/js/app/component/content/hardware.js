@@ -103,7 +103,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 				.replace(/\{\{src\}\}/, component.src);
 			componentList.append(li);
 		});
-		componentList[0].querySelectorAll("li .image").forEach(function(imageDom) {
+		[].forEach.call(componentList[0].querySelectorAll("li .image"), function(imageDom) {
 			imageDom.addEventListener(dragEvents.down, onComponentMouseDown);
 		});
 

@@ -494,10 +494,10 @@ define(function() {
 		dragBlockPreX = 0;
 		dragBlockPreY = 0;
 
-		container.querySelectorAll(".block .connector.active").forEach(function(connectorDom) {
+		[].forEach.call(container.querySelectorAll(".block .connector.active"), function(connectorDom) {
 			connectorDom.classList.remove("active");
 		});
-		dragContainer.querySelectorAll(".block .connector.active").forEach(function(connectorDom) {
+		[].forEach.call(dragContainer.querySelectorAll(".block .connector.active"), function(connectorDom) {
 			connectorDom.classList.remove("active");
 		});
 	}
@@ -1164,7 +1164,7 @@ define(function() {
 			blockVar.type = type;
 			blockVar.args = args;
 			if (blockVar.name) {
-				document.querySelectorAll('option[data-reference="' + blockVar.id + '"]').forEach(function(optionDom) {
+				[].forEach.call(document.querySelectorAll('option[data-reference="' + blockVar.id + '"]'), function(optionDom) {
 					optionDom.value = blockVar.name;
 					optionDom.innerHTML = blockVar.name;
 				});
@@ -1180,7 +1180,7 @@ define(function() {
 				args: args,
 			};
 			vars.push(blockVar);
-			document.querySelectorAll('select[data-options="' + varName + '"]').forEach(function(selectDom) {
+			[].forEach.call(document.querySelectorAll('select[data-options="' + varName + '"]'), function(selectDom) {
 				var optionDom = document.createElement("option");
 				optionDom.dataset.reference = blockVar.id;
 				optionDom.value = blockVar.name;
@@ -1206,7 +1206,7 @@ define(function() {
 		var vars = blockVars[varName];
 		vars.forEach(function(blockVar, index) {
 			if (blockVar.blockUid == block.uid) {
-				document.querySelectorAll('option[data-reference="' + blockVar.id + '"]').forEach(function(optionDom) {
+				[].forEach.call(document.querySelectorAll('option[data-reference="' + blockVar.id + '"]'), function(optionDom) {
 					optionDom.remove();
 				});
 				vars.splice(index, 1);
@@ -1676,7 +1676,7 @@ define(function() {
 			var options = groups[type];
 			blockVars[type] = options;
 
-			document.querySelectorAll('select[data-options="' + type + '"]').forEach(function(selectDom) {
+			[].forEach.call(document.querySelectorAll('select[data-options="' + type + '"]'), function(selectDom) {
 				updateDynamicBlock(selectDom, options);
 			});
 		}

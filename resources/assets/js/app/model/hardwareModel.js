@@ -159,7 +159,7 @@ define(['vendor/jsPlumb'], function() {
 		data.components = [];
 
 		var allConnections = jsPlumbInstance.getAllConnections();
-		container.querySelectorAll('.component').forEach(function(componentDom) {
+		[].forEach.call(container.querySelectorAll('.component'), function(componentDom) {
 			var connections = allConnections.filter(function(connection) {
 				return connection.sourceId == componentDom.id || connection.targetId == componentDom.id;
 			});
@@ -291,7 +291,7 @@ define(['vendor/jsPlumb'], function() {
 		componentDom.draggable = true;
 		componentDom.addEventListener('mousedown', onComponentMouseDown);
 
-		container.querySelectorAll('.component-endpoint').forEach(function(endpoint) {
+		[].forEach.call(container.querySelectorAll('.component-endpoint'), function(endpoint) {
 			endpoint.classList.remove('selected');
 		});
 
@@ -385,7 +385,7 @@ define(['vendor/jsPlumb'], function() {
 	};
 
 	function selectComponent(componentDom) {
-		container.querySelectorAll('.component').forEach(function(_componentDom) {
+		[].forEach.call(container.querySelectorAll('.component'), function(_componentDom) {
 			_componentDom.classList.remove('selected');
 		});
 		componentDom.classList.add("selected");
@@ -403,7 +403,7 @@ define(['vendor/jsPlumb'], function() {
 
 	function removeAllComponents() {
 		jsPlumbInstance.deleteEveryEndpoint();
-		container.querySelectorAll('.component').forEach(function(componentDom) {
+		[].forEach.call(container.querySelectorAll('.component'), function(componentDom) {
 			componentDom.removeEventListener('mousedown', onComponentMouseDown);
 			jsPlumb.remove(componentDom);
 		});
@@ -440,11 +440,11 @@ define(['vendor/jsPlumb'], function() {
 
 		unselectAllConnections();
 
-		container.querySelectorAll('.component').forEach(function(com) {
+		[].forEach.call(container.querySelectorAll('.component'), function(com) {
 			com.classList.remove('selected');
 		});
 
-		container.querySelectorAll('.component-endpoint').forEach(function(endpoint) {
+		[].forEach.call(container.querySelectorAll('.component-endpoint'), function(endpoint) {
 			endpoint.classList.remove('selected');
 		});
 
