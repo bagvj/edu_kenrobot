@@ -267,6 +267,7 @@
 				</div>
 			</div>
 			<div class="layer block-drag-layer"></div>
+			<div class="layer component-drag-layer"></div>
 		</div>
 	</body>
 </html>

@@ -48,3 +48,18 @@
 		display: block;
 	}
 }
+
+.component-drag-layer {
+	z-index: 5;
+	pointer-events: none;
+	height: auto;
+	left: 160px;
+	top: 130px;
+	bottom: 0;
+	right: 0;
+	display: none;
+
+	&.active {
+		display: block;
+	}
+}

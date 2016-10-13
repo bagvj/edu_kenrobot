@@ -10,8 +10,18 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	var componentContextMenu;
 	var boardContextMenu;
 	var contextMenuTarget;
-	var componentTemplate = '<li data-filter="{{filter}}" data-label="{{label}}" data-name="{{name}}"><div class="image-wrap"><img class="image" draggable="true" src="{{src}}" /></div><div class="name">{{label}}</div></li>'
+	var componentTemplate = '<li data-filter="{{filter}}" data-label="{{label}}" data-name="{{name}}"><div class="image-wrap"><img class="image" draggable="false" src="{{src}}" /></div><div class="name">{{label}}</div></li>'
 
+	var mouseDownComponentDom;
+	var dragContainer;
+	var dragComponentDom;
+	var startPreMouseMove;
+	var preMouseMoveX;
+	var preMouseMoveY;
+	var dragMouseX;
+	var dragMouseY;
+
+	var isMobile = navigator.userAgent.match(/Android|iPhone|iPad/i) ? true : false;
 	var mouseEvents = {
 		down: 'mousedown',
 		move: 'mousemove',
@@ -22,8 +32,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		move: 'touchmove',
 		up: 'touchend',
 	}
-	var isTouch = 'ontouchstart' in window;
-	var dragEvents = isTouch ? mouseEvents : touchEvents;
+	var dragEvents = isMobile ? touchEvents : mouseEvents;
 
 	function init() {
 		var sidebarTab = $('.sidebar-tabs .tab-hardware');
@@ -35,8 +44,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		$('> li', filterList).on('click', onFilterClick);
 
 		region = $('.content-tabs .tab-hardware');
-		container = $('.hardware-container', region).on("dragover", onContainerDragOver).on("drop", onContainerDrop).on('containerEvent', onContainerEvent);
+		container = $('.hardware-container', region).on('containerEvent', onContainerEvent);
 		hardwareModel.init(container[0]);
+		dragContainer = $('.component-drag-layer')[0];
 
 		componentDialog = $('.component-dialog', region);
 		$('.name', componentDialog).on('blur', onComponentNameBlur);
@@ -50,6 +60,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		emitor.on('app', 'contextMenu', onContextMenu);
 		emitor.on('hardware', 'boardChange', onBoardChange);
 		emitor.on('hardware', 'resize', onResize);
+		emitor.on('sidebar', 'activeTab', onActiveTab);
 	}
 
 	function loadSchema(schema) {
@@ -92,13 +103,19 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 				.replace(/\{\{src\}\}/, component.src);
 			componentList.append(li);
 		});
-		$('> li .image', componentList).on('dragstart', onComponentDragStart).on('dragend', onComponentDragEnd);
+		componentList[0].querySelectorAll("li .image").forEach(function(imageDom) {
+			imageDom.addEventListener(dragEvents.down, onComponentMouseDown);
+		});
 
 		filterList.find('[data-filter="all"]').click();
 	}
 
 	function onAppStart() {
 
+	}
+
+	function onActiveTab(name) {
+		name == "hardware" ? dragContainer.classList.add("active") : dragContainer.classList.remove("active");
 	}
 
 	function onResize() {
@@ -172,6 +189,125 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		}
 	}
 
+	function onComponentMouseDown(e) {
+		e.stopPropagation();
+		mouseDownComponentDom = e.currentTarget;
+		startPreMouseMove = true;
+		document.addEventListener(dragEvents.up, onComponentMouseUpBeforeMove);
+		document.addEventListener(dragEvents.move, onComponentPreMouseMove);
+	}
+
+	function onComponentMouseUpBeforeMove(e) {
+		mouseDownComponentDom = null;
+		document.removeEventListener(dragEvents.up, onComponentMouseUpBeforeMove);
+		document.removeEventListener(dragEvents.move, onComponentPreMouseMove);
+	}
+
+	function onComponentPreMouseMove(e) {
+		e = isMobile ? e.changedTouches[0] : e;
+		if (startPreMouseMove) {
+			startPreMouseMove = false;
+			preMouseMoveX = e.pageX;
+			preMouseMoveY = e.pageY;
+
+			var rect = mouseDownComponentDom.getBoundingClientRect();
+			var containerRect = dragContainer.getBoundingClientRect();
+
+			dragMouseX = e.pageX - rect.left + containerRect.left - dragContainer.scrollLeft;
+			dragMouseY = e.pageY - rect.top + containerRect.top - dragContainer.scrollTop;
+		} else {
+			var distanceX = e.pageX - preMouseMoveX;
+			var distanceY = e.pageY - preMouseMoveY;
+
+			if ((Math.abs(distanceX) >= 5) || (Math.abs(distanceY) >= 5)) {
+				document.removeEventListener(dragEvents.move, onComponentPreMouseMove);
+				document.addEventListener(dragEvents.move, onComponentMouseMove);
+			}
+		}
+	}
+
+	function onComponentMouseMove(e) {
+		e = isMobile ? e.changedTouches[0] : e;
+		
+		if (mouseDownComponentDom) {
+			document.removeEventListener(dragEvents.up, onComponentMouseUpBeforeMove);
+			document.addEventListener(dragEvents.up, onComponentMouseUp);
+			
+			var li = mouseDownComponentDom.closest("li");
+			dragComponentDom = document.createElement("img");
+			dragComponentDom.src = mouseDownComponentDom.src;
+			dragComponentDom.dataset.name = li.dataset.name;
+			dragContainer.appendChild(dragComponentDom);
+			container.addClass("can-drop");
+
+			mouseDownComponentDom = null;
+		}
+
+		dragComponentMove(dragComponentDom, e.clientX, e.clientY);
+	}
+
+	function onComponentMouseUp(e) {
+		e = isMobile ? e.changedTouches[0] : e;
+		document.removeEventListener(dragEvents.move, onComponentMouseMove);
+		document.removeEventListener(dragEvents.up, onComponentMouseUp);
+		var name = dragComponentDom.dataset.name;
+		dragComponentDom.remove();
+		dragComponentDom = null;
+		container.removeClass("can-drop");
+		onContainerDrop(name, e.pageX, e.pageY);
+	}
+
+	function dragComponentMove(componentDom, clientX, clientY) {
+		var offset = 30;
+
+		var x = clientX - dragMouseX;
+		var y = clientY - dragMouseY;
+		if (x < 0) {
+			x = 0;
+		} else if (x + offset >= dragContainer.offsetWidth) {
+			x = dragContainer.offsetWidth - offset;
+		}
+		if (y < 0) {
+			y = 0;
+		} else if (y + offset >= dragContainer.offsetHeight) {
+			y = dragContainer.offsetHeight - offset;
+		}
+
+		componentDom.style.transform = "translate(" + x + "px, " + y + "px)";
+	}
+
+	function onContainerDrop(name, pageX, pageY) {
+		var rect = container[0].getBoundingClientRect();
+		if(pageX < rect.left || pageX > rect.right || pageY < rect.top || pageY > rect.bottom) {
+			return;
+		}
+
+		var schema = hardwareModel.getSchema();
+		var component = schema.components[name];
+		var x = 100 * (pageX - rect.left - 0.5 * component.width) / container.width();
+		var y = 100 * (pageY - rect.top - 0.5 * component.height) / container.height();
+
+		var componentDom = hardwareModel.addComponent({
+			name: name,
+			x: x,
+			y: y
+		});
+		hardwareModel.selectComponent(componentDom);
+		showComponentDialog(componentDom.dataset.uid);
+	}
+
+	function onContainerEvent(e) {
+		var action = e.originalEvent.action;
+		if(action == "select-component") {
+			showComponentDialog(e.originalEvent.data.uid);
+		} else if(action == "remove-component") {
+			var uid = e.originalEvent.data.uid;
+			uid == componentDialog.data("uid") && hideComponentDialog();
+		} else if(action == "remove-all-components") {
+			hideComponentDialog();
+		}
+	}
+
 	function onBoardChange(name) {
 		boardData = hardwareModel.addBoard(name);
 		console.log("onBoardChange");
@@ -219,45 +355,11 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 		doComponentSearch();
 	}
 
-	function onComponentDragStart(e) {
-		var li = $(this).closest('li');
-		e.originalEvent.dataTransfer.effectAllowed = 'move';
-		e.originalEvent.dataTransfer.setData("name", li.data("name"));
-		e.originalEvent.dataTransfer.setData("scope", "component");
-		return true;
-	}
-
-	function onComponentDragEnd(e) {
-		e.originalEvent.dataTransfer.clearData();
-		return false;
-	}
-
-	function onContainerDragOver(e) {
-		e.preventDefault();
-		return true;
-	}
-
-	function onContainerDrop(e) {
-		var scope = e.originalEvent.dataTransfer.getData("scope");
-		var name = e.originalEvent.dataTransfer.getData("name");
-		if (!scope || scope != "component" || !name) {
-			return;
-		}
-
-		var schema = hardwareModel.getSchema();
-		var component = schema.components[name];
-		var x = 100 * (e.offsetX - 0.5 * component.width) / container.width();
-		var y = 100 * (e.offsetY - 0.5 * component.height) / container.height();
-
-		var componentDom = hardwareModel.addComponent({
-			name: name,
-			x: x,
-			y: y
-		});
-		hardwareModel.selectComponent(componentDom);
-		showComponentDialog(componentDom.dataset.uid);
-
-		return false;
+	function onComponentNameBlur(e) {
+		var uid = componentDialog.data("uid");
+		var name = componentDialog.find(".name").val();
+		var componentData = hardwareModel.getComponentData(uid);
+		componentData.varName = name;
 	}
 
 	function hideComponentDialog() {
@@ -267,25 +369,6 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	function showComponentDialog(uid) {
 		var componentData = hardwareModel.getComponentData(uid);
 		componentDialog.addClass("active").data("uid", uid).find(".name").val(componentData.varName);
-	}
-
-	function onContainerEvent(e) {
-		var action = e.originalEvent.action;
-		if(action == "select-component") {
-			showComponentDialog(e.originalEvent.data.uid);
-		} else if(action == "remove-component") {
-			var uid = e.originalEvent.data.uid;
-			uid == componentDialog.data("uid") && hideComponentDialog();
-		} else if(action == "remove-all-components") {
-			hideComponentDialog();
-		}
-	}
-
-	function onComponentNameBlur(e) {
-		var uid = componentDialog.data("uid");
-		var name = componentDialog.find(".name").val();
-		var componentData = hardwareModel.getComponentData(uid);
-		componentData.varName = name;
 	}
 
 	return {

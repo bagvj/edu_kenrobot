@@ -151,6 +151,10 @@
 		.hardware-container {
 			height: 100%;
 			position: relative;
+
+			&.can-drop {
+				background-color: #eee;
+			}
 		}
 
 		.component-dialog {
