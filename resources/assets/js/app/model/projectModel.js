@@ -164,7 +164,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.9,
 						y: 0.098,
 						name: "1",
-						tags: ["digital", "serial-tx"],
+						tags: ["digital", "serial-rx"],
 						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad13",
@@ -173,7 +173,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.935,
 						y: 0.098,
 						name: "0",
-						tags: ["digital", "serial-rx"],
+						tags: ["digital", "serial-tx"],
 						overlay: [0.5, 1.5]
 					}, {
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53aa00",
