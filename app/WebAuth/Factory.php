@@ -15,7 +15,9 @@ class Factory
 					
 				case 'weixin':
 					return new WeixinAuth();
-			
+				case 'weixinweb':
+					return new WeixinWebAuth();
+					break;
 				default:
 					return null;
 				}	
