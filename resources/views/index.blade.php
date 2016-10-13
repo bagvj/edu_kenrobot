@@ -17,7 +17,7 @@
 		<div class="main no-select">
 			<div class="sidebar-region">
 				<div class="top">
-					<a class="logo" href="http://www.kenrobot.com"></a>
+					<div class="logo"></div>
 					<div class="name">教育版</div>
 					<div class="url">edu.kenrobot.com</div>
 				</div>

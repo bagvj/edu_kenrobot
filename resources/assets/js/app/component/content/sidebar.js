@@ -4,6 +4,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 
 	function init() {
 		var region = $('.sidebar-region');
+
+		$('.logo', region).on('click', onLogoClick);
 		$('.center > li', region).on('click', onTabClick);
 		$('.bottom > li', region).on('click', onBottomTabClick);
 
@@ -48,6 +50,15 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 		}
 
 		emitor.trigger("sidebar", "activeTab", action);
+	}
+
+	function onLogoClick(e) {
+		var isWeixin = navigator.userAgent.match(/MicroMessenger/) ? true : false;
+		if(isWeixin) {
+			window.location.href = "http://www.kenrobot.com";
+		} else {
+			window.location.href = window.location.pathname + "?" + new Date().getTime();
+		}
 	}
 
 	function onBottomTabClick(e) {
