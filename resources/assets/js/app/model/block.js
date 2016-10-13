@@ -245,7 +245,6 @@ define(function() {
 				elementData.value && (selectDom.value = elementData.value);
 				selectDom.addEventListener("change", function() {
 					block.data.returnType && block.data.returnType.type == "fromSelect" && updateBlockVar(block);
-					onBlockUpdate();
 				});
 
 				break;
@@ -282,7 +281,6 @@ define(function() {
 
 					selectDom.dataset.value = selectDom.value;
 					selectDom.dataset.reference = selectDom.selectedOptions[0].dataset.reference;
-					onBlockUpdate();
 				});
 				break;
 			case "text":
@@ -335,7 +333,6 @@ define(function() {
 		inputDom.value = elementData.value || "";
 		inputDom.placeholder = elementData.placeholder || "";
 		inputDom.dataset.contentId = elementData.id;
-		inputDom.addEventListener("change", onBlockUpdate);
 
 		return inputDom;
 	}
@@ -350,7 +347,6 @@ define(function() {
 		textareaDom.placeholder = elementData.placeholder || "";
 		textareaDom.dataset.contentId = elementData.id;
 		textareaDom.dataset.contentType = elementData.type;
-		textareaDom.addEventListener("change", onBlockUpdate);
 
 		return textareaDom;
 	}
@@ -378,10 +374,6 @@ define(function() {
 		});
 	}
 
-	function onBlockUpdate() {
-
-	}
-
 	function onBlockMouseDown(e) {
 		var tagName = e.target.tagName.toLowerCase();
 		if (tagName == "select" || tagName == "input" || tagName == "textarea") {
@@ -389,6 +381,8 @@ define(function() {
 		}
 
 		e.stopPropagation();
+		e.returnValue = false;
+
 		mouseDownBlockDom = e.currentTarget;
 		startPreMouseMove = true;
 		document.addEventListener(dragEvents.up, onBlockMouseUpBeforeMove);

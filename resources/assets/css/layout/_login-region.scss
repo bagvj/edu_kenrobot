@@ -85,3 +85,16 @@
 		}
 	}
 }
+
+@media screen and (max-width: 1024px) {
+	.login-region {
+		right: calc(100vw - 91px);
+		top: calc(100vh - 210px);
+		z-index: 1;
+
+		.login-menu {
+			top: -56px;
+			left: 60px;
+		}
+	}
+}

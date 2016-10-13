@@ -29,7 +29,7 @@
 				</ul>
 				<ul class="bottom">
 					<li data-action="share"><span class="name">分享</span><i class="icon kenrobot ken-share"></i></li>
-					<li data-action="help"><span class="name">帮助</span><i class="icon kenrobot ken-help"></i></li>
+					<li data-action="help"><span class="name">帮助</span><i class="icon kenrobot ken-share"></i></li>
 				</ul>
 			</div>
 			<div class="content-region">
@@ -262,8 +262,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="layer block-drag-layer"></div>
-			<div class="layer component-drag-layer"></div>
+			<div class="layer drag-layer block-drag-layer"></div>
+			<div class="layer drag-layer component-drag-layer"></div>
 		</div>
 	</body>
 </html>

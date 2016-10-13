@@ -10,7 +10,7 @@
 		right: 0;
 		top: 0;
 		bottom: 0;
-		overflow: hidden;
+		// overflow: hidden;
 	}
 
 	.sidebar-region {
@@ -44,12 +44,12 @@
 	z-index: 999;
 }
 
-.block-drag-layer {
+.drag-layer {
 	z-index: 5;
 	pointer-events: none;
 	height: auto;
 	left: 160px;
-	top: 130px;
+	top: 128px;
 	bottom: 0;
 	right: 0;
 	display: none;
@@ -59,17 +59,8 @@
 	}
 }
 
-.component-drag-layer {
-	z-index: 5;
-	pointer-events: none;
-	height: auto;
-	left: 160px;
-	top: 130px;
-	bottom: 0;
-	right: 0;
-	display: none;
-
-	&.active {
-		display: block;
+@media screen and (max-width: 1024px) {
+	.drag-layer {
+		left: 60px;
 	}
 }
