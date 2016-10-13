@@ -1,4 +1,4 @@
-define(['vendor/jsPlumb'], function() {
+define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvents) {
 
 	var config = {
 		color: '#F1C933',
@@ -102,7 +102,7 @@ define(['vendor/jsPlumb'], function() {
 			repaint();
 		}, false);
 
-		document.addEventListener('mouseup', onDomMouseUp);
+		document.addEventListener(compitableEvents.up, onDomMouseUp);
 	};
 
 	function getSchema() {
@@ -289,7 +289,7 @@ define(['vendor/jsPlumb'], function() {
 		componentDom.style.width = componentConfig.width + 'px';
 		componentDom.style.height = componentConfig.height + 'px';
 		componentDom.draggable = true;
-		componentDom.addEventListener('mousedown', onComponentMouseDown);
+		componentDom.addEventListener(compitableEvents.down, onComponentMouseDown);
 
 		[].forEach.call(container.querySelectorAll('.component-endpoint'), function(endpoint) {
 			endpoint.classList.remove('selected');
@@ -368,7 +368,7 @@ define(['vendor/jsPlumb'], function() {
 		var uid = componentDom.dataset.uid;
 		var componentData = getComponentData(uid);
 		
-		componentDom.removeEventListener('mousedown', onComponentMouseDown);
+		componentDom.removeEventListener(compitableEvents.down, onComponentMouseDown);
 
 		getConnections(componentDom).forEach(function(connection) {
 			connection.setType('removing');
@@ -404,7 +404,7 @@ define(['vendor/jsPlumb'], function() {
 	function removeAllComponents() {
 		jsPlumbInstance.deleteEveryEndpoint();
 		[].forEach.call(container.querySelectorAll('.component'), function(componentDom) {
-			componentDom.removeEventListener('mousedown', onComponentMouseDown);
+			componentDom.removeEventListener(compitableEvents.down, onComponentMouseDown);
 			jsPlumb.remove(componentDom);
 		});
 

@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardwareModel'], function($1, util, emitor, hardwareModel) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitableEvents', 'app/model/hardwareModel'], function($1, util, emitor, compitableEvents, hardwareModel) {
 	var region;
 	var filterList;
 	var componentList;
@@ -20,19 +20,6 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	var preMouseMoveY;
 	var dragMouseX;
 	var dragMouseY;
-
-	var isMobile = navigator.userAgent.match(/Android|iPhone|iPad/i) ? true : false;
-	var mouseEvents = {
-		down: 'mousedown',
-		move: 'mousemove',
-		up: 'mouseup',
-	};
-	var touchEvents = {
-		down: 'touchstart',
-		move: 'touchmove',
-		up: 'touchend',
-	}
-	var dragEvents = isMobile ? touchEvents : mouseEvents;
 
 	function init() {
 		var sidebarTab = $('.sidebar-tabs .tab-hardware');
@@ -104,7 +91,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 			componentList.append(li);
 		});
 		[].forEach.call(componentList[0].querySelectorAll("li .image"), function(imageDom) {
-			imageDom.addEventListener(dragEvents.down, onComponentMouseDown);
+			imageDom.addEventListener(compitableEvents.down, onComponentMouseDown);
 		});
 
 		filterList.find('[data-filter="all"]').click();
@@ -191,22 +178,21 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 
 	function onComponentMouseDown(e) {
 		e.stopPropagation();
-		e.returnValue = false;
 
 		mouseDownComponentDom = e.currentTarget;
 		startPreMouseMove = true;
-		document.addEventListener(dragEvents.up, onComponentMouseUpBeforeMove);
-		document.addEventListener(dragEvents.move, onComponentPreMouseMove);
+		document.addEventListener(compitableEvents.up, onComponentMouseUpBeforeMove);
+		document.addEventListener(compitableEvents.move, onComponentPreMouseMove);
 	}
 
 	function onComponentMouseUpBeforeMove(e) {
 		mouseDownComponentDom = null;
-		document.removeEventListener(dragEvents.up, onComponentMouseUpBeforeMove);
-		document.removeEventListener(dragEvents.move, onComponentPreMouseMove);
+		document.removeEventListener(compitableEvents.up, onComponentMouseUpBeforeMove);
+		document.removeEventListener(compitableEvents.move, onComponentPreMouseMove);
 	}
 
 	function onComponentPreMouseMove(e) {
-		e = isMobile ? e.changedTouches[0] : e;
+		e = compitableEvents.isMobile ? e.changedTouches[0] : e;
 		if (startPreMouseMove) {
 			startPreMouseMove = false;
 			preMouseMoveX = e.pageX;
@@ -222,18 +208,18 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 			var distanceY = e.pageY - preMouseMoveY;
 
 			if ((Math.abs(distanceX) >= 5) || (Math.abs(distanceY) >= 5)) {
-				document.removeEventListener(dragEvents.move, onComponentPreMouseMove);
-				document.addEventListener(dragEvents.move, onComponentMouseMove);
+				document.removeEventListener(compitableEvents.move, onComponentPreMouseMove);
+				document.addEventListener(compitableEvents.move, onComponentMouseMove);
 			}
 		}
 	}
 
 	function onComponentMouseMove(e) {
-		e = isMobile ? e.changedTouches[0] : e;
+		e = compitableEvents.isMobile ? e.changedTouches[0] : e;
 		
 		if (mouseDownComponentDom) {
-			document.removeEventListener(dragEvents.up, onComponentMouseUpBeforeMove);
-			document.addEventListener(dragEvents.up, onComponentMouseUp);
+			document.removeEventListener(compitableEvents.up, onComponentMouseUpBeforeMove);
+			document.addEventListener(compitableEvents.up, onComponentMouseUp);
 			
 			var li = mouseDownComponentDom.closest("li");
 			dragComponentDom = document.createElement("img");
@@ -249,9 +235,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/hardware
 	}
 
 	function onComponentMouseUp(e) {
-		e = isMobile ? e.changedTouches[0] : e;
-		document.removeEventListener(dragEvents.move, onComponentMouseMove);
-		document.removeEventListener(dragEvents.up, onComponentMouseUp);
+		e = compitableEvents.isMobile ? e.changedTouches[0] : e;
+		document.removeEventListener(compitableEvents.move, onComponentMouseMove);
+		document.removeEventListener(compitableEvents.up, onComponentMouseUp);
 		var name = dragComponentDom.dataset.name;
 		dragComponentDom.remove();
 		dragComponentDom = null;
