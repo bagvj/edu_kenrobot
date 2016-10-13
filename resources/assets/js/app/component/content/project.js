@@ -80,21 +80,28 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	}
 
 	function onNewClick(e) {
-		userModel.authCheck(true).done(function() {
-			emitor.trigger('project', 'show');
-		});
+		// userModel.authCheck(true).done(function() {
+		// 	emitor.trigger('project', 'show');
+		// });
+		throw new Error("test error");
 	}
 
 	function onSaveClick(e) {
-		userModel.authCheck(true).done(function() {
-			emitor.trigger('project', 'save', null, 'save');
-		});
+		// userModel.authCheck(true).done(function() {
+		// 	emitor.trigger('project', 'save', null, 'save');
+		// });
+
+		var a = {};
+		var b = a.name;
+		var c = b.split(" ");
+		console.log(b, c);
 	}
 
 	function onUploadClick(e) {
-		userModel.authCheck(true).done(function() {
-			emitor.trigger('project', 'upload');
-		});
+		// userModel.authCheck(true).done(function() {
+		// 	emitor.trigger('project', 'upload');
+		// });
+		emitor.trigger("app", "error", "test error", "project.js", 96, 10);
 	}
 
 	function onShowBoardSelect(e) {

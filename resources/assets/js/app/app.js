@@ -1,6 +1,7 @@
-define(['vendor/jquery', 'vendor/director', 'app/config', 'app/util/emitor', './controller/controller', './component/component'], function($1, $2, config, emitor, controller, component) {
-	
+define(['vendor/jquery', 'vendor/director', 'app/config', 'app/util/emitor', 'app/model/errorModel', './controller/controller', './component/component'], function($1, $2, config, emitor, errorModel, controller, component) {
+
 	function init() {
+		errorModel.init();
 		printJoinUs();
 		initAjax();
 		initRoute();
@@ -20,9 +21,9 @@ define(['vendor/jquery', 'vendor/director', 'app/config', 'app/util/emitor', './
 	}
 
 	function printJoinUs() {
-		try{
+		try {
 			!config.debug && console.log(config.greet);
-		} catch(e) {}
+		} catch (e) {}
 	}
 
 	function initRoute() {
