@@ -4,34 +4,36 @@
  */
 
 // 引入 gulp及组件
-var gulp = require('gulp'),                      //基础库
-	gulpif = require('gulp-if');                 //条件执行
-	rev = require('gulp-rev');                   //rev
-	revReplace = require('gulp-rev-replace');    //rev替换
-	minimist = require('minimist')               //命令行参数解析
-	runSequence = require('run-sequence');       //顺序执行
-	concat = require('gulp-concat'),             //合并文件
-	rename = require('gulp-rename'),             //重命名
-	clean = require('gulp-clean');               //清空文件夹
-	jshint = require('gulp-jshint'),             //js检查
-	uglify = require('gulp-uglify'),             //js压缩
-	jsonminify = require('gulp-jsonminify');     //json压缩
-	sass = require('gulp-ruby-sass'),            //sass
-	cleanCSS = require('gulp-clean-css'),        //css压缩
-	autoprefixer = require('gulp-autoprefixer'), //自动前缀
-	imagemin = require('gulp-imagemin'),         //image压缩
-	minifyHtml = require("gulp-minify-html");    //html压缩
-	ngAnnotate = require('gulp-ng-annotate'),    //ng注释
-	sourcemaps = require('gulp-sourcemaps'),     //source map
-	requirejsOptimize = require('gulp-requirejs-optimize'), //requirejs打包
-	path = require('path'),
-	child_process = require('child_process'),
-	os = require('os'),
-	crypto = require('crypto');
+var gulp = require('gulp');                      //基础库
+var gulpif = require('gulp-if');                 //条件执行
+var rev = require('gulp-rev');                   //rev
+var revReplace = require('gulp-rev-replace');    //rev替换
+var minimist = require('minimist');              //命令行参数解析
+var runSequence = require('run-sequence');       //顺序执行
+var concat = require('gulp-concat');             //合并文件
+var rename = require('gulp-rename');             //重命名
+var clean = require('gulp-clean');               //清空文件夹
+var jshint = require('gulp-jshint');             //js检查
+var uglify = require('gulp-uglify');             //js压缩
+var jsonminify = require('gulp-jsonminify');     //json压缩
+var sass = require('gulp-ruby-sass');            //sass
+var cleanCSS = require('gulp-clean-css');        //css压缩
+var autoprefixer = require('gulp-autoprefixer'); //自动前缀
+var imagemin = require('gulp-imagemin');         //image压缩
+var minifyHtml = require("gulp-minify-html");    //html压缩
+var ngAnnotate = require('gulp-ng-annotate');    //ng注释
+var sourcemaps = require('gulp-sourcemaps');     //source map
+var requirejsOptimize = require('gulp-requirejs-optimize'); //requirejs打包
+
+var path = require('path');                      //路径
+var child_process = require('child_process');    //子进程
+var os = require('os');                          //操作系统相关
+var crypto = require('crypto');                  //加密
+
+var args = minimist(process.argv.slice(2));      //命令行参数
 
 var SRC = './resources/assets/';
 var DIST = './public/assets/';
-var args = minimist(process.argv.slice(2));
 
 function move(src, name, ext) {
 	ext = ext || "";
@@ -39,44 +41,63 @@ function move(src, name, ext) {
 		.pipe(clean());
 
 	var suffix = args.release ? "release" : "debug";
-	gulp.src(src + name + '-' + suffix + ext)
+	return gulp.src(src + name + '-' + suffix + ext)
 		.pipe(rename(name + ext))
 		.pipe(gulp.dest(src));
 }
 
+gulp.task('js-clean', function() {
+	return gulp.src(DIST + 'js')
+		.pipe(clean());
+});
+
+gulp.task('js-copy-env', function() {
+	return move("./", ".env");
+});
+
+gulp.task('js-copy-config', function() {
+	return move(SRC + "js/app/config/", "config", ".js");
+});
+
+var jsSrc = SRC + 'js/**/*.js';
+var jsDst = DIST + 'js/';
+
+gulp.task('js-copy', function() {
+	return gulp.src(jsSrc)
+		.pipe(gulp.dest(jsDst));
+});
+
+gulp.task('js-pre-pack', function() {
+	return gulp.src([SRC + 'js/require.js'])
+		.pipe(gulp.dest(jsDst));
+});
+
+gulp.task('js-pack', function() {
+	return gulp.src(SRC + 'js/index.js')
+		.pipe(requirejsOptimize({
+			useStrict: true,
+			optimize: args.min == 'false' ? "none" : "uglify",
+		}))
+		.pipe(gulp.dest(jsDst));
+});
+
 // js处理
 gulp.task('js', function() {
-	gulp.src(DIST + 'js')
-		.pipe(clean());
-
-	move("./", ".env");
-	move(SRC + "js/app/config/", "config", ".js");
-
-	var jsSrc = SRC + 'js/**/*.js',
-		jsDst = DIST + 'js/';
-
-	if(args.release) {
-		gulp.src([SRC + 'js/require.js', SRC + 'js/go.js'])
-			.pipe(gulp.dest(jsDst));
-
-		gulp.src(SRC + 'js/index.js')
-			.pipe(requirejsOptimize({
-				useStrict: true,
-				optimize: args.min == 'false' ? "none" : "uglify",
-			}))
-			.pipe(gulp.dest(jsDst));
+	if (args.release) {
+		return runSequence(["js-clean", "js-copy-env", "js-copy-config"], "js-pre-pack", "js-pack");
 	} else {
-		gulp.src(jsSrc)
-			.pipe(gulp.dest(jsDst));
+		return runSequence(["js-clean", "js-copy-env", "js-copy-config"], "js-copy");
 	}
 });
 
 // 样式处理
 gulp.task('css', function() {
-	var cssSrc = SRC + 'css/index.scss',
-		cssDst = DIST + 'css/';
+	var cssSrc = SRC + 'css/index.scss';
+	var cssDst = DIST + 'css/';
 
-	return sass(cssSrc, {style: 'expanded'})
+	return sass(cssSrc, {
+			style: 'expanded'
+		})
 		.pipe(autoprefixer())
 		.pipe(gulpif(args.release, cleanCSS()))
 		.pipe(gulp.dest(cssDst));
@@ -84,8 +105,8 @@ gulp.task('css', function() {
 
 // 图片处理
 gulp.task('image', function() {
-	var imgSrc = SRC + 'image/**/*',
-		imgDst = DIST + 'image/';
+	var imgSrc = SRC + 'image/**/*';
+	var imgDst = DIST + 'image/';
 
 	return gulp.src(imgSrc)
 		// .pipe(imagemin())
@@ -94,8 +115,8 @@ gulp.task('image', function() {
 
 // font处理
 gulp.task('font', function() {
-	var fontSrc = SRC + 'font/**/*',
-		fontDst = DIST + 'font/';
+	var fontSrc = SRC + 'font/**/*';
+	var fontDst = DIST + 'font/';
 
 	return gulp.src(fontSrc)
 		.pipe(gulp.dest(fontDst));
@@ -103,7 +124,9 @@ gulp.task('font', function() {
 
 // 清空图片、样式、js
 gulp.task('clean', function() {
-	return gulp.src([DIST + 'css', DIST + 'js', DIST + 'image', DIST + 'font'], {read: false})
+	return gulp.src([DIST + 'css', DIST + 'js', DIST + 'image', DIST + 'font'], {
+			read: false
+		})
 		.pipe(clean());
 });
 
@@ -126,7 +149,7 @@ function genUuid() {
 gulp.task('uuid', function() {
 	var n = args.n || 1;
 	console.log("uuid:")
-	for(var i = 0; i < n; i++) {
+	for (var i = 0; i < n; i++) {
 		console.log(genUuid());
 	}
 });
@@ -137,15 +160,15 @@ function getHash() {
 	var result = [];
 	var time = new Date().getTime();
 	var rand = Math.random();
-	
+
 	var md5 = crypto.createHash('md5');
 	md5.update('' + time + rand);
 	var salt = md5.digest('hex');
 
-	for(var i = 0; i < 4; i++) {
+	for (var i = 0; i < 4; i++) {
 		var hex = 0x3FFFFFFF & parseInt(salt.substring(i * 8, 8), 16);
 		var out = '';
-		for(var j = 0; j < 6; j++) {
+		for (var j = 0; j < 6; j++) {
 			var index = 0x0000003D & hex;
 			out = out + key[index];
 			hex = hex >> 5;
@@ -156,10 +179,10 @@ function getHash() {
 	return result[0];
 }
 
-gulp.task('hash', function(){
+gulp.task('hash', function() {
 	var n = args.n || 1;
 	console.log("hash:");
-	for(var i = 0; i < n; i++) {
+	for (var i = 0; i < n; i++) {
 		console.log(getHash());
 	}
 });
