@@ -489,7 +489,7 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 				targetUid: connection.targetEndpoint.getUuid()
 			});
 
-			if(connection.target.classList.contains('board')) {
+			if([].indexOf.call(connection.target.classList, 'board') >= 0) {
 				var componentUid = connection.source.dataset.uid;
 				var componentData = components[componentUid];
 				var sourcePin = connection.sourceEndpoint.getParameter('pin');
@@ -504,7 +504,7 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 			connection.targetEndpoint.removeType('connected');
 			connection.sourceEndpoint.removeType('connected');
 
-			if(connection.target.classList.contains('board')) {
+			if([].indexOf.call(connection.target.classList, 'board') >= 0) {
 				var componentUid = connection.source.dataset.uid;
 				var componentData = components[componentUid];
 				var sourcePin = connection.sourceEndpoint.getParameter('pin');

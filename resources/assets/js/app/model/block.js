@@ -1454,7 +1454,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		var find = false;
 		var node = dom;
 		while(node && node.tagName != "BODY") {
-			if(node.classList.contains("block-group")) {
+			if([].indexOf.call(node.classList, "block-group") >= 0) {
 				find = true;
 				break;
 			} else {
