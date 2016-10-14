@@ -178,6 +178,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitabl
 
 	function onComponentMouseDown(e) {
 		e.stopPropagation();
+		e.returnValue = false;
 
 		mouseDownComponentDom = e.currentTarget;
 		startPreMouseMove = true;
