@@ -15,7 +15,7 @@ class ReportController extends Controller {
 
 		$str = "---------" . date('Y-m-d H:i:s') . "---------\n";
 		foreach($errors as $error) {
-			$str = $str . "\"$error->message\" at \"$error->src\" line $error->line col $error->col, count $error->count\n$error->stack\n";
+			$str = $str . "$error->message($error->src:$error->line:$error->col), count $error->count\n$error->stack\n";
 		}
 		$str = $str . "-------------------------------------\n";
 		
