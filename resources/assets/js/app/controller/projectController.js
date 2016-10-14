@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/config', 'app/util/util', 'app/util/emitor', 'app/model/userModel', 'app/model/projectModel', 'app/model/uploadModel', 'app/component/content/project', 'app/component/content/hardware', 'app/component/content/software', 'app/component/content/code'], function($1, appConfig, util, emitor, userModel, projectModel, uploadModel, project, hardware, software, code) {
+define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor', 'app/model/userModel', 'app/model/projectModel', 'app/model/uploadModel', 'app/component/content/project', 'app/component/content/hardware', 'app/component/content/software', 'app/component/content/code'], function($1, appConfig, util, emitor, userModel, projectModel, uploadModel, project, hardware, software, code) {
 	var currentProject;
 	var tempProject;
 	var myProjects;

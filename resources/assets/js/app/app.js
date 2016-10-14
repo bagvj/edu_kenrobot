@@ -1,7 +1,7 @@
-define(['vendor/jquery', 'vendor/director', 'app/config', 'app/util/emitor', 'app/model/errorModel', './controller/controller', './component/component'], function($1, $2, config, emitor, errorModel, controller, component) {
+define(['vendor/jquery', 'vendor/director', 'app/config/config', 'app/util/emitor', 'app/model/reportModel', './controller/controller', './component/component'], function($1, $2, config, emitor, reportModel, controller, component) {
 
 	function init() {
-		errorModel.init();
+		reportModel.init();
 		printJoinUs();
 		initAjax();
 		initRoute();

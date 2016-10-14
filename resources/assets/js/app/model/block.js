@@ -614,7 +614,7 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 			bottomUid = connectors[branchBlock.connectors[1]].connectedTo;
 		}
 
-		emitor.trigger("app", "error", message, "block.js", 0, 0);
+		emitor.trigger("app", "debug", message);
 	}
 
 	function handleCollision(dragConnectors) {

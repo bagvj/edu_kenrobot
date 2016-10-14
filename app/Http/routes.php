@@ -32,4 +32,4 @@ Route::post('/api/auth/login/weixin', 'Auth\WebAuthController@weixinLogin');
 Route::post('/api/auth/logout', 'Auth\WebAuthController@postLogout2');
 
 // error report
-Route::post('/api/report/error', 'ReportController@error');
+Route::post('/api/report', 'ReportController@index');

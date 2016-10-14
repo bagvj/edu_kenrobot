@@ -33,23 +33,25 @@ var SRC = './resources/assets/';
 var DIST = './public/assets/';
 var args = minimist(process.argv.slice(2));
 
-gulp.task('copy-env', function() {
-	gulp.src('./.env')
+function move(src, name, ext) {
+	ext = ext || "";
+	gulp.src(src + name + ext)
 		.pipe(clean());
 
 	var suffix = args.release ? "release" : "debug";
-	gulp.src('./.env-' + suffix)
-		.pipe(rename('.env'))
-		.pipe(gulp.dest('./'));
-});
-
-gulp.task('clean-js', function() {
-	return gulp.src(DIST + 'js')
-		.pipe(clean());
-});
+	gulp.src(src + name + '-' + suffix + ext)
+		.pipe(rename(name + ext))
+		.pipe(gulp.dest(src));
+}
 
 // js处理
-gulp.task('js', ['clean-js', 'copy-env'], function() {
+gulp.task('js', function() {
+	gulp.src(DIST + 'js')
+		.pipe(clean());
+
+	move("./", ".env");
+	move(SRC + "js/app/config/", "config", ".js");
+
 	var jsSrc = SRC + 'js/**/*.js',
 		jsDst = DIST + 'js/';
 
@@ -64,7 +66,7 @@ gulp.task('js', ['clean-js', 'copy-env'], function() {
 			}))
 			.pipe(gulp.dest(jsDst));
 	} else {
-		return gulp.src(jsSrc)
+		gulp.src(jsSrc)
 			.pipe(gulp.dest(jsDst));
 	}
 });
@@ -99,23 +101,15 @@ gulp.task('font', function() {
 		.pipe(gulp.dest(fontDst));
 });
 
-gulp.task('res', function() {
-	var resSrc = SRC + 'res/**/*',
-		resDst = DIST + 'res/';
-
-	return gulp.src(resSrc)
-		.pipe(gulp.dest(resDst));
-});
-
 // 清空图片、样式、js
 gulp.task('clean', function() {
-	return gulp.src([DIST + 'css', DIST + 'js', DIST + 'image', DIST + 'font', DIST + 'res'], {read: false})
+	return gulp.src([DIST + 'css', DIST + 'js', DIST + 'image', DIST + 'font'], {read: false})
 		.pipe(clean());
 });
 
 // 默认任务
 gulp.task('default', function() {
-	return runSequence('clean', ['css', 'image', 'font', 'res'], 'js');
+	return runSequence('clean', ['css', 'image', 'font'], 'js');
 });
 
 function genUuid() {
