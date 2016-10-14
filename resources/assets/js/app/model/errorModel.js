@@ -18,10 +18,12 @@ define(['app/util/emitor', 'app/config'], function(emitor, config) {
 
 		if(counts[key]) {
 			counts[key]++;
-			var myError = errors.find(function(e) {
-				return e.message == message && e.src == src && e.line == line && e.col == col; 
+			errors.forEach(function(e) {
+				if(e.message == message && e.src == src && e.line == line && e.col == col) {
+					e.count = counts[key];
+					return true;
+				}
 			});
-			myError.count = counts[key];
 		} else {
 			counts[key] = 1;
 			errors.push({

@@ -247,13 +247,17 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 				options && updateSelectDom(selectDom, options);
 
 				if(options && elementData.value) {
-					var optionData = options.find(function(_optionData) {
-						return _optionData.name == elementData.value;
-					});
-
 					selectDom.value = elementData.value;
 					selectDom.dataset.value = elementData.value;
-					selectDom.dataset.reference = optionData.id;
+
+					var reference;
+					options.forEach(function(optionData) {
+						if(optionData.name == elementData.value) {
+							reference = optionData.id;
+							return true;
+						}
+					});
+					selectDom.dataset.reference = reference || "";
 				}
 
 				selectDom.addEventListener("change", function(e) {
@@ -1690,15 +1694,14 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		updateSelectDom(selectDom, options);
 
 		if (value && reference) {
-			var optionData = options.find(function(_optionData) {
-				return _optionData.id == reference;
+			options.forEach(function(optionData) {
+				if(optionData.id == reference) {
+					selectDom.value = optionData.name;
+					selectDom.dataset.value = optionData.name;
+					selectDom.dataset.reference = optionData.id;
+					return true;
+				}
 			});
-
-			if (optionData) {
-				selectDom.value = optionData.name;
-				selectDom.dataset.value = optionData.name;
-				selectDom.dataset.reference = optionData.id;
-			}
 		}
 	}
 
