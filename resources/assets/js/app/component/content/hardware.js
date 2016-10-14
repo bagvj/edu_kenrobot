@@ -221,7 +221,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitabl
 			document.removeEventListener(compitableEvents.up, onComponentMouseUpBeforeMove);
 			document.addEventListener(compitableEvents.up, onComponentMouseUp);
 			
-			var li = mouseDownComponentDom.closest("li");
+			var li = $(mouseDownComponentDom).closest("li")[0];
 			dragComponentDom = document.createElement("img");
 			dragComponentDom.src = mouseDownComponentDom.src;
 			dragComponentDom.dataset.name = li.dataset.name;

@@ -127,7 +127,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 	}
 
 	Block.prototype.isFree = function() {
-		return !this.dom.closest(".block-group");
+		return !isInGroup(this.dom);
 	}
 
 	Block.prototype.hasChildren = function() {
@@ -468,8 +468,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 					outputDragEnd(block, dropConnectorDom);
 					break;
 			}
-			var inGroup = !!dropConnectorDom.closest(".block-group");
-			setBlockEnable(block, inGroup);
+			setBlockEnable(block, isInGroup(dropConnectorDom));
 		} else {
 			setBlockEnable(block, false);
 		}
@@ -598,7 +597,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		}
 
 		redrawTree(dropBlock);
-	};
+	}
 
 	function handleCollision(dragConnectors) {
 		var found;
@@ -673,7 +672,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		}
 		connectors[dropConnectorUid].connectedTo = dragConnectorUid;
 		connectors[dragConnectorUid].connectedTo = dropConnectorUid;
-	};
+	}
 
 	function dragBlockMove(block, clientX, clientY) {
 		var rect = block.dom.getBoundingClientRect();
@@ -1073,7 +1072,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		});
 
 		return blockData;
-	};
+	}
 
 	function redrawTree(block) {
 		var rootBlock = getBlockByConnector(getFirstTopConnectorUid(block.uid));
@@ -1114,7 +1113,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		totalBlocksToRemove.forEach(function(blockDom) {
 			dragContainer.appendChild(blockDom);
 		});
-	};
+	}
 
 	function placeNestBlock(dropConnectorUid, dragConnectorUid) {
 		var dropBlock = getBlockByConnector(dropConnectorUid);
@@ -1124,7 +1123,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 				redrawTree(getBlockByConnector(dragConnectorUid));
 				break;
 		}
-	};
+	}
 
 	function updateBlockVar(block, name, type, args) {
 		var varName = block.data.createDynamicContent;
@@ -1206,7 +1205,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 
 	function isConnectorRoot(connector) {
 		return connector.data.type == 'connector-root';
-	};
+	}
 
 	function isInsideConnectorRoot(block) {
 		var topConnector = connectors[block.connectors[0]];
@@ -1217,7 +1216,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		} else {
 			return false;
 		}
-	};
+	}
 
 	function sameConnectionType(dragBlock, dropBlock, dropConnectorAcceptType) {
 		var dragConnectorType = getTypeFromBlock(dragBlock);
@@ -1225,7 +1224,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 			dropConnectorAcceptType = getTypeFromDynamicSelect(dropBlock, dropConnectorAcceptType);
 		}
 		return (dragConnectorType === 'all') || (dropConnectorAcceptType === 'all') || (dragConnectorType === dropConnectorAcceptType);
-	};
+	}
 
 	function getTypeFromBlock(block) {
 		var result;
@@ -1259,7 +1258,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 				break;
 		}
 		return result;
-	};
+	}
 
 	function getArgsFromBlock(block) {
 		var result = "";
@@ -1293,7 +1292,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		// 	};
 		// }
 		return result;
-	};
+	}
 
 	function getTypeFromDynamicSelect(block, typeObject, softwareArrays) {
 		// var attributeValue = block.$block.find('select[data-content-id="' + typeObject.idDropdown + '"][data-dropdowncontent="' + typeObject.options + '"]').attr('data-value');
@@ -1311,7 +1310,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		// }
 		return '';
 
-	};
+	}
 
 	function getFromDynamicSelectType(block, id, options) {
 		// var attributeValue = block.$block.find('select[data-content-id="' + id + '"][data-dropdowncontent="' + options + '"]').attr('data-value');
@@ -1341,7 +1340,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		// 	return softVar.type;
 		// }
 		return '';
-	};
+	}
 
 	function getBlockInputConnectors(block) {
 		var result = [];
@@ -1351,7 +1350,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 			}
 		});
 		return result;
-	};
+	}
 
 	function getBranchsConnectorsNoChildren(blockUid) {
 		var block = blocks[blockUid];
@@ -1363,7 +1362,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 			result = result.concat(getBranchsConnectorsNoChildren(blockBranchUid));
 		}
 		return result;
-	};
+	}
 
 	function getIOConnectorUid(block, contentId) {
 		var uid;
@@ -1375,7 +1374,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		});
 
 		return uid;
-	};
+	}
 
 	function insertAfter(newDom, targetDom) {
 		var parentEl = targetDom.parentNode;
@@ -1395,15 +1394,15 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		} else {
 			return connectorUid;
 		}
-	};
+	}
 
 	function getLastBottomConnectorUid(uid) {
 		return getTreeExtreme(uid, 1);
-	};
+	}
 
 	function getFirstTopConnectorUid(uid) {
 		return getTreeExtreme(uid, 0);
-	};
+	}
 
 	function connectorIsInBranch(connectorUid, uid) {
 		var isInBranch = false;
@@ -1432,7 +1431,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 			isInBranch = connectorIsInBranch(connectorUid, connectors[connectors[blocks[uid].connectors[1]].connectedTo].blockUid);
 		}
 		return isInBranch;
-	};
+	}
 
 	function getOutputConnector(block) {
 		var uid;
@@ -1451,16 +1450,31 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		return getBlock(connector.blockUid);
 	}
 
+	function isInGroup(dom) {
+		var find = false;
+		var node = dom;
+		while(node && node.tagName != "BODY") {
+			if(node.classList.contains("block-group")) {
+				find = true;
+				break;
+			} else {
+				node = node.parentNode;
+			}
+		}
+		
+		return find;
+	}
+
 	function itsOver(dragConnectorDom, dropConnectorDom, margin) {
 		margin = margin || 0;
 		var dragRect = dragConnectorDom.getBoundingClientRect();
 		var dropRect = dropConnectorDom.getBoundingClientRect();
 		return dragRect.left < (dropRect.left + dropRect.width + margin) && (dragRect.left + dropRect.width) > (dropRect.left - margin) && dragRect.top < (dropRect.top + dropRect.height + margin) && (dragRect.top + dropRect.height) > (dropRect.top - margin);
-	};
+	}
 
 	function isNumeric(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
-	};
+	}
 
 	function validNumber(number) {
 		var temp = number;
@@ -1485,7 +1499,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 			value: number,
 			removedChar: removedChar
 		};
-	};
+	}
 
 	function validString(value) {
 		return value.replace(/(^|\b|[^\\])(\\\\)*\\$/g, '$&\\')
@@ -1494,7 +1508,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 			.replace(/(^|\b|[^\\])((\\\\)*\/\/)/g, '$1\\$2')
 			.replace(/\$\'/g, '\$\\\'')
 			.replace(/\$\&/g, '\$\\\&');
-	};
+	}
 
 	function validChar(value) {
 		value = value.replace(/\$*/g, '');
@@ -1515,13 +1529,13 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		}
 
 		return value;
-	};
+	}
 
 	function validComment(value) {
 		return value.replace(/\*\//g, '')
 			.replace(/\$\'/g, '\$\\\'')
 			.replace(/\$\&/g, '\$\\\&');
-	};
+	}
 
 
 	function validName(name) {
@@ -1552,7 +1566,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 			}
 		}
 		return name;
-	};
+	}
 
 	function genUid() {
 		var d = new Date().getTime();
@@ -1562,7 +1576,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 			return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
 		});
 		return uid;
-	};
+	}
 
 	function clone(data) {
 		return JSON.parse(JSON.stringify(data));
