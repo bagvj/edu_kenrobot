@@ -564,8 +564,7 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 		var dragConnectorUid = getOutputConnector(block).uid;
 
 		dropConnectorDom.appendChild(block.dom);
-		block.dom.style.transform = null;
-		block.dom.style = null;
+		block.dom.style.cssText = "";
 
 		ioConnectors[dropConnectorUid].connectedTo = dragConnectorUid;
 		ioConnectors[dragConnectorUid].connectedTo = dropConnectorUid;
@@ -579,8 +578,7 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 		var dropConnectorUid = dropConnectorDom.dataset.connectorUid;
 		var dropBlock = getBlockByConnector(dropConnectorUid);
 
-		dragBlock.dom.style.transform = null;
-		dragBlock.dom.style = null;
+		dragBlock.dom.style.cssText = "";
 
 		if (isConnectorRoot(connectors[dropConnectorUid])) {
 			var isGroup = dropBlock.data.type == "group";
@@ -597,8 +595,7 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 		while (connectedUid) {
 			branchBlock = blocks[connectors[connectedUid].blockUid];
 			insertAfter(branchBlock.dom, tempBlock.dom);
-			branchBlock.dom.style.transform = null;
-			branchBlock.dom.style = null;
+			branchBlock.dom.style.cssText = "";
 			connectedUid = connectors[branchBlock.connectors[1]].connectedTo;
 			tempBlock = branchBlock;
 		}
