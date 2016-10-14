@@ -1,4 +1,4 @@
-define(['app/util/compitableEvents'], function(compitableEvents) {
+define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEvents, emitor) {
 	var blocks = {};
 	var connectors = {};
 	var ioConnectors = {};
@@ -601,6 +601,20 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		}
 
 		redrawTree(dropBlock);
+
+		var message = "redraw tree error: ";
+		var rootBlock = getBlockByConnector(getFirstTopConnectorUid(dropBlock.uid));
+		message += rootBlock.dom.style.cssText;
+
+		var bottomUid = connectors[rootBlock.connectors[1]].connectedTo;
+		var branchBlock;
+		while (bottomUid) {
+			branchBlock = getBlockByConnector(bottomUid);
+			message += ", " + branchBlock.dom.style.cssText;
+			bottomUid = connectors[branchBlock.connectors[1]].connectedTo;
+		}
+
+		emitor.trigger("app", "error", message, "block.js", 0, 0);
 	}
 
 	function handleCollision(dragConnectors) {

@@ -14,7 +14,7 @@ define(['app/util/emitor', 'app/config'], function(emitor, config) {
 
 	function onAppError(message, src, line, col, error) {
 		var key = message + "-" + src + "-" + line + "-" + col;
-		config.debug && console.error(error.stack || key);
+		error && config.debug && console.error(error.stack || key);
 
 		if(counts[key]) {
 			counts[key]++;
