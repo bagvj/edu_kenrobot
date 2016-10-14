@@ -17,7 +17,7 @@ class ReportController extends Controller {
 		foreach($errors as $error) {
 			$str = $str . "$error->message($error->src:$error->line:$error->col), count $error->count\n$error->stack\n";
 		}
-		$str = $str . "-------------------------------------\n";
+		$str = $str . "-------------------------------------\n\n";
 		
 		$name = "error.log";
 		$storage = Storage::disk("report");
