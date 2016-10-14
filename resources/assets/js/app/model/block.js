@@ -574,7 +574,7 @@ define(['app/util/compitableEvents'], function(compitableEvents) {
 		var dropConnectorUid = dropConnectorDom.dataset.connectorUid;
 		var dropBlock = getBlockByConnector(dropConnectorUid);
 
-		dragBlock.dom.style.transform = null;
+		dragBlock.dom.style = null;
 
 		if (isConnectorRoot(connectors[dropConnectorUid])) {
 			var isGroup = dropBlock.data.type == "group";
