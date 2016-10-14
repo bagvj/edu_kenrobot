@@ -5,13 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Curl\Curl;
+use Storage;
 
 class ReportController extends Controller {
 
 	public function error(Request $request) {
 		$errors = $request->input('error');
 		$errors = json_decode($errors);
-		var_dump($errors);
+
+		$str = "---------" . date('Y-m-d H:i:s') . "---------\n";
+		foreach($errors as $error) {
+			$str = $str . "\"$error->message\" at \"$error->src\" line $error->line col $error->col, count $error->count\n$error->stack\n";
+		}
+		$str = $str . "-------------------------------------\n";
+		
+		$name = "error.log";
+		$storage = Storage::disk("report");
+		$storage->exists($name) ? $storage->append($name, $str) : $storage->put($name, $str);
 	}
 }

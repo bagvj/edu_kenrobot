@@ -55,6 +55,11 @@ return [
             'root' => storage_path('app/upload'),
         ],
 
+        'report' => [
+            'driver' => 'local',
+            'root' => storage_path('app/report'),
+        ],
+
         'ftp' => [
             'driver'   => 'ftp',
             'host'     => 'ftp.example.com',
