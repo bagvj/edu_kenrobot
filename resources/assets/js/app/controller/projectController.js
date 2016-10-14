@@ -288,6 +288,7 @@ define(['vendor/jquery', 'app/config', 'app/util/util', 'app/util/emitor', 'app/
 					return;
 				}
 
+				util.message("编译成功，正在上传请稍候");
 				uploadModel.check(true).done(function() {
 					uploadModel.upload(res.url).done(function() {
 						util.message("上传成功");

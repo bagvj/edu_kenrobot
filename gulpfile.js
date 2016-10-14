@@ -60,6 +60,7 @@ gulp.task('js', ['clean-js', 'copy-env'], function() {
 		gulp.src(SRC + 'js/index.js')
 			.pipe(requirejsOptimize({
 				useStrict: true,
+				optimize: args.min == 'false' ? "none" : "uglify",
 			}))
 			.pipe(gulp.dest(jsDst));
 	} else {

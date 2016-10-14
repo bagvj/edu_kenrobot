@@ -112,7 +112,7 @@
 								<div class="tab tab-no-user {{isset($user) ? '' : 'active'}}">
 									<ul>
 										<li data-action="login"><span>登录</span></li>
-										<li><a class="register-btn" href="{{$loginInfo->register_url}}">注册</a></li>
+										<li data-action="register"><span>注册</span></li>
 									</ul>
 								</div>
 							</div>
