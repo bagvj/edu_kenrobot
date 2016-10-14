@@ -552,7 +552,7 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 			ioConnector = ioConnectors[connectorUid];
 			if (ioConnector.data.type === 'connector-input' && !ioConnector.connectedTo) {
 				tempBlock = getBlockByConnector(connectorUid, true);
-				if (tempBlock.connectable && sameConnectionType(block, tempBlock, ioConnector.data.acceptType) && !connectorIsInBranch(connectorUid, block.uid)) {
+				if (tempBlock.connectable && sameConnectionType(block, tempBlock, ioConnector.data.acceptType) && !connectorIsInBranch(connectorUid, block.uid, true)) {
 					activeIOConnectors.push(connectorUid);
 				}
 			}
@@ -1408,7 +1408,7 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 		return getTreeExtreme(uid, 0);
 	}
 
-	function connectorIsInBranch(connectorUid, uid) {
+	function connectorIsInBranch(connectorUid, uid, tag) {
 		var isInBranch = false;
 		var i = 0;
 		while (!isInBranch && (i < blocks[uid].connectors.length)) {
@@ -1427,12 +1427,13 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 			}
 		}
 
-		if (!isInBranch && blocks[uid].connectors[2] && connectors[blocks[uid].connectors[2]].connectedTo) {
-			isInBranch = connectorIsInBranch(connectorUid, connectors[connectors[blocks[uid].connectors[2]].connectedTo].blockUid);
+		var c = tag ? ioConnectors : connectors;
+		if (!isInBranch && blocks[uid].connectors[2] && c[blocks[uid].connectors[2]].connectedTo) {
+			isInBranch = connectorIsInBranch(connectorUid, c[c[blocks[uid].connectors[2]].connectedTo].blockUid, tag);
 		}
 
-		if (!isInBranch && blocks[uid].connectors[1] && connectors[blocks[uid].connectors[1]].connectedTo) {
-			isInBranch = connectorIsInBranch(connectorUid, connectors[connectors[blocks[uid].connectors[1]].connectedTo].blockUid);
+		if (!isInBranch && blocks[uid].connectors[1] && c[blocks[uid].connectors[1]].connectedTo) {
+			isInBranch = connectorIsInBranch(connectorUid, c[c[blocks[uid].connectors[1]].connectedTo].blockUid, tag);
 		}
 		return isInBranch;
 	}

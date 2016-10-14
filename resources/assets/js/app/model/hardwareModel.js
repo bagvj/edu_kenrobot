@@ -289,7 +289,7 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 		componentDom.src = componentConfig.src;
 		componentDom.style.width = componentConfig.width + 'px';
 		componentDom.style.height = componentConfig.height + 'px';
-		componentDom.draggable = true;
+		componentDom.draggable = false;
 		componentDom.addEventListener(compitableEvents.down, onComponentMouseDown);
 
 		[].forEach.call(container.querySelectorAll('.component-endpoint'), function(endpoint) {
@@ -356,7 +356,8 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 		});
 
 		jsPlumbInstance.draggable(componentDom, {
-			containment: true
+			containment: true,
+			consumeStartEvent: false,
 		});
 
 		delete componentData.endpoints;
