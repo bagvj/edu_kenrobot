@@ -564,6 +564,7 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 		var dragConnectorUid = getOutputConnector(block).uid;
 
 		dropConnectorDom.appendChild(block.dom);
+		block.dom.style.transform = null;
 		block.dom.style = null;
 
 		ioConnectors[dropConnectorUid].connectedTo = dragConnectorUid;
@@ -578,6 +579,7 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 		var dropConnectorUid = dropConnectorDom.dataset.connectorUid;
 		var dropBlock = getBlockByConnector(dropConnectorUid);
 
+		dragBlock.dom.style.transform = null;
 		dragBlock.dom.style = null;
 
 		if (isConnectorRoot(connectors[dropConnectorUid])) {
@@ -595,26 +597,13 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 		while (connectedUid) {
 			branchBlock = blocks[connectors[connectedUid].blockUid];
 			insertAfter(branchBlock.dom, tempBlock.dom);
+			branchBlock.dom.style.transform = null;
 			branchBlock.dom.style = null;
 			connectedUid = connectors[branchBlock.connectors[1]].connectedTo;
 			tempBlock = branchBlock;
 		}
 
 		redrawTree(dropBlock);
-
-		var message = "redraw tree error: ";
-		var rootBlock = getBlockByConnector(getFirstTopConnectorUid(dropBlock.uid));
-		message += rootBlock.dom.style.cssText;
-
-		var bottomUid = connectors[rootBlock.connectors[1]].connectedTo;
-		var branchBlock;
-		while (bottomUid) {
-			branchBlock = getBlockByConnector(bottomUid);
-			message += ", " + branchBlock.dom.style.cssText;
-			bottomUid = connectors[branchBlock.connectors[1]].connectedTo;
-		}
-
-		emitor.trigger("app", "debug", message);
 	}
 
 	function handleCollision(dragConnectors) {
