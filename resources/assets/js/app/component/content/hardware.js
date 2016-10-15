@@ -230,6 +230,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitabl
 			container.addClass("can-drop");
 
 			mouseDownComponentDom = null;
+
+			emitor.trigger("sidebar", "toggle");
 		}
 
 		dragComponentMove(dragComponentDom, e.clientX, e.clientY);
@@ -244,6 +246,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitabl
 		dragComponentDom = null;
 		container.removeClass("can-drop");
 		onContainerDrop(name, e.pageX, e.pageY);
+
+		emitor.trigger("sidebar", "toggle");
 	}
 
 	function dragComponentMove(componentDom, clientX, clientY) {

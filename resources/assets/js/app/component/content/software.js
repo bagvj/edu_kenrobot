@@ -31,6 +31,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		emitor.on('app', 'start', onAppStart);
 		emitor.on('app', 'contextMenu', onContextMenu);
 		emitor.on('sidebar', 'activeTab', onActiveTab);
+		emitor.on('block', 'drag-start', onBlockDragStart);
+		emitor.on('block', 'drag-end', onBlockDragEnd);
 	}
 
 	function loadSchema(schema) {
@@ -149,6 +151,14 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 
 	function onAppStart() {
 
+	}
+
+	function onBlockDragStart() {
+		emitor.trigger("sidebar", "toggle");
+	}
+
+	function onBlockDragEnd() {
+		emitor.trigger("sidebar", "toggle");
 	}
 
 	function onActiveTab(name) {

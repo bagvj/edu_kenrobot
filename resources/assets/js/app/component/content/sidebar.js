@@ -3,6 +3,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 	var region;
 
 	function init() {
+		$(window).on('click', onWindowClick);
+
 		var region = $('.sidebar-region');
 
 		$('.logo', region).on('click', onLogoClick);
@@ -12,6 +14,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 		tabs = $('.sidebar-tabs');
 
 		emitor.on('app', 'start', onAppStart);
+		emitor.on('sidebar', 'toggle', onTabToggle);
 	}
 
 	function onAppStart() {
@@ -37,9 +40,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 				tabs.removeClass("slide-out").addClass("active").addClass("slide-in");
 			} else if(tab.hasClass("active")) {
 				li.addClass("fold");
-				tab.removeClass("active");
-
+			
 				tabs.removeClass("slide-in").addClass("slide-out").delay(300, "slide-out").queue("slide-out", function() {
+					tab.removeClass("active");
 					tabs.removeClass("active").removeClass("slide-out");
 				});
 				tabs.dequeue("slide-out");
@@ -72,6 +75,28 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 				emitor.trigger("help", "show");
 				break;
 		}
+	}
+
+	function onTabToggle() {
+		util.isMobile() && $('.center > li.active', region).click();
+	}
+
+	function onWindowClick(e) {
+		if(!e.pageX || !e.pageY || !util.isMobile() || !tabs.hasClass("active")) {
+			return;
+		}
+
+		var rect = tabs[0].getBoundingClientRect();
+		if(e.pageX >= rect.left && e.pageX <= rect.right && e.pageY >= rect.top && e.pageY <= rect.bottom) {
+			return;
+		}
+
+		rect = $('.center', region)[0].getBoundingClientRect();
+		if(e.pageX >= rect.left && e.pageX <= rect.right && e.pageY >= rect.top && e.pageY <= rect.bottom) {
+			return;
+		}
+
+		$('.center > li.active', region).click();
 	}
 
 	return {

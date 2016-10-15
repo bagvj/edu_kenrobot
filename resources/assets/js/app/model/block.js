@@ -440,6 +440,8 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 
 			dragBlock = block;
 			mouseDownBlockDom = null;
+
+			emitor.trigger("block", "drag-start");
 		}
 
 		block = block || dragBlock;
@@ -490,6 +492,8 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 		[].forEach.call(dragContainer.querySelectorAll(".block .connector.active"), function(connectorDom) {
 			connectorDom.classList.remove("active");
 		});
+
+		emitor.trigger("block", "drag-end");
 	}
 
 	function statementDragStart(block) {

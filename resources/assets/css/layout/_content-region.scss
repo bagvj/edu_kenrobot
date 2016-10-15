@@ -42,8 +42,9 @@ $seperator-width: 5px;
 	background-color: #f7f9f9;
 	
 	.sidebar-tabs {
-		float: left;
+		position: absolute;
 		height: 100%;
+		z-index: 1;
 
 		&:after {
 			display: none;
@@ -67,19 +68,31 @@ $seperator-width: 5px;
 			}
 		}
 
-		&.slide-in {
-			@include animation(sidebar-tabs-slide-in 0.3s cubic-bezier(0, 0.8, 0.1, 1) both);
+		@media screen and (min-width: 1024px) {
+			&.slide-in {
+				@include animation(sidebar-tabs-slide-in 0.3s cubic-bezier(0, 0.8, 0.1, 1) both);
 
-			& + .wrap {
-				@include animation(content-wrap-slide-in 0.3s cubic-bezier(0, 0.8, 0.1, 1) both);
+				& + .wrap {
+					@include animation(content-wrap-slide-in 0.3s cubic-bezier(0, 0.8, 0.1, 1) both);
+				}
+			}
+
+			&.slide-out {
+				@include animation(sidebar-tabs-slide-out 0.3s cubic-bezier(0, 0.8, 0.1, 1) forwards);
+
+				& + .wrap {
+					@include animation(content-wrap-slide-out 0.3s cubic-bezier(0, 0.8, 0.1, 1) forwards);
+				}
 			}
 		}
+		
+		@media screen and (max-width: 1024px) {
+			&.slide-in {
+				@include animation(sidebar-tabs-slide-in 0.3s cubic-bezier(0, 0.8, 0.1, 1) both);
+			}
 
-		&.slide-out {
-			@include animation(sidebar-tabs-slide-out 0.3s cubic-bezier(0, 0.8, 0.1, 1) forwards);
-
-			& + .wrap {
-				@include animation(content-wrap-slide-out 0.3s cubic-bezier(0, 0.8, 0.1, 1) forwards);
+			&.slide-out {
+				@include animation(sidebar-tabs-slide-out 0.3s cubic-bezier(0, 0.8, 0.1, 1) forwards);
 			}
 		}
 
