@@ -87,14 +87,14 @@
 	}
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: $wide-screen-width) {
 	.login-region {
 		right: calc(100vw - 60px);
-		top: calc(100vh - 190px);
+		top: calc(100vh - 55px);
 
 		.login-menu {
-			top: -56px;
-			left: 65px;
+			top: -67px;
+			left: 63px;
 		}
 	}
 }

@@ -83,15 +83,18 @@
 				<div class="wrap">
 					<div class="content-header">
 						<div class="project-region">
-							<div class="name ellipsis">项目名字</div>
+							<div class="name-wrap">
+								<div class="name ellipsis"></div>
+							</div>
 							<div class="project-wrap clearfix">
-								<input class="new" type="button" value="新建项目" />
+								<input class="x-btn new" type="button" value="新建项目" />
 								<div class="x-select boards">
 									<div class="placeholder"></div>
 									<ul></ul>
 								</div>
-								<input class="save" type="button" value="保存" />
-								<input class="upload" type="button" value="上传" />
+								<input class="x-btn share" type="button" value="分享" />
+								<input class="x-btn save" type="button" value="保存" />
+								<input class="x-btn upload" type="button" value="上传" />
 							</div>
 						</div>
 						<div class="login-region">

@@ -1,3 +1,5 @@
+$wide-screen-width: 1024px;
+
 html, body {
 	width: 100%;
 	height: 100%;
@@ -24,16 +26,6 @@ html, body {
 		width: 160px;
 		top: 0;
 		bottom: 0;
-	}
-
-	@media screen and (max-width: 1024px) {
-		.content-region {
-			left: 80px;
-		}
-
-		.sidebar-region {
-			width: 80px;
-		}
 	}
 }
 
@@ -65,7 +57,17 @@ html, body {
 	}
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: $wide-screen-width) {
+	.main {
+		.content-region {
+			left: 80px;
+		}
+
+		.sidebar-region {
+			width: 80px;
+		}
+	}
+	
 	.drag-layer {
 		left: 80px;
 	}
