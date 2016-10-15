@@ -4,6 +4,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	function init() {
 		region = $('.login-region');
 		$('.login-menu ul > li', region).on('click', onMenuClick);
+		$('.photo', region).on('click', onPhotoClick);
 		
 		emitor.on('user', 'update', onUserUpdate);
 	}
@@ -29,11 +30,20 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		}
 	}
 
+	function onPhotoClick(e) {
+		if(util.isMobile()) {
+			return;
+		}
+
+		var href = $(this).data('href');
+		window.open(href);
+
+		return false;
+	}
+
 	function onUserUpdate() {
 		var userInfo = userModel.getUserInfo();		
 		var photo = $('.photo', region).removeClass("no-user");
-		var href = photo.data('href');
-		photo.attr('href', href);
 		
 		$('> img', photo).attr("src", userInfo.avatar_url);
 		util.toggleActive($('.tab-user', region));

@@ -7,6 +7,8 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	var publicTypes = ["仅自己可见", "好友公开", "完全公开"];
 
 	function init() {
+		$(window).on('click', onWindowClick);
+
 		region = $('.project-region');
 
 		$('.new', region).on('click', onNewClick);
@@ -91,7 +93,10 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 			});
 			region.dequeue("slide-out");
 		} else {
-			region.addClass("active").addClass("slide-in");
+			region.addClass("slide-in").delay(300, "slide-in").queue("slide-in", function() {
+				region.addClass("active");
+			});
+			region.dequeue("slide-in");
 		}
 	}
 
@@ -179,6 +184,24 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		$('> li', projectList).off('mouseleave', onLiMouseOut).on('mouseleave', onLiMouseOut);
 		$('.project-title .name', projectList).off('click', onProjectClick).on('click', onProjectClick);
 		$('.project-image', projectList).off('click', onProjectClick).on('click', onProjectClick);
+	}
+
+	function onWindowClick(e) {
+		if(!e.pageX || !e.pageY || !util.isMobile() || !region.hasClass("active")) {
+			return;
+		}
+
+		var rect = $('.project-wrap', region)[0].getBoundingClientRect();
+		if(e.pageX >= rect.left && e.pageX <= rect.right && e.pageY >= rect.top && e.pageY <= rect.bottom) {
+			return;
+		}
+
+		rect = $('.name', region)[0].getBoundingClientRect();
+		if(e.pageX >= rect.left && e.pageX <= rect.right && e.pageY >= rect.top && e.pageY <= rect.bottom) {
+			return;
+		}
+
+		$('.name', region).click();
 	}
 
 	return {

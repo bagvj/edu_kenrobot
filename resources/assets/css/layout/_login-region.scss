@@ -7,6 +7,7 @@
 	z-index: 16;
 	
 	.photo {
+		cursor: pointer;
 		display: block;
 		width: 42px;
 		height: 42px;
@@ -16,6 +17,10 @@
 			border-radius: 50%;
 			width: 42px;
 			height: 42px;
+		}
+
+		&.no-user {
+			cursor: default;
 		}
 	}
 
@@ -36,7 +41,6 @@
 	}
 
 	.tab {
-		background-color: #333844;
 		width: 100px;
 		display: none;
 
@@ -91,6 +95,10 @@
 	.login-region {
 		right: calc(100vw - 60px);
 		top: calc(100vh - 55px);
+
+		.photo {
+			cursor: default;
+		}
 
 		.login-menu {
 			top: -67px;

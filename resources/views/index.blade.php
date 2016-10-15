@@ -98,24 +98,21 @@
 							</div>
 						</div>
 						<div class="login-region">
-							@if(isset($user))
-							<a class="photo" target="_blank" href="{{$loginInfo->home_url}}">
+							<div class="photo{{isset($user) ? '' : ' no-user'}}" data-href="{{$loginInfo->home_url}}">
+								@if(isset($user))
 								<img src="{{$user->avatar_url or 'assets/image/default-user.png'}}" />
-							</a>
-							@else
-							<a class="photo no-user" href="javascript:;" target="_blank" data-href="{{$loginInfo->home_url}}">
+								@else
 								<img src="assets/image/default-user.png" />
-							</a>
-							@endif
+								@endif
+							</div>
 							<div class="login-menu">
 								<div class="tab tab-user {{isset($user) ? 'active' : ''}}">
 									<ul>
-										<li data-action="share"><span>分享</span></li>
 										<li data-action="setting"><span>设置</span></li>
 										<li><a href="/logout">退出</a></li>
 									</ul>
 								</div>
-								<div class="tab tab-no-user {{isset($user) ? '' : 'active'}}">
+								<div class="tab tab-no-user{{isset($user) ? '' : ' active'}}">
 									<ul>
 										<li data-action="login"><span>登录</span></li>
 										<li data-action="register"><span>注册</span></li>

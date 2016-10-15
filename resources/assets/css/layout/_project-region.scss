@@ -230,12 +230,16 @@
 
 		&.slide-in {
 			.project-wrap {
+				background-color: white;
+				display: block;
 				@include animation(project-region-slide-in 0.3s cubic-bezier(0, 0.8, 0.1, 1) both);
 			}
 		}
 
 		&.slide-out {
 			.project-wrap {
+				background-color: white;
+				display: block;
 				@include animation(project-region-slide-out 0.3s cubic-bezier(0, 0.8, 0.1, 1) forwards);
 			}
 		}
