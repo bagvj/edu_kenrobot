@@ -1,110 +1,165 @@
 .project-region {
-	height: 77px;
-
+	position: relative;
+	z-index: 13;
+	
 	.name {
 		color: #39426a;
 		letter-spacing: 1px;
 		line-height: 20px;
 		font-size: 14px;
 		margin-bottom: 15px;
-		margin-right: 80px;
+		max-width: 210px;
+		display: inline-block;
+		position: absolute;
+		top: 15px;
+		left: 30px;
 	}
 
-	input[type="button"] {
-		background-color: #0b7bdc;
-		border-radius: 5px;
-		height: 42px;
-		line-height: 42px;
-		letter-spacing: 1.75px;
-		color: white;
-		float: left;
-	}
+	.project-wrap {
+		padding: 50px 30px 0 30px;
 
-	.new {
-		width: 100px;
-	}
-
-	.boards {
-		margin-left: 15px;
-		width: 240px;
-		height: 42px;
-		float: left;
-
-		.placeholder {
-			padding: 8px 30px 8px 8px;
-			border: 1px solid #c4d1dd;
-
-			&:after {
-				content: ' ';
-				width: 0;
-				height: 0;
-				border: 8px solid transparent;
-				border-top-color: #c4d1dd;
-				position: absolute;
-				top: 15px;
-				right: 12px;
-			}
-		}
-
-		.board-name {
-			height: 24px;
-			line-height: 24px;
-			font-size: 12px;
-			color: #75828e;
-			letter-spacing: 1px;
+		input[type="button"] {
+			background-color: #0b7bdc;
+			border-radius: 5px;
+			height: 42px;
+			line-height: 42px;
+			letter-spacing: 1.75px;
+			color: white;
 			float: left;
 		}
 
-		.board {
-			margin-right: 8px;
-			width: 42px;
-			height: 24px;
-			background-size: contain;
-			background-position: center;
-			background-repeat: no-repeat;
+		.new {
+			width: 100px;
+		}
+
+		.boards {
+			margin-left: 15px;
+			width: 240px;
+			height: 42px;
 			float: left;
-		}
 
-		& > ul {
-			background-color: #f7f9f9;
-
-			li {
-				height: 42px;
-				padding: 8px 30px 8px 8px;
-				transition: background-color 0.2s;
-
-				&:hover {
-					background-color: #f2f2f2;
-				}
-			}
-		}
-
-		&.active {
 			.placeholder {
-				border-bottom: none;
+				padding: 8px 30px 8px 8px;
+				border: 1px solid #c4d1dd;
 
 				&:after {
-					border-top-color: transparent;
-					border-bottom-color: #c4d1dd;
-					top: 6px;
+					content: ' ';
+					width: 0;
+					height: 0;
+					border: 8px solid transparent;
+					border-top-color: #c4d1dd;
+					position: absolute;
+					top: 15px;
+					right: 12px;
 				}
+			}
+
+			.board-name {
+				height: 24px;
+				line-height: 24px;
+				font-size: 12px;
+				color: #75828e;
+				letter-spacing: 1px;
+				float: left;
+			}
+
+			.board {
+				margin-right: 8px;
+				width: 42px;
+				height: 24px;
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+				float: left;
 			}
 
 			& > ul {
-				border-left: 1px solid #c4d1dd;
-				border-right: 1px solid #c4d1dd;
-				border-bottom: 1px solid #c4d1dd;
+				background-color: #f7f9f9;
+
+				li {
+					height: 42px;
+					padding: 8px 30px 8px 8px;
+					transition: background-color 0.2s;
+
+					&:hover {
+						background-color: #f2f2f2;
+					}
+				}
 			}
+
+			&.active {
+				.placeholder {
+					border-bottom: none;
+
+					&:after {
+						border-top-color: transparent;
+						border-bottom-color: #c4d1dd;
+						top: 6px;
+					}
+				}
+
+				& > ul {
+					border-left: 1px solid #c4d1dd;
+					border-right: 1px solid #c4d1dd;
+					border-bottom: 1px solid #c4d1dd;
+				}
+			}
+		}
+
+		.save {
+			width: 60px;
+			margin-left: 15px;
+		}
+
+		.upload {
+			width: 60px;
+			margin-left: 15px;
+		}
+	}
+}
+
+@media screen and (max-width: 1024px) {
+	@include keyframes('project-region-slide-in') {
+		from {
+			transform: translateY(-122px);
+		}
+		to {
+			transform: translateY(0);
 		}
 	}
 
-	.save {
-		width: 60px;
-		margin-left: 15px;
+	@include keyframes('project-region-slide-out') {
+		from {
+			transform: translateY(0);
+		}
+		to {
+			transform: translateY(-122px);
+		}
 	}
 
-	.upload {
-		width: 60px;
-		margin-left: 15px;
+	.project-region {
+		.name {
+			position: absolute;
+		}
+
+		.project-wrap {
+			padding-bottom: 30px;
+			display: none;
+		}
+
+		&.active {
+			.project-wrap {
+				background-color: white;
+				display: block;
+			}
+		}
+
+		&.slide-in {
+			@include animation(project-region-slide-in 0.3s cubic-bezier(0, 0.8, 0.1, 1) both);
+		}
+
+		&.slide-out {
+			@include animation(project-region-slide-out 0.3s cubic-bezier(0, 0.8, 0.1, 1) forwards);
+		}
 	}
 }

@@ -1,9 +1,10 @@
 .login-region {
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: 20px;
+	right: 30px;
 	width: 42px;
 	height: 42px;
+	z-index: 16;
 	
 	.photo {
 		display: block;
@@ -30,7 +31,7 @@
 		left: -29px;
 		width: 100px;
 		z-index: 11;
-		padding-top: 14px;
+		padding-top: 10px;
 		display: none;
 	}
 
@@ -88,13 +89,12 @@
 
 @media screen and (max-width: 1024px) {
 	.login-region {
-		right: calc(100vw - 100px);
-		top: calc(100vh - 210px);
-		z-index: 1;
+		right: calc(100vw - 60px);
+		top: calc(100vh - 190px);
 
 		.login-menu {
 			top: -56px;
-			left: 60px;
+			left: 65px;
 		}
 	}
 }

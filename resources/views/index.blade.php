@@ -83,14 +83,16 @@
 				<div class="wrap">
 					<div class="content-header">
 						<div class="project-region">
-							<div class="name">项目名字</div>
-							<input class="new" type="button" value="新建项目" />
-							<div class="x-select boards">
-								<div class="placeholder"></div>
-								<ul></ul>
+							<div class="name ellipsis">项目名字</div>
+							<div class="project-wrap clearfix">
+								<input class="new" type="button" value="新建项目" />
+								<div class="x-select boards">
+									<div class="placeholder"></div>
+									<ul></ul>
+								</div>
+								<input class="save" type="button" value="保存" />
+								<input class="upload" type="button" value="上传" />
 							</div>
-							<input class="save" type="button" value="保存" />
-							<input class="upload" type="button" value="上传" />
 						</div>
 						<div class="login-region">
 							@if(isset($user))

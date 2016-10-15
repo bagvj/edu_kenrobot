@@ -1,6 +1,6 @@
 .sidebar-region {
 	background-color: #0b75d2;
-	z-index: 2;
+	z-index: 15;
 
 	.top {
 		padding-top: 20px;
@@ -79,11 +79,11 @@
 		&:after {
 			display: none;
 			position: absolute;
-			content: ' ';
-			width: 16px;
-			height: 16px;
+			content: '';
+			width: 0;
+			height: 0;
 			top: calc(50% - 8px);
-			right: 0;
+			right: -1px;
 			border: 8px transparent solid;
 			border-right-color: white;
 		}

@@ -2,7 +2,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	var region;
 	var projectList;
 	var boardList;
-	var projectTemplate = '<li data-id="{{id}}"><div class="project-title"><div class="name">{{name}}</div><div class="arrow"><ul class="project-menu"><li data-action="edit">编辑项目</li><li data-action="copy">复制项目</li><li data-action="delete">删除项目</li></ul></div></div><div class="project-image" style="background-image: url(\'/project/image/{{imageHash}}\');"></div><div class="project-intro">{{intro}}</div><div class="project-footer"><div class="public" data-action="{{public_type}}">{{public}}</div><div>最后更新：</div><div class="time">{{time}}</div></div></li>';
+	var projectTemplate = '<li data-id="{{id}}"><div class="project-title"><div class="name ellipsis">{{name}}</div><div class="arrow"><ul class="project-menu"><li data-action="edit">编辑项目</li><li data-action="copy">复制项目</li><li data-action="delete">删除项目</li></ul></div></div><div class="project-image" style="background-image: url(\'/project/image/{{imageHash}}\');"></div><div class="project-intro">{{intro}}</div><div class="project-footer"><div class="public" data-action="{{public_type}}">{{public}}</div><div>最后更新：</div><div class="time">{{time}}</div></div></li>';
 	var boardTemplate = '<li data-value="{{name}}"><div class="board {{name}}"></div><div class="board-name">{{label}}</div></li>';
 	var publicTypes = ["仅自己可见", "好友公开", "完全公开"];
 
@@ -12,6 +12,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		$('.new', region).on('click', onNewClick);
 		$('.save', region).on('click', onSaveClick);
 		$('.upload', region).on('click', onUploadClick);
+		$('.name', region).on('click', onNameClick);
 
 		projectList = $('.sidebar-tabs .tab-project .list');
 		boardList = $('.boards', region).on('click', '.placeholder', onShowBoardSelect).on('click', 'ul > li', onBoardSelectClick);
@@ -77,6 +78,21 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 
 	function removeProject(projectId) {
 		$('li[data-id=' + projectId + ']', projectList).remove();
+	}
+
+	function onNameClick(e) {
+		if(!util.isMobile()) {
+			return;
+		}
+
+		if(region.hasClass("active")) {
+			region.removeClass("slide-in").addClass("slide-out").delay(300, "slide-out").queue("slide-out", function() {
+				region.removeClass("active").removeClass("slide-out");
+			});
+			region.dequeue("slide-out");
+		} else {
+			region.addClass("active").addClass("slide-in");
+		}
 	}
 
 	function onNewClick(e) {
