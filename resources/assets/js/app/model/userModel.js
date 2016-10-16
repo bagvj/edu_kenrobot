@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
+define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emitor'], function($1, JSEncrypt, config, emitor) {
 	var userInfo;
 
 	function getUserId() {
@@ -40,13 +40,17 @@ define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 
 	function login(username, password) {
 		var promise = $.Deferred();
+
+		var encrypt = new JSEncrypt.JSEncrypt();
+		encrypt.setPublicKey(config.encrypt.publicKey);
+
 		$.ajax({
 			type: 'POST',
 			url: '/api/auth/login',
 			dataType: 'json',
 			data: {
 				email: username,
-				password: password
+				password: encrypt.encrypt(password)
 			},
 		}).done(function(result) {
 			if(result.status == 0) {

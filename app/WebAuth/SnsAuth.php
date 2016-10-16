@@ -36,7 +36,7 @@ class SnsAuth implements WebAuth
     {
         $this->curl = new Curl();
         $this->api_valid = env('SNS_API_VAlID');
-        $this->api_user = env('SNS_APID_USER');
+        $this->api_user = env('SNS_API_USER');
     }
 
     /**
@@ -58,6 +58,7 @@ class SnsAuth implements WebAuth
             $this->error = '账号密码不能为空';
             return false;
         }
+
 
         $result = $this->validUserFromServer($email,$password);
 
