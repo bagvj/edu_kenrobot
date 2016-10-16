@@ -20,6 +20,7 @@
 
 .no-scrollbar {
   overflow-y: auto;
+  -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
     display: none;
@@ -77,10 +78,6 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-.clearfix {
-  overflow: auto;
 }
 
 @mixin keyframes($name) {
