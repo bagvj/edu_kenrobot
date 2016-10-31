@@ -21,6 +21,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectM
 		
 		if(dialogType == "edit" || dialogType == "save") {
 			projectInfo = args.data;
+			imageHash = projectInfo.imageHash;
 			setImage("/project/image/" + (projectInfo.imageHash || "default"));
 			$('.upload', dialogWin).val("修改项目图片");
 			$('.name', dialogWin).val(projectInfo.project_name).focus();
@@ -28,6 +29,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectM
 			$('.public[value="' + projectInfo.public_type + '"]', dialogWin).attr("checked", true);
 			$('.confirm', dialogWin).val("保存");
 		} else {
+			imageHash = null;
 			setImage();
 			$('.upload', dialogWin).val("上传项目图片");
 			$('.name', dialogWin).val('').focus();
@@ -35,7 +37,6 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectM
 			$('.confirm', dialogWin).val("创建");
 		}
 
-		imageHash = null;
 		util.dialog({
 			selector: dialogWin,
 			onConfirm: onConfirmClick,

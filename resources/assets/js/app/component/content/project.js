@@ -60,17 +60,21 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	function updateProject(projectInfo, newProject) {
 		var id = newProject ? 0 : projectInfo.id;
 
-		var li = $('li[data-id=' + id + ']', projectList);
-		newProject && li.data("id", projectInfo.id).attr("data-id", projectInfo.id);
+		var li = $('li[data-id="' + id + '"]', projectList);
+		if(li.length == 0) {
+			addProject(projectInfo);
+		} else {
+			newProject && li.data("id", projectInfo.id).attr("data-id", projectInfo.id);
 
-		$('.name', li).text(projectInfo.project_name);
-		var imageHash = projectInfo.imageHash || "default";
-		$('.project-image', li).css('background-image', "url('/project/image/" + imageHash + "')");
-		$('.project-intro', li).text(projectInfo.project_intro);
-		$('.public', li).text(publicTypes[projectInfo.public_type]).attr('data-action', projectInfo.public_type);
-		$('.time', li).text(util.formatDate(projectInfo.updated_at, "yyyy.MM.dd"));
+			$('.name', li).text(projectInfo.project_name);
+			var imageHash = projectInfo.imageHash || "default";
+			$('.project-image', li).css('background-image', "url('/project/image/" + imageHash + "')");
+			$('.project-intro', li).text(projectInfo.project_intro);
+			$('.public', li).text(publicTypes[projectInfo.public_type]).attr('data-action', projectInfo.public_type);
+			$('.time', li).text(util.formatDate(projectInfo.updated_at, "yyyy.MM.dd"));
 
-		projectList.find("> li.active").data('id') == projectInfo.id && updateCurrentProject(projectInfo);
+			projectList.find("> li.active").data('id') == projectInfo.id && updateCurrentProject(projectInfo);
+		}
 	}
 
 	function updateCurrentProject(projectInfo) {

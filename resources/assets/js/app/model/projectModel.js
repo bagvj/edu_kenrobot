@@ -7,6 +7,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 		data.user_id = userModel.getUserId();
 
 		if (type == "hash") {
+			data.type = type;
 			data.hash = key;
 		} else if (type == "last") {
 			data.type = 'last';

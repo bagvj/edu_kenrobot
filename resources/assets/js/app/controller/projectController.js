@@ -8,6 +8,8 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 
 		emitor.on('app', 'start', onAppStart);
 		emitor.on('user', 'login', onUserLogin);
+		emitor.on('project', 'new', onProjectNew);
+		emitor.on('project', 'view', onProjectView);
 		emitor.on('project', 'open', onProjectOpen);
 		emitor.on('project', 'save', onProjectSave);
 		emitor.on('project', 'edit', onProjectEdit);
@@ -19,10 +21,16 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	}
 
 	function openProject(projectInfo) {
-		projectInfo.id == 0 && (tempProject = projectInfo);
+		var userId = userModel.getUserId();
+		if(projectInfo.id == 0 || projectInfo.user_id != userId) {
+			projectInfo.id = 0;
+			tempProject = projectInfo;
+		}
+		project.updateProject(projectInfo);
+
 		currentProject && (currentProject.project_data = getProjectData());
 		currentProject = projectInfo;
-		myProjects.length == 0 && project.addProject(projectInfo);
+
 		project.updateCurrentProject(projectInfo);
 
 		var projectData = projectInfo.project_data;
@@ -71,12 +79,12 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 			userModel.authCheck().done(function() {
 				loadMyProject().done(function() {
 					project.updateList(myProjects);
-					openProject(myProjects[0]);
+					emitor.trigger("route", "init");
 				}).fail(function() {
-					openProject(getDefaultProject());
+					emitor.trigger("route", "init");
 				});
 			}).fail(function() {
-				openProject(getDefaultProject());
+				emitor.trigger("route", "init");
 			});
 		});
 	}
@@ -85,6 +93,28 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		loadMyProject().done(function() {
 			project.updateList(myProjects, false);
 		});
+	}
+
+	function onProjectView(hash) {
+		if(!hash) {
+			myProjects.length ? openProject(myProjects[0]) : openProject(getDefaultProject());
+			return;
+		}
+
+		projectModel.get(hash, "hash").done(function(result) {
+			if (result.status != 0) {
+				util.message(result.message);
+				emitor.trigger("route", "set", "/");
+				return;
+			}
+
+			var projectInfo = convertProject(result.data);
+			openProject(projectInfo);
+		});
+	}
+
+	function onProjectNew() {
+		openProject(getDefaultProject());
 	}
 
 	function onProjectOpen(id, force) {
@@ -258,7 +288,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		}
 
 		currentProject = null;
-		myProjects.length ? openProject(myProjects[0]) : openProject(getDefaultProject());
+		onProjectView();
 	}
 
 	function onProjectUpload() {
