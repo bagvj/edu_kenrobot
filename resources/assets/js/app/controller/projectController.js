@@ -47,7 +47,6 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 
 		projectModel.getAll().done(function(result) {
 			if (result.status != 0) {
-				util.message(result.message);
 				promise.reject();
 				return;
 			}
