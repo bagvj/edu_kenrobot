@@ -31,7 +31,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 	}
 
 	function onPhotoClick(e) {
-		if(util.isMobile()) {
+		if(util.isMobile() || $(this).hasClass("no-user")) {
 			return;
 		}
 
