@@ -87,7 +87,7 @@ class ProjectController extends Controller {
         $input = $request->only($keys);
 
         $input['id'] = $request->input('id');
-        $input['project_type'] = 'scratch';
+        $input['project_type'] = 'edu';
 
         $is_update = !empty($input['id']);
 
@@ -179,7 +179,7 @@ class ProjectController extends Controller {
         }else if ($type == 'hash') {
             $project = ProjectModel::where('hash', $hash)->first();
         }else if($type == 'last'){
-            $project = ProjectModel::where(array('user_id' => $user_id, 'project_type' => 'scratch'))->orderby('updated_at','desc')->first();
+            $project = ProjectModel::where(array('user_id' => $user_id, 'project_type' => 'edu'))->orderby('updated_at','desc')->first();
             if ($project != null) {
                 return response()->json(['status' => 0, 'message' => '获取成功', 'data' => $project->toArray()]);
             }
@@ -206,7 +206,7 @@ class ProjectController extends Controller {
      */
     public function getProjects(Request $request) {
         $user_id = $request->input('user_id');
-        $project_type = 'scratch';
+        $project_type = 'edu';
 
         if (empty($user_id)) {
             return response()->json(['status' => -1, 'message' => '[user_id]为必需字段切类型为数字']);
