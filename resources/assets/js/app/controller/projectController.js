@@ -69,8 +69,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	function onAppStart() {
 		uploadModel.init(appConfig.chromeExt);
 
-		projectModel.getSchema().done(function(result) {
-			var schema = result.data;
+		projectModel.getSchema().done(function(schema) {
 			hardware.loadSchema(schema.hardware);
 			software.loadSchema(schema.software);
 			project.updateBoards(schema.hardware.boards);

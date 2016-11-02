@@ -35,16 +35,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 	}
 
 	function getSchema() {
-		// return $.ajax({
-		// 	type: 'POST',
-		// 	url: '/api/project/schema',
-		// 	data: {
-		// 		user_id: userModel.getUserId(),
-		// 	},
-		// 	dataType: 'json',
-		// });
-
-		var data = {
+		var schema = {
 			hardware: {
 				boards: [{
 					label: "Arduino UNO",
@@ -241,9 +232,9 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						overlay: [0.5, 1.5]
 					}]
 				}, {
-					label: "RoSys开发板",
-					name: "NEO328",
-					tags: ["RoSys"],
+					label: "KenBlock",
+					name: "KenBlock",
+					tags: ["KenBlock"],
 					pins: [{
 						uid: "c9168884-b454-4342-b677-f06dacb0b3cc",
 						width: 32,
@@ -260,7 +251,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.431,
 						y: 0.851,
 						name: "3",
-						tags: ["digital"],
+						tags: ["digital", "analog-out"],
 						overlay: [0.5, -0.5]
 					}, {
 						uid: "c297515b-2a2d-4b5c-96a8-e740d83a75ce",
@@ -278,7 +269,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.627,
 						y: 0.851,
 						name: "9",
-						tags: ["digital"],
+						tags: ["digital", "analog-out"],
 						overlay: [0.5, -0.5]
 					}, {
 						uid: "e29d477e-8923-40c2-8922-af988a78811f",
@@ -287,7 +278,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.725,
 						y: 0.851,
 						name: "10",
-						tags: ["digital"],
+						tags: ["digital", "analog-out"],
 						overlay: [0.5, -0.5]
 					}, {
 						uid: "08001087-da26-451b-b124-5c100d928201",
@@ -296,7 +287,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.823,
 						y: 0.851,
 						name: "11",
-						tags: ["digital"],
+						tags: ["digital", "analog-out"],
 						overlay: [0.5, -0.5]
 					}, {
 						width: 32,
@@ -304,7 +295,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.333,
 						y: 0.149,
 						name: "A0",
-						tags: ["analog"],
+						tags: ["analog-in"],
 						uid: "7186a1cf-2fab-4c5a-8d1e-19836d4a561d",
 						overlay: [0.5, 1.5]
 					}, {
@@ -314,7 +305,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.431,
 						y: 0.149,
 						name: "A1",
-						tags: ["analog"],
+						tags: ["analog-in"],
 						overlay: [0.5, 1.5]
 					}, {
 						uid: "15ad5a73-f510-44bc-b4ac-5886a8211d38",
@@ -323,7 +314,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.529,
 						y: 0.149,
 						name: "A2",
-						tags: ["analog"],
+						tags: ["analog-in"],
 						overlay: [0.5, 1.5]
 					}, {
 						uid: "129d8693-115f-40c4-a6c1-4315bd020254",
@@ -332,7 +323,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.627,
 						y: 0.149,
 						name: "A3",
-						tags: ["analog"],
+						tags: ["analog-in"],
 						overlay: [0.5, 1.5]
 					}, {
 						uid: "d679b1cd-91d4-4aed-8f6f-6ad31d041518",
@@ -341,7 +332,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.725,
 						y: 0.149,
 						name: "A6",
-						tags: ["analog"],
+						tags: ["analog-in"],
 						overlay: [0.5, 1.5]
 					}, {
 						uid: "15c50e12-8705-4d47-803d-5c50b7512981",
@@ -350,7 +341,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						x: 0.823,
 						y: 0.149,
 						name: "A7",
-						tags: ["analog"],
+						tags: ["analog-in"],
 						overlay: [0.5, 1.5]
 					}, {
 						uid: "ed9cbaec-e3fb-4acb-87d9-c4825bb5594c",
@@ -407,7 +398,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "led",
 					category: "sensor",
 					boards: ["Arduino"],
-					src: "/assets/image/components/led.png",
 					width: 55,
 					height: 83,
 					pins: [{
@@ -426,7 +416,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "rgb",
 					category: "sensor",
 					boards: ["Arduino"],
-					src: "/assets/image/components/rgb.png",
 					width: 67,
 					height: 79,
 					pins: [{
@@ -453,7 +442,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "lcd",
 					category: "action",
 					boards: ["Arduino"],
-					src: "/assets/image/components/lcd.png",
 					width: 170,
 					height: 93,
 					pins: [{
@@ -479,7 +467,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "serial",
 					category: "function",
 					boards: ["Arduino"],
-					src: "/assets/image/components/serial.png",
 					width: 115,
 					height: 71,
 					pins: [{
@@ -498,7 +485,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "serial",
 					category: "function",
 					boards: ["Arduino"],
-					src: "/assets/image/components/bluetooth.png",
 					width: 100,
 					height: 100,
 					pins: [{
@@ -522,7 +508,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "serial",
 					category: "function",
 					boards: ["Arduino"],
-					src: "/assets/image/components/wifi.png",
 					width: 100,
 					height: 84,
 					pins: [{
@@ -546,7 +531,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "button",
 					category: "sensor",
 					boards: ["Arduino"],
-					src: "/assets/image/components/button.png",
 					width: 90,
 					height: 73,
 					pins: [{
@@ -565,7 +549,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "buzzer",
 					category: "action",
 					boards: ["Arduino"],
-					src: "/assets/image/components/buzzer.png",
 					width: 85,
 					height: 80,
 					pins: [{
@@ -584,7 +567,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "pot",
 					category: "sensor",
 					boards: ["Arduino"],
-					src: "/assets/image/components/pot.png",
 					width: 74,
 					height: 101,
 					pins: [{
@@ -603,7 +585,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "hts221",
 					category: "sensor",
 					boards: ["Arduino"],
-					src: "/assets/image/components/hts221.png",
 					width: 107,
 					height: 113,
 					pins: [{
@@ -623,7 +604,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "encoder",
 					category: "action",
 					boards: ["Arduino"],
-					src: "/assets/image/components/encoder.png",
 					width: 74,
 					height: 84,
 					pins: [{
@@ -651,7 +631,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "infraredSensor",
 					category: "sensor",
 					boards: ["Arduino"],
-					src: "/assets/image/components/infraredSensor.png",
 					width: 90,
 					height: 77,
 					pins: [{
@@ -670,7 +649,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "lightSensor",
 					category: "sensor",
 					boards: ["Arduino"],
-					src: "/assets/image/components/lightSensor.png",
 					width: 90,
 					height: 65,
 					pins: [{
@@ -689,7 +667,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "soundSensor",
 					category: "sensor",
 					boards: ["Arduino"],
-					src: "/assets/image/components/soundSensor.png",
 					width: 100,
 					height: 102,
 					pins: [{
@@ -708,7 +685,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "limitSwitch",
 					category: "sensor",
 					boards: ["Arduino"],
-					src: "/assets/image/components/limitSwitch.png",
 					width: 100,
 					height: 102,
 					pins: [{
@@ -727,7 +703,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "servo",
 					category: "action",
 					boards: ["Arduino"],
-					src: "/assets/image/components/servo.png",
 					width: 125,
 					height: 106,
 					pins: [{
@@ -747,7 +722,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "continuousServo",
 					category: "action",
 					boards: ["Arduino"],
-					src: "/assets/image/components/continuousServo.png",
 					width: 125,
 					height: 106,
 					pins: [{
@@ -767,7 +741,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "ultrasound",
 					category: "action",
 					boards: ["Arduino"],
-					src: "/assets/image/components/ultrasound.png",
 					width: 120,
 					height: 79,
 					pins: [{
@@ -790,7 +763,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					type: "rtc",
 					category: "function",
 					boards: ["Arduino"],
-					src: "/assets/image/components/rtc.png",
 					width: 128,
 					height: 93,
 					pins: [{
@@ -6957,17 +6929,17 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 			}
 		};
 
+		var prefix = "/assets/image/hardware/";
+		schema.hardware.boards.forEach(function(board) {
+			board.imageUrl = prefix + "board/" + board.name + ".png";
+		});
+
+		schema.hardware.components.forEach(function(component) {
+			component.imageUrl = prefix + "component/" + component.name + ".png";
+		});
+
 		var promise = $.Deferred();
-
-		setTimeout(function() {
-			promise.resolve({
-				data: data,
-				status: 0,
-				message: "",
-			});
-		}, 1000);
-
-		return promise;
+		return promise.resolve(schema);
 	}
 
 	function save(project) {

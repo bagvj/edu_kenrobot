@@ -119,8 +119,8 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 			schema.boards[board.name] = board;
 		});
 
-		_schema.components.forEach(function(componentData) {
-			schema.components[componentData.name] = componentData;
+		_schema.components.forEach(function(component) {
+			schema.components[component.name] = component;
 		});
 	}
 
@@ -214,6 +214,7 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 		}
 
 		boardDom.classList.add(boardData.name);
+		boardDom.style.backgroundImage = "url(" + boardData.imageUrl + ")";
 		boardData.pins.forEach(function(pin) {
 			var epBoard = jsPlumbInstance.addEndpoint(boardDom, {
 				anchor: [pin.x, pin.y, 0, -1, 0, 0],
@@ -286,7 +287,7 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 		componentDom.classList.add('component');
 		componentDom.style.left = x + '%';
 		componentDom.style.top = y + '%';
-		componentDom.src = componentConfig.src;
+		componentDom.src = componentConfig.imageUrl;
 		componentDom.style.width = componentConfig.width + 'px';
 		componentDom.style.height = componentConfig.height + 'px';
 		componentDom.draggable = false;

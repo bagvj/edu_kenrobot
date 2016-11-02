@@ -87,7 +87,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitabl
 			var li = componentTemplate.replace(/\{\{name\}\}/g, component.name)
 				.replace(/\{\{label\}\}/g, component.label)
 				.replace(/\{\{filter\}\}/, component.category)
-				.replace(/\{\{src\}\}/, component.src);
+				.replace(/\{\{src\}\}/, component.imageUrl);
 			componentList.append(li);
 		});
 		[].forEach.call(componentList[0].querySelectorAll("li .image"), function(imageDom) {
