@@ -53,6 +53,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 		}
 
 		emitor.trigger("sidebar", "activeTab", action);
+		
+		return false;
 	}
 
 	function onLogoClick(e) {

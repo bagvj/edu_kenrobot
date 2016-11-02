@@ -89,7 +89,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 
 	function onNameClick(e) {
 		if(!util.isMobile()) {
-			return;
+			return false;
 		}
 
 		if(region.hasClass("active")) {
@@ -103,6 +103,8 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 			});
 			region.dequeue("slide-in");
 		}
+
+		return false;
 	}
 
 	function onNewClick(e) {
@@ -125,7 +127,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 
 	function onShowBoardSelect(e) {
 		boardList.toggleClass("active");
-		e.stopPropagation();
+		return false;
 	}
 
 	function onBoardSelectClick(e) {
