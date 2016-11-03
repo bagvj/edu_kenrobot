@@ -4477,6 +4477,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "的模拟量"
 					}],
 					code: "'{PIN}'.indexOf('A') !== -1 ? 'analogRead({PIN})'.replace(/\"/g, '') : 'analogRead({PIN})'",
+					eval: true,
 					returnType: {
 						type: "simple",
 						value: "float"
@@ -4521,6 +4522,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "786457fd-727b-4a52-ac76-ac47a96c097a"
 					}],
 					code: "'{PIN}'.indexOf('A') !== -1 ? 'analogWrite({PIN},{DATA});'.replace(/\"/g, '') : 'analogWrite({PIN},{DATA});'",
+					eval: true,
 					tags: ["module", "advanced"],
 					module: "default"
 				}, {
@@ -5134,11 +5136,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}, {
 						type: "connector-input",
 						accept: "connector-output",
-						acceptType: {
-							type: "fromDynamicSelect",
-							id: "NAME",
-							options: "vars"
-						},
+						acceptType: "all",
 						name: "464bec0a-cfec-4ccf-a376-ba30ca1387ff"
 					}],
 					content: [{
@@ -5528,6 +5526,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "5b96efbe-61d9-4c74-a6cd-98164f7374e7"
 					}],
 					code: "'{OPERATOR}' === '^'? 'pow({ARG1},{ARG2})' : '({ARG1} {OPERATOR} {ARG2})'",
+					eval: true,
 					returnType: {
 						type: "simple",
 						value: "float"
@@ -6357,6 +6356,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "执行"
 					}],
 					code: "'for({VAR}={INIT};{VAR}' + ('{MODE}' === '+'?'<=':'>=' ) + '{FINAL};{VAR}{MODE}={ADD}){{STATEMENTS}}'",
+					eval: true,
 					tags: ["control"]
 				}, {
 					type: "statement-input",
@@ -6634,6 +6634,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "执行"
 					}],
 					code: "'for({VAR}={INIT};{VAR}' + ('{MODE}' === '+'?'<=':'>=' ) + '{FINAL};{VAR}{MODE}={ADD}){{STATEMENTS}}'",
+					eval: true,
 					tags: ["control", "advanced"]
 				}, {
 					type: "statement-input",

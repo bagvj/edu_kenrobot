@@ -955,6 +955,7 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 			}
 		}
 
+		block.data.eval && (code = eval(code));
 		var children = [];
 		if (block.connectors[2]) {
 			value = '';
