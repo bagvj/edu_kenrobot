@@ -46,8 +46,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectM
 
 	function onConfirmClick() {
 		var data = {
+			imageHash: imageHash || "default",
 			id: projectInfo ? projectInfo.id : 0,
-			imageHash: imageHash,
 			project_name: $('.name', dialogWin).val(),
 			project_intro: $('.intro', dialogWin).val(),
 			public_type: $('.public:checked', dialogWin).val(),

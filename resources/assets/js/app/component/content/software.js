@@ -142,6 +142,18 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 			});
 		});
 
+		if(hardwareData.components.length > 0) {
+			group = hardwareData.components.map(function(componentData) {
+				return {
+					id: componentData.uid,
+					name: componentData.varName,
+				};
+			});
+			var module = "hardwareVariable";
+			modules.push(module);
+			groups[module + "s"] = group;
+		}
+
 		softwareModel.updateDynamicBlocks(groups);
 		
 		var li = filterList.find("li.active");

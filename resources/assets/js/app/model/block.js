@@ -1249,12 +1249,16 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 					}
 				});
 				var connector;
-				elementData && ioConnectors.forEach(function(c) {
-					if (c.blockUid == block.uid && c.data.name == elementData.name) {
-						conector = c;
-						return true;
+				if(elementData) {
+					var c;
+					for(var key in ioConnectors) {
+						c = ioConnectors[key];
+						if (c.blockUid == block.uid && c.data.name == elementData.name) {
+							conector = c;
+							return true;
+						}
 					}
-				});
+				}
 
 				result = (connector && connector.connectedTo) ? getTypeFromBlock(getBlockByConnector(connector.connectedTo, true)) : '';
 				break;
@@ -1302,22 +1306,34 @@ define(['app/util/compitableEvents', 'app/util/emitor'], function(compitableEven
 		return result;
 	}
 
-	function getTypeFromDynamicSelect(block, typeObject, softwareArrays) {
-		// var attributeValue = block.$block.find('select[data-content-id="' + typeObject.idDropdown + '"][data-dropdowncontent="' + typeObject.options + '"]').attr('data-value');
-		// var selectedValue = block.$block.find('select[data-content-id="' + typeObject.idDropdown + '"][data-dropdowncontent="' + typeObject.options + '"]').val();
-		// var selectedVarNameOnDropdown = attributeValue || selectedValue;
+	function getTypeFromDynamicSelect(block, acceptType) {
+		var tempDom = block.dom.querySelector('select[data-content-id="' + acceptType.id + '"][data-options="' + acceptType.options + '"]');
+		if(!tempDom) {
+			return "";
+		}
 
-		// var varData = _.find(softwareArrays[typeObject.options], {
-		// 	name: selectedVarNameOnDropdown
-		// });
-		// if (varData) {
-		// 	if (typeObject.pointer) {
-		// 		varData.type = varData.type.replace(' *', '');
-		// 	}
-		// 	return varData.type;
-		// }
+		var varName = tempDom.dataset.value || tempDom.value;
+		var vars = blockVars[acceptType.options];
+		if(!vars) {
+			return "";
+		}
+
+		var varData;
+		vars.forEach(function(_varData) {
+			if(_varData.name == varName) {
+				varData = _varData;
+				return true;
+			}
+		});
+
+		if (varData) {
+			if (acceptType.pointer) {
+				varData.type = varData.type.replace(' *', '');
+			}
+			return varData.type;
+		}
+
 		return '';
-
 	}
 
 	function getFromDynamicSelectType(block, id, options) {

@@ -806,7 +806,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					content: [{
 						type: "text",
-						value: "返回"
+						value: "读取"
 					}, {
 						id: "SENSOR",
 						type: "dynamic-select",
@@ -820,6 +820,29 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					},
 					tags: ["module"],
 					module: "sensor"
+				}, {
+					type: "output",
+					name: "hardwareVariable",
+					connectors: [{
+						type: "connector-output",
+						accept: "connector-input"
+					}],
+					content: [{
+						type: "text",
+						value: "返回"
+					}, {
+						id: "VARIABLE",
+						type: "dynamic-select",
+						options: "hardwareVariables"
+					}],
+					code: "{VARIABLE}",
+					returnType: {
+						type: "fromDynamicSelect",
+						id: "VARIABLE",
+						options: "hardwareVariables"
+					},
+					tags: ["module"],
+					module: "hardwareVariable"
 				}, {
 					type: "output",
 					name: "hts221Temperature",
@@ -4733,7 +4756,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					createDynamicContent: "returnFunctions",
 					returnType: {
-						type: "from-input",
+						type: "fromInput",
 						blockInputId: "RETURN"
 					},
 					code: "{RETURN.connectionType} {FUNCNAME}() {{STATEMENTS}return {RETURN};}",
@@ -4800,7 +4823,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "void"
 					},
 					arguments: {
-						type: "from-input",
+						type: "fromInput",
 						blockInputId: "ARGS"
 					},
 					code: "void {FUNCNAME} ({ARGS}){{STATEMENTS}}",
@@ -4889,11 +4912,11 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					createDynamicContent: "returnFunctions",
 					returnType: {
-						type: "from-input",
+						type: "fromInput",
 						blockInputId: "RETURN"
 					},
 					arguments: {
-						type: "from-input",
+						type: "fromInput",
 						blockInputId: "ARGS"
 					},
 					code: "{RETURN.connectionType} {FUNCNAME} ({ARGS}) {{STATEMENTS}return {RETURN};}",
@@ -5071,7 +5094,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "30694572-fbd8-41c3-b005-58b61c5d5de0"
 					}],
 					returnType: {
-						type: "from-input",
+						type: "fromInput",
 						blockInputId: "VALUE"
 					},
 					createDynamicContent: "vars",

@@ -33,7 +33,7 @@
 				</ul>
 				<ul class="bottom">
 					<li data-action="share"><i class="icon kenrobot ken-edu-share"></i><span class="name">分享</span></li>
-					<li data-action="help"><i class="icon kenrobot ken-edu-help"></i><a class="name" href="http://www.kenrobot.com/index.php?app=square&mod=Index&act=help" target="_blank">帮助</a></li>
+					<li data-action="help" data-href="http://www.kenrobot.com/index.php?app=square&mod=Index&act=help"><i class="icon kenrobot ken-edu-help"></i><span class="name">帮助</span></li>
 				</ul>
 			</div>
 			<div class="content-region">

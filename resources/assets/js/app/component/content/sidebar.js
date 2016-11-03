@@ -74,9 +74,11 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 				emitor.trigger("share", "show");
 				break;
 			case "help": 
-				emitor.trigger("help", "show");
+				window.open(li.data("href"));
 				break;
 		}
+
+		return false;
 	}
 
 	function onTabToggle() {
