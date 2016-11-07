@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/softwareModel'], function($1, util, emitor, softwareModel) {
+define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/util', 'app/util/emitor', 'app/model/softwareModel'], function($1, $2, util, emitor, softwareModel) {
 	var region;
 	var container;
 	var dragContainer;
@@ -13,6 +13,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		var sidebarTab = $('.sidebar-tabs .tab-software');
 		filterList = $('.filters', sidebarTab);
 		blockList = $('.blocks', sidebarTab);
+		blockList.parent().perfectScrollbar();
+
 		filterWrap = $('.filter', sidebarTab);
 		$('.advanced', filterWrap).on("click", onAdvancedClick).data("basic");
 
@@ -20,6 +22,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 
 		region = $('.content-tabs .tab-software');
 		container = $(".software-container", region);
+		container.perfectScrollbar();
+
 		$('.block-group-region .group-header > span', region).on('click', onGroupHeaderClick);
 		dragContainer = $('.block-drag-layer');
 
@@ -265,6 +269,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 
 			blockLi.addClass("active");
 		});
+
+		blockList.parent().perfectScrollbar("update");
 	}
 
 	function onAdvancedClick(e) {
@@ -305,6 +311,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 
 			blockLi.addClass("active");
 		});
+
+		blockList.parent().perfectScrollbar("update");
 	}
 
 	function onGroupHeaderClick(e) {
@@ -314,6 +322,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/software
 		var blockDom = $(".group-extension > .block");
 		var block = softwareModel.getBlock(blockDom.data("uid"));
 		block.setConnectable(group.hasClass("active"));
+
+		container.perfectScrollbar();
 	}
 
 	return {

@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitableEvents', 'app/model/hardwareModel'], function($1, util, emitor, compitableEvents, hardwareModel) {
+define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/util', 'app/util/emitor', 'app/util/compitableEvents', 'app/model/hardwareModel'], function($1, $2, util, emitor, compitableEvents, hardwareModel) {
 	var region;
 	var filterList;
 	var componentList;
@@ -26,6 +26,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitabl
 		search = $('.search', sidebarTab);
 		filterList = $('.filters', sidebarTab);
 		componentList = $('.components', sidebarTab);
+		componentList.parent().perfectScrollbar();
 
 		search.on('keyup', onSearchKeyup).on('change', onSearchChange).on('blur', onSearchBlur);
 		$('> li', filterList).on('click', onFilterClick);
@@ -314,6 +315,8 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitabl
 		var filter = li.data('filter');
 		var list = filter == "all" ? componentList.find("> li") : componentList.find('> li[data-filter="' + filter + '"]');
 		list.addClass("active");
+
+		componentList.parent().perfectScrollbar("update");
 	}
 
 	function doComponentSearch() {
@@ -328,12 +331,16 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitabl
 			var li = $(item);
 			return li.data('label').toLowerCase().indexOf(key) >= 0 || li.data('name').toLowerCase().indexOf(key) >= 0;
 		}).addClass("active");
+
+		componentList.parent().perfectScrollbar("update");
 	}
 
 	function doComponentFilter() {
 		var filter = filterList.find("> li.active").data("filter");
 		var list = filter == "all" ? componentList.find("> li") : componentList.find('> li[data-filter="' + filter + '"]');
 		list.addClass("active");
+
+		componentList.parent().perfectScrollbar("update");
 	}
 
 	function onSearchKeyup(e) {

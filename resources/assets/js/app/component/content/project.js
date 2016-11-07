@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userModel'], function($1, emitor, util, userModel) {
+define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/emitor', 'app/util/util', 'app/model/userModel'], function($1, $2, emitor, util, userModel) {
 	var region;
 	var projectList;
 	var boardList;
@@ -17,6 +17,8 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		$('.name', region).on('click', onNameClick);
 
 		projectList = $('.sidebar-tabs .tab-project .list');
+		projectList.parent().perfectScrollbar();
+
 		boardList = $('.boards', region).on('click', '.placeholder', onShowBoardSelect).on('click', 'ul > li', onBoardSelectClick);
 
 		emitor.on('project', 'update', onProjectUpdate);
