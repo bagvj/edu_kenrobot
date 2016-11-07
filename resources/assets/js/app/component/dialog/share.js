@@ -37,6 +37,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/config/config'
 			case "weibo":
 				var shareConfig = config.share.weibo;
 				var url = shareConfig.url + "?appKey=" + shareConfig.appKey + "&title=" + projectInfo.project_name + " " + projectInfo.project_intro + " http://" + host + "/%23/project/" + projectInfo.hash;
+				url += '，来自%23啃萝卜%23教育版';
 				if(projectInfo.imageHash) {
 					url += "&pic=http://" + host + "/project/image/" + projectInfo.imageHash;
 				}
