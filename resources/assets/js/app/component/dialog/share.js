@@ -35,13 +35,12 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/config/config'
 		var action = $(this).data('action');
 		switch(action) {
 			case "weibo":
-				// var shareConfig = config.share.weibo;
-				// var url = shareConfig.url + "?appKey=" + shareConfig.appKey + "&title=" + projectInfo.project_name + " " + projectInfo.project_intro + " http://" + host + "/%23/project/" + projectInfo.hash;
-				// if(projectInfo.imageHash) {
-				// 	url += "&pic=http://" + host + "/project/image/" + projectInfo.imageHash;
-				// }
-				// window.open(encodeURI(url));
-				util.message("敬请期待");
+				var shareConfig = config.share.weibo;
+				var url = shareConfig.url + "?appKey=" + shareConfig.appKey + "&title=" + projectInfo.project_name + " " + projectInfo.project_intro + " http://" + host + "/%23/project/" + projectInfo.hash;
+				if(projectInfo.imageHash) {
+					url += "&pic=http://" + host + "/project/image/" + projectInfo.imageHash;
+				}
+				window.open(encodeURI(url));
 				break;
 			case "qzone":
 				util.message("敬请期待");

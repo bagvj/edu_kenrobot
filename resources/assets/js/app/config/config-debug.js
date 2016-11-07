@@ -9,7 +9,7 @@ define(function() {
 
 		share: {
 			weibo: {
-				appKey: "3063806388",
+				appKey: "1443867127",
 				url: "http://service.weibo.com/share/share.php"
 			},
 		},
