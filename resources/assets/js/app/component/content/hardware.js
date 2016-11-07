@@ -368,6 +368,11 @@ define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/util', 'app/util/
 
 	function showComponentDialog(uid) {
 		var componentData = hardwareModel.getComponentData(uid);
+		if(componentData.type == "serial") {
+			hideComponentDialog();
+			return;
+		}
+
 		componentDialog.addClass("active").data("uid", uid).find(".name").val(componentData.varName);
 	}
 

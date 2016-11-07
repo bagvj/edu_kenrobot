@@ -392,137 +392,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}]
 				}],
 				components: [{
-					uid: "aa1a2f4c-2934-414a-823f-9961fbf23c55",
-					name: "led",
-					label: "LED",
-					type: "led",
-					category: "action",
-					boards: ["Arduino"],
-					width: 72,
-					height: 72,
-					pins: [{
-						name: "s",
-						anchor: [0.5, 1],
-						tags: ["digital"]
-					}],
-					code: {
-						var: 'int {NAME} = {s};',
-						setup: 'pinMode({NAME}, OUTPUT);'
-					}
-				}, {
-					uid: "a8466d12-ed5e-4cc8-bffe-1031c3bb10e1",
-					name: "rgb",
-					label: "三色LED",
-					type: "rgb",
-					category: "action",
-					boards: ["Arduino"],
-					width: 72,
-					height: 72,
-					pins: [{
-						name: "r",
-						anchor: [0.25, 1],
-						tags: ["analog-out"]
-					}, {
-						name: "g",
-						anchor: [0.5, 1],
-						tags: ["analog-out"]
-					}, {
-						name: "b",
-						anchor: [0.75, 1],
-						tags: ["analog-out"]
-					}],
-					code: {
-						include: '#include <RGBLed.h>',
-						var: 'RGBLed {NAME}({r}, {g}, {b});',
-					}
-				}, {
-					uid: "abf7ad9a-2bd9-40f4-bf83-0af03e8f4d5a",
-					name: "lcd",
-					label: "液晶模块",
-					type: "lcd",
-					category: "action",
-					boards: ["Arduino"],
-					width: 72,
-					height: 72,
-					pins: [{
-						name: "sda",
-						anchor: [0.33, 0],
-						tags: ["analog-in"],
-						spec: "A4"
-					}, {
-						name: "scl",
-						anchor: [0.67, 0],
-						tags: ["analog-in"],
-						spec: "A5"
-					}],
-					code: {
-						include: '#include <LiquidCrystal_I2C.h>',
-						var: 'LiquidCrystal_I2C {NAME}(0x27, 16, 2);',
-						setup: '{NAME}.begin();{NAME}.clear();'
-					}
-				}, {
-					uid: "4b8594a2-b7ff-44fe-a8b0-319640722b30",
-					name: "serial",
-					label: "串口模块",
-					type: "serial",
-					category: "function",
-					boards: ["Arduino"],
-					width: 72,
-					height: 72,
-					pins: [{
-						name: "s",
-						anchor: [1, 0.5],
-						tags: ["serial"],
-						spec: "Serial"
-					}],
-					code: {
-						setup: 'Serial.begin(9600);'
-					}
-				}, {
-					uid: "d4a3cc37-804e-4a07-b567-aa5ca519bc61",
-					name: "bluetooth",
-					label: "蓝牙模块",
-					type: "serial",
-					category: "function",
-					boards: ["Arduino"],
-					width: 72,
-					height: 72,
-					pins: [{
-						name: "rxd",
-						anchor: [0.33, 1],
-						tags: ["digital", "analog-in"],
-						// spec: "0"
-					}, {
-						name: "txd",
-						anchor: [0.67, 1],
-						tags: ["digital", "analog-in"],
-						// spec: "1"
-					}],
-					code: {
-						setup: 'Serial.begin(9600);'
-					}
-				}, {
-					uid: "c0dc58aa-2032-4c54-9fc8-3235b7e46bc1",
-					name: "wifi",
-					label: "wifi模块",
-					type: "serial",
-					category: "function",
-					boards: ["Arduino"],
-					width: 72,
-					height: 72,
-					pins: [{
-						name: "rxd",
-						anchor: [0.33, 1],
-						tags: ["digital", "analog-in"],
-					}, {
-						name: "txd",
-						anchor: [0.67, 1],
-						tags: ["digital", "analog-in"],
-					}],
-					code: {
-						setup: 'Serial.begin(9600);'
-					}
-				}, {
 					uid: "bd3ddead-5062-4ab3-9b3d-2ba85e938d0e",
 					name: "button",
 					label: "按键",
@@ -539,25 +408,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					code: {
 						var: 'int {NAME} = {s};',
 						setup: 'pinMode({NAME}, INPUT);'
-					}
-				}, {
-					uid: "9b26a7f3-facc-4f80-83ad-8a29f909c1d7",
-					name: "buzzer",
-					label: "蜂鸣器",
-					type: "buzzer",
-					category: "action",
-					boards: ["Arduino"],
-					width: 72,
-					height: 72,
-					pins: [{
-						name: "s",
-						anchor: [0.5, 1],
-						tags: ["digital"],
-					}],
-					code: {
-						var: 'int {NAME} = {s};',
-						setup: 'pinMode({NAME}, OUTPUT);'
-					}
+					},
+					raw: true
 				}, {
 					uid: "18d12ce2-d24f-4bb6-ba1f-7ab3c50215df",
 					name: "pot",
@@ -575,7 +427,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					code: {
 						var: 'int {NAME} = {s};',
 						setup: 'pinMode({NAME}, INPUT);'
-					}
+					},
+					raw: true
 				}, {
 					uid: "957b4564-ba2d-436b-9386-6c80a910fc59",
 					name: "hts221",
@@ -641,7 +494,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					code: {
 						var: 'int {NAME} = {s};',
 						setup: 'pinMode({NAME}, INPUT);'
-					}
+					},
+					raw: true
 				}, {
 					uid: "2d6073e7-ecee-4699-8ccb-f1bb52c4655a",
 					name: "lightSensor",
@@ -659,7 +513,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					code: {
 						var: 'int {NAME} = {s};',
 						setup: 'pinMode({NAME}, INPUT);'
-					}
+					},
+					raw: true
 				}, {
 					uid: "57307666-b6a0-4e64-b447-90732b71c4d7",
 					name: "soundSensor",
@@ -677,7 +532,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					code: {
 						var: 'int {NAME} = {s};',
 						setup: 'pinMode({NAME}, INPUT);'
-					}
+					},
+					raw: true
 				}, {
 					uid: "49c65abb-dda7-49ae-ad7e-e9aebf512869",
 					name: "limitSwitch",
@@ -695,6 +551,117 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					code: {
 						var: 'int {NAME} = {s};',
 						setup: 'pinMode({NAME}, INPUT);'
+					},
+					raw: true
+				}, {
+					uid: "f4ef6a5f-b646-47ab-b7f3-f0dcdc6651dd",
+					name: "ultrasound",
+					label: "超声波",
+					type: "ultrasound",
+					category: "sensor",
+					boards: ["Arduino"],
+					width: 72,
+					height: 72,
+					pins: [{
+						name: "tri",
+						anchor: [0.333, 1],
+						tags: ["digital"],
+					}, {
+						name: "ech",
+						anchor: [0.667, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						include: "#include <SR04.h>",
+						var: 'SR04 {NAME}({ech}, {tri});',
+					}
+				},  {
+					uid: "aa1a2f4c-2934-414a-823f-9961fbf23c55",
+					name: "led",
+					label: "LED",
+					type: "led",
+					category: "action",
+					boards: ["Arduino"],
+					width: 72,
+					height: 72,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 1],
+						tags: ["digital"]
+					}],
+					code: {
+						var: 'int {NAME} = {s};',
+						setup: 'pinMode({NAME}, OUTPUT);'
+					},
+					raw: true
+				}, {
+					uid: "a8466d12-ed5e-4cc8-bffe-1031c3bb10e1",
+					name: "rgb",
+					label: "三色LED",
+					type: "rgb",
+					category: "action",
+					boards: ["Arduino"],
+					width: 72,
+					height: 72,
+					pins: [{
+						name: "r",
+						anchor: [0.25, 1],
+						tags: ["analog-out"]
+					}, {
+						name: "g",
+						anchor: [0.5, 1],
+						tags: ["analog-out"]
+					}, {
+						name: "b",
+						anchor: [0.75, 1],
+						tags: ["analog-out"]
+					}],
+					code: {
+						include: '#include <RGBLed.h>',
+						var: 'RGBLed {NAME}({r}, {g}, {b});',
+					}
+				}, {
+					uid: "abf7ad9a-2bd9-40f4-bf83-0af03e8f4d5a",
+					name: "lcd",
+					label: "液晶模块",
+					type: "lcd",
+					category: "action",
+					boards: ["Arduino"],
+					width: 72,
+					height: 72,
+					pins: [{
+						name: "sda",
+						anchor: [0.33, 0],
+						tags: ["analog-in"],
+						spec: "A4"
+					}, {
+						name: "scl",
+						anchor: [0.67, 0],
+						tags: ["analog-in"],
+						spec: "A5"
+					}],
+					code: {
+						include: '#include <LiquidCrystal_I2C.h>',
+						var: 'LiquidCrystal_I2C {NAME}(0x27, 16, 2);',
+						setup: '{NAME}.begin();{NAME}.clear();'
+					}
+				}, {
+					uid: "9b26a7f3-facc-4f80-83ad-8a29f909c1d7",
+					name: "buzzer",
+					label: "蜂鸣器",
+					type: "buzzer",
+					category: "action",
+					boards: ["Arduino"],
+					width: 72,
+					height: 72,
+					pins: [{
+						name: "s",
+						anchor: [0.5, 1],
+						tags: ["digital"],
+					}],
+					code: {
+						var: 'int {NAME} = {s};',
+						setup: 'pinMode({NAME}, OUTPUT);'
 					}
 				}, {
 					uid: "a44f6a20-c35a-46dc-b495-9bcb0618c7ec",
@@ -734,27 +701,67 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						var: 'Servo {NAME};',
 						setup: '{NAME}.attach({s});'
 					}
-				}, {
-					uid: "f4ef6a5f-b646-47ab-b7f3-f0dcdc6651dd",
-					name: "ultrasound",
-					label: "超声波",
-					type: "ultrasound",
-					category: "sensor",
+				},{
+					uid: "4b8594a2-b7ff-44fe-a8b0-319640722b30",
+					name: "serial",
+					label: "串口模块",
+					type: "serial",
+					category: "function",
 					boards: ["Arduino"],
 					width: 72,
 					height: 72,
 					pins: [{
-						name: "tri",
-						anchor: [0.333, 1],
-						tags: ["digital"],
-					}, {
-						name: "ech",
-						anchor: [0.667, 1],
-						tags: ["digital"],
+						name: "s",
+						anchor: [1, 0.5],
+						tags: ["serial"],
+						spec: "Serial"
 					}],
 					code: {
-						include: "#include <SR04.h>",
-						var: 'SR04 {NAME}({ech}, {tri});',
+						setup: 'Serial.begin(9600);'
+					}
+				}, {
+					uid: "d4a3cc37-804e-4a07-b567-aa5ca519bc61",
+					name: "bluetooth",
+					label: "蓝牙模块",
+					type: "serial",
+					category: "function",
+					boards: ["Arduino"],
+					width: 72,
+					height: 72,
+					pins: [{
+						name: "rxd",
+						anchor: [0.33, 1],
+						tags: ["digital", "analog-in"],
+						// spec: "0"
+					}, {
+						name: "txd",
+						anchor: [0.67, 1],
+						tags: ["digital", "analog-in"],
+						// spec: "1"
+					}],
+					code: {
+						setup: 'Serial.begin(9600);'
+					}
+				}, {
+					uid: "c0dc58aa-2032-4c54-9fc8-3235b7e46bc1",
+					name: "wifi",
+					label: "wifi模块",
+					type: "serial",
+					category: "function",
+					boards: ["Arduino"],
+					width: 72,
+					height: 72,
+					pins: [{
+						name: "rxd",
+						anchor: [0.33, 1],
+						tags: ["digital", "analog-in"],
+					}, {
+						name: "txd",
+						anchor: [0.67, 1],
+						tags: ["digital", "analog-in"],
+					}],
+					code: {
+						setup: 'Serial.begin(9600);'
 					}
 				}, {
 					uid: "563eeca3-ddf2-454d-8bed-7918652da3a6",
@@ -843,6 +850,266 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					},
 					tags: ["module"],
 					module: "hardwareVariable"
+				},  {
+					type: "output",
+					name: "digitalRead",
+					connectors: [{
+						type: "connector-output",
+						accept: "connector-input"
+					}],
+					content: [{
+						type: "text",
+						value: "读取引脚"
+					}, {
+						id: "PIN",
+						type: "dynamic-select",
+						options: "raws"
+					}, {
+						type: "text",
+						value: "的数字量"
+					}],
+					code: "digitalRead({PIN})",
+					returnType: {
+						type: "simple",
+						value: "float"
+					},
+					tags: ["module"],
+					module: "default"
+				}, {
+					type: "output",
+					name: "analogRead",
+					connectors: [{
+						type: "connector-output",
+						accept: "connector-input"
+					}],
+					content: [{
+						type: "text",
+						value: "读取引脚"
+					}, {
+						id: "PIN",
+						type: "dynamic-select",
+						options: "raws"
+					}, {
+						type: "text",
+						value: "的模拟量"
+					}],
+					code: "analogRead({PIN})",
+					returnType: {
+						type: "simple",
+						value: "float"
+					},
+					tags: ["module"],
+					module: "default"
+				}, {
+					type: "statement",
+					name: "digitalWrite",
+					connectors: [{
+						type: "connector-top",
+						accept: "connector-bottom"
+					}, {
+						type: "connector-bottom",
+						accept: "connector-top"
+					}, {
+						type: "connector-input",
+						accept: "connector-output",
+						acceptType: "all",
+						name: "bcb4ebe2-e84b-4883-bbb3-116c8c725595"
+					}],
+					content: [{
+						type: "text",
+						value: "设置引脚"
+					}, {
+						id: "PIN",
+						type: "dynamic-select",
+						options: "raws"
+					}, {
+						type: "text",
+						value: "数字量为"
+					}, {
+						blockInputId: "DATA",
+						type: "block-input",
+						acceptType: "all",
+						name: "bcb4ebe2-e84b-4883-bbb3-116c8c725595"
+					}],
+					code: "digitalWrite({PIN},{DATA});",
+					tags: ["module"],
+					module: "default"
+				}, {
+					type: "statement",
+					name: "analogWrite",
+					connectors: [{
+						type: "connector-top",
+						accept: "connector-bottom"
+					}, {
+						type: "connector-bottom",
+						accept: "connector-top"
+					}, {
+						type: "connector-input",
+						accept: "connector-output",
+						acceptType: "all",
+						name: "6200a20f-1030-4396-be04-d7f277fb8b41"
+					}],
+					content: [{
+						type: "text",
+						value: "设置引脚"
+					}, {
+						id: "PIN",
+						type: "dynamic-select",
+						options: "raws"
+					}, {
+						type: "text",
+						value: "模拟量为"
+					}, {
+						blockInputId: "DATA",
+						type: "block-input",
+						acceptType: "all",
+						name: "6200a20f-1030-4396-be04-d7f277fb8b41"
+					}],
+					code: "analogWrite({PIN},{DATA});",
+					tags: ["module"],
+					module: "default"
+				}, {
+					type: "output",
+					name: "digitalReadAdvanced",
+					connectors: [{
+						type: "connector-output",
+						accept: "connector-input"
+					}, {
+						type: "connector-input",
+						accept: "connector-output",
+						acceptType: "all",
+						name: "c585be5f-5bdf-476d-b3c1-ebb0f8886cb8"
+					}],
+					content: [{
+						type: "text",
+						value: "读取引脚"
+					}, {
+						blockInputId: "PIN",
+						type: "block-input",
+						acceptType: "all",
+						name: "c585be5f-5bdf-476d-b3c1-ebb0f8886cb8"
+					}, {
+						type: "text",
+						value: "的数字量"
+					}],
+					code: "digitalRead({PIN})",
+					returnType: {
+						type: "simple",
+						value: "float"
+					},
+					tags: ["module", "advanced"],
+					module: "default"
+				}, {
+					type: "output",
+					name: "analogReadAdvanced",
+					connectors: [{
+						type: "connector-output",
+						accept: "connector-input"
+					}, {
+						type: "connector-input",
+						accept: "connector-output",
+						acceptType: "all",
+						name: "8b0e7306-5424-4483-bb25-991cc88ee22c"
+					}],
+					content: [{
+						type: "text",
+						value: "读取引脚"
+					}, {
+						blockInputId: "PIN",
+						type: "block-input",
+						acceptType: "all",
+						name: "8b0e7306-5424-4483-bb25-991cc88ee22c"
+					}, {
+						type: "text",
+						value: "的模拟量"
+					}],
+					code: "analogRead({PIN})",
+					returnType: {
+						type: "simple",
+						value: "float"
+					},
+					tags: ["module", "advanced"],
+					module: "default"
+				}, {
+					type: "statement",
+					name: "analogWriteAdvanced",
+					connectors: [{
+						type: "connector-top",
+						accept: "connector-bottom"
+					}, {
+						type: "connector-bottom",
+						accept: "connector-top"
+					}, {
+						type: "connector-input",
+						accept: "connector-output",
+						acceptType: "all",
+						name: "5dbec0d7-2c71-4943-bdda-091ec3248cd7"
+					}, {
+						type: "connector-input",
+						accept: "connector-output",
+						acceptType: "all",
+						name: "786457fd-727b-4a52-ac76-ac47a96c097a"
+					}],
+					content: [{
+						type: "text",
+						value: "设置引脚"
+					}, {
+						blockInputId: "PIN",
+						type: "block-input",
+						acceptType: "all",
+						name: "5dbec0d7-2c71-4943-bdda-091ec3248cd7"
+					}, {
+						type: "text",
+						value: "模拟量为"
+					}, {
+						blockInputId: "DATA",
+						type: "block-input",
+						acceptType: "all",
+						name: "786457fd-727b-4a52-ac76-ac47a96c097a"
+					}],
+					code: "analogWrite({PIN},{DATA});",
+					tags: ["module", "advanced"],
+					module: "default"
+				}, {
+					type: "statement",
+					name: "digitalWriteAdvanced",
+					connectors: [{
+						type: "connector-top",
+						accept: "connector-bottom"
+					}, {
+						type: "connector-bottom",
+						accept: "connector-top"
+					}, {
+						type: "connector-input",
+						accept: "connector-output",
+						acceptType: "all",
+						name: "06703099-aea8-4ef9-a648-a32f89051e5c"
+					}, {
+						type: "connector-input",
+						accept: "connector-output",
+						acceptType: "all",
+						name: "c68c77de-ef1c-4f54-88a3-a8566d882b7b"
+					}],
+					content: [{
+						type: "text",
+						value: "设置引脚"
+					}, {
+						blockInputId: "PIN",
+						type: "block-input",
+						acceptType: "all",
+						name: "06703099-aea8-4ef9-a648-a32f89051e5c"
+					}, {
+						type: "text",
+						value: "数字量为"
+					}, {
+						blockInputId: "DATA",
+						type: "block-input",
+						acceptType: "all",
+						name: "c68c77de-ef1c-4f54-88a3-a8566d882b7b"
+					}],
+					code: "digitalWrite({PIN},{DATA});",
+					tags: ["module", "advanced"],
+					module: "default"
 				}, {
 					type: "output",
 					name: "hts221Temperature",
@@ -4421,150 +4688,6 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					}],
 					code: "{OSCILLATOR}.stop()",
 					tags: ["module", "advanced"]
-				}, {
-					type: "output",
-					name: "digitalReadAdvanced",
-					connectors: [{
-						type: "connector-output",
-						accept: "connector-input"
-					}, {
-						type: "connector-input",
-						accept: "connector-output",
-						acceptType: "all",
-						name: "c585be5f-5bdf-476d-b3c1-ebb0f8886cb8"
-					}],
-					content: [{
-						type: "text",
-						value: "读取引脚"
-					}, {
-						blockInputId: "PIN",
-						type: "block-input",
-						acceptType: "all",
-						name: "c585be5f-5bdf-476d-b3c1-ebb0f8886cb8"
-					}, {
-						type: "text",
-						value: "的数字量"
-					}],
-					code: "digitalRead({PIN})",
-					returnType: {
-						type: "simple",
-						value: "float"
-					},
-					tags: ["module", "advanced"],
-					module: "default"
-				}, {
-					type: "output",
-					name: "analogReadAdvanced",
-					connectors: [{
-						type: "connector-output",
-						accept: "connector-input"
-					}, {
-						type: "connector-input",
-						accept: "connector-output",
-						acceptType: "all",
-						name: "8b0e7306-5424-4483-bb25-991cc88ee22c"
-					}],
-					content: [{
-						type: "text",
-						value: "读取引脚"
-					}, {
-						blockInputId: "PIN",
-						type: "block-input",
-						acceptType: "all",
-						name: "8b0e7306-5424-4483-bb25-991cc88ee22c"
-					}, {
-						type: "text",
-						value: "的模拟量"
-					}],
-					code: "'{PIN}'.indexOf('A') !== -1 ? 'analogRead({PIN})'.replace(/\"/g, '') : 'analogRead({PIN})'",
-					eval: true,
-					returnType: {
-						type: "simple",
-						value: "float"
-					},
-					tags: ["module", "advanced"],
-					module: "default"
-				}, {
-					type: "statement",
-					name: "analogWrite",
-					connectors: [{
-						type: "connector-top",
-						accept: "connector-bottom"
-					}, {
-						type: "connector-bottom",
-						accept: "connector-top"
-					}, {
-						type: "connector-input",
-						accept: "connector-output",
-						acceptType: "all",
-						name: "5dbec0d7-2c71-4943-bdda-091ec3248cd7"
-					}, {
-						type: "connector-input",
-						accept: "connector-output",
-						acceptType: "all",
-						name: "786457fd-727b-4a52-ac76-ac47a96c097a"
-					}],
-					content: [{
-						type: "text",
-						value: "设置引脚"
-					}, {
-						blockInputId: "PIN",
-						type: "block-input",
-						acceptType: "all",
-						name: "5dbec0d7-2c71-4943-bdda-091ec3248cd7"
-					}, {
-						type: "text",
-						value: "模拟量为"
-					}, {
-						blockInputId: "DATA",
-						type: "block-input",
-						acceptType: "all",
-						name: "786457fd-727b-4a52-ac76-ac47a96c097a"
-					}],
-					code: "'{PIN}'.indexOf('A') !== -1 ? 'analogWrite({PIN},{DATA});'.replace(/\"/g, '') : 'analogWrite({PIN},{DATA});'",
-					eval: true,
-					tags: ["module", "advanced"],
-					module: "default"
-				}, {
-					type: "statement",
-					name: "digitalWrite",
-					connectors: [{
-						type: "connector-top",
-						accept: "connector-bottom"
-					}, {
-						type: "connector-bottom",
-						accept: "connector-top"
-					}, {
-						type: "connector-input",
-						accept: "connector-output",
-						acceptType: "all",
-						name: "06703099-aea8-4ef9-a648-a32f89051e5c"
-					}, {
-						type: "connector-input",
-						accept: "connector-output",
-						acceptType: "all",
-						name: "c68c77de-ef1c-4f54-88a3-a8566d882b7b"
-					}],
-					content: [{
-						type: "text",
-						value: "设置引脚"
-					}, {
-						blockInputId: "PIN",
-						type: "block-input",
-						acceptType: "all",
-						name: "06703099-aea8-4ef9-a648-a32f89051e5c"
-					}, {
-						type: "text",
-						value: "数字量为"
-					}, {
-						blockInputId: "DATA",
-						type: "block-input",
-						acceptType: "all",
-						name: "c68c77de-ef1c-4f54-88a3-a8566d882b7b"
-					}],
-					code: "digitalWrite({PIN},{DATA});",
-					tags: ["module", "advanced"],
-					module: "default"
 				}, {
 					type: "statement",
 					name: "servoNormalAdvanced",

@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/util', 'app/util/emitor', 'app/model/softwareModel'], function($1, $2, util, emitor, softwareModel) {
+define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/util', 'app/util/emitor', 'app/model/softwareModel', 'app/model/hardwareModel'], function($1, $2, util, emitor, softwareModel, hardwareModel) {
 	var region;
 	var container;
 	var dragContainer;
@@ -147,15 +147,42 @@ define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/util', 'app/util/
 		});
 
 		if(hardwareData.components.length > 0) {
-			group = hardwareData.components.map(function(componentData) {
-				return {
+			var hardwareVariable = {
+				name: "hardwareVariable",
+				group: [],
+			};
+			var raw = {
+				name: "raw",
+				group: [],
+			};
+
+			hardwareData.components.forEach(function(componentData) {
+				if(componentData.type == "serial") {
+					return;
+				}
+
+				hardwareVariable.group.push({
 					id: componentData.uid,
 					name: componentData.varName,
-				};
+				});
+
+				var componentConfig = hardwareModel.getComponentConfig(componentData.name);
+				if(componentConfig.raw) {
+					raw.group.push({
+						id: componentData.uid,
+						name: componentData.varName,
+					});
+				}
 			});
-			var module = "hardwareVariable";
-			modules.push(module);
-			groups[module + "s"] = group;
+
+			if(hardwareVariable.group.length > 0) {
+				modules.push(hardwareVariable.name);
+				groups[hardwareVariable.name + "s"] = hardwareVariable.group;
+			}
+			if(raw.group.length > 0) {
+				modules.push(raw.name);
+				groups[raw.name + "s"] = raw.group;
+			}
 		}
 
 		softwareModel.updateDynamicBlocks(groups);

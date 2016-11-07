@@ -156,6 +156,10 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 		return components[uid];
 	}
 
+	function getComponentConfig(name) {
+		return schema.components[name];
+	}
+
 	function getData() {
 		var data = {};
 		data.board = boardData && boardData.name || null;
@@ -630,6 +634,7 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 		getData: getData,
 		setData: setData,
 		getComponentData: getComponentData,
+		getComponentConfig: getComponentConfig,
 
 		addBoard: addBoard,
 		removeBoard: removeBoard,
