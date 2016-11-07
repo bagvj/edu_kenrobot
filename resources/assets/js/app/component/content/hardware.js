@@ -226,6 +226,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/util/compitabl
 			dragComponentDom = document.createElement("img");
 			dragComponentDom.src = mouseDownComponentDom.src;
 			dragComponentDom.dataset.name = li.dataset.name;
+			dragComponentDom.classList.add("drag-component");
 			dragContainer.appendChild(dragComponentDom);
 			container.addClass("can-drop");
 

@@ -5,6 +5,10 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 		colorHover: '#F19833',
 		labelColor: 'white',
 		font: '14px Microsoft YaHei',
+		endpoint: {
+			radius: 4,
+			color: "#f69c4d",
+		}
 	};
 
 	var container;
@@ -315,7 +319,7 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 					type: type,
 				},
 				endpoint: ['Dot', {
-					radius: 7
+					radius: config.endpoint.radius
 				}],
 				isSource: true,
 				isTarget: false,
@@ -324,10 +328,8 @@ define(['app/util/compitableEvents', 'vendor/jsPlumb'], function(compitableEvent
 				connectorStyle: {
 					strokeStyle: config.color,
 					fillStyle: 'transparent',
-					lineWidth: 5,
+					lineWidth: 2,
 					joinstyle: 'round',
-					outlineWidth: 1,
-					outlineColor: '#EBEBEB'
 				},
 				connectorHoverStyle: {
 					strokeStyle: config.colorHover

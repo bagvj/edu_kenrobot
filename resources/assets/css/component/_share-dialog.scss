@@ -24,6 +24,8 @@
 		margin-top: 118px;
 		padding: 14px;
 		color: #39426a;
+		display: block;
+		overflow: auto;
 
 		.share {
 			height: 24px;
@@ -54,8 +56,9 @@
 		}
 
 		.left {
+			float: left;
 			height: 130px;
-			padding-left: 16px;
+			margin-left: 45px;
 			padding-right: 30px;
 			border-right: 1px solid #eaeaea;
 
@@ -67,6 +70,7 @@
 		}
 
 		.right {
+			float: left;
 			height: 130px;
 			margin-left: 30px;
 

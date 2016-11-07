@@ -115,6 +115,8 @@
 						width: 72px;
 						height: 72px;
 						display: flex;
+						border: 1px solid #dee9e9;
+						border-radius: 8px;
 					}
 
 					.image {
@@ -153,7 +155,7 @@
 			position: relative;
 
 			&.can-drop {
-				background-color: #fcf7fa;
+				background-color: #f3f7fa;
 				&:after {
 					content: '';
 					width: 100%;
@@ -183,15 +185,16 @@
 
 	.component {
 		position: absolute;
-		box-shadow: #aaa 0 0 5px 1px;
+		background-color: white;
 		z-index: 1;
 		cursor: grab;
-		border-radius: 5px;
+		border-radius: 8px;
+		border: 1px solid #dee3e9;
 
 		&.selected,
 		&.jsplumb-dragged {
 			z-index: 8;
-			box-shadow: 0 0 0 2px #f1c933;
+			box-shadow: 0 0 0 1px #f1c933;
 		}
 	}
 
@@ -286,5 +289,15 @@
 
 	&.active {
 		display: block;
+	}
+}
+
+.component-drag-layer {
+	.drag-component {
+		border-radius: 8px;
+		border: 1px solid #dee3e9;
+		width: 72px;
+		height: 72px;
+		background-color: white;
 	}
 }
