@@ -12,6 +12,8 @@
  */
 Route::get('/', 'HomeController@index');
 Route::get('/logout', 'Auth\AuthController@getLogout2');
+Route::get('/qrcode', 'HelperController@qrcode');
+
 Route::get('/project/download/{hash}/{ext?}', 'ProjectController@downloadProject')->where('hash', '[0-9a-zA-Z]{6}');
 Route::get('/project/image/{hash}', 'ProjectController@getImage');
 
@@ -32,4 +34,4 @@ Route::post('/api/auth/login/weixin', 'Auth\WebAuthController@weixinLogin');
 Route::post('/api/auth/logout', 'Auth\WebAuthController@postLogout2');
 
 // error report
-Route::post('/api/report', 'ReportController@index');
+Route::post('/api/report', 'HelperController@report');
