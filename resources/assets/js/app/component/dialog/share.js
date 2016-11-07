@@ -21,7 +21,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/config/config'
 		args.selector = dialogWin;
 		args.onClosed = onClosed;
 
-		var src = "/qrcode?content=http://" + host + "/#/project/" + projectInfo.hash;
+		var src = "/qrcode?content=http://" + host + "/%23/project/" + projectInfo.hash;
 		qrcode.attr("src", src);
 
 		util.dialog(args);
