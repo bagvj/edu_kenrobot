@@ -1,10 +1,10 @@
 
 @font-face {font-family: "kenrobot";
-  src: url('../font/kenrobot.eot?t=1478504336010'); /* IE9*/
-  src: url('../font/kenrobot.eot?t=1478504336010#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('../font/kenrobot.woff?t=1478504336010') format('woff'), /* chrome, firefox */
-  url('../font/kenrobot.ttf?t=1478504336010') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('../font/kenrobot.svg?t=1478504336010') format('svg'); /* iOS 4.1- */
+  src: url('../font/kenrobot.eot?t=1478596741555'); /* IE9*/
+  src: url('../font/kenrobot.eot?t=1478596741555#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../font/kenrobot.woff?t=1478596741555') format('woff'), /* chrome, firefox */
+  url('../font/kenrobot.ttf?t=1478596741555') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('../font/kenrobot.svg?t=1478596741555') format('svg'); /* iOS 4.1- */
 }
 
 .kenrobot {
@@ -44,6 +44,8 @@
 .ken-check:before { content: "\e631"; }
 
 .ken-arduino:before { content: "\e637"; }
+
+.ken-new:before { content: "\e824"; }
 
 .ken-comment:before { content: "\e62d"; }
 
@@ -176,4 +178,3 @@
 .ken-edu-block:before { content: "\e649"; }
 
 .ken-edu-project:before { content: "\e64c"; }
-
