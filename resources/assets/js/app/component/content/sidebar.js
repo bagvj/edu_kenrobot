@@ -71,7 +71,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 		var action = li.data('action');
 		switch(action) {
 			case "share":
-				emitor.trigger("share", "show");
+				emitor.trigger("project", "share");
 				break;
 			case "help": 
 				window.open(li.data("href"));

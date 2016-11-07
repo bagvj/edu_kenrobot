@@ -396,7 +396,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					name: "led",
 					label: "LED",
 					type: "led",
-					category: "sensor",
+					category: "action",
 					boards: ["Arduino"],
 					width: 55,
 					height: 83,
@@ -414,7 +414,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					name: "rgb",
 					label: "三色LED",
 					type: "rgb",
-					category: "sensor",
+					category: "action",
 					boards: ["Arduino"],
 					width: 67,
 					height: 79,
@@ -490,12 +490,12 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					pins: [{
 						name: "rxd",
 						anchor: [0.33, 1],
-						tags: ["serial-rx"],
+						tags: ["digital", "analog-in"],
 						// spec: "0"
 					}, {
 						name: "txd",
 						anchor: [0.67, 1],
-						tags: ["serial-tx"],
+						tags: ["digital", "analog-in"],
 						// spec: "1"
 					}],
 					code: {
@@ -513,13 +513,11 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					pins: [{
 						name: "rxd",
 						anchor: [0.33, 1],
-						tags: ["serial-rx"],
-						// spec: "0"
+						tags: ["digital", "analog-in"],
 					}, {
 						name: "txd",
 						anchor: [0.67, 1],
-						tags: ["serial-tx"],
-						// spec: "1"
+						tags: ["digital", "analog-in"],
 					}],
 					code: {
 						setup: 'Serial.begin(9600);'
@@ -602,7 +600,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					name: "encoder",
 					label: "旋转编码器",
 					type: "encoder",
-					category: "action",
+					category: "sensor",
 					boards: ["Arduino"],
 					width: 74,
 					height: 84,
@@ -614,10 +612,12 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "sa",
 						anchor: [0.5, 1],
 						tags: ["digital"],
+						spec: "2",
 					}, {
 						name: "sb",
 						anchor: [0.75, 1],
 						tags: ["digital"],
+						spec: "3",
 					}],
 					code: {
 						include: "#include <Encoder.h>",
@@ -739,7 +739,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 					name: "ultrasound",
 					label: "超声波",
 					type: "ultrasound",
-					category: "action",
+					category: "sensor",
 					boards: ["Arduino"],
 					width: 120,
 					height: 79,

@@ -7,7 +7,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 		emitor.on('install', 'show', onShow);
 	}
 
-	function onShow(args) {
+	function onShow() {
 		util.dialog({
 			selector: dialogWin
 		});

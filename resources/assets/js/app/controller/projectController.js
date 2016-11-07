@@ -16,6 +16,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		emitor.on('project', 'delete', onProjectDelete);
 		emitor.on('project', 'upload', onProjectUpload);
 		emitor.on('project', 'copy', onProjectCopy);
+		emitor.on('project', 'share', onProjectShare);
 		emitor.on('code', 'refresh', onCodeRefresh);
 		emitor.on('software', 'update-block', onSoftwareBlockUpdate);
 	}
@@ -231,6 +232,25 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		copyProjectInfo.project_data = JSON.stringify(copyProjectInfo.project_data);
 		projectModel.save(copyProjectInfo).done(function(result) {
 			result.status == 0 ? onProjectSaveSuccess(result.data.project_id, "copy") : util.message(result.message);
+		});
+	}
+
+	function onProjectShare() {
+		userModel.authCheck(true).done(function() {
+			var info = getCurrentProject();
+			if(info.id == 0) {
+				util.message("请先保存项目");
+				return;
+			}
+
+			if(info.public_type != 2) {
+				util.message("分享需要公开项目");
+				return;
+			}
+
+			emitor.trigger("share", "show", {
+				projectInfo: info
+			});
 		});
 	}
 

@@ -4,7 +4,6 @@
 		<meta charset='utf-8'>
 		<meta name="viewport" content="user-scalable=no">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<!-- <meta http-equiv="Cache-Control" content="no-cache"> -->
 		<meta name="screen-orientation" content="landscape">
 		<meta name="x5-orientation" content="landscape">
 		<title>啃萝卜智能硬件平台</title>
@@ -265,6 +264,23 @@
 					<div class="x-dialog-content"></div>
 					<div class="x-dialog-btns">
 						<input class="x-dialog-btn cancel" type="button" value="取消" /><input class="x-dialog-btn confirm" type="button" value="确定" />
+					</div>
+				</div>
+				<div class="x-dialog share-dialog">
+					<i class="kenrobot ken-close x-dialog-close"></i>
+					<div class="x-dialog-header"></div>
+					<div class="x-dialog-content">
+						<div class="left">
+							<div class="share" data-action="wechat"><i class="kenrobot ken-wechat"></i>微信扫码</div>
+							<img class="qrcode" />
+						</div>
+						<div class="right">
+							<ul>
+								<li class="share" data-action="weibo"><i class="kenrobot ken-weibo"></i>新浪微博</li>
+								<li class="share" data-action="qzone"><i class="kenrobot ken-qzone"></i>QQ空间</li>
+								<li class="share" data-action="kenrobot"><i class="kenrobot ken-kenrobot-logo"></i>啃萝卜</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 				<div class="x-dialog port-dialog">

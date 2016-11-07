@@ -50,7 +50,7 @@ class HelperController extends Controller {
 		$size = $request->input("size", 240);
 		$logo_size = $request->input("logo_size", 72);
 
-		$logo = $request->input("logo", true);
+		$logo = $request->input("logo", false);
 		$logo = $logo ? realpath("./assets/image/logo3.png") : false;
 
 		$qrCode = new QrCode();
