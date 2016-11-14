@@ -40,6 +40,10 @@
 				<div class="sidebar-tabs">
 					<div class="tab tab-project no-scrollbar">
 						<ul class="list"></ul>
+						<div class="new-project">
+							<i class="icon kenrobot ken-new"></i>
+							<div class="new">新建项目</div>
+						</div>
 					</div>
 					<div class="tab tab-hardware">
 						<div class="search-wrap">

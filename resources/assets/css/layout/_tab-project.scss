@@ -20,14 +20,6 @@
 					background-color: #eceef1;
 				}
 
-				&:last-child {
-					margin-bottom: 0;
-
-					&:after {
-						display: none;
-					}
-				}
-
 				&:hover {
 					background-color: #eceef1;
 
@@ -205,6 +197,33 @@
 						}
 					}
 				}
+			}
+		}
+
+		.new-project {
+			margin: 30px 20px 10px 20px;
+			border: 1px dashed #c4d1dd;
+			height: 135px;
+			text-align: center;
+			cursor: pointer;
+			padding-top: 30px;
+
+			&:hover {
+				border-color: transparent;
+				background-color: #f7f7f9;
+			}
+
+			.icon {
+				font-size: 36px;
+				display: block;
+				height: 48px;
+				color: #c4d1dd;
+			}
+
+			.new {
+				font-size: 14px;
+				letter-spacing: 4px;
+				color: #718ac0;
 			}
 		}
 	}

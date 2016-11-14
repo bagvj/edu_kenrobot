@@ -18,6 +18,7 @@ define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/emitor', 'app/uti
 
 		projectList = $('.sidebar-tabs .tab-project .list');
 		projectList.parent().perfectScrollbar();
+		$('.sidebar-tabs .tab-project .new-project').on('click', onNewClick);
 
 		boardList = $('.boards', region).on('click', '.placeholder', onShowBoardSelect).on('click', 'ul > li', onBoardSelectClick);
 

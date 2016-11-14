@@ -35,6 +35,14 @@
 
 		.new {
 			width: 100px;
+			border: 1px solid #0b7bdc;
+			color: #0088ff;
+			background-color: white;
+			transition: background-color 0.2s, color 0.2s;
+
+			&:hover {
+				color: white;
+			}
 		}
 
 		.boards {
