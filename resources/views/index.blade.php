@@ -180,7 +180,6 @@
 							<div id="code-container" class="code-container"></div>
 						</div>
 					</div>
-					<div class="layer message-layer" data-offset="120"></div>
 				</div>
 			</div>
 		</div>
@@ -317,6 +316,7 @@
 					</div>
 				</div>
 			</div>
+			<div class="layer message-layer" data-offset="120"></div>
 			<div class="layer drag-layer block-drag-layer"></div>
 			<div class="layer drag-layer component-drag-layer"></div>
 		</div>
