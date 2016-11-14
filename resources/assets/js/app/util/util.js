@@ -229,6 +229,10 @@ define(function() {
 		return navigator.userAgent.match(/Android|iPhone|iPad|iPod/i) ? true : false;
 	}
 
+	function isWeiXin() {
+		return navigator.userAgent.toLowerCase().match(/MicroMessenger/i) == "micromessenger";
+	}
+
 	return {
 		message: message,
 		showMessage: showMessage,
@@ -240,5 +244,6 @@ define(function() {
 		numberToChinese: numberToChinese,
 		formatDate: formatDate,
 		isMobile: isMobile,
+		isWeiXin: isWeiXin,
 	}
 });

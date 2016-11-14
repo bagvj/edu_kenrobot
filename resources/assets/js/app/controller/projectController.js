@@ -8,7 +8,6 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 
 		emitor.on('app', 'start', onAppStart);
 		emitor.on('user', 'login', onUserLogin);
-		emitor.on('project', 'new', onProjectNew);
 		emitor.on('project', 'view', onProjectView);
 		emitor.on('project', 'open', onProjectOpen);
 		emitor.on('project', 'save', onProjectSave);
@@ -41,6 +40,11 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		hardware.setData(projectData.hardware);
 		software.setData(projectData.software);
 		code.setData(projectData.code);
+
+		util.isWeiXin() && emitor.trigger("weixin", "share", {
+			title: document.title + " " + projectInfo.title,
+			desc: projectInfo.project_intro,
+		});
 	}
 
 	function loadMyProject() {
@@ -96,7 +100,13 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 
 	function onProjectView(hash) {
 		if(!hash) {
-			myProjects.length ? openProject(myProjects[0]) : openProject(getDefaultProject());
+			myProjects.length ? emitor.trigger("route", "set", "/project/" + myProjects[0].hash) : openProject(getDefaultProject());
+			return;
+		} else if(hash == "new") {
+			openProject(getDefaultProject());
+			return;
+		} else if(hash == "temp") {
+			tempProject ? openProject(tempProject) : emitor.trigger("route", "set", "/");
 			return;
 		}
 
@@ -112,10 +122,6 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		});
 	}
 
-	function onProjectNew() {
-		openProject(getDefaultProject());
-	}
-
 	function onProjectOpen(id, force) {
 		var info = getCurrentProject();
 		if (!force && id == info.id) {
@@ -123,7 +129,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		}
 
 		if (id == 0) {
-			tempProject && openProject(tempProject);
+			emitor.trigger("route", "set", "/project/temp");
 			return;
 		}
 
@@ -132,7 +138,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 			return;
 		}
 
-		openProject(myProjects[index]);
+		emitor.trigger("route", "set", "/project/" + myProjects[index].hash);
 	}
 
 	function onProjectSave(projectInfo, saveType, newSave) {
@@ -267,13 +273,13 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 				project.addProject(projectInfo);
 
 				util.message("新建成功");
-				openProject(projectInfo);
+				emitor.trigger("route", "set", "/project/" + projectInfo.hash);
 			} else if (saveType == "copy") {
 				myProjects.unshift(projectInfo);
 				project.addProject(projectInfo);
 
 				util.message("复制成功");
-				openProject(projectInfo);
+				emitor.trigger("route", "set", "/project/" + projectInfo.hash);
 			} else if (saveType == "save") {
 				if (newSave) {
 					myProjects.unshift(projectInfo);

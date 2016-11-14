@@ -12,6 +12,7 @@ use Curl\Curl;
 use Session;
 use App\Util\Tools;
 use App\WebAuth\Factory as WebAuthFactory;
+use App\WeiXin\JsSdk;
 
 class HomeController extends Controller {
 
@@ -39,7 +40,15 @@ class HomeController extends Controller {
 
 		$loginInfo = Tools::getLoginInfo($request->url());
 		Session::put('key', $loginInfo->key);
-
-		return view("index", compact('user', 'loginInfo'));
+		
+		$isWeiXin = Tools::isWeiXin();
+		if($isWeiXin) {
+			$jsSdk = new JsSdk();
+			$signPackage = $jsSdk->getSignPackage();
+			
+			return view("index", compact('user', 'loginInfo', 'isWeiXin', 'signPackage'));
+		} else {
+			return view("index", compact('user', 'loginInfo', 'isWeiXin'));
+		}
 	}
 }

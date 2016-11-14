@@ -6,6 +6,7 @@ define(['vendor/jquery', 'vendor/director', 'app/config/config', 'app/util/util'
 		printJoinUs();
 		configAjax();
 		configRoute();
+		configWeiXin();
 
 		$(window).on('contextmenu', onContextMenu).on('click', onWindowClick).on('resize', onWindowResize);
 
@@ -60,6 +61,61 @@ define(['vendor/jquery', 'vendor/director', 'app/config/config', 'app/util/util'
 		} catch (e) {}
 	}
 
+	function configWeiXin() {
+		if(!util.isWeiXin() || !wx) {
+			return;
+		}
+
+		wx.ready(function() {
+			emitor.on('weixin', 'share', onWeiXinShare);
+			onWeiXinShare();
+		});
+	}
+
+	function onWeiXinShare(shareData) {
+		var weixinConfig = config.share.weixin;
+		shareData = shareData || {};
+		shareData.title = shareData.title || weixinConfig.shareData.title;
+		shareData.desc = shareData.desc || weixinConfig.shareData.desc;
+		shareData.imgUrl = weixinConfig.shareData.imgUrl;
+		shareData.link = window.location.href;
+
+		// 分享给朋友
+		wx.onMenuShareAppMessage({
+			title: shareData.title,
+			desc: shareData.desc,
+			link: shareData.link,
+			imgUrl: shareData.imgUrl,
+		});
+		//分享到朋友圈
+		wx.onMenuShareTimeline({
+			title: shareData.title,
+			link: shareData.link,
+			imgUrl: shareData.imgUrl,
+		});
+		//分享到QQ
+		wx.onMenuShareQQ({
+			title: shareData.title,
+			desc: shareData.desc,
+			link: shareData.link,
+			imgUrl: shareData.imgUrl,
+		});
+		//分享到微博
+		wx.onMenuShareWeibo({
+			title: shareData.title,
+			desc: shareData.desc,
+			link: shareData.link,
+			imgUrl: shareData.imgUrl,
+		});
+		//分享到QQ空间
+		wx.onMenuShareQZone({
+			title: shareData.title,
+			desc: shareData.desc,
+			link: shareData.link,
+			imgUrl: shareData.imgUrl,
+		});
+	}
+
 	function configAjax() {
 		$.ajaxSetup({
 			headers: {
@@ -71,8 +127,7 @@ define(['vendor/jquery', 'vendor/director', 'app/config/config', 'app/util/util'
 	function configRoute() {
 		router = Router({
 			'/': onRouteDefault,
-			'/project/new': onRouteNewProject,
-			'/project/([0-9a-zA-Z]{6})/?': onRouteViewProject,
+			'/project/([0-9a-zA-Z]{6}|new|temp)/?': onRouteViewProject,
 			'.*': onRouteOther, 
 		});
 	}
@@ -83,10 +138,6 @@ define(['vendor/jquery', 'vendor/director', 'app/config/config', 'app/util/util'
 
 	function onRouteDefault() {
 		emitor.trigger("project", "view");
-	}
-
-	function onRouteNewProject() {
-		emitor.trigger("project", "new");
 	}
 
 	function onRouteViewProject(hash) {

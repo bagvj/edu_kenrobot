@@ -74,6 +74,10 @@ class Tools {
 	    return @mkdir($dir, $mode);
 	}
 
+	public static function isWeiXin() {
+		return strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false;
+	}
+
 	private static function getQrcodeUrl($key = '') {
 		$url = config('weixin.qrcode.url');
 		$url .="$key";
