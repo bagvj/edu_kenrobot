@@ -41,7 +41,8 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		software.setData(projectData.software);
 		code.setData(projectData.code);
 
-		var title = projectInfo.project_name + " - " + (userModel.getUserName() || "啃萝卜");
+		var author = userModel.getUserName();
+		var title = projectInfo.project_name + " - " + (author == "" ? "" : author + " - ") + "啃萝卜";
 		document.title = title;
 
 		util.isWeiXin() && emitor.trigger("weixin", "share", {
