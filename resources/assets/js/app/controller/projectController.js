@@ -42,7 +42,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		code.setData(projectData.code);
 
 		util.isWeiXin() && emitor.trigger("weixin", "share", {
-			title: document.title + " " + projectInfo.title,
+			title: document.title + " " + projectInfo.project_name,
 			desc: projectInfo.project_intro,
 		});
 	}

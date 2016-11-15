@@ -9,8 +9,11 @@ define(function() {
 
 		share: {
 			weixin: {
-				desc: "啃萝卜是一款在线硬件编程学习平台",
-				imgUrl: "http://edu.kenrobot.com/assets/image/logo3.png"
+				shareData: {
+					title: "啃萝卜智能硬件平台",
+					desc: "啃萝卜是一款在线硬件编程学习平台",
+					imgUrl: "http://edu.kenrobot.com/assets/image/logo3.png"
+				},
 			},
 			weibo: {
 				appKey: "1443867127",
