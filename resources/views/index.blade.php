@@ -146,8 +146,7 @@
 					<div class="content-tabs">
 						<div class="tab tab-hardware" data-action="hardware">
 							<div id="hardware-container" class="hardware-container" droppable="true">
-								<div class="board absolute-center">
-								</div>
+								<div class="board absolute-center"></div>
 							</div>
 							<div class="component-dialog">
 								<span class="name-label">名字</span>
