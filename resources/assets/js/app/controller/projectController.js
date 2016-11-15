@@ -340,7 +340,8 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 				return;
 			}
 
-			projectModel.build(projectInfo.id).done(function(res) {
+			var boardData = hardware.getBoardData();
+			projectModel.build(projectInfo.id, boardData.type).done(function(res) {
 				if (res.status != 0) {
 					util.message(res.message);
 					return;

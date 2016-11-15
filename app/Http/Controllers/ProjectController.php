@@ -58,7 +58,7 @@ class ProjectController extends Controller {
     }
 
     public function downloadProject(Request $request, $hash, $ext = "zip") {
-        $project = ProjectModel::where('hash', $hash)->first()->toArray();
+        $project = ProjectModel::where('hash', $hash)->first();
         if(!$project) {
             return abort(404);
         }

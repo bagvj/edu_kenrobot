@@ -40,6 +40,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 				boards: [{
 					label: "Arduino UNO",
 					name: "ArduinoUNO",
+					type: "uno",
 					tags: ["Arduino"],
 					pins: [{
 						uid: "6be0dd9d-2e52-4b7d-9dfc-c9edad53ad01",
@@ -234,6 +235,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 				}, {
 					label: "Arduino Leonardo",
 					name: "ArduinoLeonardo",
+					type: "leonardo",
 					tags: ["Arduino"],
 					pins: [{
 						uid: "a721ef13-1547-421d-9bd9-c8712c738374",
@@ -417,8 +419,9 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						overlay: [0.5, -0.5]
 					}]
 				}, {
-					label: "Arduino 101",
+					label: "Arduino/Genuino 101",
 					name: "Arduino101",
+					type: "genuino101",
 					tags: ["Arduino"],
 					pins: [{
 						uid: "ab7cd85a-9abe-48c4-a8bc-a22eb5578995",
@@ -613,6 +616,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 				}, {
 					label: "KenBlock",
 					name: "KenBlock",
+					type: "uno",
 					tags: ["KenBlock"],
 					pins: [{
 						uid: "c9168884-b454-4342-b677-f06dacb0b3cc",
@@ -7477,13 +7481,14 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 		});
 	}
 
-	function build(id) {
+	function build(id, boardType) {
 		return $.ajax({
 			type: "POST",
 			url: "/api/project/build",
 			dataType: "json",
 			data: {
 				id: id,
+				board_type: boardType || "uno",
 				user_id: userModel.getUserId(),
 			},
 		});

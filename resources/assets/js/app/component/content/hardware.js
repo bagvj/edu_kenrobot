@@ -57,6 +57,10 @@ define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/util', 'app/util/
 		updateComponents(schema.components);
 	}
 
+	function getBoardData() {
+		return boardData;
+	}
+
 	function getData() {
 		return hardwareModel.getData();
 	}
@@ -381,6 +385,7 @@ define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/util', 'app/util/
 		loadSchema: loadSchema,
 		getData: getData,
 		setData: setData,
+		getBoardData: getBoardData,
 
 		getBlockData: getBlockData,
 
