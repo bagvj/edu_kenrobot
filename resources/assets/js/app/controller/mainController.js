@@ -75,7 +75,7 @@ define(['vendor/jquery', 'vendor/director', 'app/config/config', 'app/util/util'
 	function onWeiXinShare(shareData) {
 		var weixinConfig = config.share.weixin;
 		shareData = shareData || {};
-		shareData.title = shareData.title || weixinConfig.shareData.title;
+		shareData.title = shareData.title || document.title;
 		shareData.desc = shareData.desc || weixinConfig.shareData.desc;
 		shareData.imgUrl = weixinConfig.shareData.imgUrl;
 		shareData.link = window.location.href;

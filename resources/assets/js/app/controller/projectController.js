@@ -41,8 +41,11 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		software.setData(projectData.software);
 		code.setData(projectData.code);
 
+		var title = projectInfo.project_name + " - " + (userModel.getUserName() || "啃萝卜");
+		document.title = title;
+
 		util.isWeiXin() && emitor.trigger("weixin", "share", {
-			title: document.title + " " + projectInfo.project_name,
+			title: title,
 			desc: projectInfo.project_intro,
 		});
 	}

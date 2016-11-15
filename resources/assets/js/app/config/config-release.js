@@ -10,7 +10,6 @@ define(function() {
 		share: {
 			weixin: {
 				shareData: {
-					title: "啃萝卜智能硬件平台",
 					desc: "啃萝卜是一款在线硬件编程学习平台",
 					imgUrl: "http://edu.kenrobot.com/assets/image/logo3.png"
 				},
