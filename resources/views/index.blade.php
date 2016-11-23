@@ -57,11 +57,11 @@
 			<div class="content-region">
 				<div class="sidebar-tabs">
 					<div class="tab tab-project no-scrollbar">
-						<ul class="list"></ul>
 						<div class="new-project">
 							<i class="icon kenrobot ken-new"></i>
 							<div class="new">新建项目</div>
 						</div>
+						<ul class="list"></ul>
 					</div>
 					<div class="tab tab-hardware">
 						<div class="search-wrap">
@@ -181,7 +181,7 @@
 								<div class="block-group-region block-loop">
 									<div class="group-header"><span>Loop</span></div>
 									<div class="group-extension">
-										<div class="group-description">这里就是程序一直在做的事情，记得是无循环哦</div>
+										<div class="group-description">这里就是程序一直在做的事情，记得是无限循环哦</div>
 										<div class="group-placeholder">拖一个块放到这里开始你第一个程序吧</div>
 									</div>
 								</div>
