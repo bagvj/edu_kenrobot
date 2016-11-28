@@ -1,6 +1,6 @@
 /**
  * 组件安装
- * npm install gulp gulp-if gulp-rev gulp-rev-replace minimist run-sequence gulp-concat gulp-rename gulp-clean gulp-jshint gulp-uglify gulp-jsonminify gulp-ruby-sass gulp-clean-css gulp-autoprefixer gulp-imagemin gulp-minify-html gulp-ng-annotate gulp-sourcemaps gulp-requirejs-optimize --save-dev
+ * npm install gulp gulp-if gulp-rev gulp-rev-replace minimist run-sequence gulp-concat gulp-rename gulp-clean gulp-uglify gulp-jsonminify gulp-ruby-sass gulp-clean-css gulp-autoprefixer gulp-imagemin gulp-minify-html gulp-ng-annotate gulp-sourcemaps gulp-requirejs-optimize --save-dev
  */
 
 // 引入 gulp及组件
@@ -13,7 +13,6 @@ var runSequence = require('run-sequence');       //顺序执行
 var concat = require('gulp-concat');             //合并文件
 var rename = require('gulp-rename');             //重命名
 var clean = require('gulp-clean');               //清空文件夹
-var jshint = require('gulp-jshint');             //js检查
 var uglify = require('gulp-uglify');             //js压缩
 var jsonminify = require('gulp-jsonminify');     //json压缩
 var sass = require('gulp-ruby-sass');            //sass
@@ -109,7 +108,6 @@ gulp.task('image', function() {
 	var imgDst = DIST + 'image/';
 
 	return gulp.src(imgSrc)
-		// .pipe(imagemin())
 		.pipe(gulp.dest(imgDst));
 });
 
