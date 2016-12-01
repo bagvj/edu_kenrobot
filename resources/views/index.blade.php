@@ -315,7 +315,7 @@
 						<input class="x-dialog-btn cancel" type="button" value="取消" /><input class="x-dialog-btn confirm" type="button" value="确定" />
 					</div>
 				</div>
-				<div class="x-dialog install-driver-dialog">
+				<div class="x-dialog install-ext-dialog">
 					<div class="x-dialog-title">安装</div>
 					<i class="kenrobot ken-close x-dialog-close"></i>
 					<div class="x-dialog-content selectable">
@@ -342,7 +342,6 @@
 							Step 2: 运行<span class="strong">arduino驱动安装.exe</span><br />
 							Step 3: 完成安装
 						</div>
-						<div class="des">说明: 如果顶部弹出“无法添加来自此网站的应用...”，请点击确定。由于一些你懂的原因，我们不能把插件发布到google应用商店。就算能发布，部分用户也不能...，所以<span class="helpless">╮(╯▽╰)╭</span></div>
 					</div>
 					<div class="x-dialog-btns">
 						<button class="x-dialog-btn confirm">确定</button>
