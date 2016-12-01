@@ -2,7 +2,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 	var userInfo;
 
 	function getUserId() {
-		return userInfo ? userInfo.id : 0;
+		return userInfo ? userInfo.uid : 0;
 	}
 
 	function getUserInfo() {
@@ -38,7 +38,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 		return promise;
 	}
 
-	function login(username, password) {
+	function login(username, password, remember) {
 		var promise = $.Deferred();
 
 		var encrypt = new JSEncrypt.JSEncrypt();
@@ -49,16 +49,13 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 			url: '/api/auth/login',
 			dataType: 'json',
 			data: {
-				email: username,
-				password: encrypt.encrypt(password)
+				username: username,
+				password: encrypt.encrypt(password),
+				remember: remember,
 			},
 		}).done(function(result) {
-			if(result.status == 0) {
+			if(result.status == 0 || result.status == 1) {
 				userInfo = result.data;
-			} else if(result.status == 1) {
-				userInfo = result.data;
-			} else {
-
 			}
 			promise.resolve(result);
 		});
@@ -70,23 +67,30 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 		var promise = $.Deferred();
 		$.ajax({
 			type: 'POST',
-			url: '/api/auth/login/weixin',
+			url: '/api/auth/weixin/login',
 			data: {
-				key: key,
+				login_key : key,
 			},
 			dataType: 'json',
 		}).done(function(result) {
-			if(result.status == 0) {
+			if(result.status == 0 || result.status == 1) {
 				userInfo = result.data;
-			} else if(result.status == 1) {
-				userInfo = result.data;
-			} else {
-
 			}
 			promise.resolve(result);
 		});
 
 		return promise;
+	}
+
+	function weixinQrcode(refresh) {
+		return $.ajax({
+			type: 'POST',
+			url: '/api/auth/weixin/qrcode',
+			data: {
+				refresh: refresh || false,
+			},
+			dataType: 'json',
+		});
 	}
 
 	return {
@@ -96,5 +100,6 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 		authCheck: authCheck,
 		login: login,
 		weixinLogin: weixinLogin,
+		weixinQrcode: weixinQrcode,
 	};
 });

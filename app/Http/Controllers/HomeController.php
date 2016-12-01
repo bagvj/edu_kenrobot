@@ -17,38 +17,42 @@ use App\WeiXin\JsSdk;
 class HomeController extends Controller {
 
 	public function index(Request $request) {
-		if (Auth::check()) {
-			$user = Auth::user();
-		} else {
-			if ($request->input('from') == 'weixin') {
-				header('Location:http://weixinapp.kenrobot.com/social/edubetaauth');
-			}
+		// if (Auth::check()) {
+		// 	$user = Auth::user();
+		// } else {
+		// 	if ($request->input('from') == 'weixin') {
+		// 		header('Location:http://weixinapp.kenrobot.com/social/edubetaauth');
+		// 	}
 
-			$openid = $request->input('openid');
-			if (!empty($openid)) {
-				$webauth = WebAuthFactory::create('weixinweb');
-				$crendentials = compact('openid');
-				$loginResult = $webauth->validate($crendentials);
+		// 	$openid = $request->input('openid');
+		// 	if (!empty($openid)) {
+		// 		$webauth = WebAuthFactory::create('weixinweb');
+		// 		$crendentials = compact('openid');
+		// 		$loginResult = $webauth->validate($crendentials);
 
-		        if ($loginResult === true) {
-			        $user = $webauth->localUser();
-			        Auth::login($user, true);
-		        }
-			}
+		//         if ($loginResult === true) {
+		// 	        $user = $webauth->localUser();
+		// 	        Auth::login($user, true);
+		//         }
+		// 	}
+		// }
+		$attachSession = $this->attachSession();
+		if ($attachSession) {
+			return $attachSession;
 		}
+		$user = $this->currentUser();
 
-
-		$loginInfo = Tools::getLoginInfo($request->url());
-		Session::put('key', $loginInfo->key);
+		$mainpage = config('platform.url.mainpage');
+		$find_password_url = config('platform.url.find_password');
 		
 		$isWeiXin = Tools::isWeiXin();
 		if($isWeiXin) {
 			$jsSdk = new JsSdk();
 			$signPackage = $jsSdk->getSignPackage();
 			
-			return view("index", compact('user', 'loginInfo', 'isWeiXin', 'signPackage'));
+			return view("index", compact('user', 'mainpage', 'find_password_url', 'isWeiXin', 'signPackage'));
 		} else {
-			return view("index", compact('user', 'loginInfo', 'isWeiXin'));
+			return view("index", compact('user', 'mainpage', 'find_password_url', 'isWeiXin'));
 		}
 	}
 }

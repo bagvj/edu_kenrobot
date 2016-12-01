@@ -2,10 +2,10 @@
 
 return [
     'url' => [
-    	'base' => env("PLATFORM_URL_BASE", "http://www.kenrobot.com/"),
-
     	'register' => "http://www.kenrobot.com/index.php?app=public&mod=Register&act=index",
     	'find_password' => "http://www.kenrobot.com/index.php?app=public&mod=Passport&act=findPassword",
+        'mainpage' => 'http://www.kenrobot.com/index.php?app=public&mod=Index&act=allshow',
+
 
         'token' => "D4v8dD",
 

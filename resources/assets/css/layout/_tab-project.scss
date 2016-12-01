@@ -212,7 +212,7 @@
 			cursor: pointer;
 			border: 1px dashed #c4d1dd;
 			height: 135px;
-			transition: 0.2s background-color 0.2s border-color;
+			transition: background-color 0.2s border-color 0.2s;
 			position: relative;
 
 			&:hover {

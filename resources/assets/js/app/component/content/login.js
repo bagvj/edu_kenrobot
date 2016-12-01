@@ -6,7 +6,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		$('.login-menu ul > li', region).on('click', onMenuClick);
 		$('.photo', region).on('click', onPhotoClick);
 		
-		emitor.on('user', 'update', onUserUpdate);
+		emitor.on('user', 'login', onUserLogin);
 	}
 
 	function onMenuClick(e) {
@@ -41,7 +41,8 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		return false;
 	}
 
-	function onUserUpdate() {
+	function onUserLogin() {
+		util.message("登录成功");
 		var userInfo = userModel.getUserInfo();		
 		var photo = $('.photo', region).removeClass("no-user");
 		

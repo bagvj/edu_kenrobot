@@ -11,8 +11,8 @@
 |
  */
 Route::get('/', 'HomeController@index');
-Route::get('/logout', 'Auth\AuthController@getLogout2');
 Route::get('/qrcode', 'HelperController@qrcode');
+Route::any('/logout', 'AuthController@logout');
 
 Route::get('/project/download/{hash}/{ext?}', 'ProjectController@downloadProject')->where('hash', '[0-9a-zA-Z]{6}');
 Route::get('/project/image/{hash}', 'ProjectController@getImage');
@@ -27,11 +27,16 @@ Route::post('/api/projects/user', 'ProjectController@getProjects');
 Route::post('/api/projects/list', 'ProjectController@getList');
 
 // 登录验证
-Route::post('/api/auth/info', 'Auth\WebAuthController@loginInfo');
-Route::post('/api/auth/check', 'Auth\WebAuthController@check');
-Route::post('/api/auth/login', 'Auth\WebAuthController@snsPostLogin');
-Route::post('/api/auth/login/weixin', 'Auth\WebAuthController@weixinLogin');
-Route::post('/api/auth/logout', 'Auth\WebAuthController@postLogout2');
+// 登录验证API
+Route::any('/api/auth/attach', 'AuthController@attach');
+Route::any('/api/auth/login', 'AuthController@login');
+Route::any('/api/auth/check', 'AuthController@userinfo');
+Route::any('/api/auth/weixin/login', 'AuthController@weixinlogin');
+Route::any('/api/auth/weixin/qrcode', 'AuthController@weixinQrcode');
 
 // error report
 Route::post('/api/report', 'HelperController@report');
+
+Route::get('/test/cache', function(){
+	return \Cache::get('login_key');
+});

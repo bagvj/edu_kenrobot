@@ -26,7 +26,7 @@
 			letter-spacing: 1.75px;
 			color: white;
 			float: left;
-			transition: 0.2s background-color;
+			transition: background-color 0.2s;
 
 			&:hover {
 				background-color: #2093ff;
