@@ -47,11 +47,11 @@ class ProjectController extends Controller {
         fwrite($f, $source);
         fclose($f);
 
-        $cmd = "sudo sh ../app/Build/build.sh $path $board_type $project_name 2>&1";
+        $cmd = "sudo sh ../app/Shell/build.sh $path $board_type $project_name 2>&1";
         $output = array();
         exec($cmd, $output, $status);
         if ($status != 0) {
-            $output = Tools::filterBuildOutput($output, $path);
+            // $output = Tools::filterBuildOutput($output, $path);
             return response()->json(['status' => $status, 'message' => '编译失败', 'hash' => $hash, 'output' => $output]);
         }
 
