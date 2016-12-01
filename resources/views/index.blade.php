@@ -11,7 +11,7 @@
 		<meta name="keywords" content="arduino 开发 IDE 开发平台 教程">
 		<meta name="description" content="啃萝卜智能硬件平台">
 		<meta name="csrf-token" content="{{csrf_token()}}">
-		<link href="assets/css/index.css?v={{time()}}" rel="stylesheet">
+		<link href="assets/css/index.css" rel="stylesheet">
 		@if(!env('APP_DEBUG'))
 		<script scr="//hm.baidu.com/hm.js?{{env('PV_KEY')}}"></script>
 		@endif
@@ -315,7 +315,7 @@
 						<input class="x-dialog-btn cancel" type="button" value="取消" /><input class="x-dialog-btn confirm" type="button" value="确定" />
 					</div>
 				</div>
-				<div class="x-dialog install-dialog">
+				<div class="x-dialog install-driver-dialog">
 					<div class="x-dialog-title">安装</div>
 					<i class="kenrobot ken-close x-dialog-close"></i>
 					<div class="x-dialog-content selectable">
@@ -325,6 +325,22 @@
 							Step 2: 打开chrome浏览器，在地址栏输入<span class="strong">chrome://extensions</span><br />
 							Step 3: 把<span class="strong">KenExt.crx</span>拖入浏览器<br />
 							Step 4: 完成安装
+						</div>
+						<div class="des">说明: 如果顶部弹出“无法添加来自此网站的应用...”，请点击确定。由于一些你懂的原因，我们不能把插件发布到google应用商店。就算能发布，部分用户也不能...，所以<span class="helpless">╮(╯▽╰)╭</span></div>
+					</div>
+					<div class="x-dialog-btns">
+						<button class="x-dialog-btn confirm">确定</button>
+					</div>
+				</div>
+				<div class="x-dialog install-driver-dialog">
+					<div class="x-dialog-title">驱动问题</div>
+					<i class="kenrobot ken-close x-dialog-close"></i>
+					<div class="x-dialog-content selectable">
+						如果你遇到了Arduino<span class="strong">驱动问题</span>，请按以下步骤操作:
+						<div class="step">
+							Step 1: 点击<a class="driver-url" data-url="http://ide.kenrobot.com/download/arduino-driver-xBIT.zip" title="arduino驱动">下载</a>并解压<br />
+							Step 2: 运行<span class="strong">arduino驱动安装.exe</span><br />
+							Step 3: 完成安装
 						</div>
 						<div class="des">说明: 如果顶部弹出“无法添加来自此网站的应用...”，请点击确定。由于一些你懂的原因，我们不能把插件发布到google应用商店。就算能发布，部分用户也不能...，所以<span class="helpless">╮(╯▽╰)╭</span></div>
 					</div>
