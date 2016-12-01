@@ -74,7 +74,16 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 				emitor.trigger("project", "share");
 				break;
 			case "help": 
-				window.open(li.data("href"));
+				// window.open(li.data("href"));
+				emitor.trigger('common', 'show', {
+					type: 'warn warn-info',
+					content: '未检测到有Arduino开发板或其他串口设备插入。<span class="link" data-type="link" data-close-dialog="true">驱动问题</span>？解决后请关闭窗口，然后重试',
+					onLink: function(type) {
+						setTimeout(function() {
+							emitor.trigger("installDriver", "show");
+						}, 400);
+					}
+				});
 				break;
 		}
 

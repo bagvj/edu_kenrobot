@@ -180,6 +180,10 @@
 						line-height: 32px;
 						color: #f86c5f;
 						display: none;
+
+						&.active {
+							display: block;
+						}
 					}
 				}
 

@@ -2,9 +2,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util,
 	var dialogWin;
 
 	function init() {
-		dialogWin = $('.install-dialog');
+		dialogWin = $('.install-ext-dialog');
 
-		emitor.on('install', 'show', onShow);
+		emitor.on('installExt', 'show', onShow);
 	}
 
 	function onShow() {

@@ -200,7 +200,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 			projectInfo = getCurrentProject();
 			projectInfo && emitor.trigger('common', 'show', {
 				type: 'warn',
-				content: '正在删除项目“' + projectInfo.project_name + '”。删除后不可恢复，确定要删除吗？',
+				content: '正在删除项目『' + projectInfo.project_name + '』，删除后不可恢复。确定要删除吗？',
 				onConfirm: function() {
 					util.message("删除成功");
 					onProjectDeleteSuccess(id);
@@ -211,7 +211,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 			index >= 0 && (projectInfo = myProjects[index]);
 			projectInfo && emitor.trigger('common', 'show', {
 				type: 'warn',
-				content: '正在删除项目“' + projectInfo.project_name + '”。删除后不可恢复，确定要删除吗？',
+				content: '正在删除项目『' + projectInfo.project_name + '』，删除后不可恢复。确定要删除吗？',
 				onConfirm: function() {
 					projectModel.remove(id).done(function(result) {
 						util.message(result.message);
@@ -367,11 +367,23 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		var promise = $.Deferred();
 
 		switch (code) {
+			// case 1:
+			// 	util.message("找不到串口");
+			// 	break;
+			// case 2:
+			// 	util.message("找不到Arduino");
+			// 	break;
 			case 1:
-				util.message("找不到串口");
-				break;
 			case 2:
-				util.message("找不到Arduino");
+				emitor.trigger('common', 'show', {
+					type: 'warn warn-info',
+					content: '未检测到有Arduino开发板或其他串口设备插入。<span class="link" data-type="link" data-close-dialog="true">驱动问题</span>？解决后请关闭窗口，然后重试',
+					onLink: function(type) {
+						setTimeout(function() {
+							emitor.trigger("installDriver", "show");
+						}, 400);
+					}
+				});
 				break;
 			case 3:
 				var ports = args;

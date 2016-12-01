@@ -19,10 +19,16 @@
 	.x-dialog-content {
 		height: 105px;
 		margin-top: 118px;
-		padding: 14px;
-		letter-spacing: 1px;
+		padding: 14px 30px;
 		color: #39426a;
 		text-align: center;
+		display: block;
+
+		.link {
+			cursor: pointer;
+			color: #0088ff;
+			text-decoration: underline;
+		}
 	}
 
 	.x-dialog-btns {
@@ -83,6 +89,20 @@
 				display: inline-block;
 				background-color: #f49604;
 				margin-left: 40px;
+			}
+		}
+
+		&.warn-info {
+			.x-dialog-btn {
+				&.cancel {
+					display: none;
+				}
+
+				&.confirm {
+					margin-left: auto;
+					margin-right: auto;
+					display: block;
+				}
 			}
 		}
 	}

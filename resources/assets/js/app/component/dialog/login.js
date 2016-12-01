@@ -127,8 +127,21 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	}
 
 	function onLoginClick() {
-		var username = $('.tab-account .username', dialogWin).val();
-		var password = $('.tab-account .password', dialogWin).val();
+		var $username = $('.tab-account .username', dialogWin);
+		var $password = $('.tab-account .password', dialogWin);
+		var username = $.trim($username.val());
+		var password = $.trim($password.val());
+
+		if(username == "") {
+			showError($username, "请输入帐号");
+			return;
+		}
+
+		if(password == "") {
+			showError($username, "请输入密码");
+			return;
+		}
+
 		var remember = $('.tab-account .remember', dialogWin).is(":checked");
 		userModel.login(username, password, remember).done(onAccountLogin);
 	}
@@ -160,10 +173,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		} else if (result.status == 1) {
 			setWeixinLoginCheck(false);
 		} else {
-			var error = $('.tab-account .password + .error', dialogWin);
-			error.clearQueue().addClass("active").text(result.message).delay(2000).queue(function() {
-				error.removeClass("active").text('').dequeue();
-			});
+			showError($(".tab-account .password"), result.message);
 		}
 	}
 
@@ -188,6 +198,13 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		setWeixinLoginCheck(false);
 		qrcode.addClass("timeout");
 		qrcodeTimeoutTimer = null;
+	}
+
+	function showError(target, message) {
+		var error = target.siblings(".error");
+		error.addClass("active").text(message).delay(2000).queue(function() {
+			error.removeClass("active").text('').dequeue();
+		});
 	}
 
 	function refreshWeixinQrcode() {
