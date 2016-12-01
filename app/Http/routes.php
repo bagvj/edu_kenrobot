@@ -36,7 +36,3 @@ Route::any('/api/auth/weixin/qrcode', 'AuthController@weixinQrcode');
 
 // error report
 Route::post('/api/report', 'HelperController@report');
-
-Route::get('/test/cache', function(){
-	return \Cache::get('login_key');
-});

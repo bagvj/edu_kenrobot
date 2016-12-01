@@ -17,25 +17,7 @@ use App\WeiXin\JsSdk;
 class HomeController extends Controller {
 
 	public function index(Request $request) {
-		// if (Auth::check()) {
-		// 	$user = Auth::user();
-		// } else {
-		// 	if ($request->input('from') == 'weixin') {
-		// 		header('Location:http://weixinapp.kenrobot.com/social/edubetaauth');
-		// 	}
-
-		// 	$openid = $request->input('openid');
-		// 	if (!empty($openid)) {
-		// 		$webauth = WebAuthFactory::create('weixinweb');
-		// 		$crendentials = compact('openid');
-		// 		$loginResult = $webauth->validate($crendentials);
-
-		//         if ($loginResult === true) {
-		// 	        $user = $webauth->localUser();
-		// 	        Auth::login($user, true);
-		//         }
-		// 	}
-		// }
+	
 		$attachSession = $this->attachSession();
 		if ($attachSession) {
 			return $attachSession;
