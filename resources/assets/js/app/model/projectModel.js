@@ -7459,7 +7459,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 			}
 		};
 
-		var prefix = "/assets/image/hardware/";
+		var prefix = "assets/image/hardware/";
 		schema.hardware.boards.forEach(function(board) {
 			board.imageUrl = prefix + "board/" + board.name + ".png";
 		});
