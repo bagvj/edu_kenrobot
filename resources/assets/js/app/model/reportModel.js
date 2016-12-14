@@ -1,4 +1,4 @@
-define(['app/util/emitor', 'app/config/config'], function(emitor, config) {
+define(['app/util/emitor', 'app/config/config', 'app/util/net'], function(emitor, config, net) {
 	var errors;
 	var lastReportTime;
 	var counts;
@@ -70,7 +70,7 @@ define(['app/util/emitor', 'app/config/config'], function(emitor, config) {
 	}
 
 	function report(type, content) {
-		$.ajax({
+		net.request({
 			type: "POST",
 			url: "/api/report",
 			data: {

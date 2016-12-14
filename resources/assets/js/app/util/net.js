@@ -14,10 +14,19 @@ define(['vendor/jquery', 'app/config/config'], function($1, config) {
 		options.url = config.host + options.url + "?" + $.param(options.data);
 		delete options.data;
 
-		return kenrobot.postMessage("app:netRequest", options);
+		return kenrobot && kenrobot.postMessage("app:netRequest", options);
+	}
+
+	function open(url) {
+		if(config.target != "pc") {
+			return window.open(url);
+		}
+
+		return kenrobot && kenrobot.postMessage("app:openUrl", url);
 	}
 
 	return {
 		request: request,
+		open: open,
 	}
 })

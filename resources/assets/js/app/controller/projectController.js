@@ -83,15 +83,17 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 			software.loadSchema(schema.software);
 			project.updateBoards(schema.hardware.boards);
 		}).then(function() {
-			userModel.authCheck().then(function() {
-				loadMyProject().then(function() {
-					project.updateList(myProjects);
-					emitor.trigger("route", "init");
+			userModel.attach().then(function() {
+				userModel.authCheck().then(function() {
+					loadMyProject().then(function() {
+						project.updateList(myProjects);
+						emitor.trigger("route", "init");
+					}, function() {
+						emitor.trigger("route", "init");
+					});
 				}, function() {
 					emitor.trigger("route", "init");
 				});
-			}, function() {
-				emitor.trigger("route", "init");
 			});
 		});
 	}

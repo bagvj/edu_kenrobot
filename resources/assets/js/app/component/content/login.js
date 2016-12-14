@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userModel'], function($1, emitor, util, userModel) {
+define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/util/net', 'app/model/userModel'], function($1, emitor, util, net, userModel) {
 	var region;
 
 	function init() {
@@ -27,6 +27,11 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 			case "setting":
 				emitor.trigger('setting', 'show');
 				break;
+			case "logout":
+				userModel.logout().then(function() {
+					kenrobot && kenrobot.postMessage("app:reload");
+				});
+				break;
 		}
 	}
 
@@ -36,7 +41,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 		}
 
 		var href = $(this).data('href');
-		window.open(href);
+		net.open(href);
 
 		return false;
 	}

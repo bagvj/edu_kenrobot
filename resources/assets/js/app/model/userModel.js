@@ -13,6 +13,26 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net'
 		return userInfo ? userInfo.name : "";
 	}
 
+	function attach() {
+		var promise = $.Deferred();
+		if(config.target != "pc") {
+			return promise.resolve();
+		}
+
+		net.request({
+			type: 'POST',
+			url: '/api/auth/attach',
+			dataType: 'json',
+			data: {
+				id: 0
+			},
+		}).done(function(result) {
+			promise.resolve();
+		});
+
+		return promise;
+	}
+
 	function authCheck(showLogin) {
 		var promise = $.Deferred();
 		var type = userInfo && "check" || "all";
@@ -63,6 +83,17 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net'
 		return promise;
 	}
 
+	function logout() {
+		return net.request({
+			type: 'POST',
+			url: '/api/auth/logout',
+			dataType: 'json',
+			data: {
+				id: 0
+			}
+		});
+	}
+
 	function weixinLogin(key) {
 		var promise = $.Deferred();
 		net.request({
@@ -97,8 +128,10 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net'
 		getUserId: getUserId,
 		getUserInfo: getUserInfo,
 		getUserName: getUserName,
+		attach: attach,
 		authCheck: authCheck,
 		login: login,
+		logout: logout,
 		weixinLogin: weixinLogin,
 		weixinQrcode: weixinQrcode,
 	};

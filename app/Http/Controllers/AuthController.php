@@ -113,4 +113,10 @@ class AuthController extends Controller
         $this->broker->logout();
         return redirect('/');
     }
+
+    public function jsonLogout()
+    {
+        $this->broker->logout();
+        return $this->apiReturn(0, '退出成功');
+    }
 }

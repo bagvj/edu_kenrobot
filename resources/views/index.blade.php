@@ -39,7 +39,7 @@
 		<div class="main no-select">
 			<div class="sidebar-region">
 				<div class="top">
-					<div class="logo"></div>
+					<div class="logo" data-href="http://www.kenrobot.com"></div>
 					<div class="name">教育版</div>
 					<div class="url">edu.kenrobot.com</div>
 				</div>
