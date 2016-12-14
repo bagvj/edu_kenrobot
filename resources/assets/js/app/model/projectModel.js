@@ -1,4 +1,4 @@
-define(['vendor/jquery', './userModel'], function($1, userModel) {
+define(['vendor/jquery', 'app/util/net', './userModel'], function($1, net, userModel) {
 
 	function get(key, type) {
 		type = type || "id";
@@ -15,7 +15,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 			data.id = key;
 		}
 
-		return $.ajax({
+		return net.request({
 			type: 'POST',
 			url: '/api/project/get',
 			data: data,
@@ -24,7 +24,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 	}
 
 	function getAll() {
-		return $.ajax({
+		return net.request({
 			type: 'POST',
 			url: '/api/projects/user',
 			data: {
@@ -7473,7 +7473,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 	}
 
 	function save(project) {
-		return $.ajax({
+		return net.request({
 			type: 'POST',
 			url: '/api/project/save',
 			data: project,
@@ -7482,7 +7482,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 	}
 
 	function build(id, boardType) {
-		return $.ajax({
+		return net.request({
 			type: "POST",
 			url: "/api/project/build",
 			dataType: "json",
@@ -7495,7 +7495,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 	}
 
 	function remove(id) {
-		return $.ajax({
+		return net.request({
 			type: "POST",
 			url: "/api/project/delete",
 			data: {
@@ -7507,7 +7507,7 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 	}
 
 	function upload(data, onProgress) {
-		return $.ajax({
+		return net.request({
 			type: 'POST',
 			url: '/api/project/upload',
 			dataType: 'json',

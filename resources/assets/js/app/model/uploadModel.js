@@ -5,33 +5,40 @@ define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 	var bitRate;
 	var nameReg;
 	var appId;
+	var target;
 
-	function init(config) {
-		delay = config.uploadDelay;
-		bitRate = config.bitRate;
-		nameReg = config.serialNameReg;
-		appId = config.appId;
+	function init(_target, config) {
+		target = _target;
 
-		host = window.location.protocol + "//" + window.location.host;
+		if(target == "web") {
+			delay = config.uploadDelay;
+			bitRate = config.bitRate;
+			nameReg = new RegExp(config.serialNameReg, "i");
+			appId = config.appId;
+
+			host = window.location.protocol + "//" + window.location.host;
+		}
 	}
 
 	function check(triggerEvent) {
 		var promise = $.Deferred();
 
-		if (!getAPI()) {
-			var p = promise.reject();
-			triggerEvent && onCheckFail(1);
-			return p;
-		}
-
-		sendMessage("ping", function(response) {
-			if (response && response.action == "ping" && response.result == "pong") {
-				promise.resolve();
-			} else {
-				promise.reject();
-				triggerEvent && onCheckFail(2);
+		if(target == "web") {
+			if (!getAPI()) {
+				var p = promise.reject();
+				triggerEvent && onCheckFail(1);
+				return p;
 			}
-		});
+
+			sendMessage("ping", function(response) {
+				if (response && response.action == "ping" && response.result == "pong") {
+					promise.resolve();
+				} else {
+					promise.reject();
+					triggerEvent && onCheckFail(2);
+				}
+			});
+		}
 
 		return promise;
 	}
@@ -39,39 +46,40 @@ define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 	function upload(url, portPath) {
 		var promise = $.Deferred();
 
-		var onGetPortsDone = function(ports) {
-			if (!portPath) {
-				var arduinoPorts = filterArduinoPorts(ports, nameReg);
-				var count = arduinoPorts.length;
-				if (count == 0) {
-					promise.reject(2);
-					return;
-				} else if(count > 1) {
-					promise.reject(3, ports);
-					return;
+		if(target == "web") {
+			var onGetPortsDone = function(ports) {
+				if (!portPath) {
+					var arduinoPorts = filterArduinoPorts(ports, nameReg);
+					var count = arduinoPorts.length;
+					if (count == 0) {
+						promise.reject(2);
+						return;
+					} else if(count > 1) {
+						promise.reject(3, ports);
+						return;
+					}
+					portPath = arduinoPorts[0].path;
 				}
-				portPath = arduinoPorts[0].path;
-			}
-			connect(portPath, bitRate).done(function(connectionId) {
-				url = host + url + "/hex";
+				connect(portPath, bitRate).then(function(connectionId) {
+					url = host + url + "/hex";
 
-				doUpload(connectionId, url, portPath, delay).done(function() {
-					promise.resolve();
-				}).fail(function() {
-					promise.reject(5);
+					doUpload(connectionId, url, portPath, delay).then(function() {
+						promise.resolve();
+					}, function() {
+						promise.reject(5);
+					});
+				}, function() {
+					promise.reject(4);
 				});
-			}).fail(function() {
-				promise.reject(4);
+			};
+			getPorts().then(onGetPortsDone, function() {
+				setTimeout(function() {
+					getPorts().then(onGetPortsDone, function() {
+						promise.reject(1);
+					});
+				}, 1000);
 			});
-		};
-
-		getPorts().done(onGetPortsDone).fail(function() {
-			setTimeout(function() {
-				getPorts().done(onGetPortsDone).fail(function() {
-					promise.reject(1);
-				});
-			}, 1000);
-		});
+		}
 
 		return promise;
 	}

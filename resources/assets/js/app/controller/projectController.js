@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor', 'app/model/userModel', 'app/model/projectModel', 'app/model/uploadModel', 'app/component/content/project', 'app/component/content/hardware', 'app/component/content/software', 'app/component/content/code'], function($1, appConfig, util, emitor, userModel, projectModel, uploadModel, project, hardware, software, code) {
+define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor', 'app/model/userModel', 'app/model/projectModel', 'app/model/uploadModel', 'app/component/content/project', 'app/component/content/hardware', 'app/component/content/software', 'app/component/content/code'], function($1, config, util, emitor, userModel, projectModel, uploadModel, project, hardware, software, code) {
 	var currentProject;
 	var tempProject;
 	var myProjects;
@@ -76,21 +76,21 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	}
 
 	function onAppStart() {
-		uploadModel.init(appConfig.chromeExt);
+		uploadModel.init(config.target, config.chromeExt);
 
 		projectModel.getSchema().done(function(schema) {
 			hardware.loadSchema(schema.hardware);
 			software.loadSchema(schema.software);
 			project.updateBoards(schema.hardware.boards);
 		}).then(function() {
-			userModel.authCheck().done(function() {
-				loadMyProject().done(function() {
+			userModel.authCheck().then(function() {
+				loadMyProject().then(function() {
 					project.updateList(myProjects);
 					emitor.trigger("route", "init");
-				}).fail(function() {
+				}, function() {
 					emitor.trigger("route", "init");
 				});
-			}).fail(function() {
+			}, function() {
 				emitor.trigger("route", "init");
 			});
 		});
@@ -349,13 +349,13 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 
 				util.message("编译成功，正在上传请稍候");
 				uploadModel.check(true).done(function() {
-					uploadModel.upload(res.url).done(function() {
+					uploadModel.upload(res.url).then(function() {
 						util.message("上传成功");
-					}).fail(function(code, args) {
+					}, function(code, args) {
 						onProjectUploadFail(code, args).done(function(portPath) {
-							uploadModel.upload(res.url, portPath).done(function() {
+							uploadModel.upload(res.url, portPath).then(function() {
 								util.message("上传成功");
-							}).fail(onProjectUploadFail);
+							}, onProjectUploadFail);
 						});
 					});
 				});

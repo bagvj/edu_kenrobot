@@ -28,6 +28,7 @@ var path = require('path');                      //路径
 var child_process = require('child_process');    //子进程
 var os = require('os');                          //操作系统相关
 var crypto = require('crypto');                  //加密
+var fs = require('fs');
 
 var args = minimist(process.argv.slice(2));      //命令行参数
 
@@ -54,8 +55,10 @@ gulp.task('js-copy-env', function() {
 	return move("./", ".env");
 });
 
-gulp.task('js-copy-config', function() {
-	return move(SRC + "js/app/config/", "config", ".js");
+gulp.task('js-gen-config', function() {
+	var configSrc = SRC + "js/app/config/";
+	var genConfig = require(configSrc + "gen-config");
+	fs.writeFileSync(configSrc + "config.js", genConfig(args.target, !args.release));
 });
 
 var jsSrc = SRC + 'js/**/*.js';
@@ -83,9 +86,9 @@ gulp.task('js-pack', function() {
 // js处理
 gulp.task('js', function() {
 	if (args.release) {
-		return runSequence(["js-clean", "js-copy-env", "js-copy-config"], "js-pre-pack", "js-pack");
+		return runSequence(["js-clean", "js-copy-env", "js-gen-config"], "js-pre-pack", "js-pack");
 	} else {
-		return runSequence(["js-clean", "js-copy-env", "js-copy-config"], "js-copy");
+		return runSequence(["js-clean", "js-copy-env", "js-gen-config"], "js-copy");
 	}
 });
 

@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emitor'], function($1, JSEncrypt, config, emitor) {
+define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net', 'app/util/emitor'], function($1, JSEncrypt, config, net, emitor) {
 	var userInfo;
 
 	function getUserId() {
@@ -16,7 +16,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 	function authCheck(showLogin) {
 		var promise = $.Deferred();
 		var type = userInfo && "check" || "all";
-		$.ajax({
+		net.request({
 			type: 'POST',
 			url: '/api/auth/check',
 			data: {
@@ -44,7 +44,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 		var encrypt = new JSEncrypt.JSEncrypt();
 		encrypt.setPublicKey(config.encrypt.publicKey);
 
-		$.ajax({
+		net.request({
 			type: 'POST',
 			url: '/api/auth/login',
 			dataType: 'json',
@@ -65,7 +65,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 
 	function weixinLogin(key) {
 		var promise = $.Deferred();
-		$.ajax({
+		net.request({
 			type: 'POST',
 			url: '/api/auth/weixin/login',
 			data: {
@@ -83,7 +83,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 	}
 
 	function weixinQrcode(refresh) {
-		return $.ajax({
+		return net.request({
 			type: 'POST',
 			url: '/api/auth/weixin/qrcode',
 			data: {
