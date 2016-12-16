@@ -54,7 +54,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	function loadMyProject() {
 		var promise = $.Deferred();
 
-		projectModel.getAll().done(function(result) {
+		projectModel.getAll().then(function(result) {
 			if (result.status != 0) {
 				promise.reject();
 				return;
@@ -70,6 +70,8 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 				myProjects.push(projectInfo);
 			});
 			promise.resolve();
+		}, function() {
+			promise.reject();
 		});
 
 		return promise;
@@ -83,7 +85,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 			software.loadSchema(schema.software);
 			project.updateBoards(schema.hardware.boards);
 		}).then(function() {
-			userModel.attach().then(function() {
+			userModel.attach().done(function() {
 				userModel.authCheck().then(function() {
 					loadMyProject().then(function() {
 						project.updateList(myProjects);
@@ -170,6 +172,12 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 
 			projectInfo.id = info.id;
 			projectInfo.project_data = JSON.stringify(getProjectData());
+		} else if(saveType == "file") {
+			var project_data = getProjectData();
+			kenrobot.postMessage("app:saveProject", project_data.code).then(function() {
+				util.message("保存成功");
+			});
+			return;
 		} else {
 			//新建
 			projectInfo.project_data = "";
@@ -182,6 +190,11 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	}
 
 	function onProjectEdit(id) {
+		if(config.target != "web") {
+			util.message("暂时不支持");
+			return;
+		}
+
 		var projectInfo;
 		if (id == 0) {
 			projectInfo = getCurrentProject();
@@ -197,6 +210,11 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	}
 
 	function onProjectDelete(id) {
+		if(config.target != "web") {
+			util.message("暂时不支持");
+			return;
+		}
+
 		var projectInfo;
 		if (id == 0) {
 			projectInfo = getCurrentProject();
@@ -225,6 +243,11 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	}
 
 	function onProjectCopy(id) {
+		if(config.target != "web") {
+			util.message("暂时不支持");
+			return;
+		}
+
 		var projectInfo;
 		if (id == 0) {
 			util.message("请先保存项目");
@@ -248,6 +271,11 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	}
 
 	function onProjectShare() {
+		if(config.target != "web") {
+			util.message("暂时不支持");
+			return;
+		}
+
 		userModel.authCheck(true).done(function() {
 			var info = getCurrentProject();
 			if(info.id == 0) {
@@ -324,6 +352,11 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	function onProjectUpload() {
 		onCodeRefresh();
 
+		if(config.target != "web") {
+			util.message("暂时不支持上传");
+			return;
+		}
+
 		var projectInfo = getCurrentProject();
 		if (projectInfo.id == 0) {
 			emitor.trigger('project', 'show', {
@@ -350,7 +383,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 				}
 
 				util.message("编译成功，正在上传请稍候");
-				uploadModel.check(true).done(function() {
+				uploadModel.check(true).then(function() {
 					uploadModel.upload(res.url).then(function() {
 						util.message("上传成功");
 					}, function(code, args) {
@@ -360,6 +393,8 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 							}, onProjectUploadFail);
 						});
 					});
+				}, function(code) {
+					code > 100 && util.message("暂时不支持上传");
 				});
 			});
 		});
@@ -401,6 +436,9 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 				break;
 			case 5:
 				util.message("上传失败");
+				break;
+			case 101:
+				util.message("暂时不支持上传");
 				break;
 		}
 

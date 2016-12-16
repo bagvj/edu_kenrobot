@@ -1,8 +1,8 @@
-define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/emitor', 'app/util/util', 'app/model/userModel'], function($1, $2, emitor, util, userModel) {
+define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/emitor', 'app/util/util', 'app/config/config', 'app/model/userModel'], function($1, $2, emitor, util, config, userModel) {
 	var region;
 	var projectList;
 	var boardList;
-	var projectTemplate = '<li data-id="{{id}}"><div class="project-title"><div class="name ellipsis">{{name}}</div><div class="arrow"><ul class="project-menu"><li data-action="edit">编辑项目</li><li data-action="copy">复制项目</li><li data-action="delete">删除项目</li></ul></div></div><div class="project-image" style="background-image: url(\'/project/image/{{imageHash}}\');"></div><div class="project-intro">{{intro}}</div><div class="project-footer"><div class="public" data-action="{{public_type}}">{{public}}</div><div>最后更新：</div><div class="time">{{time}}</div></div></li>';
+	var projectTemplate = '<li data-id="{{id}}"><div class="project-title"><div class="name ellipsis">{{name}}</div><div class="arrow"><ul class="project-menu"><li data-action="edit">编辑项目</li><li data-action="copy">复制项目</li><li data-action="delete">删除项目</li></ul></div></div><div class="project-image" style="background-image: {{imageUrl}};"></div><div class="project-intro">{{intro}}</div><div class="project-footer"><div class="public" data-action="{{public_type}}">{{public}}</div><div>最后更新：</div><div class="time">{{time}}</div></div></li>';
 	var boardTemplate = '<li data-value="{{name}}"><div class="board {{name}}" style="background-image: url({{src}})"></div><div class="board-name">{{label}}</div></li>';
 	var publicTypes = ["仅自己可见", "好友公开", "完全公开"];
 
@@ -52,7 +52,7 @@ define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/emitor', 'app/uti
 	function addProject(projectInfo, prepend, liveEvent) {
 		var li = projectTemplate.replace(/\{\{id\}\}/, projectInfo.id)
 			.replace(/\{\{name\}\}/, projectInfo.project_name)
-			.replace(/\{\{imageHash\}\}/, projectInfo.imageHash || "default")
+			.replace(/\{\{imageUrl\}\}/, genProjectImageUrl(projectInfo.imageHash || "default"))
 			.replace(/\{\{intro\}\}/, projectInfo.project_intro)
 			.replace(/\{\{public\}\}/, publicTypes[projectInfo.public_type])
 			.replace(/\{\{public_type\}\}/, projectInfo.public_type)
@@ -72,13 +72,19 @@ define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/emitor', 'app/uti
 
 			$('.name', li).text(projectInfo.project_name);
 			var imageHash = projectInfo.imageHash || "default";
-			$('.project-image', li).css('background-image', "url('/project/image/" + imageHash + "')");
+			$('.project-image', li).css('background-image', genProjectImageUrl(imageHash));
 			$('.project-intro', li).text(projectInfo.project_intro);
 			$('.public', li).text(publicTypes[projectInfo.public_type]).attr('data-action', projectInfo.public_type);
 			$('.time', li).text(util.formatDate(projectInfo.updated_at, "yyyy.MM.dd"));
 
 			projectList.find("> li.active").data('id') == projectInfo.id && updateCurrentProject(projectInfo);
 		}
+	}
+
+	function genProjectImageUrl(hash) {
+		var url = "/project/image/" + hash;
+		url = config.target == "pc" ? config.host + url : url;
+		return "url('" + url + "')";
 	}
 
 	function updateCurrentProject(projectInfo) {
@@ -112,13 +118,21 @@ define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/emitor', 'app/uti
 
 	function onNewClick(e) {
 		userModel.authCheck(true).done(function() {
-			emitor.trigger('project', 'show');
+			if(config.target == "web") {
+				emitor.trigger('project', 'show');
+			} else {
+				emitor.trigger('project', 'view', 'new');
+			}
 		});
 	}
 
 	function onSaveClick(e) {
 		userModel.authCheck(true).done(function() {
-			emitor.trigger('project', 'save', null, 'save');
+			if(config.target == "web") {
+				emitor.trigger('project', 'save', null, 'save');
+			} else {
+				emitor.trigger('project', 'save', null, 'file');
+			}
 		});
 	}
 

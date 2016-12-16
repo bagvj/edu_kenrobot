@@ -64,17 +64,12 @@ gulp.task('js-gen-config', function() {
 var jsSrc = SRC + 'js/**/*.js';
 var jsDst = DIST + 'js/';
 
-gulp.task('js-copy', function() {
-	return gulp.src(jsSrc)
-		.pipe(gulp.dest(jsDst));
-});
-
-gulp.task('js-pre-pack', function() {
+gulp.task('js-pre-pack', ["js-clean", "js-copy-env", "js-gen-config"], function() {
 	return gulp.src([SRC + 'js/require.js'])
 		.pipe(gulp.dest(jsDst));
 });
 
-gulp.task('js-pack', function() {
+gulp.task('js-pack', ['js-pre-pack'], function() {
 	return gulp.src(SRC + 'js/index.js')
 		.pipe(requirejsOptimize({
 			useStrict: true,
@@ -83,13 +78,9 @@ gulp.task('js-pack', function() {
 		.pipe(gulp.dest(jsDst));
 });
 
-// js处理
-gulp.task('js', function() {
-	if (args.release) {
-		return runSequence(["js-clean", "js-copy-env", "js-gen-config"], "js-pre-pack", "js-pack");
-	} else {
-		return runSequence(["js-clean", "js-copy-env", "js-gen-config"], "js-copy");
-	}
+gulp.task('js-copy', ["js-clean", "js-copy-env", "js-gen-config"], function() {
+	return gulp.src(jsSrc)
+		.pipe(gulp.dest(jsDst));
 });
 
 // 样式处理
@@ -133,7 +124,7 @@ gulp.task('clean', function() {
 
 // 默认任务
 gulp.task('default', function() {
-	return runSequence('clean', ['css', 'image', 'font'], 'js');
+	return runSequence('clean', ['css', 'image', 'font'], args.release ? 'js-pack' : 'js-copy');
 });
 
 function genUuid() {

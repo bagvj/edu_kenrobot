@@ -36,25 +36,35 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net'
 	function authCheck(showLogin) {
 		var promise = $.Deferred();
 		var type = userInfo && "check" || "all";
-		net.request({
-			type: 'POST',
-			url: '/api/auth/check',
-			data: {
-				id: 0,
-				type: type,
-			},
-			dataType: 'json',
-		}).done(function(result) {
-			if(result.status == 0) {
-				type == "all" && (userInfo = result.user);
-				promise.resolve();
-			} else {
-				userInfo = null;
-				promise.reject();
-				showLogin && emitor.trigger("login", "show");
-			}
-		});
 
+		if(config.target == "web") {
+			net.request({
+				type: 'POST',
+				url: '/api/auth/check',
+				data: {
+					id: 0,
+					type: type,
+				},
+				dataType: 'json',
+			}).done(function(result) {
+				if(result.status == 0) {
+					if(type == "all") {
+						userInfo = result.data;
+						promise.resolve();
+						emitor.trigger("user", "login");
+					} else {
+						emitor.resolve();
+					}
+				} else {
+					userInfo = null;
+					promise.reject();
+					showLogin && emitor.trigger("login", "show");
+				}
+			});
+		} else {
+			return promise.resolve();
+		}
+		
 		return promise;
 	}
 

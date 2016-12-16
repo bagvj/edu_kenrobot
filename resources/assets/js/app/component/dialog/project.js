@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectModel'], function($1, util, emitor, projectModel) {
+define(['vendor/jquery', 'app/util/util', 'app/config/config', 'app/util/emitor', 'app/model/projectModel'], function($1, util, config, emitor, projectModel) {
 	var dialogWin;
 	var image;
 	var imageHash;
@@ -22,7 +22,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/projectM
 		if(dialogType == "edit" || dialogType == "save") {
 			projectInfo = args.data;
 			imageHash = projectInfo.imageHash;
-			setImage("/project/image/" + (projectInfo.imageHash || "default"));
+			setImage((config.target != "pc" ? "" : config.host) + "/project/image/" + (projectInfo.imageHash || "default"));
 			$('.upload', dialogWin).val("修改项目图片");
 			$('.name', dialogWin).val(projectInfo.project_name).focus();
 			$('.intro', dialogWin).val(projectInfo.project_intro);

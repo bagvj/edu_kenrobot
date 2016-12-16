@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/util/net', 'app/model/userModel'], function($1, emitor, util, net, userModel) {
+define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/config/config', 'app/util/net', 'app/model/userModel'], function($1, emitor, util, config, net, userModel) {
 	var region;
 
 	function init() {
@@ -28,9 +28,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/util/net', 'ap
 				emitor.trigger('setting', 'show');
 				break;
 			case "logout":
-				userModel.logout().then(function() {
-					kenrobot && kenrobot.postMessage("app:reload");
-				});
+				emitor.trigger('user', 'logout');
 				break;
 		}
 	}
@@ -51,7 +49,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/util/net', 'ap
 		var userInfo = userModel.getUserInfo();		
 		var photo = $('.photo', region).removeClass("no-user");
 		
-		$('> img', photo).attr("src", userInfo.avatar_url);
+		$('> img', photo).attr("src", userInfo && userInfo.avatar_url || "assets/image/default-user.png");
 		util.toggleActive($('.tab-user', region));
 	}
 

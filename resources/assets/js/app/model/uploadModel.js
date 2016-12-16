@@ -25,7 +25,7 @@ define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 
 		if(target == "web") {
 			if (!getAPI()) {
-				var p = promise.reject();
+				var p = promise.reject(1);
 				triggerEvent && onCheckFail(1);
 				return p;
 			}
@@ -34,10 +34,12 @@ define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 				if (response && response.action == "ping" && response.result == "pong") {
 					promise.resolve();
 				} else {
-					promise.reject();
+					promise.reject(2);
 					triggerEvent && onCheckFail(2);
 				}
 			});
+		} else {
+			return promise.reject(101);
 		}
 
 		return promise;
@@ -79,6 +81,8 @@ define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 					});
 				}, 1000);
 			});
+		} else {
+			return promise.reject(101);
 		}
 
 		return promise;

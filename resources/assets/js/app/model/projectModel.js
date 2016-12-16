@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/net', './userModel'], function($1, net, userModel) {
+define(['vendor/jquery', 'app/config/config', 'app/util/net', './userModel'], function($1, config, net, userModel) {
 
 	function get(key, type) {
 		type = type || "id";
@@ -24,14 +24,18 @@ define(['vendor/jquery', 'app/util/net', './userModel'], function($1, net, userM
 	}
 
 	function getAll() {
-		return net.request({
-			type: 'POST',
-			url: '/api/projects/user',
-			data: {
-				user_id: userModel.getUserId(),
-			},
-			dataType: 'json',
-		});
+		if(config.target == "web") {
+			return net.request({
+				type: 'POST',
+				url: '/api/projects/user',
+				data: {
+					user_id: userModel.getUserId(),
+				},
+				dataType: 'json',
+			});
+		} else {
+			return $.Deferred().reject();
+		}
 	}
 
 	function getSchema() {

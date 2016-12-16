@@ -1,9 +1,4 @@
-/Application
 /node_modules
-Homestead.yaml
-Homestead.json
 .env*
-.env-debug
-.env-release
 .sass-cache
-switch
+.vscode

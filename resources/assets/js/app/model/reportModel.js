@@ -70,15 +70,19 @@ define(['app/util/emitor', 'app/config/config', 'app/util/net'], function(emitor
 	}
 
 	function report(type, content) {
-		net.request({
-			type: "POST",
-			url: "/api/report",
-			data: {
-				type: type,
-				content: content
-			},
-			dataType: "json",
-		});
+		if(config.target == "web") {
+			net.request({
+				type: "POST",
+				url: "/api/report",
+				data: {
+					type: type,
+					content: content
+				},
+				dataType: "json",
+			});
+		} else {
+			console.log(content);
+		}
 
 		updateLastReport();
 	}
