@@ -8,8 +8,6 @@ define(['vendor/jquery', 'vendor/director', 'app/config/config', 'app/util/util'
 		configRoute();
 		configWeiXin();
 
-		targetHandle();
-
 		$(window).on('contextmenu', onContextMenu).on('click', onWindowClick).on('resize', onWindowResize);
 
 		emitor.on('app', 'start', onAppStart);
@@ -20,15 +18,6 @@ define(['vendor/jquery', 'vendor/director', 'app/config/config', 'app/util/util'
 
 	function onAppStart() {
 
-	}
-
-	function targetHandle() {
-		if(config.target == "pc") {
-			$('.open-url').off('click').on('click', function() {
-				var url = $(this).data('href');
-				kenrobot && kenrobot.postMessage("app:openUrl", url);
-			});
-		}
 	}
 
 	function onContextMenu(e) {

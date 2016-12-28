@@ -2,6 +2,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	var currentProject;
 	var tempProject;
 	var myProjects;
+	var savePath;
 
 	function init() {
 		myProjects = [];
@@ -111,6 +112,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 			myProjects.length ? emitor.trigger("route", "set", "/project/" + myProjects[0].hash) : openProject(getDefaultProject());
 			return;
 		} else if(hash == "new") {
+			savePath = null;
 			openProject(getDefaultProject());
 			return;
 		} else if(hash == "temp") {
@@ -174,7 +176,8 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 			projectInfo.project_data = JSON.stringify(getProjectData());
 		} else if(saveType == "file") {
 			var project_data = getProjectData();
-			kenrobot.postMessage("app:saveProject", project_data.code).then(function() {
+			kenrobot.postMessage("app:saveProject", savePath, project_data.code).then(function(path) {
+				savePath = path;
 				util.message("保存成功");
 			});
 			return;
@@ -190,11 +193,6 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	}
 
 	function onProjectEdit(id) {
-		if(config.target != "web") {
-			util.message("暂时不支持");
-			return;
-		}
-
 		var projectInfo;
 		if (id == 0) {
 			projectInfo = getCurrentProject();
@@ -210,11 +208,6 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	}
 
 	function onProjectDelete(id) {
-		if(config.target != "web") {
-			util.message("暂时不支持");
-			return;
-		}
-
 		var projectInfo;
 		if (id == 0) {
 			projectInfo = getCurrentProject();
@@ -243,11 +236,6 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	}
 
 	function onProjectCopy(id) {
-		if(config.target != "web") {
-			util.message("暂时不支持");
-			return;
-		}
-
 		var projectInfo;
 		if (id == 0) {
 			util.message("请先保存项目");
@@ -271,11 +259,6 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 	}
 
 	function onProjectShare() {
-		if(config.target != "web") {
-			util.message("暂时不支持");
-			return;
-		}
-
 		userModel.authCheck(true).done(function() {
 			var info = getCurrentProject();
 			if(info.id == 0) {
@@ -351,11 +334,6 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 
 	function onProjectUpload() {
 		onCodeRefresh();
-
-		if(config.target != "web") {
-			util.message("暂时不支持上传");
-			return;
-		}
 
 		var projectInfo = getCurrentProject();
 		if (projectInfo.id == 0) {

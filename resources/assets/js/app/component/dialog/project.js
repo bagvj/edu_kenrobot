@@ -22,7 +22,7 @@ define(['vendor/jquery', 'app/util/util', 'app/config/config', 'app/util/emitor'
 		if(dialogType == "edit" || dialogType == "save") {
 			projectInfo = args.data;
 			imageHash = projectInfo.imageHash;
-			setImage((config.target != "pc" ? "" : config.host) + "/project/image/" + (projectInfo.imageHash || "default"));
+			setImage("/project/image/" + (projectInfo.imageHash || "default"));
 			$('.upload', dialogWin).val("修改项目图片");
 			$('.name', dialogWin).val(projectInfo.project_name).focus();
 			$('.intro', dialogWin).val(projectInfo.project_intro);

@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/util', 'app/util/net', 'app/util/emitor', 'app/config/config'], function($1, util, net, emitor, config) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/config/config'], function($1, util, emitor, config) {
 	var dialogWin;
 	var qrcode;
 	var projectInfo;
@@ -41,7 +41,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/net', 'app/util/emitor', 'ap
 				if(projectInfo.imageHash) {
 					url += "&pic=http://" + host + "/project/image/" + projectInfo.imageHash;
 				}
-				net.open(encodeURI(url));
+				window.open(encodeURI(url));
 				break;
 			case "qzone":
 				util.message("敬请期待");

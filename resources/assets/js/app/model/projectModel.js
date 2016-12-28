@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/config/config', 'app/util/net', './userModel'], function($1, config, net, userModel) {
+define(['vendor/jquery', './userModel'], function($1, userModel) {
 
 	function get(key, type) {
 		type = type || "id";
@@ -15,7 +15,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/net', './userModel'], fu
 			data.id = key;
 		}
 
-		return net.request({
+		return $.ajax({
 			type: 'POST',
 			url: '/api/project/get',
 			data: data,
@@ -24,18 +24,14 @@ define(['vendor/jquery', 'app/config/config', 'app/util/net', './userModel'], fu
 	}
 
 	function getAll() {
-		if(config.target == "web") {
-			return net.request({
-				type: 'POST',
-				url: '/api/projects/user',
-				data: {
-					user_id: userModel.getUserId(),
-				},
-				dataType: 'json',
-			});
-		} else {
-			return $.Deferred().reject();
-		}
+		return $.ajax({
+			type: 'POST',
+			url: '/api/projects/user',
+			data: {
+				user_id: userModel.getUserId(),
+			},
+			dataType: 'json',
+		});
 	}
 
 	function getSchema() {
@@ -7477,7 +7473,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/net', './userModel'], fu
 	}
 
 	function save(project) {
-		return net.request({
+		return $.ajax({
 			type: 'POST',
 			url: '/api/project/save',
 			data: project,
@@ -7486,7 +7482,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/net', './userModel'], fu
 	}
 
 	function build(id, boardType) {
-		return net.request({
+		return $.ajax({
 			type: "POST",
 			url: "/api/project/build",
 			dataType: "json",
@@ -7499,7 +7495,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/net', './userModel'], fu
 	}
 
 	function remove(id) {
-		return net.request({
+		return $.ajax({
 			type: "POST",
 			url: "/api/project/delete",
 			data: {
@@ -7511,7 +7507,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/net', './userModel'], fu
 	}
 
 	function upload(data, onProgress) {
-		return net.request({
+		return $.ajax({
 			type: 'POST',
 			url: '/api/project/upload',
 			dataType: 'json',

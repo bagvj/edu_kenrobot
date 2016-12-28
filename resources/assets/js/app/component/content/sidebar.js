@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/net', 'app/util/emitor'], function($1, config, util, net, emitor) {
+define(['vendor/jquery', 'app/util/util', 'app/util/emitor'], function($1, util, emitor) {
 	var tabs;
 	var region;
 
@@ -63,7 +63,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/net', '
 			window.location.href = window.location.pathname + "?" + new Date().getTime();
 		} else {
 			var url = $(this).data('href')
-			config.target == "pc" ? net.open(url) : (window.location.href = url);
+			window.location.href = url;
 		}
 	}
 
@@ -75,7 +75,7 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/net', '
 				emitor.trigger("project", "share");
 				break;
 			case "help": 
-				net.open(li.data("href"));
+				window.open(li.data("href"));
 				break;
 		}
 

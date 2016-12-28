@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net', 'app/util/emitor'], function($1, JSEncrypt, config, net, emitor) {
+define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emitor'], function($1, JSEncrypt, config, emitor) {
 	var userInfo;
 
 	function getUserId() {
@@ -15,11 +15,8 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net'
 
 	function attach() {
 		var promise = $.Deferred();
-		if(config.target != "pc") {
-			return promise.resolve();
-		}
 
-		net.request({
+		$.ajax({
 			type: 'POST',
 			url: '/api/auth/attach',
 			dataType: 'json',
@@ -37,33 +34,29 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net'
 		var promise = $.Deferred();
 		var type = userInfo && "check" || "all";
 
-		if(config.target == "web") {
-			net.request({
-				type: 'POST',
-				url: '/api/auth/check',
-				data: {
-					id: 0,
-					type: type,
-				},
-				dataType: 'json',
-			}).done(function(result) {
-				if(result.status == 0) {
-					if(type == "all") {
-						userInfo = result.data;
-						promise.resolve();
-						emitor.trigger("user", "login");
-					} else {
-						emitor.resolve();
-					}
+		$.ajax({
+			type: 'POST',
+			url: '/api/auth/check',
+			data: {
+				id: 0,
+				type: type,
+			},
+			dataType: 'json',
+		}).done(function(result) {
+			if(result.status == 0) {
+				if(type == "all") {
+					userInfo = result.data;
+					promise.resolve();
+					emitor.trigger("user", "login");
 				} else {
-					userInfo = null;
-					promise.reject();
-					showLogin && emitor.trigger("login", "show");
+					emitor.resolve();
 				}
-			});
-		} else {
-			return promise.resolve();
-		}
+			} else {
+				userInfo = null;
+				promise.reject();
+				showLogin && emitor.trigger("login", "show");
+			}
+		});
 		
 		return promise;
 	}
@@ -74,7 +67,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net'
 		var encrypt = new JSEncrypt.JSEncrypt();
 		encrypt.setPublicKey(config.encrypt.publicKey);
 
-		net.request({
+		$.ajax({
 			type: 'POST',
 			url: '/api/auth/login',
 			dataType: 'json',
@@ -94,7 +87,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net'
 	}
 
 	function logout() {
-		return net.request({
+		return $.ajax({
 			type: 'POST',
 			url: '/api/auth/logout',
 			dataType: 'json',
@@ -106,7 +99,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net'
 
 	function weixinLogin(key) {
 		var promise = $.Deferred();
-		net.request({
+		$.ajax({
 			type: 'POST',
 			url: '/api/auth/weixin/login',
 			data: {
@@ -124,7 +117,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/net'
 	}
 
 	function weixinQrcode(refresh) {
-		return net.request({
+		return $.ajax({
 			type: 'POST',
 			url: '/api/auth/weixin/qrcode',
 			data: {

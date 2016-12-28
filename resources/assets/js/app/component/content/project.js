@@ -83,7 +83,6 @@ define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/emitor', 'app/uti
 
 	function genProjectImageUrl(hash) {
 		var url = "/project/image/" + hash;
-		url = config.target == "pc" ? config.host + url : url;
 		return "url('" + url + "')";
 	}
 
@@ -118,21 +117,13 @@ define(['vendor/jquery', 'vendor/perfect-scrollbar', 'app/util/emitor', 'app/uti
 
 	function onNewClick(e) {
 		userModel.authCheck(true).done(function() {
-			if(config.target == "web") {
-				emitor.trigger('project', 'show');
-			} else {
-				emitor.trigger('project', 'view', 'new');
-			}
+			emitor.trigger('project', 'show');
 		});
 	}
 
 	function onSaveClick(e) {
 		userModel.authCheck(true).done(function() {
-			if(config.target == "web") {
-				emitor.trigger('project', 'save', null, 'save');
-			} else {
-				emitor.trigger('project', 'save', null, 'file');
-			}
+			emitor.trigger('project', 'save', null, 'save');
 		});
 	}
 

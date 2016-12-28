@@ -1,180 +1,137 @@
 /**
  * 组件安装
- * npm install gulp gulp-if gulp-rev gulp-rev-replace minimist run-sequence gulp-concat gulp-rename gulp-clean gulp-uglify gulp-jsonminify gulp-ruby-sass gulp-clean-css gulp-autoprefixer gulp-imagemin gulp-minify-html gulp-ng-annotate gulp-sourcemaps gulp-requirejs-optimize --save-dev
+ * npm install --save-dev gulp gulp-if gulp-rename gulp-clean gulp-ruby-sass gulp-clean-css gulp-autoprefixer gulp-requirejs-optimize run-sequence minimist fs-extra uuid
  */
 
 // 引入 gulp及组件
-var gulp = require('gulp');                      //基础库
-var gulpif = require('gulp-if');                 //条件执行
-var rev = require('gulp-rev');                   //rev
-var revReplace = require('gulp-rev-replace');    //rev替换
-var minimist = require('minimist');              //命令行参数解析
-var runSequence = require('run-sequence');       //顺序执行
-var concat = require('gulp-concat');             //合并文件
-var rename = require('gulp-rename');             //重命名
-var clean = require('gulp-clean');               //清空文件夹
-var uglify = require('gulp-uglify');             //js压缩
-var jsonminify = require('gulp-jsonminify');     //json压缩
-var sass = require('gulp-ruby-sass');            //sass
-var cleanCSS = require('gulp-clean-css');        //css压缩
-var autoprefixer = require('gulp-autoprefixer'); //自动前缀
-var imagemin = require('gulp-imagemin');         //image压缩
-var minifyHtml = require("gulp-minify-html");    //html压缩
-var ngAnnotate = require('gulp-ng-annotate');    //ng注释
-var sourcemaps = require('gulp-sourcemaps');     //source map
-var requirejsOptimize = require('gulp-requirejs-optimize'); //requirejs打包
+const gulp = require('gulp')                      //基础库
+const gulpif = require('gulp-if')                 //条件执行
+const rename = require('gulp-rename')             //重命名
+const clean = require('gulp-clean')               //清空文件夹
+const sass = require('gulp-ruby-sass')            //sass
+const cleanCSS = require('gulp-clean-css')        //css压缩
+const autoprefixer = require('gulp-autoprefixer') //自动前缀
+const requirejsOptimize = require('gulp-requirejs-optimize') //requirejs打包
 
-var path = require('path');                      //路径
-var child_process = require('child_process');    //子进程
-var os = require('os');                          //操作系统相关
-var crypto = require('crypto');                  //加密
-var fs = require('fs');
+const runSequence = require('run-sequence')       //顺序执行
+const minimist = require('minimist')              //命令行参数解析
+const fs = require('fs-extra')                    //文件操作
+const uuid = require('uuid')
 
-var args = minimist(process.argv.slice(2));      //命令行参数
+const path = require('path')                      //路径
+const child_process = require('child_process')    //子进程
+const os = require('os')                          //操作系统相关
+const crypto = require('crypto')                  //加密
 
-var SRC = './resources/assets/';
-var DIST = './public/assets/';
+var args = minimist(process.argv.slice(2))        //命令行参数
 
-function move(src, name, ext) {
-	ext = ext || "";
-	gulp.src(src + name + ext)
-		.pipe(clean());
+const ASSETS_SRC = './resources/assets/'
+const ASSETS_DIST = './public/assets/'
 
-	var suffix = args.release ? "release" : "debug";
-	return gulp.src(src + name + '-' + suffix + ext)
-		.pipe(rename(name + ext))
-		.pipe(gulp.dest(src));
-}
+gulp.task('replace-env', callback => {
+	var name = ".env"
+	var suffix = args.release ? "release" : "debug"
+	fs.removeSync(name)
+	fs.copySync(name + "-" + suffix, name)
+	callback()
+})
 
-gulp.task('js-clean', function() {
-	return gulp.src(DIST + 'js')
-		.pipe(clean());
-});
+gulp.task('clean-js', _ => {
+	return gulp.src(ASSETS_DIST + 'js', {read: false})
+		.pipe(clean())
+})
 
-gulp.task('js-copy-env', function() {
-	return move("./", ".env");
-});
+gulp.task('clean-css', _ => {
+	return gulp.src(ASSETS_DIST + 'css', {read: false})
+		.pipe(clean())
+})
 
-gulp.task('js-gen-config', function() {
-	var configSrc = SRC + "js/app/config/";
-	var genConfig = require(configSrc + "gen-config");
-	fs.writeFileSync(configSrc + "config.js", genConfig(args.target, !args.release));
-});
+gulp.task('clean-image', _ => {
+	return gulp.src(ASSETS_DIST + 'image', {read: false})
+		.pipe(clean())
+})
 
-var jsSrc = SRC + 'js/**/*.js';
-var jsDst = DIST + 'js/';
+gulp.task('clean-font', _ => {
+	return gulp.src(ASSETS_DIST + 'font', {read: false})
+		.pipe(clean())
+})
 
-gulp.task('js-pre-pack', ["js-clean", "js-copy-env", "js-gen-config"], function() {
-	return gulp.src([SRC + 'js/require.js'])
-		.pipe(gulp.dest(jsDst));
-});
+gulp.task('pack-js', ['clean-js'], _ => {
+	if(args.release) {
+		gulp.src(ASSETS_SRC + 'js/require.js')
+			.pipe(gulp.dest(ASSETS_DIST + 'js/'))
+			
+		return gulp.src(ASSETS_SRC + 'js/index.js')
+			.pipe(requirejsOptimize({
+				useStrict: true,
+				optimize: args.min == 'false' ? "none" : "uglify",
+			}))
+			.pipe(gulp.dest(ASSETS_DIST + 'js/'))
+	} else {
+		return gulp.src(ASSETS_SRC + 'js/**/*.js')
+			.pipe(gulp.dest(ASSETS_DIST + 'js/'))
+	}
+})
 
-gulp.task('js-pack', ['js-pre-pack'], function() {
-	return gulp.src(SRC + 'js/index.js')
-		.pipe(requirejsOptimize({
-			useStrict: true,
-			optimize: args.min == 'false' ? "none" : "uglify",
-		}))
-		.pipe(gulp.dest(jsDst));
-});
-
-gulp.task('js-copy', ["js-clean", "js-copy-env", "js-gen-config"], function() {
-	return gulp.src(jsSrc)
-		.pipe(gulp.dest(jsDst));
-});
-
-// 样式处理
-gulp.task('css', function() {
-	var cssSrc = SRC + 'css/index.scss';
-	var cssDst = DIST + 'css/';
-
-	return sass(cssSrc, {
-			style: 'expanded'
-		})
+gulp.task('pack-css', ['clean-css'], _ => {
+	return sass(ASSETS_SRC + 'css/*.scss', {style: "expanded"})
 		.pipe(autoprefixer())
 		.pipe(gulpif(args.release, cleanCSS()))
-		.pipe(gulp.dest(cssDst));
-});
+		.pipe(gulp.dest(ASSETS_DIST + 'css/'))
+})
 
-// 图片处理
-gulp.task('image', function() {
-	var imgSrc = SRC + 'image/**/*';
-	var imgDst = DIST + 'image/';
+gulp.task('pack-image', ['clean-image'], _ => {
+	return gulp.src(ASSETS_SRC + 'image/**/*')
+		.pipe(gulp.dest(ASSETS_DIST + 'image/'))
+})
 
-	return gulp.src(imgSrc)
-		.pipe(gulp.dest(imgDst));
-});
+gulp.task('pack-font', ['clean-font'], _ => {
+	return gulp.src(ASSETS_SRC + 'font/**/*')
+		.pipe(gulp.dest(ASSETS_DIST + 'font/'))
+})
 
-// font处理
-gulp.task('font', function() {
-	var fontSrc = SRC + 'font/**/*';
-	var fontDst = DIST + 'font/';
+gulp.task('pack', ['replace-env', 'pack-image', 'pack-font', 'pack-css', 'pack-js'])
 
-	return gulp.src(fontSrc)
-		.pipe(gulp.dest(fontDst));
-});
+gulp.task('default', ['pack'])
 
-// 清空图片、样式、js
-gulp.task('clean', function() {
-	return gulp.src([DIST + 'css', DIST + 'js', DIST + 'image', DIST + 'font'], {
-			read: false
-		})
-		.pipe(clean());
-});
-
-// 默认任务
-gulp.task('default', function() {
-	return runSequence('clean', ['css', 'image', 'font'], args.release ? 'js-pack' : 'js-copy');
-});
-
-function genUuid() {
-	var d = new Date().getTime();
-	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-		var r = (d + Math.random() * 16) % 16 | 0;
-		d = Math.floor(d / 16);
-		return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-	});
-
-	return uuid;
-}
 
 gulp.task('uuid', function() {
-	var n = args.n || 1;
+	var n = args.n || 1
 	console.log("uuid:")
 	for (var i = 0; i < n; i++) {
-		console.log(genUuid());
+		console.log(uuid())
 	}
-});
+})
 
 function getHash() {
-	var key = "HwpGAejoUOPr6DbKBlvRILmsq4z7X3TCtky8NVd5iWE0ga2MchSZxfn1Y9JQuF";
+	var key = "HwpGAejoUOPr6DbKBlvRILmsq4z7X3TCtky8NVd5iWE0ga2MchSZxfn1Y9JQuF"
 
-	var result = [];
-	var time = new Date().getTime();
-	var rand = Math.random();
+	var result = []
+	var time = new Date().getTime()
+	var rand = Math.random()
 
-	var md5 = crypto.createHash('md5');
-	md5.update('' + time + rand);
-	var salt = md5.digest('hex');
+	var md5 = crypto.createHash('md5')
+	md5.update('' + time + rand)
+	var salt = md5.digest('hex')
 
 	for (var i = 0; i < 4; i++) {
-		var hex = 0x3FFFFFFF & parseInt(salt.substring(i * 8, 8), 16);
-		var out = '';
+		var hex = 0x3FFFFFFF & parseInt(salt.substring(i * 8, 8), 16)
+		var out = ''
 		for (var j = 0; j < 6; j++) {
-			var index = 0x0000003D & hex;
-			out = out + key[index];
-			hex = hex >> 5;
+			var index = 0x0000003D & hex
+			out = out + key[index]
+			hex = hex >> 5
 		}
-		result.push(out);
+		result.push(out)
 	}
 
-	return result[0];
+	return result[0]
 }
 
 gulp.task('hash', function() {
-	var n = args.n || 1;
-	console.log("hash:");
+	var n = args.n || 1
+	console.log("hash:")
 	for (var i = 0; i < n; i++) {
-		console.log(getHash());
+		console.log(getHash())
 	}
 });

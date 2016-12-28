@@ -1,4 +1,4 @@
-define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/config/config', 'app/util/net', 'app/model/userModel'], function($1, emitor, util, config, net, userModel) {
+define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userModel'], function($1, emitor, util, userModel) {
 	var region;
 
 	function init() {
@@ -39,7 +39,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/config/config'
 		}
 
 		var href = $(this).data('href');
-		net.open(href);
+		window.open(href);
 
 		return false;
 	}
