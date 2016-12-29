@@ -12,6 +12,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	var loginCallback;
 	var scanTimerId;
 	var dialogMode;
+	var loginType;
 
 	function init() {
 		dialogWin = $('.login-dialog');
@@ -35,6 +36,9 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		//二维码过期，刷新
 		$('.tab-quick .refresh', dialogWin).on('click', onRefreshQrcodeClick);
 
+		//注册
+		$('.tab-register .register', dialogWin).on('click', onRegisterClick);
+
 		refreshWeixinQrcode();
 
 		emitor.on('login', 'show', onShow);
@@ -43,14 +47,10 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	function onShow(args) {
 		args = args || {};
 
-		var mode = args.mode || "login";
-		var type = args.type || "quick";
 		loginCallback = args.callback;
 
-		switchDialogMode(mode);
-		switchLoginType(type);
-
-		$('.reset-field', dialogWin).val('');
+		switchDialogMode(args.mode || "login");
+		switchLoginType(args.type || "quick");
 
 		refreshWeixinQrcode();
 		setTimeout(onQrcodeTimeout, qrcodeTimeout);
@@ -70,13 +70,11 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	}
 
 	function switchDialogMode(mode) {
-		if(dialogMode && dialogMode == mode) {
-			return;
-		}
+		dialogMode = mode;
 
-		$('.title .mode', dialogWin).text(mode == "login" ? "登录" : "注册");
+		$('.title .mode', dialogWin).text(dialogMode == "login" ? "登录" : "注册");
 
-		var tab = $('.tab-' + mode, dialogWin);
+		var tab = $('.tab-' + dialogMode, dialogWin);
 
 		tab.siblings(".active").removeClass("x-fadeIn").removeClass("active").addClass("x-fadeOut");
 		tab.removeClass("x-fadeOut").addClass("active").addClass("x-fadeIn");
@@ -85,12 +83,17 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		var height = tab.height();
 		tab.parent().height(height);
 		dialogWin.height(height + titleHeight);
+
+		setWeixinLoginCheck(dialogMode == "login" && loginType == "quick");
+		$('.reset-field', dialogWin).val('');
 	}
 
 	function switchLoginType(type) {
-		switchs.filter('[data-action="' + type + '"]').addClass("active").siblings().removeClass("active");
+		loginType = type;
 
-		var tab = $('.tab-login .tab-' + type, dialogWin);
+		switchs.filter('[data-action="' + loginType + '"]').addClass("active").siblings().removeClass("active");
+
+		var tab = $('.tab-login .tab-' + loginType, dialogWin);
 
 		tab.siblings(".active").removeClass("x-fadeIn").removeClass("active").addClass("x-fadeOut");
 		tab.removeClass("x-fadeOut").addClass("active").addClass("x-fadeIn");
@@ -99,12 +102,12 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		var x = index == 0 ? "0" : (0 - index * tab.width()) + "px";
 		loginTabs.css("transform", "translateX(" + x + ")");
 
-		if(type == "quick") {
-			setWeixinLoginCheck(true);
-		} else {
-			setWeixinLoginCheck(false);
+		if(loginType == "account") {
 			$('.tab-login .username', dialogWin).focus();
 		}
+
+		setWeixinLoginCheck(dialogMode == "login" && loginType == "quick");
+		$('.reset-field', dialogWin).val('');
 	}
 
 	function onSwitchDialogMode(e) {
@@ -138,7 +141,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		}
 
 		if(password == "") {
-			showError($username, "请输入密码");
+			showError($password, "请输入密码");
 			return;
 		}
 
@@ -166,12 +169,11 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 	function onAccountLogin(result) {
 		if (result.status == 0) {
 			//登录成功
-			setWeixinLoginCheck(false);
-			$('.dialog-close', dialogWin).click();
+			closeDialog();
 			emitor.trigger("user", "login");
 			doLoginCallback();
 		} else if (result.status == 1) {
-			setWeixinLoginCheck(false);
+
 		} else {
 			showError($(".tab-account .password"), result.message);
 		}
@@ -181,7 +183,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		if (result.status == 0) {
 			//登录成功
 			setWeixinLoginCheck(false);
-			$('.dialog-close', dialogWin).click();
+			closeDialog();
 			emitor.trigger("user", "login");
 			doLoginCallback();
 		} else if (result.status == 1) {
@@ -200,9 +202,65 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 		qrcodeTimeoutTimer = null;
 	}
 
+	function closeDialog() {
+		$('.dialog-close', dialogWin).click();
+	}
+
+	function onRegisterClick(e) {
+		var $email = $('.tab-register .email', dialogWin);
+		var $username = $('.tab-register .username', dialogWin);
+		var $password = $('.tab-register .password', dialogWin);
+		var $confirmPassword = $('.tab-register .confirm-password', dialogWin);
+
+		var email = $.trim($email.val());
+		var username = $.trim($username.val());
+		var password = $.trim($password.val());
+		var confirmPassword = $.trim($confirmPassword.val());
+
+		if(email == "") {
+			showError($email, "请输入邮箱");
+			return;
+		}
+
+		if(username == "") {
+			showError($username, "请输入帐号");
+			return;
+		}
+
+		if(password == "") {
+			showError($password, "请输入密码");
+			return;
+		}
+
+		if(confirmPassword == "") {
+			showError($confirmPassword, "请再次输入密码");
+			return;
+		}
+
+		if(password != confirmPassword) {
+			showError($confirmPassword, "请确认密码");
+			return;
+		}
+
+		userModel.register({
+			email: email,
+			username: username,
+			password: password,
+		}).done(onRegisterSuccess);
+	}
+
+	function onRegisterSuccess(result) {
+		if(result.status == 0) {
+			closeDialog();
+			emitor.trigger("user", "login");
+		} else {
+			showError($(".tab-register .username"), result.message);
+		}
+	}
+
 	function showError(target, message) {
-		var error = target.siblings(".error");
-		error.addClass("active").text(message).delay(2000).queue(function() {
+		var error = target.focus().siblings(".error");
+		error.clearQueue().addClass("active").text(message).delay(2000).queue(function() {
 			error.removeClass("active").text('').dequeue();
 		});
 	}

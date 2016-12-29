@@ -18,7 +18,7 @@ define(['vendor/jquery', 'app/util/emitor', 'app/util/util', 'app/model/userMode
 				break;
 			case "register":
 				emitor.trigger('login', 'show', {
-					isRegister: true,
+					mode: "register",
 				});
 				break;
 			case "share":

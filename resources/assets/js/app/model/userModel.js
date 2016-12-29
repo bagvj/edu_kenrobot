@@ -127,6 +127,32 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 		});
 	}
 
+	function register(fields) {
+		var promise = $.Deferred();
+
+		var encrypt = new JSEncrypt.JSEncrypt();
+		encrypt.setPublicKey(config.encrypt.publicKey);
+
+		$.ajax({
+			type: 'POST',
+			url: '/api/user/register',
+			dataType: 'json',
+			data: {
+				email: fields.email,
+				username: fields.username,
+				password: encrypt.encrypt(fields.password),
+				login: true,
+			},
+		}).done(function(result) {
+			if(result.status == 0) {
+				userInfo = result.data;
+			}
+			promise.resolve(result);
+		});
+
+		return promise;
+	}
+
 	return {
 		getUserId: getUserId,
 		getUserInfo: getUserInfo,
@@ -137,5 +163,6 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 		logout: logout,
 		weixinLogin: weixinLogin,
 		weixinQrcode: weixinQrcode,
+		register: register,
 	};
 });
