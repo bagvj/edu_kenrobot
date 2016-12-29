@@ -189,9 +189,9 @@ class Broker
         $data = json_decode($response, true);
         if ($httpCode == 403) {
             $this->clearToken();
-            throw new \Exception($data['error'] ?: $response, $httpCode);
+            throw new \Exception($data['status'].$data['message'] ?: $response, $httpCode);
         }
-        if ($httpCode >= 400) throw new \Exception($data['error'] ?: $response, $httpCode);
+        if ($httpCode >= 400) throw new \Exception($data['status'].$data['message'] ?: $response, $httpCode);
 
         return $data;
     }
