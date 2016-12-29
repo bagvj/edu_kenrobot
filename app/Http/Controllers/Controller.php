@@ -33,7 +33,7 @@ abstract class Controller extends BaseController
             return $this->user;
         }
         
-        if ($userinfo['status'] == 0) {
+        if (isset($userinfo['status']) && $userinfo['status'] == 0) {
             $this->user = [
                 'name' => $userinfo['data']['base_nickname'],
                 'avatar_url' => $userinfo['data']['base_avatar'],

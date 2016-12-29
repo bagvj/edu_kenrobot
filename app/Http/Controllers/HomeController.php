@@ -26,7 +26,7 @@ class HomeController extends Controller {
 
 		$mainpage = config('platform.url.mainpage');
 		$find_password_url = config('platform.url.find_password');
-		
+
 		$isWeiXin = Tools::isWeiXin();
 		if($isWeiXin) {
 			$jsSdk = new JsSdk();
