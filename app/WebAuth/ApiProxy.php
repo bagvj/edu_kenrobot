@@ -82,6 +82,7 @@ class ApiProxy
         return $this->post($url, $data);   
     }
 
+
     /**
      * 微信扫码登录
      * @param  string $value [description]

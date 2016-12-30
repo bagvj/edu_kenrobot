@@ -5,7 +5,7 @@ define(['vendor/jquery', 'app/util/util', 'app/util/emitor', 'app/model/userMode
 
 	var qrcode;
 	var qrcodeKey;
-	var qrcodeTimeout = 30 * 60 * 1000;
+	var qrcodeTimeout = 5 * 60 * 1000;
 	var qrcodeTimeoutTimer;
 
 	var loginCheckTimer;

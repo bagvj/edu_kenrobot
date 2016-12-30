@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use App\WebAuth\Broker;
+use App\WebAuth\UserService;
 
 abstract class Controller extends BaseController
 {
@@ -15,6 +16,15 @@ abstract class Controller extends BaseController
 
     protected $user;
 
+    protected $userService = null;
+
+    protected $broker = null;
+
+    public function __construct(UserService $userService, Broker $broker)
+    {
+        $this->userService = $userService;
+        $this->broker = $broker;
+    }
 
 
     public function apiReturn($status, $message, $data = null)
@@ -27,19 +37,14 @@ abstract class Controller extends BaseController
 
     public function currentUser()
     {
-        $broker = new Broker();
-        $userinfo = $broker->userinfo();
+        $userinfo = $this->broker->userinfo();
+
         if (isset($this->user)) {
             return $this->user;
         }
         
         if (isset($userinfo['status']) && $userinfo['status'] == 0) {
-            $this->user = [
-                'name' => $userinfo['data']['base_nickname'],
-                'avatar_url' => $userinfo['data']['base_avatar'],
-                'uid' => $userinfo['data']['user_id'],
-                'user_id' => $userinfo['data']['user_id'],
-            ];
+            $this->user =$this->userService->mapDataToUser($userinfo['data']);
             return $this->user;
         }
         return null;
@@ -48,12 +53,10 @@ abstract class Controller extends BaseController
 
     public function attachSession()
     {
-        $broker = new Broker();
-        if ($broker->isAttached()) {
+        if ($this->broker->isAttached()) {
             return null;
         }
-        $url = $broker->getAttachUrl(['return_url' => \Request::url()]);
+        $url = $this->broker->getAttachUrl(['return_url' => \Request::url()]);
         return redirect($url, 307);
-
     }
 }

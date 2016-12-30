@@ -13,13 +13,6 @@ use Carbon\Carbon;
 */
 class AuthController extends Controller
 {
-    private $broker = null;
-
-
-    function __construct()
-    {
-        $this->broker = new Broker();
-    }
 
     public function attach(Request $request)
     {
@@ -35,7 +28,7 @@ class AuthController extends Controller
         $username = $request->input('username');
         $password = $request->input('password');
 
-        $result =  $this->broker->login($username, $password, 'sns');
+        $result =  $this->broker->loginDefaultAndSns($username, $password);
 
         if ($result['status'] != 0) {
             return $this->apiReturn($result['status'], $result['message']);
@@ -87,7 +80,7 @@ class AuthController extends Controller
                 return $this->apiReturn($result['status'], $result['message']);
             }
             $expire_seconds = $result['data']['expire_seconds'];
-            $login_key = $result['data']['login_key'];
+            $login_key = $result['data']['auth_key'];
             Cache::put('login_key', $login_key, Carbon::now()->addSeconds($expire_seconds));
             Cache::put('login_data', json_encode($result['data']), Carbon::now()->addSeconds($expire_seconds));
         }
@@ -120,23 +113,28 @@ class AuthController extends Controller
         return $this->apiReturn(0, '退出成功');
     }
 
-    public function register(Request $request) {
-        $email = $request->input('email');
-        $username = $request->input('username');
-        $password = $request->input('password');
-        //注册成功后是否登录
+    public function register(Request $request)
+    {
         $login = $request->input('login', false);
 
-        //测试代码
-        if ($login) {
-            return $this->apiReturn(0, '注册成功', [
-                'name' => $username,
-                'avatar_url' => '',
-                'uid' => 999,
-                'user_id' => 999,
-            ]);
+        $apiproxy = new ApiProxy('ide', 'ide');
+        $input = $request->only(['username', 'email', 'password']);
+
+        $input['source'] = 'default';
+        $result = $apiproxy->register($input);
+
+        if (isset($result['status']) && $result['status'] == 0) {
+            $user = $this->userService->mapDataToUser($result['data']);
+            if ($login) {
+                $this->broker->loginDefaultAndSns($input['email'], $input['password']);
+            }
+            return $this->apiReturn(0, '注册成功', $user);
         }
 
-        return $this->apiReturn(0, '注册失败');
+        $status = isset($result['status']) ? $result['status'] : -1;
+        $message = isset($result['message']) ? $result['message'] : '注册失败';
+        return $this->apiReturn($status, $message);
+
     }
+
 }
