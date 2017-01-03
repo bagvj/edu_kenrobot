@@ -185,7 +185,9 @@ class Broker
             $message = 'Server request failed: ' . curl_error($ch);
             throw new \Exception($message);
         }
+        // echo $response;
 
+        // dd($url);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         list($contentType) = explode(';', curl_getinfo($ch, CURLINFO_CONTENT_TYPE));
 
@@ -293,6 +295,11 @@ class Broker
         }
 
         return $this->userinfo;
+    }
+
+    public function userinfo()
+    {
+        return $this->getUserInfo();
     }
 
     /**

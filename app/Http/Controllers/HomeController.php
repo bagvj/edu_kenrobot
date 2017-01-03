@@ -19,9 +19,11 @@ class HomeController extends Controller {
 	public function index(Request $request) {
 	
 		$attachSession = $this->attachSession();
+
 		if ($attachSession) {
 			return $attachSession;
 		}
+
 		$user = $this->currentUser();
 
 		$mainpage = config('platform.url.mainpage');

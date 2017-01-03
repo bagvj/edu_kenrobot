@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\WebAuth\Broker;
 use App\WebAuth\ApiProxy;
 use Url;
-use Cache;
 use Carbon\Carbon;
+use Session;
 /**
 * 用户登录
 */
@@ -44,7 +44,7 @@ class AuthController extends Controller
 
     public function weixinlogin(Request $request)
     {
-        $ori_login_key = Cache::get('login_key');
+        $ori_login_key = Session::get('login_key');
         $login_key = $request->input('login_key');
 
         if (empty($ori_login_key) || empty($login_key)) {
@@ -70,7 +70,7 @@ class AuthController extends Controller
     public function weixinQrcode(Request $request)
     {
         $refresh = $request->input('refresh');
-        $login_key = Cache::get('login_key');
+        $login_key = Session::get('login_key');
 
         if ($refresh || empty($login_key)) {
 
@@ -80,12 +80,15 @@ class AuthController extends Controller
                 return $this->apiReturn($result['status'], $result['message']);
             }
             $expire_seconds = $result['data']['expire_seconds'];
+
+            //
+            $result['data']['login_key'] = $result['data']['auth_key'];
             $login_key = $result['data']['auth_key'];
-            Cache::put('login_key', $login_key, Carbon::now()->addSeconds($expire_seconds));
-            Cache::put('login_data', json_encode($result['data']), Carbon::now()->addSeconds($expire_seconds));
+            Session::put('login_key', $login_key);
+            Session::put('login_data', json_encode($result['data']));
         }
 
-        $login_data = Cache::get('login_data');
+        $login_data = Session::get('login_data');
         $login_data = json_decode($login_data);
 
         return $this->apiReturn(0, '获取成功', $login_data);

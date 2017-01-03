@@ -42,11 +42,12 @@ abstract class Controller extends BaseController
         if (isset($this->user)) {
             return $this->user;
         }
-        
+
         if (isset($userinfo['status']) && $userinfo['status'] == 0) {
             $this->user =$this->userService->mapDataToUser($userinfo['data']);
             return $this->user;
         }
+
         return null;
     }
 
