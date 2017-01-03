@@ -35,14 +35,12 @@ class Broker
      */
     protected $userinfo;
 
-    public function __construct($url = '', $broker = '' , $secret = '')
+    public function __construct($broker = '' , $secret = '', $url = '')
     {
-        $url = env('SSO_URL');
-        $broker = env('SSO_BROKER_ID');
-        $secret = env('SSO_BROKER_SECRET');
-        if (!$url) throw new \InvalidArgumentException("SSO server URL not specified");
+
         if (!$broker) throw new \InvalidArgumentException("SSO broker id not specified");
         if (!$secret) throw new \InvalidArgumentException("SSO broker secret not specified");
+        if (!$url) throw new \InvalidArgumentException("SSO server URL not specified");
 
         $this->url = $url;
         $this->broker = $broker;

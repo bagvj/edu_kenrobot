@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\WebAuth\Broker;
 use App\WebAuth\ApiProxy;
-use Url;
-use Carbon\Carbon;
 use Session;
 /**
 * 用户登录
@@ -67,14 +64,13 @@ class AuthController extends Controller
     /**
      * 获取微信二维码
      */
-    public function weixinQrcode(Request $request)
+    public function weixinQrcode(Request $request, ApiProxy $apiproxy)
     {
         $refresh = $request->input('refresh');
         $login_key = Session::get('login_key');
 
         if ($refresh || empty($login_key)) {
 
-            $apiproxy = new ApiProxy('edu', 'edu');
             $result = $apiproxy->weixinScan();
             if ($result['status'] != 0) {
                 return $this->apiReturn($result['status'], $result['message']);
@@ -84,6 +80,7 @@ class AuthController extends Controller
             //
             $result['data']['login_key'] = $result['data']['auth_key'];
             $login_key = $result['data']['auth_key'];
+            $result['data']['login_key'] = $login_key;
             Session::put('login_key', $login_key);
             Session::put('login_data', json_encode($result['data']));
         }
@@ -116,11 +113,10 @@ class AuthController extends Controller
         return $this->apiReturn(0, '退出成功');
     }
 
-    public function register(Request $request)
+    public function register(Request $request, ApiProxy $apiproxy)
     {
         $login = $request->input('login', false);
 
-        $apiproxy = new ApiProxy('ide', 'ide');
         $input = $request->only(['username', 'email', 'password']);
 
         $input['source'] = 'default';

@@ -11,7 +11,6 @@ use ZipArchive;
 use Curl\Curl;
 use Session;
 use App\Util\Tools;
-use App\WebAuth\Factory as WebAuthFactory;
 use App\WeiXin\JsSdk;
 
 class HomeController extends Controller {
