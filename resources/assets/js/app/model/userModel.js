@@ -49,7 +49,7 @@ define(['vendor/jquery', 'vendor/jsencrypt', 'app/config/config', 'app/util/emit
 					promise.resolve();
 					emitor.trigger("user", "login");
 				} else {
-					emitor.resolve();
+					promise.resolve();
 				}
 			} else {
 				userInfo = null;
