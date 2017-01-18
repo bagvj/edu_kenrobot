@@ -5,42 +5,33 @@ define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 	var bitRate;
 	var nameReg;
 	var appId;
-	var target;
 
-	function init(_target, config) {
-		target = _target;
+	function init(config) {
+		delay = config.uploadDelay;
+		bitRate = config.bitRate;
+		nameReg = new RegExp(config.serialNameReg, "i");
+		appId = config.appId;
 
-		if(target == "web") {
-			delay = config.uploadDelay;
-			bitRate = config.bitRate;
-			nameReg = new RegExp(config.serialNameReg, "i");
-			appId = config.appId;
-
-			host = window.location.protocol + "//" + window.location.host;
-		}
+		host = window.location.protocol + "//" + window.location.host;
 	}
 
 	function check(triggerEvent) {
 		var promise = $.Deferred();
 
-		if(target == "web") {
-			if (!getAPI()) {
-				var p = promise.reject(1);
-				triggerEvent && onCheckFail(1);
-				return p;
-			}
-
-			sendMessage("ping", function(response) {
-				if (response && response.action == "ping" && response.result == "pong") {
-					promise.resolve();
-				} else {
-					promise.reject(2);
-					triggerEvent && onCheckFail(2);
-				}
-			});
-		} else {
-			return promise.reject(101);
+		if (!getAPI()) {
+			var p = promise.reject(1);
+			triggerEvent && onCheckFail(1);
+			return p;
 		}
+
+		sendMessage("ping", function(response) {
+			if (response && response.action == "ping" && response.result == "pong") {
+				promise.resolve();
+			} else {
+				promise.reject(2);
+				triggerEvent && onCheckFail(2);
+			}
+		});
 
 		return promise;
 	}
@@ -48,42 +39,38 @@ define(['vendor/jquery', 'app/util/emitor'], function($1, emitor) {
 	function upload(url, portPath) {
 		var promise = $.Deferred();
 
-		if(target == "web") {
-			var onGetPortsDone = function(ports) {
-				if (!portPath) {
-					var arduinoPorts = filterArduinoPorts(ports, nameReg);
-					var count = arduinoPorts.length;
-					if (count == 0) {
-						promise.reject(2);
-						return;
-					} else if(count > 1) {
-						promise.reject(3, ports);
-						return;
-					}
-					portPath = arduinoPorts[0].path;
+		var onGetPortsDone = function(ports) {
+			if (!portPath) {
+				var arduinoPorts = filterArduinoPorts(ports, nameReg);
+				var count = arduinoPorts.length;
+				if (count == 0) {
+					promise.reject(2);
+					return;
+				} else if(count > 1) {
+					promise.reject(3, ports);
+					return;
 				}
-				connect(portPath, bitRate).then(function(connectionId) {
-					url = host + url + "/hex";
+				portPath = arduinoPorts[0].path;
+			}
+			connect(portPath, bitRate).then(function(connectionId) {
+				url = host + url + "/hex";
 
-					doUpload(connectionId, url, portPath, delay).then(function() {
-						promise.resolve();
-					}, function() {
-						promise.reject(5);
-					});
+				doUpload(connectionId, url, portPath, delay).then(function() {
+					promise.resolve();
 				}, function() {
-					promise.reject(4);
+					promise.reject(5);
 				});
-			};
-			getPorts().then(onGetPortsDone, function() {
-				setTimeout(function() {
-					getPorts().then(onGetPortsDone, function() {
-						promise.reject(1);
-					});
-				}, 1000);
+			}, function() {
+				promise.reject(4);
 			});
-		} else {
-			return promise.reject(101);
-		}
+		};
+		getPorts().then(onGetPortsDone, function() {
+			setTimeout(function() {
+				getPorts().then(onGetPortsDone, function() {
+					promise.reject(1);
+				});
+			}, 1000);
+		});
 
 		return promise;
 	}
