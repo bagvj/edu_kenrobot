@@ -371,8 +371,6 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 							}, onProjectUploadFail);
 						});
 					});
-				}, function(code) {
-					code > 100 && util.message("暂时不支持上传");
 				});
 			});
 		});
@@ -382,12 +380,6 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 		var promise = $.Deferred();
 
 		switch (code) {
-			// case 1:
-			// 	util.message("找不到串口");
-			// 	break;
-			// case 2:
-			// 	util.message("找不到Arduino");
-			// 	break;
 			case 1:
 			case 2:
 				emitor.trigger('common', 'show', {
@@ -413,10 +405,8 @@ define(['vendor/jquery', 'app/config/config', 'app/util/util', 'app/util/emitor'
 				util.message("连接失败");
 				break;
 			case 5:
+			default:
 				util.message("上传失败");
-				break;
-			case 101:
-				util.message("暂时不支持上传");
 				break;
 		}
 
