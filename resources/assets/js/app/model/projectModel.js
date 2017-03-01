@@ -3366,7 +3366,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "毫秒"
 					}],
 					code: "tone({BUZZER},{NOTE},{SECONDS});\ndelay({SECONDS});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "buzzer"
 				}, {
 					type: "statement",
 					name: "motorRunAdvanced",
@@ -3439,7 +3440,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "5b0354c0-8e85-4755-9e03-95525f1057a9"
 					}],
 					code: "{SERVO}.write({DIRECTION});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "continuousServo"
 				}, {
 					type: "statement",
 					name: "continuousServoStopAdvanced",
@@ -3468,7 +3470,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "转动"
 					}],
 					code: "{SERVO}.write(90);",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "continuousServo"
 				}, {
 					type: "statement",
 					name: "lcdTurnOnOffAdvanced",
@@ -3504,7 +3507,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "的背光"
 					}],
 					code: "{LCD}.{STATE}();",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "lcd"
 				}, {
 					type: "statement",
 					name: "lcdWriteAdvanced",
@@ -3543,7 +3547,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "0ff787be-1b73-4c85-84e0-f38651e4a29d"
 					}],
 					code: "{LCD}.print({TEXT});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "lcd"
 				}, {
 					type: "statement",
 					name: "ledAdvanced",
@@ -3579,7 +3584,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "9050f447-06fe-4956-bd2b-a440ce757f52"
 					}],
 					code: "digitalWrite({LED},{STATE});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "led"
 				}, {
 					type: "statement",
 					name: "encoderWriteAdvanced",
@@ -3618,7 +3624,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "f76dc724-1666-4d74-9d58-0733fbe78071"
 					}],
 					code: "{ENCODER}.write({VALUE});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "encoder"
 				}, {
 					type: "statement",
 					name: "rgbLedAdvanced",
@@ -5018,7 +5025,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "8a83d1fa-74d9-4993-afd1-0c14796e169a"
 					}],
 					code: "{OSCILLATOR}.SetO({PHASE});\n{OSCILLATOR}.SetA({AMPLITUDE});\n{OSCILLATOR}.SetT({SPEED});\n{OSCILLATOR}.refresh();",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "oscillator"
 				}, {
 					type: "statement",
 					name: "oscillatorStartAdvanced",
@@ -5044,7 +5052,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "b0e8f5b3-a867-424d-ba93-22ff7406bd26"
 					}],
 					code: "{OSCILLATOR}.start()",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "oscillator"
 				}, {
 					type: "statement",
 					name: "oscillatorStopAdvanced",
@@ -5070,7 +5079,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "b489257c-fc38-493b-93b2-b3311db488b4"
 					}],
 					code: "{OSCILLATOR}.stop()",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "oscillator"
 				}, {
 					type: "statement",
 					name: "servoNormalAdvanced",
@@ -5112,7 +5122,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						value: "度"
 					}],
 					code: "{SERVO}.write({POSITION});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "servo"
 				}, {
 					type: "statement",
 					name: "lcdWritePositionAdvanced",
@@ -5177,7 +5188,8 @@ define(['vendor/jquery', './userModel'], function($1, userModel) {
 						name: "5b8ac541-9ef8-48fa-b798-04ef13c0ef83"
 					}],
 					code: "{LCD}.setCursor({COLUMN},{ROW});{LCD}.print({TEXT});",
-					tags: ["module", "advanced"]
+					tags: ["module", "advanced"],
+					module: "lcd"
 				}, {
 					type: "statement-input",
 					name: "voidFunction",
