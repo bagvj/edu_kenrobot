@@ -36,12 +36,15 @@
 		<script src="assets/js/require.js" data-main="assets/js/index"></script>
 	</head>
 	<body>
-		<div class="main no-select">
+		<div class="top" style="padding: 17px 0px 13px 30px;height: 60px;background: #0b75d2;width: 100%;color: white;">
+			<div class="logo"></div>
+		</div>
+		<div class="main no-select" style="top: 58px;">
 			<div class="sidebar-region">
 				<div class="top">
 					<div class="logo" data-href="http://www.kenrobot.com"></div>
 					<div class="name">教育版</div>
-					<div class="url">edu.kenrobot.com</div>
+					<div class="url">kenblock.kenrobot</div>
 				</div>
 				<ul class="center">
 					<li data-action="project"><i class="icon kenrobot ken-edu-project"></i><span class="name">项目</span></li>
@@ -120,14 +123,14 @@
 							</div>
 						</div>
 						<div class="login-region">
-							<div class="photo{{isset($user) ? '' : ' no-user'}}" data-href="{{$mainpage}}">
+							<div style="transform: translateY(-70px);" class="photo{{isset($user) ? '' : ' no-user'}}" data-href="{{$mainpage}}">
 								@if(isset($user))
 								<img src="{{$user->avatar_url or 'assets/image/default-user.png'}}" />
 								@else
 								<img src="assets/image/default-user.png" />
 								@endif
 							</div>
-							<div class="login-menu">
+							<div class="login-menu" style="transform: translateY(-70px);">
 								<div class="tab tab-user {{isset($user) ? 'active' : ''}}">
 									<ul>
 										<li data-action="setting"><span>设置</span></li>
@@ -204,7 +207,7 @@
 			<div class="layer modal dialog-layer">
 				<div class="a-dialog login-dialog">
 					<span class="dialog-close">&times;</span>
-					<div class="title"><span class="mode"></span>啃萝卜 - Make it Easy.</div>
+					<div class="title"><span class="mode"></span>&nbsp&nbsp&nbsp&nbsp乐智STEAM教育平台</div>
 					<div class="dialog-content">
 						<div class="tab tab-login">
 							<ul class="switch">
