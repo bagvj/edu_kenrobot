@@ -7,7 +7,7 @@
 		<meta name="screen-orientation" content="landscape">
 		<meta name="x5-orientation" content="landscape">
 		<meta property="wb:webmaster" content="a9e9aa5eb29861fd" />
-		<title>啃萝卜智能硬件平台</title>
+		<title>啃萝卜平台 - Make it easy!</title>
 		<meta name="keywords" content="arduino 开发 IDE 开发平台 教程">
 		<meta name="description" content="啃萝卜智能硬件平台">
 		<meta name="csrf-token" content="{{csrf_token()}}">
