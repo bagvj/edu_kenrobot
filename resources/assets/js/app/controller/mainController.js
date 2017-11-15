@@ -51,7 +51,7 @@ define(['vendor/jquery', 'vendor/director', 'app/config/config', 'app/util/util'
 		if (code == 1) {
 			util.message("上传功能目前只支持chrome浏览器");
 		} else {
-			emitor.trigger("install", "show");
+			emitor.trigger("installExt", "show");
 		}
 	}
 
@@ -128,7 +128,7 @@ define(['vendor/jquery', 'vendor/director', 'app/config/config', 'app/util/util'
 		router = Router({
 			'/': onRouteDefault,
 			'/project/([0-9a-zA-Z]{6}|new|temp)/?': onRouteViewProject,
-			'.*': onRouteOther, 
+			'.*': onRouteOther,
 		});
 	}
 
