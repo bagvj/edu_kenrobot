@@ -230,7 +230,7 @@
 										</div>
 										<div class="action">
 											<input type="button" class="switch-register" data-action="register" value="注 册" />
-											<input type="button" class="login" value="登 录" /> 
+											<input type="button" class="login" value="登 录" />
 										</div>
 									</div>
 									<div class="tab tab-quick">
